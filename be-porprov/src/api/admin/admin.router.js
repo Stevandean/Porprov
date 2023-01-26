@@ -6,6 +6,10 @@ const {
     login,
 }= require("./admin.controller");
 
+//--------------------------------
+//route admin
+//---------------------------------
+
 //router
 router.get("/", allAdmin);
 router.post("/", addAdmin);
