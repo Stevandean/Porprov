@@ -18,11 +18,13 @@ const modalJuri = () => {
         setShowModalJuri (false)
         getJuri ()
 
-        if (kategori.toLowerCase() === 'tunggal') {
+        if (kategori.toLowerCase() == 'tunggal') {
             Router.push ('/seni/juri/nilaiSeniTunggal')
-        } else if (kategori.toLowerCase() === 'ganda') {
+        } else if (kategori.toLowerCase() == 'ganda') {
             Router.push ('/seni/juri/nilaiSeniGanda')
-        } else if (kategori.toLowerCase() === 'regu') {
+        } else if (kategori.toLowerCase() == 'solo_kreatif') {
+            Router.push ('/seni/juri/nilaiSeniSoloKreatif')
+        } else if (kategori.toLowerCase() == 'regu') {
             Router.push ('/seni/juri/nilaiSeniRegu')
         } else {
             console.log('gagal');

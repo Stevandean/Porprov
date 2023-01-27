@@ -10,6 +10,7 @@ const sidebar = () => {
 
     const [dropdownTunggal, setDropdownTunggal] = useState (false)
     const [dropdownGanda, setDropdownGanda] = useState (false)
+    const [dropdownSoloKreatif, setDropdownSoloKreatif] = useState (false)
     const [dropdownRegu, setDropdownRegu] = useState (false)
 
     return (
@@ -19,10 +20,12 @@ const sidebar = () => {
                     <span className='text-2xl font-semibold'>Admin</span>
                 </div>
                 <div className="flex flex-col p-5">
+                    {/* dashboard */}
                     <Link href="landingPage" className={splitLoc[1] === "landingPage" ? "bg-[#11121C] rounded-xl py-1 px-4 flex mb-5" : "bg-[#11121C] rounded-xl py-1 px-4 flex mb-5 bg-opacity-40"}>
                         <img className='w-6 h-6' src='../svg/home.svg'/>
                         <span className='px-4 text-lg'>Dashboard</span>
                     </Link>
+                    {/* tanding */}
                     <div className="text-lg mb-5">
                         <div className="mb-2">
                             <span className={splitLoc[1] === "tanding" ? 'px-2 italic text-white' : 'px-2 italic text-[#51607A]'}>Jadwal Tanding</span>
@@ -32,11 +35,12 @@ const sidebar = () => {
                             <span className='px-4 text-lg'>Tanding</span>
                         </Link>
                     </div>
+                    {/* tgr */}
                     <div className="text-lg mb-5">
                         <div className="mb-2">
                             <span className='px-2 italic text-[#51607A]'>Jadwal TGR</span>
                         </div>
-                        {/* Dropdown */}
+                        {/* Dropdown tunggal*/}
                         <div className="mb-3">
                             {(() => {
                                 if (dropdownTunggal === true) {
@@ -81,8 +85,8 @@ const sidebar = () => {
                                     </div>
                                 </div>
                             ):null}
-
                         </div>
+                        {/* dropdown ganda */}
                         <div className="mb-3">
                             {(() => {
                                 if (dropdownGanda === true) {
@@ -127,8 +131,8 @@ const sidebar = () => {
                                     </div>
                                 </div>
                             ):null}
-
                         </div>
+                        {/* dropwdown regu */}
                         <div>
                             {(() => {
                                 if (dropdownRegu === true) {
@@ -173,18 +177,55 @@ const sidebar = () => {
                                 </div>
                             </div>
                             ):null}
-
                         </div>
-                        
-                        {/* <Link href="tgrGanda" className={splitLoc[1] === "tgrGanda" ? "bg-[#11121C] rounded-xl py-1 px-4 flex mb-3" : "bg-[#11121C] rounded-xl py-1 px-4 flex mb-3 bg-opacity-40"}>
-                            <img className='w-6 h-6' src='../svg/home.svg'/>
-                            <span className='px-4 text-lg'>Ganda</span>
-                        </Link>
-                        <Link href="tgrRegu" className={splitLoc[1] === "tgrRegu" ? "bg-[#11121C] rounded-xl py-1 px-4 flex" : "bg-[#11121C] rounded-xl py-1 px-4 flex bg-opacity-40"}>
-                            <img className='w-6 h-6' src='../svg/home.svg'/>
-                            <span className='px-4 text-lg'>Regu</span>
-                        </Link> */}
+                        {/* dropdown solo kreatif */}
+                        <div className="mb-3">
+                            {(() => {
+                                if (dropdownSoloKreatif === true) {
+                                    return (
+                                        <div className='flex justify-between bg-[#11121C] bg-opacity-40 items-center py-2 px-4 mb-2 rounded-xl'>
+                                            <button onClick={() => setDropdownSoloKreatif (false)} className="text-white text-center inline-flex items-center w-full" type="button">Solo Kreatif
+                                            </button>
+                                            <svg className ="w-4 h-4 transition-all" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7">
+                                                </path>
+                                            </svg>
+                                        </div>
+                                    )
+                                } else if (dropdownSoloKreatif === false) {
+                                    return (
+                                        <div className='flex justify-between bg-[#11121C] bg-opacity-40 items-center py-2 px-4 mb-2 rounded-xl'>
+                                            <button onClick={() => setDropdownSoloKreatif (true)} className="text-white  text-center inline-flex items-center w-full" type="button">Solo Kreatif
+                                            </button>
+                                            <svg className ="w-4 h-4 -rotate-90 transition-all" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7">
+                                                </path>
+                                            </svg>
+                                        </div>
+                                    )
+                                }
+                            })()}
+                            {dropdownSoloKreatif ? (
+                                <div className='flex flex-col space-y-2'>
+                                    <div className="z-10 divide-y divide-gray-100 rounded-xl shadow w-44 bg-gray-700">
+                                        <ul className="py-1 text-sm " aria-labelledby="dropdownDefaultButton">
+                                            <li>
+                                                <a href="./jadwalSoloKreatif" className="block px-4 py-2 ">Jadwal Solo Kreatif</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div className="z-10 divide-y divide-gray-100 rounded-xl shadow w-44 bg-gray-700">
+                                        <ul className="py-1 text-sm " aria-labelledby="dropdownDefaultButton">
+                                            <li>
+                                                <a href="./pesertaSoloKreatif" className="block px-4 py-2 ">Peserta Solo Kreatif</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            ):null}
+                        </div>
                     </div>
+                    {/* rekap nilai */}
                     <div className="text-lg mb-5">
                         <div className="mb-2">
                             <span className='px-2 italic text-[#51607A]'>Rekap Nilai</span>
@@ -198,7 +239,8 @@ const sidebar = () => {
                             <span className='px-4 text-lg'>TGR</span>
                         </Link>
                     </div>
-                    <div className="text-lg mb-5">
+                    {/* juri */}
+                    <div className="text-lg">
                         <div className="mb-2">
                             <span className={splitLoc[1] === "juri" ? 'px-2 italic text-white' : 'px-2 italic text-[#51607A]'}>Juri</span>
                         </div>

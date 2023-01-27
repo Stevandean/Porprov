@@ -20,6 +20,7 @@ const modalPeserta = () => {
     const {dataTunggal, setDataTunggal} = useContext (globalState)
     const {dataGanda, setDataGanda} = useContext (globalState)
     const {dataRegu, setDataRegu} = useContext (globalState)
+    const {dataSoloKreatif, setDataSoloKreatif} = useContext (globalState)
     const {kelas, setKelas} = useContext (globalState)
     const {jenisKelamin, setJenisKelamin} = useContext (globalState)
     const {nama1, setNama1} = useContext (globalState)
@@ -41,6 +42,16 @@ const modalPeserta = () => {
         axios.get (BASE_URL + `/api/peserta/seni/ganda`)
         .then (res => {
             setDataGanda (res.data.data)
+        })
+        .catch (err => {
+            console.log(err.message);
+        })
+    }
+
+    const getSoloKreatif = () => {
+        axios.get (BASE_URL + `/api/peserta/seni/solo_kreatif`)
+        .then (res => {
+            setDataSoloKreatif (res.data.data)
         })
         .catch (err => {
             console.log(err.message);
@@ -86,12 +97,20 @@ const modalPeserta = () => {
                 .catch (err => {
                     console.log(err.message);
                 })
+            } else if (splitLoc.toString() === ',SoloKreatif') {
+                axios.post (BASE_URL + `/api/peserta/seni/solo_kreatif`, form)
+                .then (res => {
+                    getSoloKreatif ()
+                    setShowModalPeserta (false)
+                })
             } else if (splitLoc.toString() === ',Regu') {
                 axios.post (BASE_URL + `/api/peserta/seni/regu`, form)
                 .then (res => {
                     getRegu ()
                     setShowModalPeserta (false)
                 })
+            } else {
+                console.log('gagal insert');
             }
         } else if (action === 'update') {
             if (splitLoc.toString() === ',Tunggal') {
@@ -107,6 +126,15 @@ const modalPeserta = () => {
                 axios.put (BASE_URL + `/api/peserta/seni/${id}`, form)
                 .then (res => {
                     getGanda ()
+                    setShowModalPeserta (false)
+                })
+                .catch (err => {
+                    console.log(err.message);
+                })
+            } else if (splitLoc.toString() === ',SoloKreatif') {
+                axios.put (BASE_URL + `/api/peserta/seni/${id}`, form)
+                .then (res => {
+                    getSoloKreatif ()
                     setShowModalPeserta (false)
                 })
                 .catch (err => {
@@ -168,13 +196,21 @@ const modalPeserta = () => {
                                         <span>:</span>
                                     </div>
                                     <div className="w-4/6">
-                                        <input className='w-full bg-[#212437] rounded-md focus:outline-none border-2 border-slate-200'
-                                        type="text"
-                                        value={kelas}
-                                        onChange={(e) => setKelas(e.target.value)}
-                                        required
-                                        >        
-                                        </input>
+                                        <div className="relative w-full">
+                                            <div className='border-2 bg-[#212437] border-slate-200 rounded-lg px-2'>
+                                                <select className='w-full bg-[#212437] focus:outline-none' name={jenisKelamin} onChange = {(e) => setKelas (e.target.value)} required>
+                                                    <option></option>
+                                                    <option value="singa">Singa</option>
+                                                    <option value="macan">Macan</option>
+                                                    <option value="usia dini">Usia Dini</option>
+                                                    <option value="pra remaja">Pra Remaja</option>
+                                                    <option value="remaja">Remaja</option>
+                                                    <option value="dewasa">Dewasa</option>
+                                                    <option value="master a">Master A</option>
+                                                    <option value="master b">Master B</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="flex flex-row space-x-3 w-full">
@@ -247,6 +283,24 @@ const modalPeserta = () => {
                                                     </div>
                                                 </div>
                                             </>
+                                        )
+                                    } else if (splitLoc.toString () === ',SoloKreatif') {
+                                        return (
+                                            <div className="flex flex-row space-x-3 w-full">
+                                                <div className="w-2/6 flex justify-between">
+                                                    <span>Nama 1</span>
+                                                    <span>:</span>
+                                                </div>
+                                                <div className="w-4/6">
+                                                    <input className='w-full bg-[#212437] rounded-md focus:outline-none border-2 border-slate-200'
+                                                    type="text"
+                                                    value={nama1}
+                                                    onChange={(e) => setNama1(e.target.value)}
+                                                    required
+                                                    >        
+                                                    </input>
+                                                </div>
+                                            </div>
                                         )
                                     } else if (splitLoc.toString() === ',Regu') {
                                         return (
