@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import Link from 'next/link'
 import Navbar from '../components/navbar'
@@ -12,18 +12,6 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const socket = socketIo (BASE_URL)
 
 const dewanSeni = () => {
-
-    const start = () =>{
-        setDuration(1000);
-        setDisable (true)
-        setRunning(true)
-        socket.emit('timer_seni_start')
-    }
-
-    // state unutk timer
-    const {duration, setDuration} = useContext(globalState)  
-    const {running,setRunning}= useContext(globalState)
-    const [disable, setDisable] = useState (false)
 
     // state data dari local storage
     const [peserta, setPeserta] = useState ([])
@@ -471,29 +459,9 @@ const dewanSeni = () => {
                             <div className="flex justify-between">
                                 <div className="flex flex-row items-center space-x-2">
                                     {/* button back */}
-                                    <button onClick={() => router.back()} className="bg-red-500 hover:bg-red-700 rounded-lg w-14 h-14 my-auto">
+                                    <button onClick={() => router.back()} className="bg-red-700 hover:bg-red-800 rounded-lg w-14 h-14 my-auto">
                                         <img className='p-3' src="../../../../../../svg/back.svg" />
                                     </button>
-                                    {/* wrapper timer */}
-                                    <div className="bg-[#2C2F48] flex flex-row py-2 px-3 rounded-lg space-x-5 items-center">
-                                        {/* button checkbox */}
-                                        <div className="bg-[#54B435] hover:bg-[#379237] rounded-lg w-12 h-12 my-auto">
-                                            <img className='p-3' src="../../svg/checkbox.svg" />
-                                        </div>
-                                        {/* timer */}
-                                        <globalState.Provider value={{ duration, setDuration }}>
-                                            <Timer />
-                                        </globalState.Provider>
-                                        {/* button */}
-                                        <div className="flex flex-row space-x-2">
-                                            {/* button play */}
-                                            <button className="bg-[#51607A] hover:bg-[#4c5970] rounded-lg w-12 h-12 my-auto buttonStart" onClick={()=> start()} disabled={disable}>
-                                            <svg  className='p-2' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M5 4.98951C5 4.01835 5 3.53277 5.20249 3.2651C5.37889 3.03191 5.64852 2.88761 5.9404 2.87018C6.27544 2.85017 6.67946 3.11953 7.48752 3.65823L18.0031 10.6686C18.6708 11.1137 19.0046 11.3363 19.1209 11.6168C19.2227 11.8621 19.2227 12.1377 19.1209 12.383C19.0046 12.6635 18.6708 12.886 18.0031 13.3312L7.48752 20.3415C6.67946 20.8802 6.27544 21.1496 5.9404 21.1296C5.64852 21.1122 5.37889 20.9679 5.20249 20.7347C5 20.467 5 19.9814 5 19.0103V4.98951Z" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                                            </svg>
-                                            </button>
-                                        </div>
-                                    </div>
                                     {(() => {
                                         if (aktif == true) {
                                             return (
@@ -541,6 +509,7 @@ const dewanSeni = () => {
                                                         </>
                                                     )
                                                 }
+
                                             })()}
                                             <span className='text-lg font-normal text-end'>{peserta.kontingen}</span>
                                         </div>
@@ -1468,12 +1437,28 @@ const dewanSeni = () => {
                                     <div className="text-[#2C2F48] py-1 px-4 w-full flex justify-center border-2 border-[#2C2F48]">
                                         <span className='text-4xl font-bold'>03.00</span>
                                     </div>
-                                    <div className='col-span-2'>
-                                        <div className="text-[#2C2F48] py-1 px-4 w-full flex justify-center border-2 border-[#2C2F48]">
-                                                <span className='text-xl font-semibold rounded-lg bg-[#2C2F48] py-2'>Standart Deviasi</span>
-                                                <span className='text-xl font-semibold rounded-lg bg-white text-black border-2 border-[#2C2F48]'>{deviasi?.toFixed(2)}</span>
-                                            </div>
+                                </div>
+                                {/* median */}
+                                <div className='col-span-2'>
+                                    <div className="bg-[#2C2F48] py-1 px-4 w-full flex justify-center">
+                                        <span className='text-2xl font-semibold'>Median</span>
+                                    </div>
+                                    <div className="text-[#2C2F48] py-1 px-4 w-full flex justify-center border-2 border-[#2C2F48]">
+                                        <span className='text-4xl font-bold'>{median?.toFixed(2)}</span>
+                                    </div>
+                                </div>
+                                {/* skor akhir */}
+                                <div className='col-span-8'>
+                                    <div className="grid grid-rows-2 text-center gap-y-2 px-2 h-full">
+                                        <div className="grid grid-cols-2 gap-x-4 items-center justify-center">
+                                            <span className='text-xl font-semibold rounded-lg bg-[#2C2F48] py-2'>Skor Akhir</span>
+                                            <span className='text-xl font-semibold rounded-lg bg-white text-black border-2 border-[#2C2F48]'>{total.toFixed(2)}</span>
                                         </div>
+                                        <div className="grid grid-cols-2 gap-x-4 items-center justify-center">
+                                            <span className='text-xl font-semibold rounded-lg bg-[#2C2F48] py-2'>Standart Deviasi</span>
+                                            <span className='text-xl font-semibold rounded-lg bg-white text-black border-2 border-[#2C2F48]'>{deviasi?.toFixed(2)}</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 

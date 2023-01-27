@@ -409,11 +409,11 @@ const detail = () => {
                                 <div className="grid grid-rows-2 mt-2 gap-x-7 gap-y-0.5">
                                   <div className="grid grid-cols-2">
                                     <span className='bg-[#2C2F48] rounded-l-lg font-semibold py-1'>Skor Akhir</span>
-                                    <span className='text-[#2C2F48] border-2 border-[#2C2F48] rounded-r-lg font-bold'>9,35</span>
+                                    <span className='text-[#2C2F48] border-2 border-[#2C2F48] rounded-r-lg font-bold'>{item.skor_biru.skor_akhir.toFixed(2)}</span>
                                   </div>
                                   <div className="grid grid-cols-2">
                                     <span className='bg-[#2C2F48] rounded-l-lg font-semibold py-1'>Standart Deviasi</span>
-                                    <span className='text-[#2C2F48] border-2 border-[#2C2F48] rounded-r-lg font-bold'>9,35</span>
+                                    <span className='text-[#2C2F48] border-2 border-[#2C2F48] rounded-r-lg font-bold'>{item.skor_biru.deviasi.toFixed(2)}</span>
                                   </div>
                                 </div>
                                 {/* detail nilai button */}
@@ -455,11 +455,11 @@ const detail = () => {
                                 <div className="grid grid-rows-2 mt-2 gap-x-7 gap-y-0.5">
                                   <div className="grid grid-cols-2">
                                     <span className='bg-[#2C2F48] rounded-l-lg font-semibold py-1'>Skor Akhir</span>
-                                    <span className='text-[#2C2F48] border-2 border-[#2C2F48] rounded-r-lg font-bold'>9,35</span>
+                                    <span className='text-[#2C2F48] border-2 border-[#2C2F48] rounded-r-lg font-bold'>{item.skor_merah.skor_akhir.toFixed(2)}</span>
                                   </div>
                                   <div className="grid grid-cols-2">
                                     <span className='bg-[#2C2F48] rounded-l-lg font-semibold py-1'>Standart Deviasi</span>
-                                    <span className='text-[#2C2F48] border-2 border-[#2C2F48] rounded-r-lg font-bold'>9,35</span>
+                                    <span className='text-[#2C2F48] border-2 border-[#2C2F48] rounded-r-lg font-bold'>{item.skor_merah.deviasi.toFixed(2)}</span>
                                   </div>
                                 </div>
                                 {/* detail nilai button */}
