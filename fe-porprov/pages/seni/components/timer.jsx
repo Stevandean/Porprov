@@ -8,10 +8,8 @@ const timer = () => {
 
   useEffect(() => {
     let interval;
-    let waktu = 0
-    if (running || duration > 0) {
+    if (running) {
       interval = setInterval(() => {
-        waktu = duration + 1000
         setDuration((prevTime) => prevTime + 1000);
       }, 1000);
     } else if (!running) {
