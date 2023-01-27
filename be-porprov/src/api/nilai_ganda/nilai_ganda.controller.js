@@ -72,7 +72,6 @@ module.exports = {
                 ],
                 order: [
                     [{model: models.juri, as: "juri"}, "no", "asc"]
-                    
                 ],
 
             })
@@ -81,7 +80,7 @@ module.exports = {
             return errorResponse( req, res, error.message )
         }
     },
-    addDewan: async (req,res) => {
+    addDewanganda: async (req,res) => {
         try{
             //input hukuman
             const id = uuidv4()
@@ -179,7 +178,154 @@ module.exports = {
                 id_peserta: req.body.id_peserta
             }
 
-            let dataSkor = ""
+            let cekSkor = await Skor.findOne({
+                where:{                
+                    id_jadwal: req.body.id_jadwal,
+                    id_peserta: req.body.id_peserta
+                }
+            })
+
+            let jadwal = await Tgr.findOne({
+                where: {
+                    id: req.body.id_jadwal
+                }
+            })
+            if(cekSkor){
+                console.log("data exist");
+                let id = cekSkor.id
+                if(jadwal.id_merah === req.body.id_peserta){
+                    console.log("merah");
+                    let skor = {
+                        id_skor_merah: id
+                    }
+                    await Tgr.update(skor, {where: {id: req.body.id_jadwal}})
+                }
+                else if(jadwal.id_biru === req.body.id_peserta){
+                    console.log("biru");
+                    let skor = {
+                        id_skor_biru: id
+                    }
+                    await Tgr.update(skor, {where: {id: req.body.id_jadwal}})
+                }
+            } else{
+                let dataSkor = await Skor.create(skor)
+                let id = dataSkor.id
+                if(jadwal.id_merah === req.body.id_peserta){
+                    console.log("merah");
+                    let skor = {
+                        id_skor_merah: id
+                    }
+                    await Tgr.update(skor, {where: {id: req.body.id_jadwal}})
+                }
+                else if(jadwal.id_biru === req.body.id_peserta){
+                    console.log("biru");
+                    let skor = {
+                        id_skor_biru: id
+                    }
+                    await Tgr.update(skor, {where: {id: req.body.id_jadwal}})
+                }
+            }
+        } catch (error) {
+            return errorResponse( req, res, error.message )
+        }
+    },
+    addDewanSolo: async (req,res) => {
+        try{
+            //input hukuman
+            const id = uuidv4()
+            let dataHukum = {
+                id: id,
+                id_jadwal: req.body.id_jadwal,
+                id_peserta: req.body.id_peserta,
+                hukum1: req.body.hukum1,
+                hukum2: req.body.hukum2,
+                hukum3: req.body.hukum3,
+                hukum4: req.body.hukum4,
+                hukum5: req.body.hukum5,
+                hukum6: req.body.hukum6
+            }
+            let cek = await Hukum.findOne({
+                where:{                
+                    id_jadwal: req.body.id_jadwal,
+                    id_peserta: req.body.id_peserta
+                }
+            })
+            if(cek){
+                console.log("data exist");
+            } else{
+                await Hukum.create(dataHukum)
+            }
+            
+            //input nilai
+            let getJuri = await Juri.findAll()
+            let count = 0
+            
+            for (let i = 0; i < getJuri.length; i++) {
+                let juri = getJuri[i]
+                let idJuri = juri.id
+                count++
+                
+                let data = {
+                    id: uuidv4(),
+                    id_jadwal: req.body.id_jadwal,
+                    id_peserta: req.body.id_peserta,
+                    id_juri: idJuri,
+                }
+
+                let cek = await Ganda.findOne(
+                    {
+                        where:{
+                        id_juri: idJuri, 
+                        id_jadwal: req.body.id_jadwal,
+                        id_peserta: req.body.id_peserta
+                        }
+                    }
+                )
+
+                if(cek){
+                    console.log("juri sudah menginput nilai "+ i)
+                    if(count === getJuri.length) { 
+                        res.status(200).json({
+                            status: "true",
+                            message: "data nilai juri lengkap"
+                        })
+                     }
+                } else{
+                    await Ganda.create(data)
+                    if(count === getJuri.length) { 
+                        res.status(200).json({
+                            status: "true",
+                            message: "data nilai juri lengkap"
+                        })
+                     }
+                }
+            //input skor
+            let skor = {
+                id: uuidv4(),
+                id_jadwal: req.body.id_jadwal,
+                id_peserta: req.body.id_peserta
+            }
+
+            let cekSkor = await Skor.findOne({
+                where:{                
+                    id_jadwal: req.body.id_jadwal,
+                    id_peserta: req.body.id_peserta
+                }
+            })
+            if(cekSkor){
+                console.log("data exist");
+            } else{
+                await Skor.create(skor)
+            }
+
+            } 
+
+            //input skor
+            let skor = {
+                id: uuidv4(),
+                id_jadwal: req.body.id_jadwal,
+                id_peserta: req.body.id_peserta
+            }
 
             let cekSkor = await Skor.findOne({
                 where:{                
@@ -211,7 +357,7 @@ module.exports = {
                     await Tgr.update(skor, {where: {id: req.body.id_jadwal}})
                 }
             } else{
-                dataSkor = await Skor.create(skor)
+                let dataSkor = await Skor.create(skor)
                 let id = dataSkor.id
                 if(jadwal.id_merah === req.body.id_peserta){
                     console.log("merah");

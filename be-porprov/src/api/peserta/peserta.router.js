@@ -9,9 +9,11 @@ const {
     addTunggal,
     addGanda,
     addRegu,
+    addSolo,
     editPeserta,
     deletePeserta,
     importRegu,
+    importSolo,
 } = require("./peserta.controller")
 
 const multer = require("multer")
@@ -35,11 +37,13 @@ router.get("/:kategori", getAllTgr)
 router.post("/import/tunggal", upload.single('file'), importTunggal)
 router.post("/import/ganda", upload.single('file'), importGanda)
 router.post("/import/Regu", upload.single('file'), importRegu)
-
+router.post("/import/Regu", upload.single('file'), importSolo)
 
 router.post("/tunggal", addTunggal)
 router.post("/ganda", addGanda)
 router.post("/regu", addRegu)
+router.post("/solo_kreatif", addSolo)
+
 router.put("/:id", editPeserta)
 router.delete("/:id", deletePeserta)
 

@@ -7,19 +7,31 @@ const {
     addNilai,
     editNilai,
     deleteNilai,
-    addDewan,
     editbyJuri,
+    addDewanganda,
+    addDewanSolo,
 }  = require("./nilai_ganda.controller")
 
-//router
-router.get("/", getAllNilai)
-router.get("/juri/:id_jadwal/:id_peserta/:id_juri", getbyJuri)
-router.get("/jadwal/:id_jadwal/:id_peserta", getbyJadwal)
-router.post("/dewan", addDewan)
-router.post("/", addNilai),
-router.put("/:id", editNilai),
-router.put("/juri/:id_jadwal/:id_peserta/:id_juri", editbyJuri),
-router.delete("/:id", deleteNilai)
+//router ganda
+router.get("/ganda", getAllNilai)
+router.get("/ganda/juri/:id_jadwal/:id_peserta/:id_juri", getbyJuri)
+router.get("/ganda/jadwal/:id_jadwal/:id_peserta", getbyJadwal)
+router.post("/ganda", addNilai),
+router.post("/ganda/dewan", addDewanganda)
+router.put("/ganda/:id", editNilai),
+router.put("/ganda/juri/:id_jadwal/:id_peserta/:id_juri", editbyJuri),
+router.delete("/ganda/:id", deleteNilai)
+
+//router solo kreatif
+router.get("/solo_kreatif", getAllNilai)
+router.get("/solo_kreatif/juri/:id_jadwal/:id_peserta/:id_juri", getbyJuri)
+router.get("/solo_kreatif/jadwal/:id_jadwal/:id_peserta", getbyJadwal)
+router.post("/solo_kreatif", addNilai),
+router.post("/solo_kreatif/dewan", addDewanSolo)
+router.put("/solo_kreatif/:id", editNilai),
+router.put("/solo_kreatif/juri/:id_jadwal/:id_peserta/:id_juri", editbyJuri),
+router.delete("/solo_kreatif/:id", deleteNilai)
+
 
 //export module
 module.exports = router;
