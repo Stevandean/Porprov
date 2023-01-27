@@ -18,7 +18,7 @@ const cookieParser = require('cookie-parser');
 const PORT = process.env.PORT;
 
 io.on('connection', socket => {
-    // console.log(`⚡: ${socket.id} user just connected!`);
+    console.log(`⚡: ${socket.id} user just connected!`);
     // socket.disconnect(0) 
     // socket.on("editData", (arg) => {
     //     console.log(arg); // world
@@ -34,7 +34,7 @@ io.on('connection', socket => {
 
     socket.on('disconnect', () => {
       // socket.disconnect() 
-      // console.log('🔥: A user disconnected');
+      console.log('🔥: A user disconnected');
     });
 
 })
