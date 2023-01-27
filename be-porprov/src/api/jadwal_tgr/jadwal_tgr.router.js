@@ -24,6 +24,7 @@ const {
     getKelas,
     getTunggalId,
     getbyKategori,
+    addTgrSolo,
 
 }= require("./jadwal_tgr.controller");
 
@@ -38,6 +39,7 @@ router.get("/bykelas/:kategori", getByPoolKelas);
 router.post("/tunggal", addTgrTunggal)
 router.post("/Ganda", addTgrGanda)
 router.post("/Regu", addTgrRegu)
+router.post("/solo_kreatif", addTgrSolo)
 router.put("/:id", editTgr)
 router.put("/selesai/:id_jadwal/:id_peserta", setSelesai)
 router.delete("/:id", deleteTgr)

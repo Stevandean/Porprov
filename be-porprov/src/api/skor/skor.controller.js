@@ -10,6 +10,19 @@ const {
 } = require("../../helpers");
 
 module.exports = {
+    getAll: async (req,res) =>{
+        try{
+            const skor = await Skor.findAll({
+                include:[
+                    "jadwal",
+                    "peserta"
+                ]
+            })
+            return getResponse( req, res, skor)
+        } catch (error) {
+            return errorResponse( req, res, error.message )
+        }
+    },
     getbyJadwalandPeserta: async (req,res) =>{
         try{
             let param = {

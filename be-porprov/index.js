@@ -18,7 +18,7 @@ const cookieParser = require('cookie-parser');
 const PORT = process.env.PORT;
 
 io.on('connection', socket => {
-    // console.log(`⚡: ${socket.id} user just connected!`);
+    console.log(`⚡: ${socket.id} user just connected!`);
     // socket.disconnect(0) 
     // socket.on("editData", (arg) => {
     //     console.log(arg); // world
@@ -28,13 +28,21 @@ io.on('connection', socket => {
         io.emit("getData")
     })
 
+    socket.on("timer_seni_start", () => {
+      io.emit("start_seni")
+    })
+
+    socket.on("timer_seni_stop", () => {
+      io.emit("stop_seni")
+    })
+
     socket.on("editData", () =>{
         io.emit("change_data")
     } )
 
     socket.on('disconnect', () => {
       // socket.disconnect() 
-      // console.log('🔥: A user disconnected');
+      console.log('🔥: A user disconnected');
     });
 
 })
@@ -68,8 +76,8 @@ app.use("/api/skor/", skorRouter)
 const tunggalRouter = require('./src/api/nilai_tunggal/nilai_tunggal.router')
 app.use("/api/tunggal", tunggalRouter)
 
-const gandaRouter = require('./src/api/nilai_ganda/nilai_ganda.router')
-app.use("/api/ganda", gandaRouter)
+const gandaSoloRouter = require('./src/api/nilai_ganda/nilai_ganda.router')
+app.use("/api/", gandaSoloRouter)
 
 const reguRouter = require('./src/api/nilai_regu/nilai_regu.router')
 app.use("/api/regu", reguRouter)

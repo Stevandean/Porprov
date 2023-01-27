@@ -65,7 +65,7 @@ module.exports = {
             const tgr = await Tgr.findAll({
                 where:kategori,
                 attributes: 
-                [sequelize.fn('DISTINCT', sequelize.col('jk', 'kelas')),'jk', 'kelas'],
+                [sequelize.fn('DISTINCT', sequelize.col('jk', 'kelas', 'babak')),'jk', 'kelas', 'babak'],
                 order: [
                     ['kelas', 'ASC'],
                 ],
@@ -245,6 +245,36 @@ module.exports = {
         }
     },
 
+    addTgrSolo: async (req,res)=>{
+        try{
+            const id = uuidv4()
+            let data = {
+                id: id,
+                partai: req.body.partai,
+                id_biru: req.body.id_biru,
+                id_merah: req.body.id_merah,
+                kategori: "solo_kreatif",
+                jk: req.body.jk,
+                kelas: req.body.kelas,
+                babak: req.body.babak
+            }
+            let result = await Tgr.create(data)
+            let peserta = await Peserta.findOne({
+                where: {id: result.id_merah}
+            })
+            let data2 = {
+                jk: peserta.jk,
+                kelas: peserta.kelas
+            }
+            let update = await Tgr.update(data2,{
+                where: {id: id}
+            })
+            return addResponse( req, res, update )
+        } catch (error){
+            return errorResponse( req, res, error.message )
+        }
+    },
+
     setSelesai: async (req,res) => {
         try{
             let id = {
@@ -263,22 +293,45 @@ module.exports = {
             const result = await Skor.update(data, {where:id})
 
             //cek apakah semua peserta telah selesai
-            const peserta = await Skor.findAll({where: {id_jadwal: req.params.id_jadwal}})
-            let merah = peserta[0]
-            let biru = peserta[1]
+            const peserta = await Tgr.findOne({
+                where: {id: req.params.id_jadwal},
+                include:[
+                "skor_merah",
+                "skor_biru"
+                ],
+            })
+            let merah = peserta.skor_merah
+            let biru = peserta.skor_biru
 
-            if(peserta[0] && peserta[1]){
+            if(merah && biru){
 
                 let satu = merah.selesai
                 let dua = biru.selesai
                 
+                let skorMerah = merah.deviasi
+                let skorBiru = biru.deviasi
+
+                console.log("biru " +skorBiru);
+                console.log("merah " +skorMerah);
+
                 if(satu === 1 && dua === 1){
-                    console.log("setSelesai");
-                    let selesai = {
-                        selesai: 1,
-                        aktif: 0
+                    if(skorMerah < skorBiru){
+                        console.log("menang merah");
+                        let selesai = {
+                            id_pemenang: merah.id_peserta,
+                            selesai: 1,
+                            aktif: 0
+                        }
+                        await Tgr.update(selesai, {where: {id: req.params.id_jadwal}})
+                    }else if(skorBiru < skorMerah){
+                        console.log("menang biru");
+                        let selesai = {
+                            id_pemenang: biru.id_peserta,
+                            selesai: 1,
+                            aktif: 0
+                        }
+                        await Tgr.update(selesai, {where: {id: req.params.id_jadwal}})
                     }
-                    await Tgr.update(selesai, {where: {id: req.params.id_jadwal}})
                 }
 
             }else{

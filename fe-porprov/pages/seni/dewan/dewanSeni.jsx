@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react'
+import React, { createContext, useEffect, useState, useContext } from 'react'
 import axios from 'axios'
 import Link from 'next/link'
 import Navbar from '../components/navbar'
@@ -10,18 +10,21 @@ import { useRouter } from 'next/router'
 
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const socket = socketIo (BASE_URL)
 
 const dewanSeni = () => {
-    const socket = socketIo (BASE_URL)
 
 
     const start = () =>{
-        setDuration(180 * 1000);
+        setDuration(1000);
         setDisable (true)
+        setRunning(true)
+        socket.emit('timer_seni_start')
     }
 
     // state unutk timer
-    const [duration,setDuration]= useState(0)
+    const {duration, setDuration} = useContext(globalState)  
+    const {running,setRunning}= useContext(globalState)
     const [disable, setDisable] = useState (false)
 
     // state data dari local storage
@@ -137,52 +140,53 @@ const dewanSeni = () => {
         let arrayNilai = []
         let sum = 0
         for (let i=0; i< nilai.length; i++) {
-            let skorA = nilai [1]
-            arrayNilai.push (skorA.total_skor)
+            let total = nilai [i]
+            arrayNilai.push (total.total_skor)
             sum += arrayNilai [i]
         }
+        console.log(arrayNilai)
         let deviasi = Math.sqrt (sum/arrayNilai.length) 
         setDeviasi (deviasi)
 
         // hitung total skor
     }
 
-    const sortNilai = () => {
-        // untuk mengambil dari local
-        const peserta = JSON.parse (localStorage.getItem ('peserta'))
-        const jadwal = (localStorage.getItem ('jadwal'))
+    // const sortNilai = () => {
+    //     // untuk mengambil dari local
+    //     const peserta = JSON.parse (localStorage.getItem ('peserta'))
+    //     const jadwal = (localStorage.getItem ('jadwal'))
 
-        let id_peserta = peserta.id
-        let id_jadwal = jadwal
+    //     let id_peserta = peserta.id
+    //     let id_jadwal = jadwal
 
-        if (peserta.kategori = 'Tunggal') {
-            axios.get (BASE_URL + `/api/tunggal/jadwal/${id_jadwal}/${id_peserta}`)
-            .then (res => {
-                setNilaiSort (res.data.data)
-            })
-            .catch (err => {
-                console.log(err.message);
-            })
-        } else if (peserta.kategori = 'Ganda') {
-            axios.get (BASE_URL + `/api/ganda/jadwal/${id_jadwal}/${id_peserta}`)
-            .then (res => {
-                setNilaiSort (res.data.data)
-            })
-            .catch (err => {
-                console.log(err.response.data.message);
-            })
-        } else if (peserta.kategori = 'Regu') {
-            axios.get (BASE_URL + `/api/regu/jadwal/${id_jadwal}/${id_peserta}`)
-            .then (res => {
-                setNilaiSort (res.data.data)
-            })
-            .catch (err => {
-                console.log(err.response.data.message);
-            })
-        } else {
-            console.log('gagal');
-        }
-    }
+    //     if (peserta.kategori = 'Tunggal') {
+    //         axios.get (BASE_URL + `/api/tunggal/jadwal/${id_jadwal}/${id_peserta}`)
+    //         .then (res => {
+    //             setNilaiSort (res.data.data)
+    //         })
+    //         .catch (err => {
+    //             console.log(err.message);
+    //         })
+    //     } else if (peserta.kategori = 'Ganda') {
+    //         axios.get (BASE_URL + `/api/ganda/jadwal/${id_jadwal}/${id_peserta}`)
+    //         .then (res => {
+    //             setNilaiSort (res.data.data)
+    //         })
+    //         .catch (err => {
+    //             console.log(err.response.data.message);
+    //         })
+    //     } else if (peserta.kategori = 'Regu') {
+    //         axios.get (BASE_URL + `/api/regu/jadwal/${id_jadwal}/${id_peserta}`)
+    //         .then (res => {
+    //             setNilaiSort (res.data.data)
+    //         })
+    //         .catch (err => {
+    //             console.log(err.response.data.message);
+    //         })
+    //     } else {
+    //         console.log('gagal');
+    //     }
+    // }
 
     const selesai = () => {
         
@@ -192,7 +196,13 @@ const dewanSeni = () => {
         let id_peserta = peserta.id
         let id_jadwal = jadwal
 
+        //set waktu
+        let minute =  `${("0" + Math.floor((duration / 1000 / 60) % 60)).slice(-2)}`
+        let second = `${("0" + Math.floor((duration / 1000) % 60)).slice(-2)}`
+        let time = `${minute}:${second}`
+
         let form = {
+            waktu: time,
             selesai : true,
             median: median,
             skor_akhir: total,
@@ -202,7 +212,7 @@ const dewanSeni = () => {
         if (confirm('Anda yakin untuk mengakhiri pertandingan?') == 1) {
             axios.put (BASE_URL + `/api/tgr/selesai/${id_jadwal}/${id_peserta}`, form)
             .then (res => {
-                window.location = '/seni/dewan/landingPageputra'
+                window.location = '/seni/dewan/landingPageputra' 
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -451,6 +461,14 @@ const dewanSeni = () => {
         }
     }
 
+    const saveWaktu = () => {
+        setRunning(false)
+        let minute =  `${("0" + Math.floor((duration / 1000 / 60) % 60)).slice(-2)}`
+        let second = `${("0" + Math.floor((duration / 1000) % 60)).slice(-2)}`
+        let time = `${minute}:${second}` 
+        socket.emit('timer_seni_stop')
+        console.log(time);
+    }
     const ubah_data = () => socket.emit ('init_data')
 
     useEffect (() => {
@@ -494,18 +512,20 @@ const dewanSeni = () => {
                             {/* wrapper timer */}
                             <div className="bg-[#2C2F48] flex flex-row py-2 px-3 rounded-lg space-x-5 items-center">
                                 {/* button checkbox */}
-                                <div className="bg-[#54B435] hover:bg-[#379237] rounded-lg w-12 h-12 my-auto">
-                                    <img className='p-3' src="../../svg/checkbox.svg" />
+                                <div className="">
+                                    <button className='bg-[#54B435] hover:bg-[#379237] rounded-lg w-12 h-12 my-auto' onClick={()=> saveWaktu()}>
+                                        <img className='p-3' src="../../svg/checkbox.svg" />
+                                    </button>
                                 </div>
                                 {/* timer */}
-                                <globalState.Provider value={{ duration, setDuration }}>
+                                <globalState.Provider value={{ duration, setDuration, running, setRunning }}>
                                     <Timer />
                                 </globalState.Provider>
                                 {/* button */}
                                 <div className="flex flex-row space-x-2">
                                     {/* button play */}
                                     <button className="bg-[#51607A] hover:bg-[#4c5970] rounded-lg w-12 h-12 my-auto buttonStart" onClick={()=> start()} disabled={disable}>
-                                    <svg  className='p-2' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <svg  className='w-10 m-auto' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M5 4.98951C5 4.01835 5 3.53277 5.20249 3.2651C5.37889 3.03191 5.64852 2.88761 5.9404 2.87018C6.27544 2.85017 6.67946 3.11953 7.48752 3.65823L18.0031 10.6686C18.6708 11.1137 19.0046 11.3363 19.1209 11.6168C19.2227 11.8621 19.2227 12.1377 19.1209 12.383C19.0046 12.6635 18.6708 12.886 18.0031 13.3312L7.48752 20.3415C6.67946 20.8802 6.27544 21.1496 5.9404 21.1296C5.64852 21.1122 5.37889 20.9679 5.20249 20.7347C5 20.467 5 19.9814 5 19.0103V4.98951Z" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                                     </svg>
                                     </button>
@@ -1233,8 +1253,10 @@ const dewanSeni = () => {
                             <div className="bg-[#2C2F48] py-1 px-4 w-full flex justify-center">
                                 <span className='text-2xl font-semibold'>Waktu</span>
                             </div>
-                            <div className="text-[#2C2F48] py-1 px-4 w-full flex justify-center border-2 border-[#2C2F48]">
-                                <span className='text-4xl font-bold'>03.00</span>
+                            <div className="text-[#2C2F48] py-1 px-4 w-full flex justify-center border-2 border-[#2C2F48] text-4xl font-bold">
+                                <globalState.Provider value={{ duration, setDuration, running, setRunning }}>
+                                    <Timer />
+                                </globalState.Provider>
                             </div>
                         </div>
                         {/* Median */}
