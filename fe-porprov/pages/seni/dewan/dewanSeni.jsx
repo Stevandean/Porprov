@@ -14,12 +14,15 @@ const socket = socketIo (BASE_URL)
 const dewanSeni = () => {
 
     const start = () =>{
-        setDuration(180 * 1000);
+        setDuration(1000);
         setDisable (true)
+        setRunning(true)
+        socket.emit('timer_seni_start')
     }
 
     // state unutk timer
-    const [duration,setDuration]= useState(0)
+    const {duration, setDuration} = useContext(globalState)  
+    const {running,setRunning}= useContext(globalState)
     const [disable, setDisable] = useState (false)
 
     // state data dari local storage
@@ -495,7 +498,7 @@ const dewanSeni = () => {
                                         if (aktif == true) {
                                             return (
                                                 <button onClick={() => mulai()} className="bg-[#54B435] hover:bg-[#379237] py-4 px-8 rounded-lg">
-                                                    <span className='text-lg font-semibold'>Sedang Aktif</span>
+                                                    <span className='text-lg font-semibold'>Sampun Aktif</span>
                                                 </button>
                                             )
                                         } else if (aktif == false) {
@@ -538,7 +541,6 @@ const dewanSeni = () => {
                                                         </>
                                                     )
                                                 }
-
                                             })()}
                                             <span className='text-lg font-normal text-end'>{peserta.kontingen}</span>
                                         </div>
@@ -1466,28 +1468,12 @@ const dewanSeni = () => {
                                     <div className="text-[#2C2F48] py-1 px-4 w-full flex justify-center border-2 border-[#2C2F48]">
                                         <span className='text-4xl font-bold'>03.00</span>
                                     </div>
-                                </div>
-                                {/* Median */}
-                                <div className='col-span-2'>
-                                    <div className="bg-[#2C2F48] py-1 px-4 w-full flex justify-center">
-                                        <span className='text-2xl font-semibold'>Median</span>
-                                    </div>
-                                    <div className="text-[#2C2F48] py-1 px-4 w-full flex justify-center border-2 border-[#2C2F48]">
-                                        <span className='text-4xl font-bold'>{median.toFixed(2)}</span>
-                                    </div>
-                                </div>
-                                {/* Skor */}
-                                <div className="col-span-8">
-                                    <div className="grid grid-rows-2 text-center gap-y-2 px-2 h-full">
-                                        <div className="grid grid-cols-2 gap-x-4 items-center justify-center">
-                                            <span className='text-xl font-semibold rounded-lg bg-[#2C2F48] py-2'>Skor Akhir</span>
-                                            <span className='text-xl font-semibold rounded-lg bg-white text-black border-2 border-[#2C2F48]'>{total.toFixed(2)}</span>
+                                    <div className='col-span-2'>
+                                        <div className="text-[#2C2F48] py-1 px-4 w-full flex justify-center border-2 border-[#2C2F48]">
+                                                <span className='text-xl font-semibold rounded-lg bg-[#2C2F48] py-2'>Standart Deviasi</span>
+                                                <span className='text-xl font-semibold rounded-lg bg-white text-black border-2 border-[#2C2F48]'>{deviasi?.toFixed(2)}</span>
+                                            </div>
                                         </div>
-                                        <div className="grid grid-cols-2 gap-x-4 items-center justify-center">
-                                            <span className='text-xl font-semibold rounded-lg bg-[#2C2F48] py-2'>Standart Deviasi</span>
-                                            <span className='text-xl font-semibold rounded-lg bg-white text-black border-2 border-[#2C2F48]'>{deviasi?.toFixed(2)}</span>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
 

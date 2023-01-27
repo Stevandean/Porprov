@@ -4,49 +4,27 @@ import { globalState } from '../../../context/context'
 const timer = () => {
 
   const {duration, setDuration} = useContext(globalState)  
+  const {running, setRunning} = useContext(globalState)  
 
-  const countDown = (() => {
-    let milliseconds = duration
-  
-    let totalSeconds = parseInt(Math.floor(milliseconds / 1000));
-    let totalMinutes = parseInt(Math.floor(totalSeconds / 60))
-  
-    let seconds = parseInt(totalSeconds % 60);
-    let minutes = parseInt(totalMinutes % 60);
-
-    if (duration > 0){
-      setTimeout (() => {
-        setDuration (duration - 1000)
-      },1000)
-
-      if (minutes <= 0 && seconds <= 0) {
-        return (
-          <div  >00 : 00</div>
-        )
-      }
-
-      if (minutes <= 10 && seconds < 10) {
-        return `0${minutes} : 0${seconds}`
-      
-      } else if (minutes <= 10 && seconds >= 10) {
-        return `0${minutes} : ${seconds}`
-      } else {
-        return `${minutes} : ${seconds}`
-      }
-
-    } else {
-      if (minutes <= 0 && seconds <= 0) {
-        return (
-          <div className="">00 : 00</div>
-        )
-      }
-      return `${minutes} : ${seconds}`
+  useEffect(() => {
+    let interval;
+    let waktu = 0
+    if (running || duration > 0) {
+      interval = setInterval(() => {
+        waktu = duration + 1000
+        setDuration((prevTime) => prevTime + 1000);
+      }, 1000);
+    } else if (!running) {
+      clearInterval(interval);
     }
-
-  })
+    return () => clearInterval(interval);
+  }, [running]);
 
   return (
-    <div>{countDown()}</div>
+    <div className="font-sans">
+      <span>{("0" + Math.floor((duration / 1000 / 60) % 60)).slice(-2)}:</span>
+      <span>{("0" + Math.floor((duration / 1000) % 60)).slice(-2)}</span>
+    </div>
   )
 }
 
