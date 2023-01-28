@@ -145,7 +145,7 @@ const dewanSeni = () => {
         let arrayNilai = []
         let sum = 0
         for (let i=0; i< nilai.length; i++) {
-            let skorA = nilai [1]
+            let skorA = nilai [i]
             arrayNilai.push (skorA.total_skor)
             sum += arrayNilai [i]
         }
@@ -754,7 +754,7 @@ const dewanSeni = () => {
                                                                 </div>
                                                             </td>
                                                             <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
-                                                                <span className='text-xl font-bold'>{hukum.hukum1}</span>
+                                                                <span className='text-xl font-bold'>{hukum.hukum1?.toFixed(2)}</span>
                                                             </td>
                                                         </>
                                                     </tr>
@@ -778,7 +778,7 @@ const dewanSeni = () => {
                                                                 </div>
                                                             </td>
                                                             <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
-                                                                <span className='text-xl font-bold'>{hukum.hukum2}</span>
+                                                                <span className='text-xl font-bold'>{hukum.hukum2?.toFixed(2)}</span>
                                                             </td>
                                                         </>
                                                     </tr>
@@ -802,7 +802,7 @@ const dewanSeni = () => {
                                                                 </div>
                                                             </td>
                                                             <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
-                                                                <span className='text-xl font-bold'>{hukum.hukum3}</span>
+                                                                <span className='text-xl font-bold'>{hukum.hukum3?.toFixed(2)}</span>
                                                             </td>
                                                         </>
                                                     </tr>
@@ -840,7 +840,7 @@ const dewanSeni = () => {
                                                                 </div>
                                                             </td>
                                                             <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
-                                                                <span className='text-xl font-bold'>{hukum.hukum4}</span>
+                                                                <span className='text-xl font-bold'>{hukum.hukum4?.toFixed(2)}</span>
                                                             </td>
                                                         </>
                                                     </tr>
@@ -864,7 +864,7 @@ const dewanSeni = () => {
                                                                 </div>
                                                             </td>
                                                             <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
-                                                                <span className='text-xl font-bold'>{hukum.hukum5}</span>
+                                                                <span className='text-xl font-bold'>{hukum.hukum5?.toFixed(2)}</span>
                                                             </td>
                                                         </>
                                                     </tr>
@@ -928,7 +928,7 @@ const dewanSeni = () => {
                                                                 </div>
                                                             </td>
                                                             <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
-                                                                <span className='text-xl font-bold'>{hukum.hukum1}</span>
+                                                                <span className='text-xl font-bold'>{hukum.hukum1?.toFixed(2)}</span>
                                                             </td>
                                                         </>
                                                     </tr>
@@ -952,7 +952,7 @@ const dewanSeni = () => {
                                                                 </div>
                                                             </td>
                                                             <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
-                                                                <span className='text-xl font-bold'>{hukum.hukum2}</span>
+                                                                <span className='text-xl font-bold'>{hukum.hukum2?.toFixed(2)}</span>
                                                             </td>
                                                         </>
                                                     </tr>
@@ -976,7 +976,7 @@ const dewanSeni = () => {
                                                                 </div>
                                                             </td>
                                                             <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
-                                                                <span className='text-xl font-bold'>{hukum.hukum3}</span>
+                                                                <span className='text-xl font-bold'>{hukum.hukum3?.toFixed(2)}</span>
                                                             </td>
                                                         </>
                                                     </tr>
@@ -999,7 +999,7 @@ const dewanSeni = () => {
                                                                 </div>
                                                             </td>
                                                             <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
-                                                                    <span className='text-xl font-bold'>{hukum.hukum4}</span>
+                                                                    <span className='text-xl font-bold'>{hukum.hukum4?.toFixed(2)}</span>
                                                             </td>
                                                         </>
                                                     </tr>
@@ -1037,7 +1037,7 @@ const dewanSeni = () => {
                                                                 </div>
                                                             </td>
                                                             <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
-                                                                <span className='text-xl font-bold'>{hukum.hukum5}</span>
+                                                                <span className='text-xl font-bold'>{hukum.hukum5?.toFixed(2)}</span>
                                                             </td>
                                                         </>
                                                     </tr>
@@ -1061,7 +1061,7 @@ const dewanSeni = () => {
                                                                 </div>
                                                             </td>
                                                             <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
-                                                                <span className='text-xl font-bold'>{hukum.hukum6}</span>
+                                                                <span className='text-xl font-bold'>{hukum.hukum6?.toFixed(2)}</span>
                                                             </td>
                                                         </>
                                                     </tr>
@@ -1110,7 +1110,7 @@ const dewanSeni = () => {
                                                                 </div>
                                                             </td>
                                                             <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
-                                                                <span className='text-xl font-bold'>{hukum.hukum1}</span>
+                                                                <span className='text-xl font-bold'>{hukum.hukum1?.toFixed(2)}</span>
                                                             </td>
                                                         </>
                                                     </tr>
@@ -1134,7 +1134,7 @@ const dewanSeni = () => {
                                                                 </div>
                                                             </td>
                                                             <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
-                                                                <span className='text-xl font-bold'>{hukum.hukum2}</span>
+                                                                <span className='text-xl font-bold'>{hukum.hukum2?.toFixed(2)}</span>
                                                             </td>
                                                         </>
                                                     </tr>
@@ -1158,7 +1158,7 @@ const dewanSeni = () => {
                                                                 </div>
                                                             </td>
                                                             <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
-                                                                <span className='text-xl font-bold'>{hukum.hukum3}</span>
+                                                                <span className='text-xl font-bold'>{hukum.hukum3?.toFixed(2)}</span>
                                                             </td>
                                                         </>
                                                     </tr>
@@ -1222,7 +1222,7 @@ const dewanSeni = () => {
                                                                 </div>
                                                             </td>
                                                             <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
-                                                                <span className='text-xl font-bold'>{hukum.hukum1}</span>
+                                                                <span className='text-xl font-bold'>{hukum.hukum1?.toFixed(2)}</span>
                                                             </td>
                                                         </>
                                                     </tr>
@@ -1246,7 +1246,7 @@ const dewanSeni = () => {
                                                                 </div>
                                                             </td>
                                                             <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
-                                                                <span className='text-xl font-bold'>{hukum.hukum2}</span>
+                                                                <span className='text-xl font-bold'>{hukum.hukum2?.toFixed(2)}</span>
                                                             </td>
                                                         </>
                                                     </tr>
@@ -1284,7 +1284,7 @@ const dewanSeni = () => {
                                                                 </div>
                                                             </td>
                                                             <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
-                                                                <span className='text-xl font-bold'>{hukum.hukum3}</span>
+                                                                <span className='text-xl font-bold'>{hukum.hukum3?.toFixed(2)}</span>
                                                             </td>
                                                         </>
                                                     </tr>
@@ -1308,7 +1308,7 @@ const dewanSeni = () => {
                                                                 </div>
                                                             </td>
                                                             <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
-                                                                <span className='text-xl font-bold'>{hukum.hukum4}</span>
+                                                                <span className='text-xl font-bold'>{hukum.hukum4?.toFixed(2)}</span>
                                                             </td>
                                                         </>
                                                     </tr>
@@ -1456,7 +1456,7 @@ const dewanSeni = () => {
                                         </div>
                                         <div className="grid grid-cols-2 gap-x-4 items-center justify-center">
                                             <span className='text-xl font-semibold rounded-lg bg-[#2C2F48] py-2'>Standart Deviasi</span>
-                                            <span className='text-xl font-semibold rounded-lg bg-white text-black border-2 border-[#2C2F48]'>{deviasi?.toFixed(2)}</span>
+                                            <span className='text-xl font-semibold rounded-lg bg-white text-black border-2 border-[#2C2F48]'>{deviasi}</span>
                                         </div>
                                     </div>
                                 </div>

@@ -466,6 +466,7 @@ const detail = () => {
                                 <button className='bg-[#2C2F48] px-7 w-full rounded-lg py-2 font-lg font-semibold'onClick={() => toDetailSelesaiMerah (item)}>Details Nilai</button>
                               </div>
                             </div>
+                          </div>
                             {/* winner */}
                             <div className="flex flex-col px-3 space-y-1">
                               <span className='text-[#2C2F48] text-3xl font-bold'>Pemenang :</span>
@@ -482,7 +483,6 @@ const detail = () => {
                                 }
                               })()}
                             </div>
-                          </div>
                         </div>
                       ))}
                       </>

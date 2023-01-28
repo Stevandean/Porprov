@@ -17,12 +17,63 @@ const detail = () => {
 
   const toTimerBiru = (item) => {
     // untuk dikirim ke halaman timer melalui local storage
-    localStorage.setItem ('jadwal', (item.id))
+    localStorage.setItem ('jadwal', JSON.stringify(item))
     localStorage.setItem ('peserta', JSON.stringify(item.biru))
 
     let form = {
       id_jadwal : item.id,
       id_peserta : item.biru.id 
+    }
+
+    if (kategori.toLowerCase() === 'tunggal') {   
+      axios.post (BASE_URL + "/api/tunggal/dewan", form)
+      .then ((res) => {
+        router.push ('/seni/timer/timer')
+        console.log(res.data.message);    
+      })
+      .catch ((err) => {
+        console.log(err.response.data.message);
+      })
+    } else if (kategori.toLowerCase() === 'ganda') {
+      axios.post (BASE_URL + `/api/ganda/dewan`, form)
+      .then (res => {
+        router.push ('/seni/timer/timer')
+        console.log(res.data.message);
+      })
+      .catch (err => {
+        console.log(err.response.data.message);
+      })
+    } else if (kategori.toLowerCase() === 'regu') {
+      axios.post (BASE_URL + `/api/regu/dewan`, form)
+      .then (res => {
+        router.push ('/seni/timer/timer')
+        console.log(res.data.message);
+      })
+      .catch (err => {
+        console.log(err.response.data.message);
+      })
+    } else if (kategori.toLowerCase() === 'solo_kreatif') {
+      axios.post (BASE_URL + `/api/solo_kreatif/dewan`, form)
+      .then (res => {
+        router.push ('/seni/timer/timer')
+        console.log('berhasil');
+      })
+      .catch (err => {
+        console.log(err.response.data.message);
+      })
+    } else {
+      console.log('gagal');
+    }
+  }
+
+  const toTimerMerah = (item) => {
+    // untuk dikirim ke halaman timer melalui local storage
+    localStorage.setItem ('jadwal',JSON.stringify (item))
+    localStorage.setItem ('peserta', JSON.stringify(item.merah))
+
+    let form = {
+      id_jadwal : item.id,
+      id_peserta : item.merah.id 
     }
 
     if (kategori.toLowerCase() === 'tunggal') {   
@@ -129,7 +180,7 @@ const detail = () => {
                   {data.map (item => (
                     <div className="text-center rounded-lg shadow-lg">
                       <div className="bg-[#2C2F48] py-2 rounded-t-lg">
-                        <span className='text-xl font-semibold'>Partai {item.partai + 1} - {item.kelas} - {item.babak}</span>
+                        <span className='text-xl font-semibold'>Partai {item.partai} - {item.kelas} - {item.babak}</span>
                       </div>
                       {/* wrapper card */}
                       <div className="grid grid-cols-2 gap-x-7 p-3">
@@ -163,7 +214,7 @@ const detail = () => {
                           <span className='font-medium texy-lg text-[#2C2F48]'>{item.biru.kontingen}</span>
                           {/* action button */}
                           <div className="px-7 pb-3">
-                            <button className='bg-[#2C2F48] py-2 rounded-lg w-full' onClick={() => toTimerBiru(item)}>Dewan</button>
+                            <button className='bg-[#2C2F48] py-2 rounded-lg w-full' onClick={() => toTimerBiru(item)}>Timer</button>
                           </div>
                         </div>
                         {/* card pesilat merah */}
@@ -196,7 +247,7 @@ const detail = () => {
                           <span className='font-medium texy-lg text-[#2C2F48]'>{item.merah.kontingen}</span>
                           {/* action button */}
                           <div className="px-7 pb-3">
-                            <button className='bg-[#2C2F48] py-2 rounded-lg w-full' onClick={() => toTimerMerah(item)}>Dewan</button>
+                            <button className='bg-[#2C2F48] py-2 rounded-lg w-full' onClick={() => toTimerMerah(item)}>Timer</button>
                           </div>
                         </div>   
                       </div>
