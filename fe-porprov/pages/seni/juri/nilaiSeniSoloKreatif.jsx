@@ -6,7 +6,7 @@ import Footer from '../components/footer'
 import Router from 'next/router';
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-const nilaiSeniGanda = () => {
+const nilaiSeniSoloKreatif = () => {
 
     const socket = socketIo (BASE_URL)   
 
@@ -28,15 +28,15 @@ const nilaiSeniGanda = () => {
         let id_jadwal = jadwal
         let id_juri = juri.id
 
-        console.log(BASE_URL + `/api/ganda/juri/${id_jadwal}/${id_peserta}/${id_juri}`);
-
-        axios.get (BASE_URL + `/api/ganda/juri/${id_jadwal}/${id_peserta}/${id_juri}`)
+        axios.get (BASE_URL + `/api/solo_kreatif/juri/${id_jadwal}/${id_peserta}/${id_juri}`)
         .then (res => {
             setNilai (res.data.data)
         })
         .catch (err => {
             console.log(err.response.data.message);
         })
+        console.log(BASE_URL + `/api/solo_kreatif/juri/${id_jadwal}/${id_peserta}/${id_juri}`);
+
     }
 
     const technique = (t) => {
@@ -53,7 +53,7 @@ const nilaiSeniGanda = () => {
             technique : t
         }
 
-        axios.put (BASE_URL + `/api/ganda/juri/${id_jadwal}/${id_peserta}/${id_juri}`, form)
+        axios.put (BASE_URL + `/api/solo_kreatif/juri/${id_jadwal}/${id_peserta}/${id_juri}`, form)
         .then (
             socket.emit('editData')
         )
@@ -76,7 +76,7 @@ const nilaiSeniGanda = () => {
             firmness : f
         }
 
-        axios.put (BASE_URL + `/api/ganda/juri/${id_jadwal}/${id_peserta}/${id_juri}`, form)
+        axios.put (BASE_URL + `/api/solo_kreatif/juri/${id_jadwal}/${id_peserta}/${id_juri}`, form)
         .then (
             socket.emit ('editData')
         )
@@ -99,7 +99,7 @@ const nilaiSeniGanda = () => {
             soulfulness : s
         }
 
-        axios.put (BASE_URL + `/api/ganda/juri/${id_jadwal}/${id_peserta}/${id_juri}`, form)
+        axios.put (BASE_URL + `/api/solo_kreatif/juri/${id_jadwal}/${id_peserta}/${id_juri}`, form)
         .then (
             socket.emit ('editData')
         )
@@ -124,7 +124,7 @@ const nilaiSeniGanda = () => {
         }
 
         if (confirm ('Anda yakin mengakhiri pertandingan?') == 1) {
-            axios.put (BASE_URL + `/api/ganda/juri/${id_jadwal}/${id_peserta}/${id_juri}`, form)
+            axios.put (BASE_URL + `/api/solo_kreatif/juri/${id_jadwal}/${id_peserta}/${id_juri}`, form)
             .then (res => {
                 console.log(res.data.message);
                 Router.back()
@@ -171,8 +171,7 @@ const nilaiSeniGanda = () => {
                             {/* info pesilat */}
                             <div className="flex flex-row items-center space-x-3 p-2 text-[#222954]">
                                 <div className="flex flex-col">
-                                    <span className='text-2xl font-bold'>{peserta.nama1}</span>
-                                    <span className='text-2xl font-bold'>{peserta.nama2}</span>
+                                    <span className='text-2xl font-bold uppercase'>{peserta.nama1}</span>
                                     <span className='text-lg font-normal'>{peserta.kontingen}</span>
                                 </div>
                             </div>
@@ -587,4 +586,4 @@ const nilaiSeniGanda = () => {
     )
 }
 
-export default nilaiSeniGanda
+export default nilaiSeniSoloKreatif

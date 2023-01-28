@@ -20,6 +20,7 @@ const modalJadwal = () => {
     // ini state
     const [dataTunggal, setDataTunggal] = useState ([])
     const [dataGanda, setDataGanda] = useState ([])
+    const [dataSoloKreatif, setDataSoloKreatif] = useState ([])
     const [dataRegu, setDataRegu] = useState ([])
     const {idJadwal, setIdJadwal} = useContext (globalState)
     const {idMerah, setIdMerah} = useContext (globalState)
@@ -33,7 +34,7 @@ const modalJadwal = () => {
             setDataTunggal (res.data.data)
         })
         .catch (err => {
-            console.log(err.message);
+            console.log(err.response.data.message);
         })
     }
 
@@ -43,8 +44,19 @@ const modalJadwal = () => {
             setDataGanda (res.data.data)
         })
         .catch (err => {
-            console.log(err.message);
+            console.log(err.response.data.message);
         })
+    }
+
+    const getSoloKreatif = () => {
+        axios.get (BASE_URL + `/api/peserta/seni/solo_kreatif`)
+        .then (res => {
+            setDataSoloKreatif (res.data.data)
+        })
+        .catch (err => {
+            console.log(err.response.data.message);
+        })
+        console.log(BASE_URL + `/api/peserta/seni/solo_kreatif`)
     }
 
     const getRegu = () => {
@@ -53,7 +65,7 @@ const modalJadwal = () => {
             setDataRegu (res.data.data)
         })
         .catch (err => {
-            console.log(err.message);
+            console.log(err.response.data.message);
         })
     }
 
@@ -79,6 +91,16 @@ const modalJadwal = () => {
                 axios.post (BASE_URL + `/api/tgr/ganda`, form)
                 .then (res => {
                     getGanda ()
+                    setShowModalJadwal (false)
+                    socket.emit ('editData')
+                })
+                .catch (err => {
+                    console.log(err.message);
+                })
+            } else if (splitLoc.toString() === (',SoloKreatif')) {
+                axios.post (BASE_URL + `/api/tgr/solo_kreatif`, form)
+                .then (res => {
+                    getSoloKreatif ()
                     setShowModalJadwal (false)
                     socket.emit ('editData')
                 })
@@ -120,6 +142,16 @@ const modalJadwal = () => {
                 .catch (err => {
                     console.log(err.message);
                 })
+            } else if (splitLoc.toString() === (',SoloKreatif')) {
+                axios.put (BASE_URL + `/api/tgr/${idJadwal}`, form)
+                .then (res => {
+                    getGanda ()
+                    setShowModalJadwal (false)
+                    socket.emit ('editData')
+                })
+                .catch (err => {
+                    console.log(err.message);
+                })
             } else if (splitLoc.toString() === (',Regu')) {
                 axios.put (BASE_URL + `/api/tgr/${idJadwal}`, form)
                 .then (res => {
@@ -141,6 +173,7 @@ const modalJadwal = () => {
         getTunggal ()
         getGanda ()
         getRegu ()
+        getSoloKreatif ()
 
     }, [])
     
@@ -209,6 +242,15 @@ const modalJadwal = () => {
                                                                         ))}
                                                                     </>
                                                                 )
+                                                            } else if (splitLoc.toString () === (',SoloKreatif')) {
+                                                                console.log(dataSoloKreatif);
+                                                                return (
+                                                                    <>
+                                                                        {dataSoloKreatif.filter(a => a.jk == jk).map (item => (
+                                                                            <option value={item.id}>{item.nama1}</option>
+                                                                        ))}
+                                                                    </>
+                                                                )
                                                             } else if (splitLoc.toString () === (',Regu')) {
                                                                 return (
                                                                     <>
@@ -217,6 +259,8 @@ const modalJadwal = () => {
                                                                         ))}
                                                                     </>
                                                                 )
+                                                            } else {
+                                                                <option>test</option>
                                                             }
                                                         })()}
                                                     </select>
@@ -251,6 +295,14 @@ const modalJadwal = () => {
                                                                         ))}
                                                                     </>
                                                                 )
+                                                            } else if (splitLoc.toString() === (',SoloKreatif')) {
+                                                                return (
+                                                                    <>
+                                                                        {dataSoloKreatif.filter(a => a.jk == jk).map (item => (
+                                                                            <option value={item.id}>{item.nama1}</option>
+                                                                        ))}
+                                                                    </>
+                                                                )
                                                             } else if (splitLoc.toString () === (',Regu')) {
                                                                 return (
                                                                     <>
@@ -259,6 +311,8 @@ const modalJadwal = () => {
                                                                         ))}
                                                                     </>
                                                                 )
+                                                            } else {
+                                                                <option>test</option>
                                                             }
                                                         })()}
                                                     </select>

@@ -30,8 +30,6 @@ const detail = () => {
         localStorage.setItem ('peserta', JSON.stringify (item.biru))
         localStorage.setItem ('jadwal', (item.id))
         localStorage.setItem ('jurus', 1)
-
-
         setShowModalJuri (true)
         setNama ('')
     }
@@ -40,8 +38,6 @@ const detail = () => {
         localStorage.setItem ('peserta', JSON.stringify (item.merah))
         localStorage.setItem ('jadwal', (item.id))
         localStorage.setItem ('jurus', 1)
-
-
         setShowModalJuri (true)
         setNama ('')
     }
@@ -116,59 +112,67 @@ const detail = () => {
                                         <div className="grid grid-cols-2 gap-x-7 p-3">
                                             {/* card pesilat biru */}
                                             <div className="flex flex-col gap-y-2 border-2 border-[#2C2F48] rounded-lg">
-                                            {/* nama pesilat biru */}
-                                            <div className="bg-blue-700 rounded-t-lg py-1">
-                                                {(() => {
-                                                if (kategori.toLowerCase() === 'tunggal') {
-                                                    return (
-                                                    <span className='text-xl font-medium'>{item.biru.nama1}</span>
-                                                    )
-                                                } else if (kategori.toLowerCase() === 'ganda') {
-                                                    return (
-                                                    <span className='text-xl font-medium'>{item.biru.nama1} - {item.biru.nama2}</span>
-                                                    )
-                                                } else if (kategori.toLowerCase() === 'regu') {
-                                                    return (
-                                                    <span className='text-xl font-medium'>{item.biru.nama1} - {item.biru.nama2} - {item.biru.nama3}</span>
-                                                    )
-                                                } else {
-                                                    console.log('gagal');
-                                                }
-                                                })()}
-                                            </div>
-                                            {/* kontingen pesilat biru */}
-                                            <span className='font-medium texy-lg text-[#2C2F48]'>{item.biru.kontingen}</span>
-                                            {/* action button */}
-                                            <div className="px-7 pb-3">
-                                                <button className='bg-[#2C2F48] py-2 rounded-lg w-full' onClick={() => addModalBiru(item)}>Nilai Pesilat</button>
-                                            </div>
+                                                {/* nama pesilat biru */}
+                                                <div className="bg-blue-700 rounded-t-lg py-1">
+                                                    {(() => {
+                                                    if (kategori.toLowerCase() == 'tunggal') {
+                                                        return (
+                                                            <span className='text-xl font-medium'>{item.biru.nama1}</span>
+                                                        )
+                                                    } else if (kategori.toLowerCase() == 'ganda') {
+                                                        return (
+                                                            <span className='text-xl font-medium'>{item.biru.nama1} - {item.biru.nama2}</span>
+                                                        )
+                                                    } else if (kategori.toLowerCase() == 'solo_kreatif') {
+                                                        return (
+                                                            <span className='text-xl font-medium'>{item.biru.nama1} - {item.biru.nama2}</span>
+                                                        )
+                                                    } else if (kategori.toLowerCase() == 'regu') {
+                                                        return (
+                                                            <span className='text-xl font-medium'>{item.biru.nama1} - {item.biru.nama2} - {item.biru.nama3}</span>
+                                                        )
+                                                    } else {
+                                                        console.log('gagal');
+                                                    }
+                                                    })()}
+                                                </div>
+                                                {/* kontingen pesilat biru */}
+                                                <span className='font-medium texy-lg text-[#2C2F48]'>{item.biru.kontingen}</span>
+                                                {/* action button */}
+                                                <div className="px-7 pb-3">
+                                                    <button className='bg-[#2C2F48] py-2 rounded-lg w-full' onClick={() => addModalBiru(item)}>Nilai Pesilat</button>
+                                                </div>
                                             </div>
                                             {/* card pesilat merah */}
                                             <div className="flex flex-col gap-y-2 border-2 border-[#2C2F48] rounded-lg">
-                                            {/* nama pesilat merah */}
-                                            <div className="bg-red-700 rounded-t-lg py-1">
-                                                {(() => {
-                                                if (kategori.toLowerCase() === 'tunggal') {
-                                                    return (
-                                                    <span className='text-xl font-medium'>{item.merah.nama1}</span>
-                                                    )
-                                                } else if (kategori.toLowerCase() === 'ganda') {
-                                                    return (
-                                                    <span className='text-xl font-medium'>{item.merah.nama1} - {item.merah.nama2}</span>
-                                                    )
-                                                } else if (kategori.toLowerCase() === 'regu') {
-                                                    return (
-                                                    <span className='text-xl font-medium'>{item.merah.nama1} - {item.merah.nama2} - {item.merah.nama3}</span>
-                                                    )
-                                                }
-                                                })()}
-                                            </div>
-                                            {/* kontingen pesilat merah */}
-                                            <span className='font-medium texy-lg text-[#2C2F48]'>{item.merah.kontingen}</span>
-                                            {/* action button */}
-                                            <div className="px-7 pb-3">
-                                                <button className='bg-[#2C2F48] py-2 rounded-lg w-full' onClick={() => addModalMerah(item)}>Nilai Pesilat</button>
-                                            </div>
+                                                {/* nama pesilat merah */}
+                                                <div className="bg-red-700 rounded-t-lg py-1">
+                                                    {(() => {
+                                                    if (kategori.toLowerCase() == 'tunggal') {
+                                                        return (
+                                                        <span className='text-xl font-medium'>{item.merah.nama1}</span>
+                                                        )
+                                                    } else if (kategori.toLowerCase() == 'ganda') {
+                                                        return (
+                                                        <span className='text-xl font-medium'>{item.merah.nama1} - {item.merah.nama2}</span>
+                                                        )
+                                                    } else if (kategori.toLowerCase() == 'solo_kreatif') {
+                                                        return (
+                                                        <span className='text-xl font-medium'>{item.merah.nama1} - {item.merah.nama2}</span>
+                                                        )
+                                                    } else if (kategori.toLowerCase() == 'regu') {
+                                                        return (
+                                                        <span className='text-xl font-medium'>{item.merah.nama1} - {item.merah.nama2} - {item.merah.nama3}</span>
+                                                        )
+                                                    }
+                                                    })()}
+                                                </div>
+                                                {/* kontingen pesilat merah */}
+                                                <span className='font-medium texy-lg text-[#2C2F48]'>{item.merah.kontingen}</span>
+                                                {/* action button */}
+                                                <div className="px-7 pb-3">
+                                                    <button className='bg-[#2C2F48] py-2 rounded-lg w-full' onClick={() => addModalMerah(item)}>Nilai Pesilat</button>
+                                                </div>
                                             </div>   
                                         </div>
                                     </div>

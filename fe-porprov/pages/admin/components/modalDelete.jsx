@@ -13,7 +13,7 @@ const modalDelete = () => {
     const {pathname} = location()
     const splitLoc = pathname.split('/admin/')
 
-    const {setDataTanding, setDataTunggal, setDataGanda,setDataRegu, setNamaJuri, id, idJadwal, showAlertHapus, setShowAlertHapus} = useContext(globalState)
+    const {setDataTanding, setDataTunggal, setDataGanda,setDataRegu, setDataSoloKreatif, setNamaJuri, id, idJadwal, showAlertHapus, setShowAlertHapus} = useContext(globalState)
 
     const getTanding = () => {
       axios.get(BASE_URL + '/api/tanding/')
@@ -33,6 +33,13 @@ const modalDelete = () => {
       axios.get(BASE_URL + '/api/peserta/seni/ganda')
       .then((res) => {
           setDataGanda(res.data.data)
+      })
+    }
+
+    const getSoloKreatif = () => {
+      axios.get (BASE_URL + `/api/peserta/seni/solo_kreatif`)
+      .then (res => {
+        setDataSoloKreatif (res.data.data)
       })
     }
 
@@ -87,6 +94,13 @@ const modalDelete = () => {
           .catch(err => {
               console.log(err.message);
           })
+      } else if (splitLoc.toString() === ',pesertaSoloKreatif') {
+        axios.delete(BASE_URL + `/api/peserta/seni/${id}`)
+        .then (res => {
+          getSoloKreatif ()
+          setShowAlertHapus (false)
+          socket.emit ('changeData')
+        })
       } else if (splitLoc.toString() === ',pesertaRegu') {
           axios.delete(BASE_URL + `/api/peserta/seni/${id}`)
           .then (res => {
@@ -114,6 +128,12 @@ const modalDelete = () => {
         })
         .catch (err => {
           console.log(err.message);
+        })
+      } else if (splitLoc.toString () === ',jadwalSoloKreatif') {
+        axios.delete (BASE_URL + `/api/tgr/${idJadwal}`)
+        .then (res => {
+          setShowAlertHapus (false)
+          socket.emit ('editData')
         })
       } else if (splitLoc.toString() === ',jadwalRegu') {
         axios.delete (BASE_URL + `/api/tgr/${idJadwal}`)

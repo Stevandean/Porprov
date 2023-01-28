@@ -19,6 +19,7 @@ const detailSelesai = () => {
     const [hukum, setHukum] = useState ([])
     const [nilai, setNilai] = useState([])
     const [nilaiSort, setNilaiSort] = useState ([])
+    const [kategori, setKategori] = useState ('')
     const [median, setMedian] = useState (0)
     const [total, setTotal] = useState (0)
     const [deviasi, setDeviasi] = useState (0)
@@ -26,13 +27,14 @@ const detailSelesai = () => {
     const getNilai = async () => {
         const peserta = JSON.parse (localStorage.getItem ('peserta'))
         const jadwal = (localStorage.getItem ('jadwal'))
+        setKategori = ((peserta.kategori).toLowerCase())
 
         let id_peserta = peserta.id
         let id_jadwal = jadwal
         let nilai = []
         let hukum = []
 
-        if (peserta.kategori == 'Tunggal') {   
+        if (peserta.kategori == 'tunggal') {   
             await axios.get (BASE_URL + `/api/tunggal/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilai (res.data.data)
@@ -41,7 +43,7 @@ const detailSelesai = () => {
             .catch (err => {
                 console.log(err.message);
             })
-        } else if (peserta.kategori == 'Ganda') {
+        } else if (peserta.kategori == 'ganda') {
             await axios.get (BASE_URL + `/api/ganda/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilai (res.data.data)
@@ -50,7 +52,16 @@ const detailSelesai = () => {
             .catch (err => {
                 console.log(err.response.data.message);
             })
-        } else if (peserta.kategori == 'Regu') {
+        } else if (peserta.kategori == 'solo_kreatif') {
+            await axios.get (BASE_URL + `/api/solo_kreatif/${id_jadwal}/${id_peserta}`)
+            .then (res => {
+                setNilai (res.data.data)
+                nilai = (res.data.data)
+            })
+            .catch (err => {
+                console.log(err.response.data.message);
+            })
+        } else if (peserta.kategori == 'regu') {
             await axios.get (BASE_URL + `/api/regu/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilai (res.data.data)
@@ -69,12 +80,48 @@ const detailSelesai = () => {
             console.log(err.response.data.message);
         })
 
+        if (peserta.kategori == 'tunggal') {
+            axios.get (BASE_URL + `/api/tunggal/jadwal/${id_jadwal}/${id_peserta}`)
+            .then (res => {
+                setNilaiSort (res.data.data)
+            })
+            .catch (err => {
+                console.log(err.message);
+            })
+        } else if (peserta.kategori == 'ganda') {
+            axios.get (BASE_URL + `/api/ganda/jadwal/${id_jadwal}/${id_peserta}`)
+            .then (res => {
+                setNilaiSort (res.data.data)
+            })
+            .catch (err => {
+                console.log(err.response.data.message);
+            })
+        } else if (peserta.kategori == 'regu') {
+            axios.get (BASE_URL + `/api/regu/jadwal/${id_jadwal}/${id_peserta}`)
+            .then (res => {
+                setNilaiSort (res.data.data)
+            })
+            .catch (err => {
+                console.log(err.response.data.message);
+            })
+        } else if (peserta.kategori == 'solo_kreatif') {
+            axios.get (BASE_URL + `/api/solo_kreatif/jadwal/${id_jadwal}/${id_peserta}`)
+            .then (res => {
+                setNilaiSort (res.data.data)
+            })
+            .catch (err => {
+                console.log(err.response.data.message);
+            })
+        } else {
+            console.log('gagal');
+        }
+
         // hitung median
         let sort = nilai.sort ((a, b) => a.skor_a - b.skor_a)
         let n1 = sort [4]
         let n2 = sort [5]
         let x1 = n1.skor_a
-        let x2 = n1.skor_a
+        let x2 = n2.skor_a
         let median = (x1 + x2)/2
         setMedian (median)
 
@@ -94,43 +141,6 @@ const detailSelesai = () => {
         setDeviasi (deviasi)
     }
 
-    const sortNilai = () => {
-        const peserta = JSON.parse (localStorage.getItem ('peserta'))
-        const jadwal = (localStorage.getItem ('jadwal'))
-
-        let id_peserta = peserta.id
-        let id_jadwal = jadwal
-
-        if (peserta.kategori == 'Tunggal') {
-            axios.get (BASE_URL + `/api/tunggal/jadwal/${id_jadwal}/${id_peserta}`)
-            .then (res => {
-                setNilaiSort (res.data.data)
-            })
-            .catch (err => {
-                console.log(err.message);
-            })
-        } else if (peserta.kategori == 'Ganda') {
-            axios.get (BASE_URL + `/api/ganda/jadwal/${id_jadwal}/${id_peserta}`)
-            .then (res => {
-                setNilaiSort (res.data.data)
-            })
-            .catch (err => {
-                console.log(err.response.data.message);
-            })
-        } else if (peserta.kategori == 'Regu') {
-            axios.get (BASE_URL + `/api/regu/jadwal/${id_jadwal}/${id_peserta}`)
-            .then (res => {
-                setNilaiSort (res.data.data)
-            })
-            .catch (err => {
-                console.log(err.response.data.message);
-            })
-        } else {
-            console.log('gagal');
-        }
-
-    }
-
     const ubah_data = () => socket.emit ('init_data')
 
     useEffect (() => {
@@ -138,7 +148,7 @@ const detailSelesai = () => {
             setPeserta (JSON.parse (localStorage.getItem ('peserta')))
             socket.emit ('init_data')
             socket.on ('getData', getNilai)
-            socket.on ('getData', sortNilai)
+            socket.on ('getData', nilaiSort)
             socket.on ('change_data', ubah_data)
         }
     }, [])
@@ -172,23 +182,30 @@ const detailSelesai = () => {
                     <div className="flex flex-row items-center space-x-3 p-2 text-[#222954] text-end">
                         <div className="flex flex-col">
                             {(() => {
-                                if (peserta.kategori === 'Tunggal') {
+                                if (kategori == 'tunggal') {
                                     return (
                                         <span className='text-xl font-semibold'>{peserta.nama1}</span>
                                     )
-                                } else if (peserta.kategori === 'Ganda') {
+                                } else if (kategori == 'ganda') {
                                     return (
                                         <>
                                             <span className='text-xl font-semibold'>{peserta.nama1}</span>
                                             <span className='text-xl font-semibold'>{peserta.nama2}</span>
                                         </>
                                     )
-                                } else if (peserta.kategori === 'Regu') {
+                                } else if (kategori == 'regu') {
                                     return (
                                         <>
                                             <span className='text-xl font-semibold'>{peserta.nama1}</span>
                                             <span className='text-xl font-semibold'>{peserta.nama2}</span>
                                             <span className='text-xl font-semibold'>{peserta.nama3}</span>
+                                        </>
+                                    )
+                                } else if (kategori == 'solo_kreatif') {
+                                    return (
+                                        <>
+                                            <span className='text-xl font-semibold'>{peserta.nama1}</span>
+                                            <span className='text-xl font-semibold'>{peserta.nama2}</span>
                                         </>
                                     )
                                 }
@@ -306,7 +323,7 @@ const detailSelesai = () => {
                                     </tr>
                                 </thead>
                                 {(() => {                                  
-                                    if (peserta.kategori === 'Tunggal') {
+                                    if (kategori == 'tunggal') {
                                         return (
                                             <tbody className='text-[#FF3030] font-semibold'>
                                                 <tr>
@@ -342,7 +359,7 @@ const detailSelesai = () => {
                                                 </tr>
                                             </tbody>
                                         )
-                                    } else if (peserta.kategori === 'Ganda') {
+                                    } else if (kategori === 'ganda') {
                                         return (
                                             <tbody className='text-[#FF3030] font-semibold'>
                                                 <tr>
@@ -384,7 +401,7 @@ const detailSelesai = () => {
                                                 </tr>
                                             </tbody>
                                         )
-                                    } else if (peserta.kategori === 'Regu') {
+                                    } else if (kategori == 'regu') {
                                         return (
                                             <tbody className='text-[#FF3030] font-semibold'>
                                                 <tr>
@@ -414,6 +431,30 @@ const detailSelesai = () => {
                                                 </tr>
                                             </tbody>
                                         )
+                                    } else if (kategori == 'solo_kreatif') {
+                                        return (
+                                            <tbody className='text-[#FF3030] font-semibold'>
+                                                <tr>
+                                                    <td colSpan={9} className='border-2 border-[#FF3030] px-4'>Penampilan keluar gelanggang 10m x 10m</td>
+                                                    <td className='border-2 border-[#FF3030] text-center'>
+                                                        <span>{hukum.hukum1}</span>
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                    <td colSpan={9} className='border-2 border-[#FF3030] px-4'>Senjata jatuh tidak sesuai sinopsis</td>
+                                                    <td className='border-2 border-[#FF3030] text-center'>
+                                                        <span>{hukum.hukum2}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colSpan={9} className='border-2 border-[#FF3030] px-4'>Senjata jatuh keluar gelanggang saat tim masih harus menggunakannya</td>
+                                                    <td className='border-2 border-[#FF3030] text-center'>
+                                                        <span>{hukum.hukum3}</span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        )
                                     }
                                 })()}
                             </table>
@@ -428,7 +469,7 @@ const detailSelesai = () => {
                         </div>
                         <div className="grid grid-cols-2 gap-x-4">
                             <span className='text-xl font-semibold rounded-lg bg-[#2C2F48]'>Standart Deviasi</span>
-                            <span className='text-xl font-semibold rounded-lg bg-white text-black border-2 border-[#2C2F48]'>{deviasi}</span>
+                            <span className='text-xl font-semibold rounded-lg bg-white text-black border-2 border-[#2C2F48]'>{deviasi?.toFixed(2)}</span>
                         </div>
                     </div>
 

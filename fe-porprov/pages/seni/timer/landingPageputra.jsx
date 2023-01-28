@@ -14,7 +14,7 @@ const landingPagePutra = () => {
 
   const location = useRouter()
   const {pathname} = location;
-  const splitLoc = pathname.split ('/seni/dewan/')
+  const splitLoc = pathname.split ('/seni/timer/')
 
   const [dataTunggal, setDataTunggal] = useState([])
   const [dataGanda, setDataGanda] = useState ([])
@@ -115,7 +115,7 @@ const landingPagePutra = () => {
                     {/* pool */}
                     <div className="flex flex-col px-5">
                       {dataTunggal.filter(a => a.jk == 'PUTRA').map ((item) => (
-                        <Link href={'./putra/proses/tunggal/' + item.kelas + "/" +  item.babak } className="bg-[#222954] rounded-lg p-3 mb-4">
+                        <Link href={'./putra/tunggal/' + item.kelas + "/" +  item.babak } className="bg-[#222954] rounded-lg p-3 mb-4">
                           <span className='uppercase text-xl font-semibold'>{item.kelas} - {item.babak}</span>
                         </Link>
                       ))}
@@ -136,7 +136,7 @@ const landingPagePutra = () => {
                     {/* pool */}
                     <div className="flex flex-col px-5">
                       {dataGanda.filter(a => a.jk == 'PUTRA').map ((item) => (
-                        <Link href={'./putra/proses/ganda/' + item.kelas + "/" + item.babak} className="bg-[#222954] rounded-lg p-3 mb-4">
+                        <Link href={'./putra/ganda/' + item.kelas + "/" + item.babak} className="bg-[#222954] rounded-lg p-3 mb-4">
                           <span className='uppercase text-xl font-semibold'>{item.kelas} - {item.babak}</span>
                         </Link>
                       ))}
@@ -157,7 +157,7 @@ const landingPagePutra = () => {
                     {/* pool */}
                     <div className="flex flex-col px-5">
                       {dataRegu.filter(a => a.jk == 'PUTRA').map ((item) => (
-                        <Link href={'./putra/proses/regu/' + item.kelas + "/" + item.babak} className="bg-[#222954] rounded-lg p-3 mb-4">
+                        <Link href={'./putra/regu/' + item.kelas + "/" + item.babak} className="bg-[#222954] rounded-lg p-3 mb-4">
                           <span className='uppercase text-xl font-semibold'>{item.kelas} - {item.babak}</span>
                         </Link>
                       ))}
@@ -179,7 +179,7 @@ const landingPagePutra = () => {
                     {/* pool */}
                     <div className="flex flex-col px-5">
                       {dataSoloKreatif.filter(a => a.jk == 'PUTRA').map ((item) => (
-                        <Link href={'./putra/proses/solo_kreatif/' + item.kelas + "/" + item.babak} className="bg-[#222954] rounded-lg p-3 mb-4">
+                        <Link href={'./putra/solo_kreatif/' + item.kelas + "/" + item.babak} className="bg-[#222954] rounded-lg p-3 mb-4">
                           <span className='uppercase text-xl font-semibold'>{item.kelas} - {item.babak}</span>
                         </Link>
                       ))}

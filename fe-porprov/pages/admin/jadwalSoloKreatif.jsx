@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React, { useState, useEffect } from 'react'
 import socketIo from 'socket.io-client'
+import axios from 'axios'
 import Navbar from './components/navbar'
 import Sidebar from './components/sidebar'
 import Footer from './components/footer'
@@ -13,16 +13,16 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 // socket io
 const socket = socketIo (BASE_URL)
 
-const jadwalGanda = () => {
+const jadwalSoloKreatif = () => {
 
     // state modal
     const [showModalJadwal, setShowModalJadwal] = useState (false)
     const [showModalImport, setShowModalImport] = useState (false)
-    const [showAlertHapus, setShowAlertHapus]= useState (false)
+    const [showAlertHapus, setShowAlertHapus] = useState (false)
     const [dropdownJadwal, setDropdownJadwal] = useState (false)
-    
+
     // ini state
-    const [dataGanda, setDataGanda] = useState ([])
+    const [dataSoloKreatif, setDataSoloKreatif] = useState ([])
     const [action, setAction] = useState ('')
     const [idBiru, setIdBiru] = useState ('')
     const [idMerah, setIdMerah] = useState ('')
@@ -62,13 +62,13 @@ const jadwalGanda = () => {
         setIdJadwal (selectedId)
     }
 
-    const getGanda = () => {
-        axios.get (BASE_URL + `/api/tgr/ganda`)
+    const getSoloKreatif = () => {
+        axios.get (BASE_URL + `/api/tgr/solo_kreatif`)
         .then (res => {
-            setDataGanda (res.data.data)
+            setDataSoloKreatif (res.data.data)
         })
         .catch (err => {
-            console.log(err.message);
+            console.log(err.response.data.message);
         })
     }
 
@@ -76,7 +76,7 @@ const jadwalGanda = () => {
 
     useEffect (() => {
         socket.emit ('init_data')
-        socket.on ('getData', getGanda)
+        socket.on ('getData', getSoloKreatif)
         socket.on ('change_data', ubah_data)
     }, [])
 
@@ -104,7 +104,7 @@ const jadwalGanda = () => {
                     {/* Input Data */}
                     <div className="bg-[#2C2F48] rounded-lg flex justify-between p-3">
                     <div className="flex items-center px-2">
-                        <span className='text-lg uppercase font-semibold'>Jadwal Ganda</span>
+                        <span className='text-lg uppercase font-semibold'>Jadwal Solo Kreatif</span>
                     </div>
                     <div className="flex px-5 space-x-5">
                         {/* wrapper button dropdown input */}
@@ -164,14 +164,14 @@ const jadwalGanda = () => {
                             </tr>
                         </thead>
                         <tbody className='text-center'>
-                        {dataGanda.map((item, index) => (
+                        {dataSoloKreatif.map((item, index) => (
                             <tr className='even:bg-[#4C4F6D] odd:bg-[#2c2f48]'>
                             <td className='py-5'>{index + 1}</td>
                             <td>{item.kelas}</td>
                             <td>{item.jk}</td>
                             <td>{item.babak}</td>
-                            <td>{item.biru.nama1} <br></br>{item.biru.nama2}<br></br>( {item.biru.kontingen} )</td>
-                            <td>{item.merah.nama1} <br></br>{item.merah.nama2}<br></br>( {item.merah.kontingen} )</td>
+                            <td>{item.biru.nama1} ( {item.biru.kontingen} )</td>
+                            <td>{item.merah.nama1} ( {item.merah.kontingen} )</td>
                             <td>{item.aktif}</td>
                             <td>
                             <div className="p-2 space-x-2">
@@ -195,20 +195,20 @@ const jadwalGanda = () => {
             {/* akhir konten utama */}
         </div>
 
-        <globalState.Provider value={{ showModalJadwal, setShowModalJadwal, action, setAction, dataGanda, setDataGanda, idBiru, setIdBiru, idMerah, setIdMerah, idJadwal, setIdJadwal, jk, setJk, babak, setBabak}}>
-        <ModalJadwal />
+        <globalState.Provider value={{ showModalJadwal, setShowModalJadwal, action, setAction, dataSoloKreatif, setDataSoloKreatif, idBiru, setIdBiru, idMerah, setIdMerah, idJadwal, setIdJadwal, jk, setJk, babak, setBabak}}>
+            <ModalJadwal />
         </globalState.Provider>
 
         <globalState.Provider value = {{ showModalImport, setShowModalImport }}>
-        <ModalImport />
+            <ModalImport />
         </globalState.Provider>
 
-        <globalState.Provider value={{ showAlertHapus, setShowAlertHapus, idJadwal, setDataGanda }}>
-        <ModalDelete />
+        <globalState.Provider value={{ showAlertHapus, setShowAlertHapus, idJadwal, setDataSoloKreatif }}>
+            <ModalDelete />
         </globalState.Provider>
         </>
 
     )
 }
 
-export default jadwalGanda
+export default jadwalSoloKreatif
