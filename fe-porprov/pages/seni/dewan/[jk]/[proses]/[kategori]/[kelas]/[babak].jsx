@@ -466,12 +466,22 @@ const detail = () => {
                                 <button className='bg-[#2C2F48] px-7 w-full rounded-lg py-2 font-lg font-semibold'onClick={() => toDetailSelesaiMerah (item)}>Details Nilai</button>
                               </div>
                             </div>
-                          </div>
-
-                          {/* winner */}
-                          <div className="flex flex-col px-3 space-y-1">
-                            <span className='text-[#2C2F48] text-3xl font-bold'>Pemenang :</span>
-                            <span className='bg-[#2C2F48] text-lg font-bold rounded-lg py-1'>Sudut Merah</span>
+                            {/* winner */}
+                            <div className="flex flex-col px-3 space-y-1">
+                              <span className='text-[#2C2F48] text-3xl font-bold'>Pemenang :</span>
+                              {(() => {
+                                console.log(item.pemenang);
+                                if(item.id_pemenang == item.id_merah){
+                                  return(
+                                    <span className='bg-red-600 text-lg font-bold rounded-lg py-1'>Sudut Merah</span>
+                                  )
+                                } else if(item.id_pemenang == item.id_biru){
+                                  return(
+                                    <span className='bg-blue-700 text-lg font-bold rounded-lg py-1'>Sudut Biru</span>
+                                  )
+                                }
+                              })()}
+                            </div>
                           </div>
                         </div>
                       ))}
