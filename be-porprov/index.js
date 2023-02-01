@@ -85,6 +85,9 @@ app.use("/api/regu", reguRouter)
 const hukumTGRRouter = require('./src/api/hukum_tgr/hukum_tgr.router')
 app.use("/api/hukum/tgr", hukumTGRRouter)
 
+const eventRouter = require('./src/api/event/event.router')
+app.use("/api/event/", eventRouter)
+
 
 server.listen(PORT,() =>{
     console.log('server run on port ' + PORT)
