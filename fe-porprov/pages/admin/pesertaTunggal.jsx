@@ -10,10 +10,10 @@ import ModalDelete from './components/modalDelete'
 import { globalState } from '../../context/context'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-const pesertaTunggal = () => {
-
   // socket io
   const socket = socketIo (BASE_URL)
+
+const pesertaTunggal = () => {
 
   // handling error
   const [msg, setMsg] = useState ('')
