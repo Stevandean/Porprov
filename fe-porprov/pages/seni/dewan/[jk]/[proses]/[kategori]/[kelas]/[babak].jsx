@@ -326,7 +326,7 @@ const detail = () => {
                                 <span className='font-medium texy-lg text-[#2C2F48]'>{item.biru.kontingen}</span>
                                 {/* action button */}
                                 <div className="px-7 pb-3">
-                                  <button className='bg-[#2C2F48] py-2 rounded-lg w-full' onClick={() => toDewanBiru(item)}>Dewan</button>
+                                  <button className='bg-[#39ac39] hover:bg-[#2f912f] py-2 rounded-lg w-full' onClick={() => toDewanBiru(item)}>Dewan</button>
                                 </div>
                               </div>
                               {/* card pesilat merah */}
@@ -359,7 +359,7 @@ const detail = () => {
                                 <span className='font-medium texy-lg text-[#2C2F48]'>{item.merah.kontingen}</span>
                                 {/* action button */}
                                 <div className="px-7 pb-3">
-                                  <button className='bg-[#2C2F48] py-2 rounded-lg w-full' onClick={() => toDewanMerah(item)}>Dewan</button>
+                                  <button className='bg-[#39ac39] hover:bg-[#2f912f] py-2 rounded-lg w-full' onClick={() => toDewanMerah(item)}>Dewan</button>
                                 </div>
                               </div>   
                             </div>
@@ -417,36 +417,32 @@ const detail = () => {
                                   </div>
                                 </div>
                                 {/* detail nilai button */}
-                                <button className='bg-[#2C2F48] px-7 w-full rounded-lg py-2 font-lg font-semibold' onClick={() => toDetailSelesaiBiru(item)}>Details Nilai</button>
+                                <button className='bg-[#39ac39] hover:bg-[#2f912f] px-7 w-full rounded-lg py-2 font-lg font-semibold' onClick={() => toDetailSelesaiBiru(item)}>Details Nilai</button>
                               </div>
                             </div>
                             {/* card pesilat merah */}
                             <div className="flex flex-col gap-y-2 border-2 border-[#2C2F48] rounded-lg">
                               {/* nama pesilat merah */}
                               <div className="bg-red-700 rounded-t-lg py-1">
-                                {data.map (item => (
-                                  <>
-                                    {(() => {
-                                      if (kategori.toString() === 'tunggal') {
-                                        return (
-                                          <span className='text-xl font-medium'>{item.merah.nama1}</span>                                        
-                                        )
-                                      } else if (kategori.toString() === 'ganda') {
-                                        return (
-                                          <span className='text-xl font-medium'>{item.merah.nama1} - {item.merah.nama2}</span>                                        
-                                        )
-                                      } else if (kategori.toLowerCase() == 'solo_kreatif') {
-                                        return (
-                                          <span className='text-xl font-medium'>{item.biru.nama1} - {item.biru.nama2}</span>
-                                        )
-                                      } else if (kategori.toString() === 'regu') {
-                                        return (
-                                          <span className='text-xl font-medium'>{item.merah.nama1} - {item.merah.nama2} - {item.merah.nama3}</span>                                        
-                                        )
-                                      }
-                                    })()}
-                                  </>
-                                ))}
+                                {(() => {
+                                  if (kategori.toString() === 'tunggal') {
+                                    return (
+                                      <span className='text-xl font-medium'>{item.merah.nama1}</span>                                        
+                                    )
+                                  } else if (kategori.toString() === 'ganda') {
+                                    return (
+                                      <span className='text-xl font-medium'>{item.merah.nama1} - {item.merah.nama2}</span>                                        
+                                    )
+                                  } else if (kategori.toLowerCase() == 'solo_kreatif') {
+                                    return (
+                                      <span className='text-xl font-medium'>{item.biru.nama1} - {item.biru.nama2}</span>
+                                    )
+                                  } else if (kategori.toString() === 'regu') {
+                                    return (
+                                      <span className='text-xl font-medium'>{item.merah.nama1} - {item.merah.nama2} - {item.merah.nama3}</span>                                        
+                                    )
+                                  }
+                                })()}
                               </div>
                               {/* kontingen pesilat merah */}
                               <span className='font-medium texy-lg text-[#2C2F48]'>{item.merah.kontingen}</span>
@@ -463,7 +459,7 @@ const detail = () => {
                                   </div>
                                 </div>
                                 {/* detail nilai button */}
-                                <button className='bg-[#2C2F48] px-7 w-full rounded-lg py-2 font-lg font-semibold'onClick={() => toDetailSelesaiMerah (item)}>Details Nilai</button>
+                                <button className='bg-[#39ac39] hover:bg-[#2f912f] px-7 w-full rounded-lg py-2 font-lg font-semibold'onClick={() => toDetailSelesaiMerah (item)}>Details Nilai</button>
                               </div>
                             </div>
                           </div>

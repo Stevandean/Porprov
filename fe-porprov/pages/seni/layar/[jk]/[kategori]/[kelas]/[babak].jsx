@@ -21,6 +21,7 @@ const detail = () => {
     // untuk di kirim ke halaman detail selesai melalui local storage
     localStorage.setItem ('jadwal', (item.id))
     localStorage.setItem ('peserta', JSON.stringify (item.biru))
+    localStorage.setItem ('babak', JSON.stringify (item))
 
     let form = {
       id_jadwal : item.id,
@@ -60,6 +61,7 @@ const detail = () => {
     // untuk di kirim ke halaman detail selesai melalui local storage
     localStorage.setItem ('jadwal', (item.id))
     localStorage.setItem ('peserta', JSON.stringify (item.merah))
+    localStorage.setItem ('babak', JSON.stringify (item))
 
     let form = {
       id_jadwal : item.id,
@@ -143,7 +145,7 @@ const detail = () => {
               {/* wrapper kategori & pool */}
               <div className="flex">
                 {/* button back */}
-                <Link href={'/seni/dewan/landingPage' + jk} className="bg-red-700 rounded-lg w-12 h-12 my-auto">
+                <Link href={'/seni/layar/landingPage' + jk} className="bg-red-700 rounded-lg w-12 h-12 my-auto">
                   <img className='p-3' src="../../../../../../svg/back.svg" />
                 </Link>
                 {/* kategori & pool */}
@@ -189,7 +191,7 @@ const detail = () => {
                           <span className='font-medium texy-lg text-[#2C2F48]'>{item.biru.kontingen}</span>
                           {/* action button */}
                           <div className="px-7 pb-3">
-                            <button className='bg-[#2C2F48] py-2 rounded-lg w-full' onClick={() => toDetailSelesaiBiru(item)}>Dewan</button>
+                            <button className='bg-[#39ac39] hover:bg-[#2f912f] py-2 rounded-lg w-full' onClick={() => toDetailSelesaiBiru(item)}>Dewan</button>
                           </div>
                         </div>
                         {/* card pesilat merah */}
@@ -216,7 +218,7 @@ const detail = () => {
                           <span className='font-medium texy-lg text-[#2C2F48]'>{item.merah.kontingen}</span>
                           {/* action button */}
                           <div className="px-7 pb-3">
-                            <button className='bg-[#2C2F48] py-2 rounded-lg w-full' onClick={() => toDetailSelesaiMerah(item)}>Dewan</button>
+                            <button className='bg-[#39ac39] hover:bg-[#2f912f] py-2 rounded-lg w-full' onClick={() => toDetailSelesaiMerah(item)}>Dewan</button>
                           </div>
                         </div>   
                       </div>
