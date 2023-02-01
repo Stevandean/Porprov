@@ -14,6 +14,8 @@ const timer = () => {
   const {duration, setDuration} = useContext(globalState)  
   const {running, setRunning} = useContext(globalState)  
   const [aktif, setAktif] = useState (0)
+  const [peserta, setPeserta] = useState ([])
+  const [jadwal, setJadwal] = useState ([])
 
   const start = () => {
     setDuration (1000)
@@ -24,10 +26,11 @@ const timer = () => {
     setRunning (false)
 
     const peserta = JSON.parse (localStorage.getItem ('peserta'))
-    const jadwal = (localStorage.getItem ('jadwal'))
+    const jadwal = JSON.parse(localStorage.getItem ('jadwal'))
+
 
     let id_peserta = peserta.id
-    let id_jadwal = jadwal
+    let id_jadwal = jadwal.id
     
     // set waktu
     let minute = `${("0" + Math.floor((duration / 1000 / 60) % 60)).slice(-2)}`
@@ -41,7 +44,6 @@ const timer = () => {
     axios.put (BASE_URL + `/api/tgr/selesai/${id_jadwal}/${id_peserta}`, form)
     .then (res => {
       console.log(res.data.message);
-      console.log('test');
     })
     .catch (err => {
       console.log(err.message);
@@ -51,9 +53,9 @@ const timer = () => {
 
   const mulai = () => {
     const peserta = JSON.parse(localStorage.getItem('peserta'))
-    const jadwal = (localStorage.getItem ('jadwal'))
+    const jadwal = JSON.parse(localStorage.getItem('jadwal'))
 
-    let id_jadwal = jadwal
+    let id_jadwal = jadwal.id
     let id_peserta = peserta.id
 
 
@@ -92,9 +94,11 @@ const timer = () => {
 
   const getHukum = async () => {
     const peserta = JSON.parse(localStorage.getItem('peserta'))
-    const jadwal = (localStorage.getItem ('jadwal'))
+    const jadwal = JSON.parse(localStorage.getItem ('jadwal'))
+    setPeserta (JSON.parse(localStorage.getItem('peserta'))) 
+    setJadwal (JSON.parse(localStorage.getItem('jadwal')))
 
-    let id_jadwal = jadwal
+    let id_jadwal = jadwal.id
     let id_peserta = peserta.id
 
     await axios.get (BASE_URL + `/api/hukum/tgr/jadwal/${id_jadwal}/${id_peserta}`)
@@ -137,21 +141,21 @@ const timer = () => {
           {/* wrapper keseluruhan */}
           <div className="w-3/5 mx-auto lg:py-10 py-5 lg:space-y-10 space-y-5">
             {/* wrapper nama */}
-            <div className="justify-center items-center flex border-2 border-black rounded-lg bg-blue-700">
-              <span className='lg:text-4xl text-xl font-bold text-white tracking-widest py-2.5'>Partai 1 - Putra - Dewasa</span>
+            <div className={jadwal.id_biru == peserta.id ? "justify-center items-center flex border-2 border-black rounded-lg bg-blue-700" : "justify-center items-center flex border-2 border-black rounded-lg bg-red-700"}>
+              <span className='lg:text-4xl text-xl font-bold text-white tracking-widest py-2.5'>{'PARTAI '+ (jadwal.partai + 1)} - {peserta.jk} - {peserta.kelas}</span>
             </div>
 
             {/* wrapper timer and aktif button */}
             <div className="flex flex-col space-y-5 border-2 border-black p-5 rounded-lg">
-              <div className="flex justify-center items-center rounded-lg">
+              <div className="flex justify-center items-center rounded-lg w-full">
                 {(() => {
                   if (aktif == 1) {
                     return (
-                      <button onClick={() => mulai()} className='lg:text-3xl text-lg font-semibold lg:py-4 py-2 bg-green-500'>Aktif</button>
+                      <button onClick={() => mulai()} className='lg:text-3xl text-lg font-semibold lg:py-4 py-2 w-full bg-green-500 hover:bg-green-600'>Aktif</button>
                     )
                 } else if (aktif == 0) {
                     return (
-                      <button onClick={() => mulai()} className='lg:text-3xl text-lg font-semibold lg:py-4 py-2 bg-red-600 hover:bg-red-700'>Non Aktif</button>
+                      <button onClick={() => mulai()} className='lg:text-3xl text-lg font-semibold lg:py-4 py-2 w-full bg-red-600 hover:bg-red-700'>Non Aktif</button>
                     )
                   }
                 })()}

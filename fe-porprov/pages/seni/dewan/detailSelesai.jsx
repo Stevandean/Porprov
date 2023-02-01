@@ -5,12 +5,12 @@ import socketIo from 'socket.io-client'
 import Navbar from '../components/navbar'
 import Footer from '../components/footer'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+// socket io
+const socket = socketIo (BASE_URL)
 
 
 const detailSelesai = () => {
 
-    // socket io
-    const socket = socketIo (BASE_URL)
 
     // state data dari local storage
     const [peserta, setPeserta] = useState ([])
@@ -27,7 +27,7 @@ const detailSelesai = () => {
     const getNilai = async () => {
         const peserta = JSON.parse (localStorage.getItem ('peserta'))
         const jadwal = (localStorage.getItem ('jadwal'))
-        setKategori = ((peserta.kategori).toLowerCase())
+        setKategori((peserta.kategori).toLowerCase())
 
         let id_peserta = peserta.id
         let id_jadwal = jadwal
@@ -120,13 +120,13 @@ const detailSelesai = () => {
         let sort = nilai.sort ((a, b) => a.skor_a - b.skor_a)
         let n1 = sort [4]
         let n2 = sort [5]
-        let x1 = n1.skor_a
-        let x2 = n2.skor_a
+        let x1 = n1.total_skor
+        let x2 = n2.total_skor
         let median = (x1 + x2)/2
         setMedian (median)
 
         // hitung skor akhir
-        let total = median - hukum.total
+        let total = median + hukum.total
         setTotal (total)
 
         // hitung deviasi
@@ -148,7 +148,6 @@ const detailSelesai = () => {
             setPeserta (JSON.parse (localStorage.getItem ('peserta')))
             socket.emit ('init_data')
             socket.on ('getData', getNilai)
-            socket.on ('getData', nilaiSort)
             socket.on ('change_data', ubah_data)
         }
     }, [])
@@ -241,7 +240,7 @@ const detailSelesai = () => {
                                 {nilai.map (item => (
                                     <td className='border-2 border-[#2C2F48]'>
                                         <span>
-                                            {item.skor_a}
+                                            {item.skor_a?.toFixed(2)}
                                         </span>
                                     </td>
                                 ))}
@@ -252,7 +251,7 @@ const detailSelesai = () => {
                                 {nilai.map (item => (
                                     <td className='border-2 border-[#2C2F48]'>
                                         <span>
-                                            {item.skor_b}
+                                            {item.skor_b?.toFixed(2)}
                                         </span>
                                     </td>
                                 ))}
@@ -263,7 +262,7 @@ const detailSelesai = () => {
                                 {nilai.map (item => (
                                     <td className='border-2 border-[#2C2F48]'>
                                         <span>
-                                            {item.skor_a + item.skor_b}
+                                            {item.total_skor?.toFixed(2)}
                                         </span>
                                     </td>
                                 ))}
@@ -284,7 +283,7 @@ const detailSelesai = () => {
                             </tr>
                             <tr className='text-[#2C2F48]'>
                                 {nilai.sort ((a,b) => a.skor_a - b.skor_b).map (item => (
-                                    <th className='border-2 border-[#2C2F48]'>{item.total}</th>
+                                    <th className='border-2 border-[#2C2F48]'>{item.total_skor?.toFixed(2)}</th>
                                 ))}
                             </tr>
                         </tbody>
