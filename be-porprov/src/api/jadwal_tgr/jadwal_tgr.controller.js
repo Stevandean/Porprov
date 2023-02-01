@@ -388,6 +388,19 @@ module.exports = {
     deleteTgr: async (req,res)=>{
         try{
             let param = {id: req.params.id}
+            let data = {
+                id_skor_merah: null,
+                id_skor_biru: null
+            }
+            await Tgr.update(data, {where: param})
+            await Skor.destroy({where: {id_jadwal: req.params.id}})
+
+            //hapus nilai setiap peserta sesuai jadwal
+            await Tunggal.destroy({where: {id_jadwal: req.params.id}})
+            await Ganda.destroy({where: {id_jadwal: req.params.id}})
+            await Regu.destroy({where: {id_jadwal: req.params.id}})
+            await Hukum.destroy({where: {id_jadwal: req.params.id}})
+            
             const result = await Tgr.destroy({where: param}) 
             return deleteResponse( req, res, result)
         } catch (error){
