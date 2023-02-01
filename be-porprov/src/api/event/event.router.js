@@ -3,7 +3,8 @@ const router = express.Router();
 const {
     getEvent,
     addEvent,
-    editEvent
+    editEvent,
+    getImage
 }= require("./event.controller");
 
 const multer = require("multer");
@@ -42,6 +43,7 @@ router.put('/:id',
             {name: 'icon2', maxCount: 1}
         ]
 ), editEvent)
+router.get("/image/:filename", getImage)
 
 
 //export module

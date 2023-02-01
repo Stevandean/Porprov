@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.UUID
       },
-      event: {
+      nama: {
         type: Sequelize.STRING
       },
       logo: {

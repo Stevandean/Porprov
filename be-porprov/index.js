@@ -18,11 +18,8 @@ const cookieParser = require('cookie-parser');
 const PORT = process.env.PORT;
 
 io.on('connection', socket => {
-    console.log(`⚡: ${socket.id} user just connected!`);
+    // console.log(`⚡: ${socket.id} user just connected!`);
     // socket.disconnect(0) 
-    // socket.on("editData", (arg) => {
-    //     console.log(arg); // world
-    //   })
 
     socket.on("init_data", () => {
         io.emit("getData")
@@ -42,12 +39,13 @@ io.on('connection', socket => {
 
     socket.on('disconnect', () => {
       // socket.disconnect() 
-      console.log('🔥: A user disconnected');
+      // console.log('🔥: A user disconnected');
     });
 
 })
 
 app.use(cors())
+app.use(express.static(__dirname))
 
 app.use(bodyParser.json())
 app.use(bodyParser.json())
