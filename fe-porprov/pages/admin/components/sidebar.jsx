@@ -72,14 +72,14 @@ const sidebar = () => {
                                     <div className="z-10 divide-y divide-gray-100 rounded-xl shadow w-44 bg-gray-700">
                                         <ul className="py-1 text-sm " aria-labelledby="dropdownDefaultButton">
                                             <li>
-                                                <a href="./jadwalTunggal" className="block px-4 py-2 ">Jadwal Tunggal</a>
+                                                <a href="./pesertaTunggal" className="block px-4 py-2 ">Peserta Tunggal</a>
                                             </li>
                                         </ul>
                                     </div>
                                     <div className="z-10 divide-y divide-gray-100 rounded-xl shadow w-44 bg-gray-700">
                                         <ul className="py-1 text-sm " aria-labelledby="dropdownDefaultButton">
                                             <li>
-                                                <a href="./pesertaTunggal" className="block px-4 py-2 ">Peserta Tunggal</a>
+                                                <a href="./jadwalTunggal" className="block px-4 py-2 ">Jadwal Tunggal</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -118,14 +118,14 @@ const sidebar = () => {
                                     <div className="z-10 divide-y divide-gray-100 rounded-xl shadow w-44 bg-gray-700">
                                         <ul className="py-1 text-sm " aria-labelledby="dropdownDefaultButton">
                                             <li>
-                                                <a href="./jadwalGanda" className="block px-4 py-2 ">Jadwal Ganda</a>
+                                                <a href="./pesertaGanda" className="block px-4 py-2 ">Peserta Ganda</a>
                                             </li>
                                         </ul>
                                     </div>
                                     <div className="z-10 divide-y divide-gray-100 rounded-xl shadow w-44 bg-gray-700">
                                         <ul className="py-1 text-sm " aria-labelledby="dropdownDefaultButton">
                                             <li>
-                                                <a href="./pesertaGanda" className="block px-4 py-2 ">Peserta Ganda</a>
+                                                <a href="./jadwalGanda" className="block px-4 py-2 ">Jadwal Ganda</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -161,21 +161,21 @@ const sidebar = () => {
                             })()}
                             {dropdownRegu ? (
                                 <div className='flex flex-col space-y-2'>
-                                <div className="z-10 divide-y divide-gray-100 rounded-xl shadow w-44 bg-gray-700">
-                                    <ul className="py-1 text-sm " aria-labelledby="dropdownDefaultButton">
-                                        <li>
-                                            <a href="./jadwalRegu" className="block px-4 py-2 ">Jadwal Regu</a>
-                                        </li>
-                                    </ul>
+                                    <div className="z-10 divide-y divide-gray-100 rounded-xl shadow w-44 bg-gray-700">
+                                        <ul className="py-1 text-sm " aria-labelledby="dropdownDefaultButton">
+                                            <li>
+                                                <a href="./pesertaRegu" className="block px-4 py-2 ">Peserta Regu</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div className="z-10 divide-y divide-gray-100 rounded-xl shadow w-44 bg-gray-700">
+                                        <ul className="py-1 text-sm " aria-labelledby="dropdownDefaultButton">
+                                            <li>
+                                                <a href="./jadwalRegu" className="block px-4 py-2 ">Jadwal Regu</a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div className="z-10 divide-y divide-gray-100 rounded-xl shadow w-44 bg-gray-700">
-                                    <ul className="py-1 text-sm " aria-labelledby="dropdownDefaultButton">
-                                        <li>
-                                            <a href="./pesertaRegu" className="block px-4 py-2 ">Peserta Regu</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
                             ):null}
                         </div>
                         {/* dropdown solo kreatif */}
