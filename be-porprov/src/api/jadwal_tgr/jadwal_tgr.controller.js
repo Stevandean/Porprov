@@ -76,6 +76,26 @@ module.exports = {
         }
     },
 
+    getKelasAktif: async (req,res) =>{
+        try{
+            let kategori = {
+                kategori: req.params.kategori,
+                aktif: 1
+            }
+            const tgr = await Tgr.findAll({
+                where:kategori,
+                attributes: 
+                [sequelize.fn('DISTINCT', sequelize.col('jk', 'kelas', 'babak')),'jk', 'kelas', 'babak'],
+                order: [
+                    ['kelas', 'ASC'],
+                ],
+            })
+            return getResponse( req, res, tgr)
+        } catch (error) {
+            return errorResponse( req, res, error.message )
+        }
+    },
+
     getByPoolKelas: async (req,res) =>{
         try{
             let body = {
