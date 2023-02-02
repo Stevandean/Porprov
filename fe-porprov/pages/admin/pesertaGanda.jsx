@@ -10,10 +10,10 @@ import ModalDelete from './components/modalDelete'
 import { globalState } from '../../context/context'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-const pesertaGanda = () => {
-
     // socket io
     const socket = socketIo (BASE_URL)
+
+const pesertaGanda = () => {
 
     // state modal
     const [showModalPeserta, setShowModalPeserta] = useState (false)

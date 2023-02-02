@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { globalState } from '../../../context/context'
 import axios from 'axios'
+import Link from 'next/link'
 import socketIo from 'socket.io-client'
 import Navbar from '../components/navbar'
 import Footer from '../components/footer'
@@ -140,9 +141,14 @@ const timer = () => {
         <div className="bg-white text-white min-h-full m-auto">
           {/* wrapper keseluruhan */}
           <div className="w-3/5 mx-auto lg:py-10 py-5 lg:space-y-10 space-y-5">
-            {/* wrapper nama */}
-            <div className={jadwal.id_biru == peserta.id ? "justify-center items-center flex border-2 border-black rounded-lg bg-blue-700" : "justify-center items-center flex border-2 border-black rounded-lg bg-red-700"}>
-              <span className='lg:text-4xl text-xl font-bold text-white tracking-widest py-2.5'>{'PARTAI '+ (jadwal.partai + 1)} - {peserta.jk} - {peserta.kelas}</span>
+            {/* wrapper sudut */}
+            <div className={jadwal.id_biru == peserta.id ? "items-center flex justify-between rounded-lg bg-blue-700 px-5" : "justify-center items-center flex rounded-lg bg-red-700"}>
+              {/* button back */}
+              <Link href={'./landingPageputra'} className="bg-red-700 rounded-lg w-12 h-12 my-auto">
+                <img className='p-3' src="../../svg/back.svg" />
+              </Link>
+              <span className='lg:text-4xl text-xl font-bold text-white py-2.5'>{'PARTAI '+ (jadwal.partai + 1)} - {peserta.jk} - {peserta.kelas}</span>
+              <div className=""></div>
             </div>
 
             {/* wrapper timer and aktif button */}
@@ -151,17 +157,17 @@ const timer = () => {
                 {(() => {
                   if (aktif == 1) {
                     return (
-                      <button onClick={() => mulai()} className='lg:text-3xl text-lg font-semibold lg:py-4 py-2 w-full bg-green-500 hover:bg-green-600'>Aktif</button>
+                      <button onClick={() => mulai()} className='lg:text-3xl text-lg font-semibold lg:py-4 py-2 w-full bg-green-500 hover:bg-green-600 rounded-lg'>Aktif</button>
                     )
                 } else if (aktif == 0) {
                     return (
-                      <button onClick={() => mulai()} className='lg:text-3xl text-lg font-semibold lg:py-4 py-2 w-full bg-red-600 hover:bg-red-700'>Non Aktif</button>
+                      <button onClick={() => mulai()} className='lg:text-3xl text-lg font-semibold lg:py-4 py-2 w-full bg-red-600 hover:bg-red-700 rounded-lg'>Non Aktif</button>
                     )
                   }
                 })()}
               </div>
               <div className="grid grid-cols-12">
-                <button onClick={() => selesai()} className="col-span-2 bg-green-500 rounded-l-lg flex justify-center items-center">
+                <button onClick={() => selesai()} className="col-span-2 bg-green-500 hover:bg-green-600 rounded-l-lg flex justify-center items-center">
                   <svg className='w-32' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clipPath="url(#clip0_429_11249)">
                       <path d="M20 7.00018L10 17.0002L5 12.0002" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -173,10 +179,10 @@ const timer = () => {
                     </defs>
                   </svg>
                 </button>
-                <div className="col-span-8 flex justify-center items-center border-y-2 text-black border-black">
+                <div className="col-span-8 flex justify-center items-center border-y-2 text-black border-black lg:text-7xl text-5xl">
                   <Timer />
                 </div>
-                <button onClick={() => start()} className="col-span-2 bg-green-500 rounded-r-lg flex justify-center items-center">
+                <button onClick={() => start()} className="col-span-2 bg-green-500 hover:bg-green-600 rounded-r-lg flex justify-center items-center">
                   <svg className='lg:w-16 w-10 py-3' viewBox="0 0 21 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M2 2.08008L19 13.9013L2 25.7225V2.08008Z" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>

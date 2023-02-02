@@ -7,14 +7,14 @@ import Navbar from '../components/navbar'
 import Footer from '../components/footer'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
+    // socket io
+    const socket = socketIo (BASE_URL)
+
 const landingPagePutri = () => {
 
     const location = useRouter()
     const {pathname} = location;
     const splitLoc = pathname.split('/seni/dewan/')
-
-    // socket io
-    const socket = socketIo (BASE_URL)
 
     const [dataTunggal, setDataTunggal] = useState ([])
     const [dataGanda, setDataGanda] = useState ([])
@@ -74,7 +74,7 @@ const landingPagePutri = () => {
             {/* konten utama */}
             <div className="bg-white text-white min-h-full">
                 {/* wrapper keseluruhan */}
-                <div className="w-4/5 mx-auto py-10 space-y-6">
+                <div className="w-11/12 mx-auto py-10 space-y-6">
 
                     {/* wrapper putra putri */}
                     <div className="grid grid-cols-2 space-x-5">
@@ -87,7 +87,7 @@ const landingPagePutri = () => {
                     </div>
                 
                     {/* wrapper card */}
-                    <div className="grid sm:grid-grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10">
+                    <div className="grid sm:grid-grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-10">
                         {/* wrapper card Tunggal */}
                         <div className="bg-[#222954] flex flex-col text-center rounded-lg space-y-2">
                             {/* Kategori */}
@@ -132,6 +132,28 @@ const landingPagePutri = () => {
                             </div>
                         </div>
                         {/* wrapper card Regu */}
+                        <div className="bg-[#222954] flex flex-col text-center rounded-lg space-y-2">
+                            {/* Kategori */}
+                            <div className="flex flex-col py-3">
+                                <span className='text-3xl'>Kategori</span>
+                                <span className='text-4xl font-bold'>Regu</span>
+                            </div>
+                            {/* wrapper pool */}
+                            <div className="bg-white border-x-4 border-b-4 border-[#222954] min-h-[29rem] rounded-lg space-y-6">
+                            {/* vshape */}
+                            <img className='w-full -mt-6' src="../../svg/vshape.svg" />
+                            {/* pool */}
+                            <div className="flex flex-col px-5">
+                                {dataRegu.filter(a => a.jk == 'PUTRI').map ((item) => (
+                                <Link href={'./putri/regu/' + item.kelas + "/" + item.babak} className="bg-[#222954] rounded-lg p-3 mb-4">
+                                    <span className='uppercase text-xl font-semibold'>{item.kelas} - {item.babak}</span>
+                                </Link>
+                                ))}
+                                
+                            </div>
+                            </div>
+                        </div>
+                        {/* wrapper card solo kreatif */}
                         <div className="bg-[#222954] flex flex-col text-center rounded-lg space-y-2">
                             {/* Kategori */}
                             <div className="flex flex-col py-3">

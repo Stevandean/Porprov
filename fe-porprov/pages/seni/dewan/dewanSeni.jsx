@@ -466,7 +466,7 @@ const dewanSeni = () => {
                                         if (aktif == true) {
                                             return (
                                                 <button onClick={() => mulai()} className="bg-[#54B435] hover:bg-[#379237] py-4 px-8 rounded-lg">
-                                                    <span className='text-lg font-semibold'>Sampun Aktif</span>
+                                                    <span className='text-lg font-semibold'>Sudah Aktif</span>
                                                 </button>
                                             )
                                         } else if (aktif == false) {
@@ -728,14 +728,14 @@ const dewanSeni = () => {
                                                             {/* button aksi */} 
                                                             <td colSpan={2} className='border-2 border-[#2C2F48]'>
                                                                 <div className="flex space-x-5 justify-center items-center">
-                                                                    <button className="bg-blue-700 hover:bg-[#253EA3] rounded-lg px-10 py-1"
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] rounded-lg px-10 py-1"
                                                                     onClick={() => deleteNilai("hukum1")}>
                                                                         <span className='text-xl font-semibold'>Hapus</span>
                                                                     </button>
                                                                         {(() => {
                                                                             if (hukum.hukum1 === 0) {  
                                                                                 return (
-                                                                                    <button className="bg-red-600 hover:bg-red-700 px-10 rounded-lg py-1" 
+                                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] px-10 rounded-lg py-1" 
                                                                                     onClick={() => tambahNilai("nilai1")}
                                                                                     >
                                                                                         <span className='text-xl font-semibold tracking-widest'>-0,5</span>
@@ -743,7 +743,7 @@ const dewanSeni = () => {
                                                                                 )      
                                                                             } else if (hukum.hukum1 < 0 ) {
                                                                                 return (
-                                                                                    <button disabled className="bg-red-600 hover:bg-red-700 px-10 rounded-lg py-1" 
+                                                                                    <button disabled className="bg-[#39ac39] hover:bg-[#2f912f] px-10 rounded-lg py-1" 
                                                                                     onClick={() => tambahNilai("nilai1")}
                                                                                     >
                                                                                         <span className='text-xl font-semibold tracking-widest'>-0,5</span>
@@ -753,7 +753,7 @@ const dewanSeni = () => {
                                                                         })()}
                                                                 </div>
                                                             </td>
-                                                            <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
+                                                            <td className='border-2 text-[#2C2F48] text-center border-[#2C2F48]'>
                                                                 <span className='text-xl font-bold'>{hukum.hukum1?.toFixed(2)}</span>
                                                             </td>
                                                         </>
@@ -767,17 +767,17 @@ const dewanSeni = () => {
                                                             {/* button aksi */}
                                                             <td colSpan={2} className='border-2 border-[#2C2F48]'>
                                                                 <div className="flex space-x-5 justify-center items-center">
-                                                                    <button className="bg-blue-700 hover:bg-[#253EA3] rounded-lg px-10 py-1" onClick={() => deleteNilai("hukum2")}>
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] rounded-lg px-10 py-1" onClick={() => deleteNilai("hukum2")}>
                                                                         <span className='text-xl font-semibold'>Hapus</span>
                                                                     </button>
-                                                                    <button className="bg-red-600 hover:bg-red-700 px-10 rounded-lg py-1" 
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] px-10 rounded-lg py-1" 
                                                                     onClick={() => tambahNilai("nilai2")}
                                                                     >
                                                                         <span className='text-xl font-semibold tracking-widest'>-0,5</span>
                                                                     </button>
                                                                 </div>
                                                             </td>
-                                                            <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
+                                                            <td className='border-2 text-[#2C2F48] text-center border-[#2C2F48]'>
                                                                 <span className='text-xl font-bold'>{hukum.hukum2?.toFixed(2)}</span>
                                                             </td>
                                                         </>
@@ -791,17 +791,17 @@ const dewanSeni = () => {
                                                             {/* button aksi */}
                                                             <td colSpan={2} className='border-2 border-[#2C2F48]'>
                                                                 <div className="flex space-x-5 justify-center items-center">
-                                                                    <button className="bg-blue-700 hover:bg-[#253EA3] rounded-lg px-10 py-1" 
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] rounded-lg px-10 py-1" 
                                                                     onClick={() => deleteNilai("hukum3")}
                                                                     >
                                                                         <span className='text-xl font-semibold'>Hapus</span>
                                                                     </button>
-                                                                    <button className="bg-red-600 hover:bg-red-700 px-10 rounded-lg py-1" onClick={() => tambahNilai("nilai3")}>
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] px-10 rounded-lg py-1" onClick={() => tambahNilai("nilai3")}>
                                                                         <span className='text-xl font-semibold tracking-widest'>-0,5</span>
                                                                     </button>
                                                                 </div>
                                                             </td>
-                                                            <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
+                                                            <td className='border-2 text-[#2C2F48] text-center border-[#2C2F48]'>
                                                                 <span className='text-xl font-bold'>{hukum.hukum3?.toFixed(2)}</span>
                                                             </td>
                                                         </>
@@ -815,13 +815,13 @@ const dewanSeni = () => {
                                                             {/* button aksi */}
                                                             <td colSpan={2} className='border-2 border-[#2C2F48]'>
                                                                 <div className="flex space-x-5 justify-center items-center">
-                                                                    <button className="bg-blue-700 hover:bg-[#253EA3] rounded-lg px-10 py-1" onClick={() => deleteNilai("hukum4")}>
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] rounded-lg px-10 py-1" onClick={() => deleteNilai("hukum4")}>
                                                                         <span className='text-xl font-semibold'>Hapus</span>
                                                                     </button>
                                                                     {(() => {
                                                                             if (hukum.hukum4 === 0) {  
                                                                                 return (
-                                                                                    <button className="bg-red-600 hover:bg-red-700 px-10 rounded-lg py-1" 
+                                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] px-10 rounded-lg py-1" 
                                                                                     onClick={() => tambahNilai("nilai4")}
                                                                                     >
                                                                                         <span className='text-xl font-semibold tracking-widest'>-0,5</span>
@@ -829,7 +829,7 @@ const dewanSeni = () => {
                                                                                 )      
                                                                             } else if (hukum.hukum4 < 0 ) {
                                                                                 return (
-                                                                                    <button disabled className="bg-red-600 hover:bg-red-700 px-10 rounded-lg py-1" 
+                                                                                    <button disabled className="bg-[#39ac39] hover:bg-[#2f912f] px-10 rounded-lg py-1" 
                                                                                     onClick={() => tambahNilai("nilai4")}
                                                                                     >
                                                                                         <span className='text-xl font-semibold tracking-widest'>-0,5</span>
@@ -839,7 +839,7 @@ const dewanSeni = () => {
                                                                         })()}
                                                                 </div>
                                                             </td>
-                                                            <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
+                                                            <td className='border-2 text-[#2C2F48] text-center border-[#2C2F48]'>
                                                                 <span className='text-xl font-bold'>{hukum.hukum4?.toFixed(2)}</span>
                                                             </td>
                                                         </>
@@ -853,17 +853,17 @@ const dewanSeni = () => {
                                                             {/* button aksi */}
                                                             <td colSpan={2} className='border-2 border-[#2C2F48]'>
                                                                 <div className="flex space-x-5 justify-center items-center">
-                                                                    <button className="bg-blue-700 hover:bg-[#253EA3] rounded-lg px-10 py-1" 
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] rounded-lg px-10 py-1" 
                                                                     onClick={() => deleteNilai("hukum5")}
                                                                     >
                                                                         <span className='text-xl font-semibold'>Hapus</span>
                                                                     </button>
-                                                                    <button className="bg-red-600 hover:bg-red-700 px-10 rounded-lg py-1" onClick={() => tambahNilai ("nilai5")}>
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] px-10 rounded-lg py-1" onClick={() => tambahNilai ("nilai5")}>
                                                                         <span className='text-xl font-semibold tracking-widest'>-0,5</span>
                                                                     </button>
                                                                 </div>
                                                             </td>
-                                                            <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
+                                                            <td className='border-2 text-[#2C2F48] text-center border-[#2C2F48]'>
                                                                 <span className='text-xl font-bold'>{hukum.hukum5?.toFixed(2)}</span>
                                                             </td>
                                                         </>
@@ -902,14 +902,14 @@ const dewanSeni = () => {
                                                             {/* button aksi */} 
                                                             <td colSpan={2} className='border-2 border-[#2C2F48]'>
                                                                 <div className="flex space-x-5 justify-center items-center">
-                                                                    <button className="bg-blue-700 hover:bg-[#253EA3] rounded-lg px-10 py-1"
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] rounded-lg px-10 py-1"
                                                                     onClick={() => deleteNilai("hukum1")}>
                                                                         <span className='text-xl font-semibold'>Hapus</span>
                                                                     </button>
                                                                         {(() => {
                                                                             if (hukum.hukum1 === 0) {  
                                                                                 return (
-                                                                                    <button className="bg-red-600 hover:bg-red-700 px-10 rounded-lg py-1" 
+                                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] px-10 rounded-lg py-1" 
                                                                                     onClick={() => tambahNilai("nilai1")}
                                                                                     >
                                                                                         <span className='text-xl font-semibold tracking-widest'>-0,5</span>
@@ -917,7 +917,7 @@ const dewanSeni = () => {
                                                                                 )      
                                                                             } else if (hukum.hukum1 < 0 ) {
                                                                                 return (
-                                                                                    <button disabled className="bg-red-600 hover:bg-red-700 px-10 rounded-lg py-1" 
+                                                                                    <button disabled className="bg-[#39ac39] hover:bg-[#2f912f] px-10 rounded-lg py-1" 
                                                                                     onClick={() => tambahNilai("nilai1")}
                                                                                     >
                                                                                         <span className='text-xl font-semibold tracking-widest'>-0,5</span>
@@ -927,7 +927,7 @@ const dewanSeni = () => {
                                                                         })()}
                                                                 </div>
                                                             </td>
-                                                            <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
+                                                            <td className='border-2 text-[#2C2F48] text-center border-[#2C2F48]'>
                                                                 <span className='text-xl font-bold'>{hukum.hukum1?.toFixed(2)}</span>
                                                             </td>
                                                         </>
@@ -941,17 +941,17 @@ const dewanSeni = () => {
                                                             {/* button aksi */}
                                                             <td colSpan={2} className='border-2 border-[#2C2F48]'>
                                                                 <div className="flex space-x-5 justify-center items-center">
-                                                                    <button className="bg-blue-700 hover:bg-[#253EA3] rounded-lg px-10 py-1" onClick={() => deleteNilai("hukum2")}>
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] rounded-lg px-10 py-1" onClick={() => deleteNilai("hukum2")}>
                                                                         <span className='text-xl font-semibold'>Hapus</span>
                                                                     </button>
-                                                                    <button className="bg-red-600 hover:bg-red-700 px-10 rounded-lg py-1" 
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] px-10 rounded-lg py-1" 
                                                                     onClick={() => tambahNilai("nilai2")}
                                                                     >
                                                                         <span className='text-xl font-semibold tracking-widest'>-0,5</span>
                                                                     </button>
                                                                 </div>
                                                             </td>
-                                                            <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
+                                                            <td className='border-2 text-[#2C2F48] text-center border-[#2C2F48]'>
                                                                 <span className='text-xl font-bold'>{hukum.hukum2?.toFixed(2)}</span>
                                                             </td>
                                                         </>
@@ -965,17 +965,17 @@ const dewanSeni = () => {
                                                             {/* button aksi */}
                                                             <td colSpan={2} className='border-2 border-[#2C2F48]'>
                                                                 <div className="flex space-x-5 justify-center items-center">
-                                                                    <button className="bg-blue-700 hover:bg-[#253EA3] rounded-lg px-10 py-1" 
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] rounded-lg px-10 py-1" 
                                                                     onClick={() => deleteNilai("hukum3")}
                                                                     >
                                                                         <span className='text-xl font-semibold'>Hapus</span>
                                                                     </button>
-                                                                    <button className="bg-red-600 hover:bg-red-700 px-10 rounded-lg py-1" onClick={() => tambahNilai("nilai3")}>
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] px-10 rounded-lg py-1" onClick={() => tambahNilai("nilai3")}>
                                                                         <span className='text-xl font-semibold tracking-widest'>-0,5</span>
                                                                     </button>
                                                                 </div>
                                                             </td>
-                                                            <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
+                                                            <td className='border-2 text-[#2C2F48] text-center border-[#2C2F48]'>
                                                                 <span className='text-xl font-bold'>{hukum.hukum3?.toFixed(2)}</span>
                                                             </td>
                                                         </>
@@ -989,16 +989,16 @@ const dewanSeni = () => {
                                                             {/* button aksi */}
                                                             <td colSpan={2} className='border-2 border-[#2C2F48]'>
                                                                 <div className="flex space-x-5 justify-center items-center">
-                                                                    <button className="bg-blue-700 hover:bg-[#253EA3] rounded-lg px-10 py-1" onClick={() => deleteNilai("hukum4")}>
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] rounded-lg px-10 py-1" onClick={() => deleteNilai("hukum4")}>
                                                                         <span className='text-xl font-semibold'>Hapus</span>
                                                                     </button>
-                                                                    <button className="bg-red-600 hover:bg-red-700 px-10 rounded-lg py-1" onClick={() => tambahNilai("nilai4")}
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] px-10 rounded-lg py-1" onClick={() => tambahNilai("nilai4")}
                                                                     >
                                                                         <span className='text-xl font-semibold tracking-widest'>-0,5</span>
                                                                     </button>
                                                                 </div>
                                                             </td>
-                                                            <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
+                                                            <td className='border-2 text-[#2C2F48] text-center border-[#2C2F48]'>
                                                                     <span className='text-xl font-bold'>{hukum.hukum4?.toFixed(2)}</span>
                                                             </td>
                                                         </>
@@ -1012,13 +1012,13 @@ const dewanSeni = () => {
                                                             {/* button aksi */}
                                                             <td colSpan={2} className='border-2 border-[#2C2F48]'>
                                                                 <div className="flex space-x-5 justify-center items-center">
-                                                                    <button className="bg-blue-700 hover:bg-[#253EA3] rounded-lg px-10 py-1" onClick={() => deleteNilai("hukum5")}>
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] rounded-lg px-10 py-1" onClick={() => deleteNilai("hukum5")}>
                                                                         <span className='text-xl font-semibold'>Hapus</span>
                                                                     </button>
                                                                     {(() => {
                                                                             if (hukum.hukum5 === 0) {  
                                                                                 return (
-                                                                                    <button className="bg-red-600 hover:bg-red-700 px-10 rounded-lg py-1" 
+                                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] px-10 rounded-lg py-1" 
                                                                                     onClick={() => tambahNilai("nilai5")}
                                                                                     >
                                                                                         <span className='text-xl font-semibold tracking-widest'>-0,5</span>
@@ -1026,7 +1026,7 @@ const dewanSeni = () => {
                                                                                 )      
                                                                             } else if (hukum.hukum5 < 0 ) {
                                                                                 return (
-                                                                                    <button disabled className="bg-red-600 hover:bg-red-700 px-10 rounded-lg py-1" 
+                                                                                    <button disabled className="bg-[#39ac39] hover:bg-[#2f912f] px-10 rounded-lg py-1" 
                                                                                     onClick={() => tambahNilai("nilai5")}
                                                                                     >
                                                                                         <span className='text-xl font-semibold tracking-widest'>-0,5</span>
@@ -1036,7 +1036,7 @@ const dewanSeni = () => {
                                                                         })()}
                                                                 </div>
                                                             </td>
-                                                            <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
+                                                            <td className='border-2 text-[#2C2F48] text-center border-[#2C2F48]'>
                                                                 <span className='text-xl font-bold'>{hukum.hukum5?.toFixed(2)}</span>
                                                             </td>
                                                         </>
@@ -1050,17 +1050,17 @@ const dewanSeni = () => {
                                                             {/* button aksi */}
                                                             <td colSpan={2} className='border-2 border-[#2C2F48]'>
                                                                 <div className="flex space-x-5 justify-center items-center">
-                                                                    <button className="bg-blue-700 hover:bg-[#253EA3] rounded-lg px-10 py-1" 
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] rounded-lg px-10 py-1" 
                                                                     onClick={() => deleteNilai("hukum6")}
                                                                     >
                                                                         <span className='text-xl font-semibold'>Hapus</span>
                                                                     </button>
-                                                                    <button className="bg-red-600 hover:bg-red-700 px-10 rounded-lg py-1" onClick={() => tambahNilai ("nilai6")}>
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] px-10 rounded-lg py-1" onClick={() => tambahNilai ("nilai6")}>
                                                                         <span className='text-xl font-semibold tracking-widest'>-0,5</span>
                                                                     </button>
                                                                 </div>
                                                             </td>
-                                                            <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
+                                                            <td className='border-2 text-[#2C2F48] text-center border-[#2C2F48]'>
                                                                 <span className='text-xl font-bold'>{hukum.hukum6?.toFixed(2)}</span>
                                                             </td>
                                                         </>
@@ -1099,17 +1099,17 @@ const dewanSeni = () => {
                                                             {/* button aksi */}
                                                             <td colSpan={2} className='border-2 border-[#2C2F48]'>
                                                                 <div className="flex space-x-5 justify-center items-center">
-                                                                    <button className="bg-blue-700 hover:bg-[#253EA3] rounded-lg px-10 py-1" onClick={() => deleteNilai("hukum1")}>
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] rounded-lg px-10 py-1" onClick={() => deleteNilai("hukum1")}>
                                                                         <span className='text-xl font-semibold'>Hapus</span>
                                                                     </button>
-                                                                    <button className="bg-red-600 hover:bg-red-700 px-10 rounded-lg py-1" 
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] px-10 rounded-lg py-1" 
                                                                     onClick={() => tambahNilai("nilai1")}
                                                                     >
                                                                         <span className='text-xl font-semibold tracking-widest'>-0,5</span>
                                                                     </button>
                                                                 </div>
                                                             </td>
-                                                            <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
+                                                            <td className='border-2 text-[#2C2F48] text-center border-[#2C2F48]'>
                                                                 <span className='text-xl font-bold'>{hukum.hukum1?.toFixed(2)}</span>
                                                             </td>
                                                         </>
@@ -1123,17 +1123,17 @@ const dewanSeni = () => {
                                                             {/* button aksi */}
                                                             <td colSpan={2} className='border-2 border-[#2C2F48]'>
                                                                 <div className="flex space-x-5 justify-center items-center">
-                                                                    <button className="bg-blue-700 hover:bg-[#253EA3] rounded-lg px-10 py-1" onClick={() => deleteNilai("hukum2")}>
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] rounded-lg px-10 py-1" onClick={() => deleteNilai("hukum2")}>
                                                                         <span className='text-xl font-semibold'>Hapus</span>
                                                                     </button>
-                                                                    <button className="bg-red-600 hover:bg-red-700 px-10 rounded-lg py-1" 
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] px-10 rounded-lg py-1" 
                                                                     onClick={() => tambahNilai("nilai2")}
                                                                     >
                                                                         <span className='text-xl font-semibold tracking-widest'>-0,5</span>
                                                                     </button>
                                                                 </div>
                                                             </td>
-                                                            <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
+                                                            <td className='border-2 text-[#2C2F48] text-center border-[#2C2F48]'>
                                                                 <span className='text-xl font-bold'>{hukum.hukum2?.toFixed(2)}</span>
                                                             </td>
                                                         </>
@@ -1147,17 +1147,17 @@ const dewanSeni = () => {
                                                             {/* button aksi */}
                                                             <td colSpan={2} className='border-2 border-[#2C2F48]'>
                                                                 <div className="flex space-x-5 justify-center items-center">
-                                                                    <button className="bg-blue-700 hover:bg-[#253EA3] rounded-lg px-10 py-1" 
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] rounded-lg px-10 py-1" 
                                                                     onClick={() => deleteNilai("hukum3")}
                                                                     >
                                                                         <span className='text-xl font-semibold'>Hapus</span>
                                                                     </button>
-                                                                    <button className="bg-red-600 hover:bg-red-700 px-10 rounded-lg py-1" onClick={() => tambahNilai ("nilai3")}>
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] px-10 rounded-lg py-1" onClick={() => tambahNilai ("nilai3")}>
                                                                         <span className='text-xl font-semibold tracking-widest'>-0,5</span>
                                                                     </button>
                                                                 </div>
                                                             </td>
-                                                            <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
+                                                            <td className='border-2 text-[#2C2F48] text-center border-[#2C2F48]'>
                                                                 <span className='text-xl font-bold'>{hukum.hukum3?.toFixed(2)}</span>
                                                             </td>
                                                         </>
@@ -1196,14 +1196,14 @@ const dewanSeni = () => {
                                                             {/* button aksi */} 
                                                             <td colSpan={2} className='border-2 border-[#2C2F48]'>
                                                                 <div className="flex space-x-5 justify-center items-center">
-                                                                    <button className="bg-blue-700 hover:bg-[#253EA3] rounded-lg px-10 py-1"
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] rounded-lg px-10 py-1"
                                                                     onClick={() => deleteNilai("hukum1")}>
                                                                         <span className='text-xl font-semibold'>Hapus</span>
                                                                     </button>
                                                                     {(() => {
                                                                         if (hukum.hukum1 === 0) {  
                                                                             return (
-                                                                                <button className="bg-red-600 hover:bg-red-700 px-10 rounded-lg py-1" 
+                                                                                <button className="bg-[#39ac39] hover:bg-[#2f912f] px-10 rounded-lg py-1" 
                                                                                 onClick={() => tambahNilai("nilai1")}
                                                                                 >
                                                                                     <span className='text-xl font-semibold tracking-widest'>-0,5</span>
@@ -1211,7 +1211,7 @@ const dewanSeni = () => {
                                                                             )      
                                                                         } else if (hukum.hukum1 < 0 ) {
                                                                             return (
-                                                                                <button disabled className="bg-red-600 hover:bg-red-700 px-10 rounded-lg py-1" 
+                                                                                <button disabled className="bg-[#39ac39] hover:bg-[#2f912f] px-10 rounded-lg py-1" 
                                                                                 onClick={() => tambahNilai("nilai1")}
                                                                                 >
                                                                                     <span className='text-xl font-semibold tracking-widest'>-0,5</span>
@@ -1221,7 +1221,7 @@ const dewanSeni = () => {
                                                                     })()}
                                                                 </div>
                                                             </td>
-                                                            <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
+                                                            <td className='border-2 text-[#2C2F48] text-center border-[#2C2F48]'>
                                                                 <span className='text-xl font-bold'>{hukum.hukum1?.toFixed(2)}</span>
                                                             </td>
                                                         </>
@@ -1235,17 +1235,17 @@ const dewanSeni = () => {
                                                             {/* button aksi */}
                                                             <td colSpan={2} className='border-2 border-[#2C2F48]'>
                                                                 <div className="flex space-x-5 justify-center items-center">
-                                                                    <button className="bg-blue-700 hover:bg-[#253EA3] rounded-lg px-10 py-1" onClick={() => deleteNilai("hukum2")}>
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] rounded-lg px-10 py-1" onClick={() => deleteNilai("hukum2")}>
                                                                         <span className='text-xl font-semibold'>Hapus</span>
                                                                     </button>
-                                                                    <button className="bg-red-600 hover:bg-red-700 px-10 rounded-lg py-1" 
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] px-10 rounded-lg py-1" 
                                                                     onClick={() => tambahNilai("nilai2")}
                                                                     >
                                                                         <span className='text-xl font-semibold tracking-widest'>-0,5</span>
                                                                     </button>
                                                                 </div>
                                                             </td>
-                                                            <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
+                                                            <td className='border-2 text-[#2C2F48] text-center border-[#2C2F48]'>
                                                                 <span className='text-xl font-bold'>{hukum.hukum2?.toFixed(2)}</span>
                                                             </td>
                                                         </>
@@ -1259,13 +1259,13 @@ const dewanSeni = () => {
                                                             {/* button aksi */}
                                                             <td colSpan={2} className='border-2 border-[#2C2F48]'>
                                                                 <div className="flex space-x-5 justify-center items-center">
-                                                                    <button className="bg-blue-700 hover:bg-[#253EA3] rounded-lg px-10 py-1" onClick={() => deleteNilai("hukum3")}>
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] rounded-lg px-10 py-1" onClick={() => deleteNilai("hukum3")}>
                                                                         <span className='text-xl font-semibold'>Hapus</span>
                                                                     </button>
                                                                     {(() => {
                                                                             if (hukum.hukum3 === 0) {  
                                                                                 return (
-                                                                                    <button className="bg-red-600 hover:bg-red-700 px-10 rounded-lg py-1" 
+                                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] px-10 rounded-lg py-1" 
                                                                                     onClick={() => tambahNilai("nilai3")}
                                                                                     >
                                                                                         <span className='text-xl font-semibold tracking-widest'>-0,5</span>
@@ -1273,7 +1273,7 @@ const dewanSeni = () => {
                                                                                 )      
                                                                             } else if (hukum.hukum3 < 0 ) {
                                                                                 return (
-                                                                                    <button disabled className="bg-red-600 hover:bg-red-700 px-10 rounded-lg py-1" 
+                                                                                    <button disabled className="bg-[#39ac39] hover:bg-[#2f912f] px-10 rounded-lg py-1" 
                                                                                     onClick={() => tambahNilai("nilai3")}
                                                                                     >
                                                                                         <span className='text-xl font-semibold tracking-widest'>-0,5</span>
@@ -1283,7 +1283,7 @@ const dewanSeni = () => {
                                                                         })()}
                                                                 </div>
                                                             </td>
-                                                            <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
+                                                            <td className='border-2 text-[#2C2F48] text-center border-[#2C2F48]'>
                                                                 <span className='text-xl font-bold'>{hukum.hukum3?.toFixed(2)}</span>
                                                             </td>
                                                         </>
@@ -1297,17 +1297,17 @@ const dewanSeni = () => {
                                                             {/* button aksi */}
                                                             <td colSpan={2} className='border-2 border-[#2C2F48]'>
                                                                 <div className="flex space-x-5 justify-center items-center">
-                                                                    <button className="bg-blue-700 hover:bg-[#253EA3] rounded-lg px-10 py-1" 
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] rounded-lg px-10 py-1" 
                                                                     onClick={() => deleteNilai("hukum4")}
                                                                     >
                                                                         <span className='text-xl font-semibold'>Hapus</span>
                                                                     </button>
-                                                                    <button className="bg-red-600 hover:bg-red-700 px-10 rounded-lg py-1" onClick={() => tambahNilai ("nilai4")}>
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] px-10 rounded-lg py-1" onClick={() => tambahNilai ("nilai4")}>
                                                                         <span className='text-xl font-semibold tracking-widest'>-0,5</span>
                                                                     </button>
                                                                 </div>
                                                             </td>
-                                                            <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
+                                                            <td className='border-2 text-[#2C2F48] text-center border-[#2C2F48]'>
                                                                 <span className='text-xl font-bold'>{hukum.hukum4?.toFixed(2)}</span>
                                                             </td>
                                                         </>
@@ -1345,17 +1345,17 @@ const dewanSeni = () => {
                                                             {/* button aksi */}
                                                             <td colSpan={2} className='border-2 border-[#2C2F48]'>
                                                                 <div className="flex space-x-5 justify-center items-center">
-                                                                    <button className="bg-blue-700 hover:bg-[#253EA3] rounded-lg px-10 py-1" onClick={() => deleteNilai("hukum1")}>
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] rounded-lg px-10 py-1" onClick={() => deleteNilai("hukum1")}>
                                                                         <span className='text-xl font-semibold'>Hapus</span>
                                                                     </button>
-                                                                    <button className="bg-red-600 hover:bg-red-700 px-10 rounded-lg py-1" 
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] px-10 rounded-lg py-1" 
                                                                     onClick={() => tambahNilai("nilai1")}
                                                                     >
                                                                         <span className='text-xl font-semibold tracking-widest'>-0,5</span>
                                                                     </button>
                                                                 </div>
                                                             </td>
-                                                            <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
+                                                            <td className='border-2 text-[#2C2F48] text-center border-[#2C2F48]'>
                                                                 <span className='text-xl font-bold'>{hukum.hukum1}</span>
                                                             </td>
                                                         </>
@@ -1369,17 +1369,17 @@ const dewanSeni = () => {
                                                             {/* button aksi */}
                                                             <td colSpan={2} className='border-2 border-[#2C2F48]'>
                                                                 <div className="flex space-x-5 justify-center items-center">
-                                                                    <button className="bg-blue-700 hover:bg-[#253EA3] rounded-lg px-10 py-1" onClick={() => deleteNilai("hukum2")}>
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] rounded-lg px-10 py-1" onClick={() => deleteNilai("hukum2")}>
                                                                         <span className='text-xl font-semibold'>Hapus</span>
                                                                     </button>
-                                                                    <button className="bg-red-600 hover:bg-red-700 px-10 rounded-lg py-1" 
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] px-10 rounded-lg py-1" 
                                                                     onClick={() => tambahNilai("nilai2")}
                                                                     >
                                                                         <span className='text-xl font-semibold tracking-widest'>-0,5</span>
                                                                     </button>
                                                                 </div>
                                                             </td>
-                                                            <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
+                                                            <td className='border-2 text-[#2C2F48] text-center border-[#2C2F48]'>
                                                                 <span className='text-xl font-bold'>{hukum.hukum2}</span>
                                                             </td>
                                                         </>
@@ -1393,17 +1393,17 @@ const dewanSeni = () => {
                                                             {/* button aksi */}
                                                             <td colSpan={2} className='border-2 border-[#2C2F48]'>
                                                                 <div className="flex space-x-5 justify-center items-center">
-                                                                    <button className="bg-blue-700 hover:bg-[#253EA3] rounded-lg px-10 py-1" 
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] rounded-lg px-10 py-1" 
                                                                     onClick={() => deleteNilai("hukum3")}
                                                                     >
                                                                         <span className='text-xl font-semibold'>Hapus</span>
                                                                     </button>
-                                                                    <button className="bg-red-600 hover:bg-red-700 px-10 rounded-lg py-1" onClick={() => tambahNilai ("nilai3")}>
+                                                                    <button className="bg-[#39ac39] hover:bg-[#2f912f] px-10 rounded-lg py-1" onClick={() => tambahNilai ("nilai3")}>
                                                                         <span className='text-xl font-semibold tracking-widest'>-0,5</span>
                                                                     </button>
                                                                 </div>
                                                             </td>
-                                                            <td className='border-2 text-red-700 text-center border-[#2C2F48]'>
+                                                            <td className='border-2 text-[#2C2F48] text-center border-[#2C2F48]'>
                                                                 <span className='text-xl font-bold'>{hukum.hukum3}</span>
                                                             </td>
                                                         </>

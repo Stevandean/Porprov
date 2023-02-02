@@ -10,9 +10,9 @@ import ModalDelete from './components/modalDelete'
 import { globalState } from '../../context/context'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-const jadwalRegu = () => {
+const socket = socketIo (BASE_URL)
 
-    const socket = socketIo (BASE_URL)
+const jadwalRegu = () => {
 
     // state modal
     const [showModalJadwal, setShowModalJadwal] = useState (false)

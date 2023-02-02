@@ -413,7 +413,7 @@ const nilaiSeniTunggal = () => {
                                     <div className="grid grid-cols-12 border-2 border-[#2C2F48] rounded-b-lg text-center">
                                         {/* pengurangan nilai */}
                                         <div className="col-span-2 border-r-2 border-[#2C2F48] p-2">
-                                            <button onClick={() => kurangNilai()} className="bg-[#2C2F48] hover:bg-[#4C4F6D] rounded-lg py-5 h-full w-full flex justify-center items-center">
+                                            <button onClick={() => kurangNilai()} className="bg-[#39ac39] hover:bg-[#2f912f] rounded-lg py-5 h-full w-full flex justify-center items-center">
                                                 <span className='text-xl font-bold'>- 0,1</span>
                                             </button>
                                         </div>
@@ -431,13 +431,13 @@ const nilaiSeniTunggal = () => {
                                             {(() => {
                                                 if (count >= 14) {
                                                     return (
-                                                        <button disabled onClick={() => naikJurus()} className="bg-[#2C2F48] hover:bg-[#4C4F6D] rounded-lg py-5 h-full w-full flex justify-center items-center">
+                                                        <button disabled onClick={() => naikJurus()} className="bg-[#39ac39] hover:bg-[#2f912f] rounded-lg py-5 h-full w-full flex justify-center items-center">
                                                             <span className='text-xl font-bold'>Naik Jurus</span>
                                                         </button>
                                                     )
                                                 } else if (count < 14) {
                                                     return (
-                                                        <button onClick={() => naikJurus()} className="bg-[#2C2F48] hover:bg-[#4C4F6D] rounded-lg py-5 h-full w-full flex justify-center items-center">
+                                                        <button onClick={() => naikJurus()} className="bg-[#39ac39] hover:bg-[#2f912f] rounded-lg py-5 h-full w-full flex justify-center items-center">
                                                             <span className='text-xl font-bold'>Naik Jurus</span>
                                                         </button>       
                                                     )

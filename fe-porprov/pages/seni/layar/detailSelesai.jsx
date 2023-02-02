@@ -1,12 +1,11 @@
-import React from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import socketIo from 'socket.io-client'
-import Navbar from '../components/navbar'
-import Footer from '../components/footer'
-import Clock from '../components/timer'
-import { useState } from 'react'
-import { useEffect } from 'react'
 import axios from 'axios'
 import Link from 'next/link'
+import { globalState } from '../../../context/context'
+import Navbar from '../components/navbar'
+import Footer from '../components/footer'
+import Timer from '../components/timer'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 // socket io
@@ -18,17 +17,32 @@ const detailSelesai = () => {
     const [peserta, setPeserta] = useState ([])
 
     // state
+    const {duration, setDuration} = useContext (globalState)
+    const {running, setRunning} = useContext (globalState)
     const [hukum, setHukum] = useState ([])
     const [nilai, setNilai] = useState([])
+    const [nilaiSort, setNilaiSort] = useState ([])
     const [kategori, setKategori] = useState ([])
+    const [babak, setBabak] = useState ([])
     const [median, setMedian] = useState (0)
     const [total, setTotal] = useState (0)
     const [deviasi, setDeviasi] = useState (0)
 
+    const start = () => {
+        setDuration (1000)
+        setRunning (true)
+    }
+
+    const stop = () => {
+        setRunning (false)
+    }
+
     const getNilai = async () => {
         const peserta = JSON.parse (localStorage.getItem ('peserta'))
         const jadwal = (localStorage.getItem ('jadwal'))
+        const babak = JSON.parse (localStorage.getItem ('babak'))
         setKategori ((peserta.kategori).toLowerCase())
+        setBabak (babak)
 
         let id_peserta = peserta.id
         let id_jadwal = jadwal
@@ -59,9 +73,64 @@ const detailSelesai = () => {
                 setNilai (res.data.data)
                 nilai = (res.data.data)
             })
+            .catch (err => {
+                console.log(err.response.data.message);
+            })
+        } else if (peserta.kategori == 'solo_kreatif') {
+            await axios.get (BASE_URL + `/api/solo_kreatif/jadwal/${id_jadwal}/${id_peserta}`)
+            .then (res => {
+                setNilai (res.data.data)
+                nilai = (res.data.data)
+            })
+            .catch (err => {
+                console.log(err.response.data.message);
+            })
         } else {
             console.log('gagal');
         }
+
+        //nilai berdasarkan besar nilai
+        if (peserta.kategori == 'tunggal') {
+            await axios.get (BASE_URL + `/api/tunggal/jadwal/${id_jadwal}/${id_peserta}`)
+            .then (res => {
+                setNilaiSort (res.data.data)
+                nilai = (res.data.data)
+            })
+            .catch (err => {
+                console.log(err.message);
+            })
+        } else if (peserta.kategori == 'ganda') {
+            await axios.get (BASE_URL + `/api/ganda/jadwal/${id_jadwal}/${id_peserta}`)
+            .then (res => {
+                setNilaiSort (res.data.data)
+                nilai = res.data.data
+            })
+            .catch (err => {
+                console.log(err.response.data.message);
+            })
+        } else if (peserta.kategori == 'regu') {
+            await axios.get (BASE_URL + `/api/regu/jadwal/${id_jadwal}/${id_peserta}`)
+            .then (res => {
+                setNilaiSort (res.data.data)
+                nilai = res.data.data
+                
+            })
+            .catch (err => {
+                console.log(err.response.data.message);
+            })
+        } else if (peserta.kategori == 'solo_kreatif') {
+            await axios.get (BASE_URL + `/api/solo_kreatif/jadwal/${id_jadwal}/${id_peserta}`)
+            .then (res => {
+                setNilaiSort (res.data.data)
+                nilai = res.data.data
+            })
+            .catch (err => {
+                console.log(err.response.data.message);
+            })
+        } else {
+            console.log('gagal');
+        }
+
         await axios.get (BASE_URL + `/api/hukum/tgr/jadwal/${id_jadwal}/${id_peserta}`)
         .then (res => {
             setHukum (res.data.data)
@@ -104,6 +173,8 @@ const detailSelesai = () => {
             socket.emit ('init_data')
             socket.on ('getData', getNilai)
             socket.on ('change_data', ubah_data)
+            socket.on('start_seni', start)
+            socket.on('stop_seni', stop)
         }
     }, [])
 
@@ -125,16 +196,20 @@ const detailSelesai = () => {
             <div className="w-4/5 mx-auto py-10 space-y-5">
 
                 {/* wrapper info & aktif timer*/}
-                <div className="flex justify-between ">
-                    <div className="flex flex-row space-x-3">
+                <div className="flex flex-col gap-y-3">
+                    <div className="flex justify-between space-x-3">
                         {/* button back */}
                         <Link href={'./landingPageputra'} className="bg-red-700 rounded-lg w-12 h-12 my-auto">
                             <img className='p-3' src="../../svg/back.svg" />
                         </Link>
+                        <div className="bg-[#222954] py-2 px-8 rounded-lg flex flex-col jusitfy-center items-center">
+                            <span className='text-lg font-semibold'>{babak.babak}</span>
+                            <span className='text-lg font-semibold'>{peserta.kategori} - {peserta.kelas}</span>
+                        </div>
                     </div>
                     {/* info pesilat */}
-                    <div className="flex flex-row items-center space-x-3 p-2 text-[#222954] text-end">
-                        <div className="flex flex-col">
+                    <div className={babak.id_biru == peserta.id ? " grid grid-cols-12 gap-x-3" : "grid grid-cols-12 gap-x-3"}>
+                        <div className={babak.id_biru == peserta.id ? "flex flex-col justify-start rounded-lg col-span-10 bg-blue-700 px-5 py-2" : "flex flex-col justify-start rounded-lg col-span-10 bg-red-700 px-5 py-2"}>
                             {(() => {
                                 if (peserta.kategori === 'tunggal') {
                                     return (
@@ -158,6 +233,11 @@ const detailSelesai = () => {
                                 }
                             })()}
                             <span className='text-lg font-normal'>{peserta.kontingen}</span>
+                        </div>
+                        <div className="bg-[#222954] col-span-2 flex justify-center items-center text-3xl font-bold rounded-lg">
+                            <globalState.Provider value={{duration, setDuration, running, setRunning}}>
+                                <Timer/>
+                            </globalState.Provider>
                         </div>
                     </div>
                 </div>
@@ -196,6 +276,25 @@ const detailSelesai = () => {
                             </tr>
                         </tbody>
                     </table>
+
+                    {/* Table urutan juri */}
+                    <table className='w-full table-fixed border-separate border-spacing-x-2 font-medium'>
+                        <tbody className='text-center'>
+                                <tr className='bg-[#2C2F48]'>
+                                    <th colSpan={2} rowSpan={2} className="text-lg border-2 border-[#2C2F48] ">urutan juri</th>
+                                    {nilaiSort.sort ((a,b) => a.total - b.total).map ((item )=> (
+                                        <th>
+                                            {item.juri.no}
+                                        </th>
+                                    ))}
+                                </tr>
+                                <tr className='text-[#2C2F48]'>
+                                    {nilaiSort.sort ((a,b) => a.total - b.total).map (item => (
+                                        <th className='border-2 border-[#2C2F48]'>{(item.total_skor).toFixed(2)}</th>
+                                    ))}
+                                </tr>
+                        </tbody>
+                    </table>
                     
                     {/* wrapper waktu & hukuman */}
                     <div className="grid grid-cols-12 px-2 gap-x-2">
@@ -204,7 +303,7 @@ const detailSelesai = () => {
                                 <span className='text-2xl font-semibold'>Median</span>
                             </div>
                             <div className="text-[#2C2F48] py-1 px-4 w-full flex justify-center border-2 border-[#2C2F48]">
-                                <span className='text-4xl font-bold'>{median.toFixed(2)}</span>
+                                <span className='text-4xl font-bold'>{median?.toFixed(2)}</span>
                             </div>
                         </div>
                         <div className='col-span-2'>
@@ -221,7 +320,7 @@ const detailSelesai = () => {
                         <div className="col-span-8 grid grid-rows-2 text-center gap-y-2 px-2">
                             <div className="grid grid-cols-2 gap-x-4 content-center	">
                                 <span className='text-xl font-semibold rounded-lg bg-[#2C2F48] py-2'>Skor Akhir</span>
-                                <span className='text-xl font-semibold rounded-lg bg-white text-black border-2 border-[#2C2F48] py-2'>{total.toFixed(2)}</span>
+                                <span className='text-xl font-semibold rounded-lg bg-white text-black border-2 border-[#2C2F48] py-2'>{total?.toFixed(2)}</span>
                             </div>
                             <div className="grid grid-cols-2 gap-x-4 content-center	">
                                 <span className='text-xl font-semibold rounded-lg bg-[#2C2F48] py-2'>Standart Deviasi</span>
