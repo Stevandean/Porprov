@@ -2,13 +2,9 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import socketIo from 'socket.io-client'
 import Navbar from '../../../../components/navbar'
 import Footer from '../../../../components/footer'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-
-// socket io
-const socket = socketIo (BASE_URL)
 
 const detail = () => {
 
@@ -139,14 +135,11 @@ const detail = () => {
 
   useEffect (() => {
     if (!router.isReady) return;
-    socket.emit ('init_data')
-    socket.on ('getData', getData)
-    socket.on ('change_data', ubah_data)
-    getData()
+    getData ()
   }, [router.query.kategori, router.isReady])
 
   return (
-        <>
+    <>
       <div className="flex ">
 
         {/* awal konten utama */}

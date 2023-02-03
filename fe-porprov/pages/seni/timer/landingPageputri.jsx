@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import axios from 'axios'
-import socketIo from 'socket.io-client'
 import { useRouter } from 'next/router'
 import Navbar from '../components/navbar'
 import Footer from '../components/footer'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-
-    // socket io
-    const socket = socketIo (BASE_URL)
 
 const landingPagePutri = () => {
 
@@ -51,26 +47,21 @@ const landingPagePutri = () => {
         })
     }
     
-        const getSoloKreatif = () => {
-            axios.get (BASE_URL + `/api/tgr/get/kelas/soloKreatif`)
-            .then (res => {
-                setDataSoloKreatif (res.data.data)
-            })
-            .catch (err => {
-                console.log(err.response.data.message);
-            })
-        }
-
-    // untuk merefresh saat data berubah
-    const ubah_data = () => socket.emit ('init_data')
+    const getSoloKreatif = () => {
+        axios.get (BASE_URL + `/api/tgr/get/kelas/soloKreatif`)
+        .then (res => {
+            setDataSoloKreatif (res.data.data)
+        })
+        .catch (err => {
+            console.log(err.response.data.message);
+        })
+    }
 
     useEffect (() => {
-        socket.emit ('init_data')
-        socket.on ('getData', getTunggal)
-        socket.on ('getData', getGanda)
-        socket.on ('getData', getRegu)
-        socket.on ('getData', getSoloKreatif)
-        socket.on ('change_data', ubah_data)
+        getTunggal ()
+        getGanda ()
+        getRegu ()
+        getSoloKreatif ()
     }, [])
 
   return (
