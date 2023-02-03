@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import socketIo from 'socket.io-client'
 import Navbar from './components/navbar'
 import Sidebar from './components/sidebar'
 import Footer from './components/footer'
@@ -9,8 +8,6 @@ import ModalImport from './components/modalImport'
 import ModalDelete from './components/modalDelete'
 import { globalState } from '../../context/context'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-
-const socket = socketIo (BASE_URL)
 
 const jadwalRegu = () => {
 
@@ -71,12 +68,8 @@ const jadwalRegu = () => {
         })
     }
 
-    const ubah_data = () => socket.emit ('init_data')
-
     useEffect (() => {
-        socket.emit ('init_data')
-        socket.on ('getData', getRegu)
-        socket.on ('change_data', ubah_data)
+        getRegu ()
     }, [])
 
     return (

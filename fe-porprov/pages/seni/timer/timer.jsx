@@ -2,13 +2,10 @@ import React, { useContext, useState, useEffect } from 'react'
 import { globalState } from '../../../context/context'
 import axios from 'axios'
 import Link from 'next/link'
-import socketIo from 'socket.io-client'
 import Navbar from '../components/navbar'
 import Footer from '../components/footer'
 import Timer from '../components/timer'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-
-const socket = socketIo (BASE_URL)
 
 const timer = () => {
 
@@ -111,15 +108,9 @@ const timer = () => {
     })
   }
 
-  const ubah_data = () => socket.emit ('init_data')
-
-
   useEffect(() => {
     return () => {
-      socket.emit ('init_data')
-      socket.on('getData', getHukum)
-      socket.on ('change_data', ubah_data)
-
+      getHukum ()
     }
   }, [])
   

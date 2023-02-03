@@ -2,13 +2,9 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import socketIo from 'socket.io-client'
 import Navbar from '../../../../components/navbar'
 import Footer from '../../../../components/footer'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-
-// socket io
-const socket = socketIo (BASE_URL)
 
 const detail = () => {
 
@@ -134,19 +130,13 @@ const detail = () => {
     })
   }
 
-  // untuk refresh saat data berubah
-  const ubah_data = () => socket.emit ('init_data')
-
   useEffect (() => {
     if (!router.isReady) return;
-    socket.emit ('init_data')
-    socket.on ('getData', getData)
-    socket.on ('change_data', ubah_data)
-    getData()
+    getData ()
   }, [router.query.kategori, router.isReady])
 
   return (
-        <>
+    <>
       <div className="flex ">
 
         {/* awal konten utama */}
@@ -164,7 +154,7 @@ const detail = () => {
               {/* wrapper kategori & pool */}
               <div className="flex">
                 {/* button back */}
-                <Link href={'/seni/dewan/landingPage' + jk} className="bg-red-700 rounded-lg w-12 h-12 my-auto">
+                <Link href={'/seni/timer/landingPage' + jk} className="bg-red-700 rounded-lg w-12 h-12 my-auto">
                   <img className='p-3' src="../../../../../../svg/back.svg" />
                 </Link>
                 {/* kategori & pool */}

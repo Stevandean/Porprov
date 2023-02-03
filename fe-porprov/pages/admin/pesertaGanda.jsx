@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import socketIo from 'socket.io-client'
 import Navbar from './components/navbar'
 import Sidebar from './components/sidebar'
 import Footer from './components/footer'
@@ -10,8 +9,6 @@ import ModalDelete from './components/modalDelete'
 import { globalState } from '../../context/context'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-    // socket io
-    const socket = socketIo (BASE_URL)
 
 const pesertaGanda = () => {
 
@@ -64,13 +61,8 @@ const pesertaGanda = () => {
         })
     }
 
-    // untuk merefresh saat data berubah
-    const ubah_data = () => socket.emit ('init_data')
-
     useEffect (() => {
-      socket.emit ('init_data')
-      socket.on ('getData', getGanda)
-      socket.on ('change_data', ubah_data)
+      getGanda ()
     }, [])
 
   return (
