@@ -130,9 +130,6 @@ const detail = () => {
     })
   }
 
-  // untuk refresh saat data berubah
-  const ubah_data = () => socket.emit ('init_data')
-
   useEffect (() => {
     if (!router.isReady) return;
     getData ()
@@ -157,7 +154,7 @@ const detail = () => {
               {/* wrapper kategori & pool */}
               <div className="flex">
                 {/* button back */}
-                <Link href={'/seni/dewan/landingPage' + jk} className="bg-red-700 rounded-lg w-12 h-12 my-auto">
+                <Link href={'/seni/timer/landingPage' + jk} className="bg-red-700 rounded-lg w-12 h-12 my-auto">
                   <img className='p-3' src="../../../../../../svg/back.svg" />
                 </Link>
                 {/* kategori & pool */}
