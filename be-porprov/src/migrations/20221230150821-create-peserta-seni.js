@@ -8,16 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.UUID
       },
-      waktu: {
-        type: Sequelize.STRING
-      },
       kategori: {
-        type: Sequelize.STRING
-      },
-      gelanggang: {
-        type: Sequelize.STRING
-      },
-      pool: {
         type: Sequelize.STRING
       },
       jk: {

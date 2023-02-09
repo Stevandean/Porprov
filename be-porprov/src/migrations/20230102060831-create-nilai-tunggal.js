@@ -80,7 +80,7 @@ module.exports = {
       skor_b: {
         type: Sequelize.DOUBLE
       },
-      total: {
+      total_skor: {
         type: Sequelize.DOUBLE
       },
       dis: {
