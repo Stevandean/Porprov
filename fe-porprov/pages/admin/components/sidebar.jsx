@@ -15,7 +15,7 @@ const sidebar = () => {
 
     return (
         <>
-            <aside className="bg-[#222538] w-2/12 relative min-h-screen overflow-y-auto text-white h-screen">
+            <aside className="bg-[#222538] w-2/12 relative min-h-screen overflow-y-auto text-white h-screen scrollbar-hide">
                 <div className="flex justify-center py-5 border-b-2 border-slate-500">
                     <span className='text-2xl font-semibold'>Admin</span>
                 </div>
