@@ -59,6 +59,9 @@ app.use("/api/nama", NamaRouter)
 const JuriRouter = require('./src/api/juri/juri.router.js')
 app.use("/api/juri", JuriRouter)
 
+const pesertaTandingRouter = require('./src/api/peserta_tanding/peserta_tanding.router')
+app.use("/api/peserta/tanding", pesertaTandingRouter)
+
 const tandingRouter = require('./src/api/jadwal_tanding/jadwal_tanding.router')
 app.use("/api/tanding", tandingRouter)
 
