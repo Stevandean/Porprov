@@ -18,7 +18,12 @@ module.exports = {
             const tanding = await Tanding.findAll({
                 attributes:{
                     exclude:['createAt','updateAt']
-                }
+                },
+                include:[
+                    "biru",
+                    "merah",
+                    "pemenang",
+                ],
             })
             return getResponse( req, res, tanding )
         } catch (error) {
@@ -93,21 +98,20 @@ module.exports = {
 
     addTanding: async (req, res)=>{
         try{
-            let current = new Date().toISOString().split('T')[0]
             const id = uuidv4()
             let data = {
                 id: id,
-                tgl: current,
-                waktu: req.body.waktu,
+                golongan: req.body.golongan,
+                jk: req.body.jk,
                 kelas: req.body.kelas,
+                babak: req.body.babak,
                 gelanggang: req.body.gelanggang,
                 partai: req.body.partai,
-                nm_merah: req.body.nm_merah,
-                kontingen_merah: req.body.kontingen_merah,
-                nm_biru: req.body.nm_biru,
-                kontingen_biru: req.body.kontingen_biru,
-                babak: req.body.babak,
-                status: true
+                id_merah: req.body.id_merah,
+                id_biru: req.body.id_biru,
+                id_nilai_merah: req.body.id_nilai_merah,
+                id_nilai_biru: req.body.id_nilai_biru,
+                id_pemenang: req.body.id_pemenang,
             }
             const result = await Tanding.create(data)
             return addResponse( req, res, result)

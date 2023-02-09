@@ -1,5 +1,9 @@
 const models = require("../../models/index");
 const Tgr = models.jadwal_tgr
+const Tunggal = models.nilai_tunggal
+const Ganda = models.nilai_ganda
+const Regu = models.nilai_regu
+const Hukum = models.hukum_tgr
 const Peserta = models.peserta_seni
 const Skor = models.skor
 
@@ -62,6 +66,26 @@ module.exports = {
     getKelas: async (req,res) =>{
         try{
             let kategori = {kategori: req.params.kategori}
+            const tgr = await Tgr.findAll({
+                where:kategori,
+                attributes: 
+                [sequelize.fn('DISTINCT', sequelize.col('jk', 'kelas', 'babak')),'jk', 'kelas', 'babak'],
+                order: [
+                    ['kelas', 'ASC'],
+                ],
+            })
+            return getResponse( req, res, tgr)
+        } catch (error) {
+            return errorResponse( req, res, error.message )
+        }
+    },
+
+    getKelasAktif: async (req,res) =>{
+        try{
+            let kategori = {
+                kategori: req.params.kategori,
+                aktif: 1
+            }
             const tgr = await Tgr.findAll({
                 where:kategori,
                 attributes: 

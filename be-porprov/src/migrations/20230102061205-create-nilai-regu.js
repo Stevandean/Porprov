@@ -68,7 +68,13 @@ module.exports = {
       jurus12: {
         type: Sequelize.DOUBLE
       },
-      kemantapan: {
+      skor_a: {
+        type: Sequelize.DOUBLE
+      },
+      skor_b: {
+        type: Sequelize.DOUBLE
+      },
+      total_skor: {
         type: Sequelize.DOUBLE
       },
       dis: {

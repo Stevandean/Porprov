@@ -18,11 +18,8 @@ const cookieParser = require('cookie-parser');
 const PORT = process.env.PORT;
 
 io.on('connection', socket => {
-    console.log(`⚡: ${socket.id} user just connected!`);
+    // console.log(`⚡: ${socket.id} user just connected!`);
     // socket.disconnect(0) 
-    // socket.on("editData", (arg) => {
-    //     console.log(arg); // world
-    //   })
 
     socket.on("init_data", () => {
         io.emit("getData")
@@ -42,12 +39,13 @@ io.on('connection', socket => {
 
     socket.on('disconnect', () => {
       // socket.disconnect() 
-      console.log('🔥: A user disconnected');
+      // console.log('🔥: A user disconnected');
     });
 
 })
 
 app.use(cors())
+app.use(express.static(__dirname))
 
 app.use(bodyParser.json())
 app.use(bodyParser.json())
@@ -60,6 +58,9 @@ app.use("/api/nama", NamaRouter)
 
 const JuriRouter = require('./src/api/juri/juri.router.js')
 app.use("/api/juri", JuriRouter)
+
+const pesertaTandingRouter = require('./src/api/peserta_tanding/peserta_tanding.router')
+app.use("/api/peserta/tanding", pesertaTandingRouter)
 
 const tandingRouter = require('./src/api/jadwal_tanding/jadwal_tanding.router')
 app.use("/api/tanding", tandingRouter)

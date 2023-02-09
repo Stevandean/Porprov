@@ -40,9 +40,6 @@ module.exports = {
       selesai: {
         type: Sequelize.BOOLEAN
       },
-      selesai: {
-        type: Sequelize.BOOLEAN
-      },
       aktif: {
         type: Sequelize.BOOLEAN
       },
@@ -50,6 +47,20 @@ module.exports = {
         type: Sequelize.UUID,
         references:{
           model:"peserta_seni",
+          key:"id"
+        }
+      },
+      id_skor_merah: {
+        type: Sequelize.UUID,
+        references:{
+          model:"skor",
+          key:"id"
+        }
+      },
+      id_skor_biru: {
+        type: Sequelize.UUID,
+        references:{
+          model:"skor",
           key:"id"
         }
       },

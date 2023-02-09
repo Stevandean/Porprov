@@ -32,13 +32,19 @@ module.exports = {
       nama_juri: {
         type: Sequelize.STRING
       },
-      teknik: {
+      technique: {
         type: Sequelize.DOUBLE
       },
-      kemantapan: {
+      firmness: {
         type: Sequelize.DOUBLE
       },
-      serasi: {
+      soulfulness: {
+        type: Sequelize.DOUBLE
+      },
+      total: {
+        type: Sequelize.DOUBLE
+      },
+      total_skor: {
         type: Sequelize.DOUBLE
       },
       dis: {

@@ -60,33 +60,46 @@ module.exports = {
             
             if(req.files.logo){
                 let oldFileName = event.logo;
-                //delete old file
-                let dir = path.join(__dirname, "../../image/event", oldFileName);
-                fs.unlink(dir, (err) => console.log(err));
-                console.log("hapus file");
-
-                //set filename
-                logo = req.files.logo[0]
+                if (fs.existsSync(`./src/image/event/${oldFileName}`)) {
+                    // console.log('file exists');
+                    //delete old file
+                    let dir = path.join(__dirname, "../../image/event", oldFileName);
+                    fs.unlink(dir, (err) => console.log(err));
+                    console.log("hapus file");
+    
+                    //set filename
+                    logo = req.files.logo[0]
+                  } else {
+                    console.log('file not found!');
+                  }
             }
             if(req.files.icon1){
                 let oldFileName = event.icon1;
-                //delete old file
-                let dir = path.join(__dirname, "../../image/event", oldFileName);
-                fs.unlink(dir, (err) => console.log(err));
-                console.log("hapus file");
+                if (fs.existsSync(`./src/image/event/${oldFileName}`)) {
+                    //delete old file
+                    let dir = path.join(__dirname, "../../image/event", oldFileName);
+                    fs.unlink(dir, (err) => console.log(err));
+                    console.log("hapus file");
 
-                //set filename
-                icon1 = req.files.icon1[0]
+                    //set filename
+                    icon1 = req.files.icon1[0]
+                } else {
+                    console.log('file not found!');
+                }
             }
             if(req.files.icon2){
                 let oldFileName = event.icon2;
-                //delete old file
-                let dir = path.join(__dirname, "../../image/event", oldFileName);
-                fs.unlink(dir, (err) => console.log(err));
-                console.log("hapus file");
+                if (fs.existsSync(`./src/image/event/${oldFileName}`)) {
+                    //delete old file
+                    let dir = path.join(__dirname, "../../image/event", oldFileName);
+                    fs.unlink(dir, (err) => console.log(err));
+                    console.log("hapus file");
 
-                //set filename
-                icon2 = req.files.icon2[0]
+                    //set filename
+                    icon2 = req.files.icon2[0]
+                } else {
+                    console.log('file not found!');
+                }
             }
 
             //set data to change
@@ -102,4 +115,19 @@ module.exports = {
             return errorResponse(req, res, error.message);
         }
     },
+    getImage: async (req,res) =>{
+        try{
+            const { filename } = req.params
+            fs.readFile(`./src/image/event/${filename}`, (err, data) => {
+                res.writeHead(200, {
+                    'Content-Type' : 'image/png'
+                })
+                res.end(data)
+            })
+        } catch (error) {
+            res.json({
+                message: error.message
+            })
+        }
+    }
 }

@@ -2,23 +2,38 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('event', {
+    await queryInterface.createTable('peserta_tanding', {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID
       },
+      kelas: {
+        type: Sequelize.STRING
+      },
+      jk: {
+        type: Sequelize.ENUM('PUTRA','PUTRI')
+      },
+      golongan: {
+        type: Sequelize.STRING
+      },
       nama: {
         type: Sequelize.STRING
       },
-      logo: {
+      kontingen: {
         type: Sequelize.STRING
       },
-      icon1: {
+      kota: {
         type: Sequelize.STRING
       },
-      icon2: {
-        type: Sequelize.STRING
+      umur: {
+        type: Sequelize.INTEGER
+      },
+      tinggi_badan: {
+        type: Sequelize.INTEGER
+      },
+      berat_badan: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -31,6 +46,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('event');
+    await queryInterface.dropTable('peserta_tanding');
   }
 };

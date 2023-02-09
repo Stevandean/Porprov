@@ -22,13 +22,19 @@ module.exports = {
           key:"id"
         }
       },
-      babak: {
+      waktu: {
+        type: Sequelize.STRING
+      },
+      median: {
         type: Sequelize.STRING
       },
       skor_akhir: {
-        type: Sequelize.DOUBLE
+        type: Sequelize.STRING
       },
       deviasi: {
+        type: Sequelize.DOUBLE
+      },
+      selesai: {
         type: Sequelize.DOUBLE
       },
       createdAt: {
