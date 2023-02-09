@@ -1,25 +1,35 @@
 import React, { useContext } from 'react'
 import axios from 'axios'
-import SocketIo from 'socket.io-client'
 import { globalState } from '../../../context/context'
 import { useRouter } from 'next/router'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const modalDelete = () => {
 
-    const socket = SocketIo (BASE_URL)
-
     const location = useRouter;
     const {pathname} = location()
     const splitLoc = pathname.split('/admin/')
 
-    const {setDataTanding, setDataTunggal, setDataGanda,setDataRegu, setDataSoloKreatif, setNamaJuri, id, idJadwal, showAlertHapus, setShowAlertHapus} = useContext(globalState)
+    const {setDataPesertaTanding, setDataJadwalTanding, setDataTunggal, setDataGanda,setDataRegu, setDataSoloKreatif, setNamaJuri, id, idJadwal, showAlertHapus, setShowAlertHapus} = useContext(globalState)
 
-    const getTanding = () => {
-      axios.get(BASE_URL + '/api/tanding/')
+    const getPesertaTanding = () => {
+      axios.get(BASE_URL + '/api/peserta/tanding')
       .then((res) => {
-        setDataTanding(res.data.data);
-      });
+        setDataPesertaTanding(res.data.data);
+      })
+      .catch (err => {
+        console.log(err.response.data.message);
+      })
+    }
+
+    const getJadwalTanding = () => {
+      axios.get (BASE_URL + `/api/tanding`)
+      .then (res => {
+        setDataJadwalTanding (res.data.data)
+      })
+      .catch (err => {
+        console.log(err.response.data.message);
+      })
     }
     
     const getTunggal = () => {
@@ -62,13 +72,11 @@ const modalDelete = () => {
 
     const handleDelete = (selectedId) => {
 
-      if (splitLoc.toString() === ',tanding') {    
-          axios.delete(BASE_URL + `/api/tanding/${id}` )
+      if (splitLoc.toString() === ',pesertaTanding') {    
+          axios.delete(BASE_URL + `/api/peserta/tanding/${id}` )
           .then(res => {
-              getTanding()
+              getPesertaTanding()
               setShowAlertHapus (false)
-              socket.emit ('editData')
-              
           })
           .catch(err => {
               console.log(err.message);
@@ -78,7 +86,6 @@ const modalDelete = () => {
         .then(res => {
             getTunggal()
             setShowAlertHapus (false)
-            socket.emit ('editData')
         })
         .catch(err => {
           console.log(err.message);
@@ -89,7 +96,6 @@ const modalDelete = () => {
           .then(res => {
               getGanda()
               setShowAlertHapus (false)
-              socket.emit ('editData')
           })
           .catch(err => {
               console.log(err.message);
@@ -106,16 +112,23 @@ const modalDelete = () => {
           .then (res => {
               getRegu()
               setShowAlertHapus (false)
-              socket.emit ('editData')
           })
           .catch(err => {
               console.log(err.message);
           })
+      } else if (splitLoc.toString() === ',jadwalTanding') {
+        axios.delete (BASE_URL + `/api/tanding/${idJadwal}`)
+        .then (res => {
+          getJadwalTanding ()
+          setShowAlertHapus (false)
+        })
+        .catch (err => {
+          console.log (err.response.data.message)
+        })
       } else if (splitLoc.toString() === ',jadwalTunggal') {
         axios.delete (BASE_URL + `/api/tgr/${idJadwal}`)
         .then (res => {
           setShowAlertHapus (false)
-          socket.emit ('editData')
         })
         .catch (err => {
           console.log(err.message);
@@ -124,7 +137,6 @@ const modalDelete = () => {
         axios.delete (BASE_URL + `/api/tgr/${idJadwal}`)
         .then (res => {
           setShowAlertHapus (false)
-          socket.emit ('editData')
         })
         .catch (err => {
           console.log(err.message);
@@ -133,13 +145,11 @@ const modalDelete = () => {
         axios.delete (BASE_URL + `/api/tgr/${idJadwal}`)
         .then (res => {
           setShowAlertHapus (false)
-          socket.emit ('editData')
         })
       } else if (splitLoc.toString() === ',jadwalRegu') {
         axios.delete (BASE_URL + `/api/tgr/${idJadwal}`)
         .then (res => {
           setShowAlertHapus (false)
-          socket.emit ('editData')
         })
         .catch (err => {
           console.log(err.message);
@@ -149,7 +159,6 @@ const modalDelete = () => {
         .then (res => {
           getJuri ()
           setShowAlertHapus (false)
-          socket.emit ('editData')
         })
         .catch (err => {
           console.log(err.response.data.message);
@@ -161,7 +170,7 @@ const modalDelete = () => {
 
     return (
     <>
-        {showAlertHapus ? (
+      {showAlertHapus ? (
       <>
         <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
           <div className="relative w-full my-6 mx-auto max-w-3xl">

@@ -8,10 +8,10 @@ import socketIo from 'socket.io-client'
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-const detail = () => {
+// socket io
+const socket = socketIo (BASE_URL)
 
-  // socket io
-  const socket = socketIo (BASE_URL)
+const detail = () => {
 
   // ini state
   const [data, setData] = useState ([])

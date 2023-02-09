@@ -1,13 +1,10 @@
 import React, { useContext } from 'react'
 import { globalState } from '../../../context/context'
 import axios from 'axios'
-import socketIo from 'socket.io-client'
 import { useRouter } from 'next/router';
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const modalPeserta = () => {
-
-    const socket = socketIo (BASE_URL)
 
     const location = useRouter()
     const {pathname} = location

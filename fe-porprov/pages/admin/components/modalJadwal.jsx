@@ -1,14 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import socketIo from 'socket.io-client'
 import { globalState } from '../../../context/context';
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const modalJadwal = () => {
-
-    // socket io
-    const socket = socketIo (BASE_URL)
 
     const location = useRouter()
     const {pathname} = location
@@ -32,6 +28,7 @@ const modalJadwal = () => {
         axios.get (BASE_URL + `/api/peserta/seni/tunggal`)
         .then (res => {
             setDataTunggal (res.data.data)
+            window.location.reload
         })
         .catch (err => {
             console.log(err.response.data.message);
@@ -82,7 +79,6 @@ const modalJadwal = () => {
                 .then (res => {
                     getTunggal ()
                     setShowModalJadwal (false)
-                    socket.emit ('editData')
                 })
                 .catch (err => {
                     console.log(err.message);
@@ -92,7 +88,6 @@ const modalJadwal = () => {
                 .then (res => {
                     getGanda ()
                     setShowModalJadwal (false)
-                    socket.emit ('editData')
                 })
                 .catch (err => {
                     console.log(err.message);
@@ -102,7 +97,6 @@ const modalJadwal = () => {
                 .then (res => {
                     getSoloKreatif ()
                     setShowModalJadwal (false)
-                    socket.emit ('editData')
                 })
                 .catch (err => {
                     console.log(err.message);
@@ -112,7 +106,6 @@ const modalJadwal = () => {
                 .then (res => {
                     getRegu ()
                     setShowModalJadwal (false)
-                    socket.emit ('editData')
                 })
                 .catch (err => {
                     console.log(err.message);
@@ -126,7 +119,6 @@ const modalJadwal = () => {
                 .then (res => {
                     getTunggal ()
                     setShowModalJadwal (false)
-                    socket.emit ('editData')
                 })    
                 .catch (err => {
                     console.log(err.message);
@@ -137,7 +129,6 @@ const modalJadwal = () => {
                 .then (res => {
                     getGanda ()
                     setShowModalJadwal (false)
-                    socket.emit ('editData')
                 })
                 .catch (err => {
                     console.log(err.message);
@@ -147,7 +138,6 @@ const modalJadwal = () => {
                 .then (res => {
                     getGanda ()
                     setShowModalJadwal (false)
-                    socket.emit ('editData')
                 })
                 .catch (err => {
                     console.log(err.message);
@@ -157,7 +147,6 @@ const modalJadwal = () => {
                 .then (res => {
                     getRegu ()
                     setShowModalJadwal (false)
-                    socket.emit ('editData')
                 })
                 .catch (err => {
                     console.log(err.message);
