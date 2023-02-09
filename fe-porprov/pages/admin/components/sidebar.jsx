@@ -8,6 +8,7 @@ const sidebar = () => {
     const {pathname} = location;
     const splitLoc = pathname.split("admin/");
 
+    const [dropdownTanding, setDropdownTanding] = useState (false)
     const [dropdownTunggal, setDropdownTunggal] = useState (false)
     const [dropdownGanda, setDropdownGanda] = useState (false)
     const [dropdownSoloKreatif, setDropdownSoloKreatif] = useState (false)
@@ -28,12 +29,54 @@ const sidebar = () => {
                     {/* tanding */}
                     <div className="text-lg mb-4">
                         <div className="mb-2">
-                            <span className={splitLoc[1] === "tanding" ? 'px-2 italic text-white' : 'px-2 italic text-[#51607A]'}>Jadwal Tanding</span>
+                            <span className='px-2 italic text-[#51607A]'>Tanding</span>
                         </div>
-                        <Link href="tanding" className={splitLoc[1] === "tanding" ? "bg-[#11121C] rounded-xl py-1 px-4 flex" : "bg-[#11121C] rounded-xl py-1 px-4 flex bg-opacity-40"}>
-                            <img className='w-6 h-6' src='../svg/tanding.svg'/>
-                            <span className='px-4 text-lg'>Tanding</span>
-                        </Link>
+                        {/* Dropdown tunggal*/}
+                        <div className="">
+                            {(() => {
+                                if (dropdownTanding === true) {
+                                    return (
+                                        <div className={splitLoc[1] === 'pesertaTanding' || splitLoc[1] === 'jadwalTanding' ? 'flex justify-between bg-[#11121C] items-center py-2 px-4 rounded-xl' : 'flex justify-between bg-[#11121C] bg-opacity-40 items-center py-2 px-4 mb-2 rounded-xl'}>
+                                            <button onClick={() => setDropdownTanding (false)} className="text-white text-center inline-flex items-center w-full" type="button">Tanding
+                                            </button>
+                                            <svg className ="w-4 h-4 transition-all" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7">
+                                                </path>
+                                            </svg>
+                                        </div>
+                                    )
+                                } else if (dropdownTanding === false) {
+                                    return (
+                                        <div className={splitLoc[1] === 'pesertaTanding' || splitLoc[1] === 'jadwalTanding' ? 'flex justify-between bg-[#11121C] items-center py-2 px-4 rounded-xl' : 'flex justify-between bg-[#11121C] bg-opacity-40 items-center py-2 px-4 mb-2 rounded-xl'}>
+                                            <button onClick={() => setDropdownTanding (true)} className="text-white text-center inline-flex items-center w-full" type="button">Tanding
+                                            </button>
+                                            <svg className ="w-4 h-4 -rotate-90 transition-all" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7">
+                                                </path>
+                                            </svg>
+                                        </div>
+                                    )
+                                }
+                            })()}
+                            {dropdownTanding ? (
+                                <div className='flex flex-col space-y-2'>
+                                    <div className="z-10 divide-y divide-gray-100 rounded-xl shadow w-44 bg-gray-700">
+                                        <ul className="py-1 text-sm " aria-labelledby="dropdownDefaultButton">
+                                            <li>
+                                                <a href="./pesertaTanding" className="block px-4 py-2 ">Peserta Tanding</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div className="z-10 divide-y divide-gray-100 rounded-xl shadow w-44 bg-gray-700">
+                                        <ul className="py-1 text-sm " aria-labelledby="dropdownDefaultButton">
+                                            <li>
+                                                <a href="./jadwalTanding" className="block px-4 py-2 ">Jadwal Tanding</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            ):null}
+                        </div>
                     </div>
                     {/* tgr */}
                     <div className="text-lg mb-4">
