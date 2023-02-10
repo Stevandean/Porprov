@@ -20,7 +20,7 @@ const pesertaTunggal = () => {
   const [showModalPeserta, setShowModalPeserta] = useState (false)
   
   // ini state
-  const [dataTunggal, setDataTunggal] = useState([])
+  const [dataPesertaTunggal, setDataPesertaTunggal] = useState([])
   const [action, setAction] = useState('')
   const [id, setId] = useState ('')
   const [kelas, setKelas] = useState ('')
@@ -53,18 +53,18 @@ const pesertaTunggal = () => {
     setId(selectedId)
   }
 
-  const getTunggal = () => {
+  const getPesertaTunggal = () => {
     axios.get (BASE_URL + '/api/peserta/seni/tunggal')
     .then((res) => {
-      setDataTunggal(res.data.data);
-    });
+      setDataPesertaTunggal(res.data.data);
+    })
+    .catch (err => {
+      console.log (err.message)
+    })
   }
 
-  // untuk merefresh saat data berubah
-  const ubah_data = () => socket.emit ('init_data')
-
   React.useEffect(() => {
-    getTunggal ()
+    getPesertaTunggal ()
   }, [])
 
 
@@ -115,7 +115,7 @@ const pesertaTunggal = () => {
                       </tr>
                     </thead>
                   <tbody className='text-center'>
-                    {dataTunggal.map((item, index) => (
+                    {dataPesertaTunggal.map((item, index) => (
                       <tr className='even:bg-[#4C4F6D] odd:bg-[#2c2f48]'>
                         <td className='py-5'>{index + 1}</td>
                         <td>{item.kelas}</td>
@@ -145,7 +145,7 @@ const pesertaTunggal = () => {
         {/* akhir konten utama */}
       </div>
 
-      <globalState.Provider value={{ showModalPeserta, setShowModalPeserta, action, setAction, id, setId, dataTunggal, setDataTunggal, msg, setMsg, kelas, setKelas, jenisKelamin, setJenisKelamin, nama1, setNama1, kontingen, setKontingen, aktif, setAktif }}>
+      <globalState.Provider value={{ showModalPeserta, setShowModalPeserta, action, setAction, id, setId, dataPesertaTunggal, setDataPesertaTunggal, msg, setMsg, kelas, setKelas, jenisKelamin, setJenisKelamin, nama1, setNama1, kontingen, setKontingen, aktif, setAktif }}>
         <ModalPeserta />
       </globalState.Provider>
 
@@ -153,7 +153,7 @@ const pesertaTunggal = () => {
         <ModalImport />
       </globalState.Provider>
 
-      <globalState.Provider value={{ showAlertHapus, setShowAlertHapus, id, setDataTunggal }}>
+      <globalState.Provider value={{ showAlertHapus, setShowAlertHapus, id, setDataPesertaTunggal }}>
         <ModalDelete />
       </globalState.Provider>
 

@@ -17,7 +17,7 @@ const pesertaRegu = () => {
   const [showAlertHapus, setShowAlertHapus] = useState (false)
 
   // ini state
-  const [dataRegu, setDataRegu] = useState ([])
+  const [dataPesertaRegu, setDataPesertaRegu] = useState ([])
   const [action, setAction] = useState ('')
   const [id, setId] = useState ('')
   const [kelas, setKelas] = useState ('')
@@ -56,7 +56,7 @@ const pesertaRegu = () => {
       setId (selectedId)
   }
 
-  const getRegu = () => {
+  const getPesertaRegu = () => {
       axios.get (BASE_URL + `/api/peserta/seni/regu`)
       .then (res => {
           setDataRegu (res.data.data)
@@ -64,7 +64,7 @@ const pesertaRegu = () => {
   }
 
   useEffect (() => {
-    getRegu ()
+    getPesertaRegu ()
   }, [])
 
   return (
@@ -114,7 +114,7 @@ const pesertaRegu = () => {
                       </tr>
                     </thead>
                   <tbody className='text-center'>
-                    {dataRegu.map((item, index) => (
+                    {dataPesertaRegu.map((item, index) => (
                       <tr className='even:bg-[#4C4F6D] odd:bg-[#2c2f48]'>
                         <td className='py-5'>{index + 1}</td>
                         <td>{item.kelas}</td>
@@ -144,7 +144,7 @@ const pesertaRegu = () => {
         {/* akhir konten utama */}
       </div>
 
-      <globalState.Provider value={{ showModalPeserta, setShowModalPeserta, action, setAction, id, setId, dataRegu, setDataRegu, kelas, setKelas, jenisKelamin, setJenisKelamin, nama1, setNama1, nama2, setNama2, nama3, setNama3, kontingen, setKontingen, aktif, setAktif }}>
+      <globalState.Provider value={{ showModalPeserta, setShowModalPeserta, action, setAction, id, setId, dataPesertaRegu, setDataPesertaRegu, kelas, setKelas, jenisKelamin, setJenisKelamin, nama1, setNama1, nama2, setNama2, nama3, setNama3, kontingen, setKontingen, aktif, setAktif }}>
         <ModalPeserta />
       </globalState.Provider>
 
@@ -152,7 +152,7 @@ const pesertaRegu = () => {
         <ModalImport />
       </globalState.Provider>
 
-      <globalState.Provider value={{ showAlertHapus, setShowAlertHapus, id, setDataRegu }}>
+      <globalState.Provider value={{ showAlertHapus, setShowAlertHapus, id, setDataPesertaRegu }}>
         <ModalDelete />
       </globalState.Provider>
 

@@ -10,7 +10,7 @@ const modalDelete = () => {
     const {pathname} = location()
     const splitLoc = pathname.split('/admin/')
 
-    const {setDataPesertaTanding, setDataJadwalTanding, setDataTunggal, setDataGanda,setDataRegu, setDataSoloKreatif, setNamaJuri, id, idJadwal, showAlertHapus, setShowAlertHapus} = useContext(globalState)
+    const {setDataPesertaTanding, setDataJadwalTanding, setDataPesertaTunggal, setDataJadwalTunggal, setDataPesertaGanda, setDataJadwalGanda,setDataPesertaRegu, setDataJadwalRegu, setDataPesertaSoloKreatif, setDataJadwalSoloKreatif, setNamaJuri, id, idJadwal, showAlertHapus, setShowAlertHapus} = useContext(globalState)
 
     const getPesertaTanding = () => {
       axios.get(BASE_URL + '/api/peserta/tanding')
@@ -32,33 +32,35 @@ const modalDelete = () => {
       })
     }
     
-    const getTunggal = () => {
+    const getPesertaTunggal = () => {
       axios.get(BASE_URL + '/api/peserta/seni/tunggal')
       .then((res) => {
-        setDataTunggal(res.data.data);
-      });
+        setDataPesertaTunggal(res.data.data);
+      })
     }
 
-    const getGanda = () => {
+    const getPesertaGanda = () => {
       axios.get(BASE_URL + '/api/peserta/seni/ganda')
       .then((res) => {
-          setDataGanda(res.data.data)
+        setDataPesertaGanda(res.data.data)
       })
     }
 
-    const getSoloKreatif = () => {
+    const getPesertaSoloKreatif = () => {
       axios.get (BASE_URL + `/api/peserta/seni/solo_kreatif`)
       .then (res => {
-        setDataSoloKreatif (res.data.data)
+        setDataPesertaSoloKreatif (res.data.data)
       })
     }
 
-    const getRegu = () => {
+    const getPesertaRegu = () => {
       axios.get(BASE_URL + '/api/peserta/seni/regu ')
       .then ((res) => {
-          setDataRegu(res.data.data)
+        setDataPesertaRegu(res.data.data)
       })
     }
+
+    
 
     const getJuri = () => {
       axios.get (BASE_URL + `/api/nama`)

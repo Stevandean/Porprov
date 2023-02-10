@@ -14,20 +14,24 @@ const modalJadwal = () => {
     const {action, id} = useContext (globalState)
 
     // ini state
-    const [dataTunggal, setDataTunggal] = useState ([])
-    const [dataGanda, setDataGanda] = useState ([])
-    const [dataSoloKreatif, setDataSoloKreatif] = useState ([])
-    const [dataRegu, setDataRegu] = useState ([])
+    const [dataPesertaTunggal, setDataPesertaTunggal] = useState ([])
+    const [dataPesertaGanda, setDataPesertaGanda] = useState ([])
+    const [dataPesertaRegu, setDataPesertaRegu] = useState ([])
+    const [dataPesertaSoloKreatif, setDataPesertaSoloKreatif] = useState ([])
+    const {dataJadwalTunggal, setDataJadwalTunggal} = useContext (globalState) 
+    const {dataJadwalGanda, setDataJadwalGanda} = useContext (globalState)
+    const {dataJadwalRegu, setDataJadwalRegu} = useContext (globalState)
+    const {dataJadwalSoloKreatif, setDataJadwalSoloKreatif} = useContext (globalState)
     const {idJadwal, setIdJadwal} = useContext (globalState)
     const {idMerah, setIdMerah} = useContext (globalState)
     const {idBiru, setIdBiru} = useContext (globalState)
     const {babak, setBabak} = useContext (globalState)
     const {jk, setJk} = useContext (globalState)
 
-    const getTunggal = () => {
+    const getPesertaTunggal = () => {
         axios.get (BASE_URL + `/api/peserta/seni/tunggal`)
         .then (res => {
-            setDataTunggal (res.data.data)
+            setDataPesertaTunggal (res.data.data)
             window.location.reload
         })
         .catch (err => {
@@ -35,34 +39,73 @@ const modalJadwal = () => {
         })
     }
 
-    const getGanda = () => {
+    const getPesertaGanda = () => {
         axios.get (BASE_URL + `/api/peserta/seni/ganda`)
         .then (res => {
-            setDataGanda (res.data.data)
+            setDataPesertaGanda (res.data.data)
         })
         .catch (err => {
             console.log(err.response.data.message);
         })
     }
-
-    const getSoloKreatif = () => {
-        axios.get (BASE_URL + `/api/peserta/seni/solo_kreatif`)
-        .then (res => {
-            setDataSoloKreatif (res.data.data)
-        })
-        .catch (err => {
-            console.log(err.response.data.message);
-        })
-        console.log(BASE_URL + `/api/peserta/seni/solo_kreatif`)
-    }
-
-    const getRegu = () => {
+    
+    const getPesertaRegu = () => {
         axios.get (BASE_URL + `/api/peserta/seni/regu`)
         .then (res => {
-            setDataRegu (res.data.data)
+            setDataPesertaRegu (res.data.data)
         })
         .catch (err => {
             console.log(err.response.data.message);
+        })
+    }
+
+    const getPesertaSoloKreatif = () => {
+        axios.get (BASE_URL + `/api/peserta/seni/solo_kreatif`)
+        .then (res => {
+            setDataPesertaSoloKreatif (res.data.data)
+        })
+        .catch (err => {
+            console.log(err.response.data.message);
+        })
+    }
+
+    const getJadwalTunggal = () => {
+        axios.get (BASE_URL + `/api/tgr/tunggal`)
+        .then (res => {
+            setDataJadwalTunggal (res.data.data)
+        })
+        .catch (err => {
+            console.log(err.message)
+        })
+    }
+
+    const getJadwalGanda = () => {
+        axios.get (BASE_URL + `/api/tgr/ganda`)
+        .then (res => {
+            setDataJadwalGanda (res.data.data)
+        })
+        .catch (err => {
+            console.log (err.message)
+        })
+    }
+
+    const getJadwalRegu = () => {
+        axios.get (BASE_URL + `/api/tgr/regu`)
+        .then (res => {
+            setDataJadwalRegu (res.data.data)
+        })
+        .catch (err => {
+            console.log (err.message)
+        })
+    }
+
+    const getJadwalSoloKreatif = () => {
+        axios.get (BASE_URL + `/api/tgr/solo_kreatif`)
+        .then (res => {
+            setDataJadwalSoloKreatif (res.data.data)
+        })
+        .catch (err => {
+            console.log(err.message)
         })
     }
 
@@ -77,7 +120,7 @@ const modalJadwal = () => {
             if (splitLoc.toString() === (',Tunggal')) { 
                 axios.post (BASE_URL + `/api/tgr/tunggal`, form)
                 .then (res => {
-                    getTunggal ()
+                    getJadwalTunggal ()
                     setShowModalJadwal (false)
                 })
                 .catch (err => {
@@ -86,7 +129,7 @@ const modalJadwal = () => {
             } else if (splitLoc.toString() === (',Ganda')) {
                 axios.post (BASE_URL + `/api/tgr/ganda`, form)
                 .then (res => {
-                    getGanda ()
+                    getJadwalGanda ()
                     setShowModalJadwal (false)
                 })
                 .catch (err => {
@@ -95,7 +138,7 @@ const modalJadwal = () => {
             } else if (splitLoc.toString() === (',SoloKreatif')) {
                 axios.post (BASE_URL + `/api/tgr/solo_kreatif`, form)
                 .then (res => {
-                    getSoloKreatif ()
+                    getJadwalSoloKreatif ()
                     setShowModalJadwal (false)
                 })
                 .catch (err => {
@@ -104,7 +147,7 @@ const modalJadwal = () => {
             } else if (splitLoc.toString() === (',Regu')) {
                 axios.post (BASE_URL + `/api/tgr/regu`, form)
                 .then (res => {
-                    getRegu ()
+                    getJadwalRegu ()
                     setShowModalJadwal (false)
                 })
                 .catch (err => {
@@ -117,7 +160,7 @@ const modalJadwal = () => {
             if (splitLoc.toString() === (',Tunggal')) {
                 axios.put (BASE_URL + `/api/tgr/${idJadwal}`, form)
                 .then (res => {
-                    getTunggal ()
+                    getJadwalTunggal ()
                     setShowModalJadwal (false)
                 })    
                 .catch (err => {
@@ -127,7 +170,7 @@ const modalJadwal = () => {
             } else if (splitLoc.toString() === (',Ganda')) {
                 axios.put (BASE_URL + `/api/tgr/${idJadwal}`, form)
                 .then (res => {
-                    getGanda ()
+                    getJadwalGanda ()
                     setShowModalJadwal (false)
                 })
                 .catch (err => {
@@ -136,7 +179,7 @@ const modalJadwal = () => {
             } else if (splitLoc.toString() === (',SoloKreatif')) {
                 axios.put (BASE_URL + `/api/tgr/${idJadwal}`, form)
                 .then (res => {
-                    getGanda ()
+                    getJadwalSoloKreatif ()
                     setShowModalJadwal (false)
                 })
                 .catch (err => {
@@ -145,7 +188,7 @@ const modalJadwal = () => {
             } else if (splitLoc.toString() === (',Regu')) {
                 axios.put (BASE_URL + `/api/tgr/${idJadwal}`, form)
                 .then (res => {
-                    getRegu ()
+                    getJadwalRegu ()
                     setShowModalJadwal (false)
                 })
                 .catch (err => {
@@ -159,10 +202,14 @@ const modalJadwal = () => {
 
     useEffect(() => {
     
-        getTunggal ()
-        getGanda ()
-        getRegu ()
-        getSoloKreatif ()
+        getPesertaTunggal ()
+        getPesertaGanda ()
+        getPesertaRegu ()
+        getPesertaSoloKreatif ()
+        getJadwalTunggal ()
+        getJadwalGanda ()
+        getJadwalRegu ()
+        getJadwalSoloKreatif ()
 
     }, [])
     
@@ -218,7 +265,7 @@ const modalJadwal = () => {
                                                             if (splitLoc.toString() === ',Tunggal') {
                                                                 return (
                                                                     <>
-                                                                        {dataTunggal.filter(a => a.jk == jk).map (item => (
+                                                                        {dataPesertaTunggal.filter(a => a.jk == jk).map (item => (
                                                                             <option value={item.id}>{item.nama1} ({item.kontingen})</option>
                                                                         ))}
                                                                     </>
@@ -226,13 +273,12 @@ const modalJadwal = () => {
                                                             } else if (splitLoc.toString() === (',Ganda')) {
                                                                 return (
                                                                     <>
-                                                                        {dataGanda.filter(a => a.jk == jk).map (item => (
+                                                                        {dataPesertaGanda.filter(a => a.jk == jk).map (item => (
                                                                             <option value={item.id}>{item.nama1} - {item.nama2} ({item.kontingen})</option>
                                                                         ))}
                                                                     </>
                                                                 )
                                                             } else if (splitLoc.toString () === (',SoloKreatif')) {
-                                                                console.log(dataSoloKreatif);
                                                                 return (
                                                                     <>
                                                                         {dataSoloKreatif.filter(a => a.jk == jk).map (item => (
@@ -243,7 +289,7 @@ const modalJadwal = () => {
                                                             } else if (splitLoc.toString () === (',Regu')) {
                                                                 return (
                                                                     <>
-                                                                        {dataRegu.filter(a => a.jk == jk).map (item => (
+                                                                        {dataPesertaRegu.filter(a => a.jk == jk).map (item => (
                                                                             <option value={item.id}>{item.nama1} - {item.nama2} - {item.nama3} ({item.kontingen})</option>
                                                                         ))}
                                                                     </>
@@ -271,7 +317,7 @@ const modalJadwal = () => {
                                                             if (splitLoc.toString() === ',Tunggal') {
                                                                 return (
                                                                     <>
-                                                                        {dataTunggal.filter(a => a.jk == jk).map (item => (
+                                                                        {dataPesertaTunggal.filter(a => a.jk == jk).map (item => (
                                                                             <option value={item.id}>{item.nama1} ({item.kontingen})</option>
                                                                         ))}
                                                                     </>
@@ -279,7 +325,7 @@ const modalJadwal = () => {
                                                             } else if (splitLoc.toString() === (',Ganda')) {
                                                                 return (
                                                                     <>
-                                                                        {dataGanda.filter(a => a.jk == jk).map (item => (
+                                                                        {dataPesertaGanda.filter(a => a.jk == jk).map (item => (
                                                                             <option value={item.id}>{item.nama1} - {item.nama2} ({item.kontingen})</option>
                                                                         ))}
                                                                     </>
@@ -287,7 +333,7 @@ const modalJadwal = () => {
                                                             } else if (splitLoc.toString() === (',SoloKreatif')) {
                                                                 return (
                                                                     <>
-                                                                        {dataSoloKreatif.filter(a => a.jk == jk).map (item => (
+                                                                        {dataPesertaSoloKreatif.filter(a => a.jk == jk).map (item => (
                                                                             <option value={item.id}>{item.nama1}</option>
                                                                         ))}
                                                                     </>
@@ -295,7 +341,7 @@ const modalJadwal = () => {
                                                             } else if (splitLoc.toString () === (',Regu')) {
                                                                 return (
                                                                     <>
-                                                                        {dataRegu.filter(a => a.jk == jk).map (item => (
+                                                                        {dataPesertaRegu.filter(a => a.jk == jk).map (item => (
                                                                             <option value={item.id}>{item.nama1} - {item.nama2} - {item.nama3} ({item.kontingen})</option>
                                                                         ))}
                                                                     </>

@@ -18,7 +18,7 @@ const jadwalTunggal = () => {
   const [dropdownJadwal, setDropdownJadwal] = useState (false)
   
   // ini state
-  const [dataTunggal, setDataTunggal] = useState([])
+  const [dataJadwalTunggal, setDataJadwalTunggal] = useState([])
   const [action, setAction] = useState ('')
   const [idBiru, setIdBiru] = useState ('')
   const [idMerah, setIdMerah] = useState ('')
@@ -59,15 +59,15 @@ const jadwalTunggal = () => {
     setIdJadwal (selectedId)
   }
 
-  const getTunggal = () => {
+  const getJadwalTunggal = () => {
     axios.get (BASE_URL + '/api/tgr/tunggal')
     .then((res) => {
-      setDataTunggal(res.data.data);
+      setDataJadwalTunggal(res.data.data);
     });
   }
 
   useEffect(() => {
-    getTunggal ()
+    getJadwalTunggal ()
   }, [])
 
 
@@ -156,7 +156,7 @@ const jadwalTunggal = () => {
                   </tr>
                 </thead>
                   <tbody className='text-center'>
-                  {dataTunggal.map((item, index) => (
+                  {dataJadwalTunggal.map((item, index) => (
                     <tr className='even:bg-[#4C4F6D] odd:bg-[#2c2f48]'>
                       <td className='py-5'>{index + 1}</td>
                       <td>{item.kelas}</td>
@@ -187,7 +187,7 @@ const jadwalTunggal = () => {
       {/* akhir konten utama */}
       </div>
 
-      <globalState.Provider value={{ showModalJadwal, setShowModalJadwal, action, setAction, dataTunggal, setDataTunggal, idBiru, setIdBiru, idMerah, setIdMerah, idJadwal, setIdJadwal, jk, setJk, babak, setBabak}}>
+      <globalState.Provider value={{ showModalJadwal, setShowModalJadwal, action, setAction, dataJadwalTunggal, setDataJadwalTunggal, idBiru, setIdBiru, idMerah, setIdMerah, idJadwal, setIdJadwal, jk, setJk, babak, setBabak}}>
         <ModalJadwal />
       </globalState.Provider>
 
@@ -195,7 +195,7 @@ const jadwalTunggal = () => {
         <ModalImport />
       </globalState.Provider>
 
-      <globalState.Provider value={{ showAlertHapus, setShowAlertHapus, setDataTunggal, idJadwal }}>
+      <globalState.Provider value={{ showAlertHapus, setShowAlertHapus, setDataJadwalTunggal, idJadwal }}>
         <ModalDelete />
       </globalState.Provider>
 

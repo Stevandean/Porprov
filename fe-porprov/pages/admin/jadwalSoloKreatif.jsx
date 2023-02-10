@@ -18,7 +18,7 @@ const jadwalSoloKreatif = () => {
     const [dropdownJadwal, setDropdownJadwal] = useState (false)
 
     // ini state
-    const [dataSoloKreatif, setDataSoloKreatif] = useState ([])
+    const [dataJadwalSoloKreatif, setDataJadwalSoloKreatif] = useState ([])
     const [action, setAction] = useState ('')
     const [idBiru, setIdBiru] = useState ('')
     const [idMerah, setIdMerah] = useState ('')
@@ -58,7 +58,7 @@ const jadwalSoloKreatif = () => {
         setIdJadwal (selectedId)
     }
 
-    const getSoloKreatif = () => {
+    const getJadwalSoloKreatif = () => {
         axios.get (BASE_URL + `/api/tgr/solo_kreatif`)
         .then (res => {
             setDataSoloKreatif (res.data.data)
@@ -69,7 +69,7 @@ const jadwalSoloKreatif = () => {
     }
 
     useEffect (() => {
-        getSoloKreatif ()
+        getJadwalSoloKreatif ()
     }, [])
 
     return (
@@ -156,25 +156,25 @@ const jadwalSoloKreatif = () => {
                             </tr>
                         </thead>
                         <tbody className='text-center'>
-                        {dataSoloKreatif.map((item, index) => (
+                        {dataJadwalSoloKreatif.map((item, index) => (
                             <tr className='even:bg-[#4C4F6D] odd:bg-[#2c2f48]'>
-                            <td className='py-5'>{index + 1}</td>
-                            <td>{item.kelas}</td>
-                            <td>{item.jk}</td>
-                            <td>{item.babak}</td>
-                            <td>{item.biru.nama1} ( {item.biru.kontingen} )</td>
-                            <td>{item.merah.nama1} ( {item.merah.kontingen} )</td>
-                            <td>{item.aktif}</td>
-                            <td>
-                            <div className="p-2 space-x-2">
-                                <button onClick={() => editModal(item)} className='w-10 h-10 p-2 bg-green-600 rounded-xl'>
-                                <img src='../svg/pencil.svg'></img>
-                                </button>
-                                <button onClick={() => deleteModal(item.id)} className='w-10 h-10 p-2 bg-red-600 rounded-xl'>
-                                <img src='../svg/trash.svg'></img>
-                                </button>
-                            </div>
-                            </td>
+                                <td className='py-5'>{index + 1}</td>
+                                <td>{item.kelas}</td>
+                                <td>{item.jk}</td>
+                                <td>{item.babak}</td>
+                                <td>{item.biru.nama1} ( {item.biru.kontingen} )</td>
+                                <td>{item.merah.nama1} ( {item.merah.kontingen} )</td>
+                                <td>{item.aktif}</td>
+                                <td>
+                                    <div className="p-2 space-x-2">
+                                        <button onClick={() => editModal(item)} className='w-10 h-10 p-2 bg-green-600 rounded-xl'>
+                                            <img src='../svg/pencil.svg'></img>
+                                        </button>
+                                        <button onClick={() => deleteModal(item.id)} className='w-10 h-10 p-2 bg-red-600 rounded-xl'>
+                                            <img src='../svg/trash.svg'></img>
+                                        </button>
+                                    </div>
+                                </td>
                             </tr>
                         ))}
                         </tbody>
@@ -187,7 +187,7 @@ const jadwalSoloKreatif = () => {
             {/* akhir konten utama */}
         </div>
 
-        <globalState.Provider value={{ showModalJadwal, setShowModalJadwal, action, setAction, dataSoloKreatif, setDataSoloKreatif, idBiru, setIdBiru, idMerah, setIdMerah, idJadwal, setIdJadwal, jk, setJk, babak, setBabak}}>
+        <globalState.Provider value={{ showModalJadwal, setShowModalJadwal, action, setAction, dataJadwalSoloKreaif, setDataJadwalSoloKreatif, idBiru, setIdBiru, idMerah, setIdMerah, idJadwal, setIdJadwal, jk, setJk, babak, setBabak}}>
             <ModalJadwal />
         </globalState.Provider>
 
@@ -195,7 +195,7 @@ const jadwalSoloKreatif = () => {
             <ModalImport />
         </globalState.Provider>
 
-        <globalState.Provider value={{ showAlertHapus, setShowAlertHapus, idJadwal, setDataSoloKreatif }}>
+        <globalState.Provider value={{ showAlertHapus, setShowAlertHapus, idJadwal, setDataJadwalSoloKreatif }}>
             <ModalDelete />
         </globalState.Provider>
         </>

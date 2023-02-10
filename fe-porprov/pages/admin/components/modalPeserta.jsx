@@ -14,10 +14,10 @@ const modalPeserta = () => {
     const {action, id} = useContext (globalState)
 
     // ini state
-    const {dataTunggal, setDataTunggal} = useContext (globalState)
-    const {dataGanda, setDataGanda} = useContext (globalState)
-    const {dataRegu, setDataRegu} = useContext (globalState)
-    const {dataSoloKreatif, setDataSoloKreatif} = useContext (globalState)
+    const {dataTunggal, setDataPesertaTunggal} = useContext (globalState)
+    const {dataGanda, setDataPesertaGanda} = useContext (globalState)
+    const {dataRegu, setDataPesertaRegu} = useContext (globalState)
+    const {dataSoloKreatif, setDataPesertaSoloKreatif} = useContext (globalState)
     const {kelas, setKelas} = useContext (globalState)
     const {jenisKelamin, setJenisKelamin} = useContext (globalState)
     const {nama1, setNama1} = useContext (globalState)
@@ -25,40 +25,40 @@ const modalPeserta = () => {
     const {nama3, setNama3} = useContext (globalState)
     const {kontingen, setKontingen} = useContext (globalState)
 
-    const getTunggal = () => {
+    const getPesertaTunggal = () => {
         axios.get (BASE_URL + `/api/peserta/seni/tunggal`)
         .then (res => {
-            setDataTunggal (res.data.data)
+            setDataPesertaTunggal (res.data.data)
         })
         .catch (err => {
             console.log(err.message);
         })
     }
 
-    const getGanda = () => {
+    const getPesertaGanda = () => {
         axios.get (BASE_URL + `/api/peserta/seni/ganda`)
         .then (res => {
-            setDataGanda (res.data.data)
+            setDataPesertaGanda (res.data.data)
         })
         .catch (err => {
             console.log(err.message);
         })
     }
 
-    const getSoloKreatif = () => {
+    const getPesertaSoloKreatif = () => {
         axios.get (BASE_URL + `/api/peserta/seni/solo_kreatif`)
         .then (res => {
-            setDataSoloKreatif (res.data.data)
+            setDataPesertaSoloKreatif (res.data.data)
         })
         .catch (err => {
             console.log(err.message);
         })
     }
 
-    const getRegu = () => {
+    const getPesertaRegu = () => {
         axios.get (BASE_URL + `/api/peserta/seni/regu`)
         .then (res => {
-            setDataRegu (res.data.data)
+            setDataPesertaRegu (res.data.data)
         })
         .catch (err => {
             console.log(err.message);
@@ -79,7 +79,7 @@ const modalPeserta = () => {
             if (splitLoc.toString() === ',Tunggal') {
                 axios.post (BASE_URL + `/api/peserta/seni/tunggal`, form)
                 .then (res => {
-                    getTunggal ()
+                    getPesertaTunggal ()
                     setShowModalPeserta (false)
                 })
                 .catch (err => {
@@ -88,7 +88,7 @@ const modalPeserta = () => {
             } else if (splitLoc.toString() === ',Ganda') {
                 axios.post (BASE_URL + `/api/peserta/seni/ganda`, form)
                 .then(res => {
-                    getGanda ()
+                    getPesertaGanda ()
                     setShowModalPeserta (false)
                 })
                 .catch (err => {
@@ -97,13 +97,13 @@ const modalPeserta = () => {
             } else if (splitLoc.toString() === ',SoloKreatif') {
                 axios.post (BASE_URL + `/api/peserta/seni/solo_kreatif`, form)
                 .then (res => {
-                    getSoloKreatif ()
+                    getPesertaSoloKreatif ()
                     setShowModalPeserta (false)
                 })
             } else if (splitLoc.toString() === ',Regu') {
                 axios.post (BASE_URL + `/api/peserta/seni/regu`, form)
                 .then (res => {
-                    getRegu ()
+                    getPesertaRegu ()
                     setShowModalPeserta (false)
                 })
             } else {
@@ -113,7 +113,7 @@ const modalPeserta = () => {
             if (splitLoc.toString() === ',Tunggal') {
                 axios.put (BASE_URL + `/api/peserta/seni/${id}`, form)
                 .then (res => {
-                    getTunggal ()
+                    getPesertaTunggal ()
                     setShowModalPeserta (false)
                 })
                 .catch (err => {
@@ -122,7 +122,7 @@ const modalPeserta = () => {
             } else if (splitLoc.toString() === ',Ganda') {
                 axios.put (BASE_URL + `/api/peserta/seni/${id}`, form)
                 .then (res => {
-                    getGanda ()
+                    getPesertaGanda ()
                     setShowModalPeserta (false)
                 })
                 .catch (err => {
@@ -131,7 +131,7 @@ const modalPeserta = () => {
             } else if (splitLoc.toString() === ',SoloKreatif') {
                 axios.put (BASE_URL + `/api/peserta/seni/${id}`, form)
                 .then (res => {
-                    getSoloKreatif ()
+                    getPesertaSoloKreatif ()
                     setShowModalPeserta (false)
                 })
                 .catch (err => {
@@ -140,7 +140,7 @@ const modalPeserta = () => {
             } else if (splitLoc.toString() === ',Regu') {
                 axios.put (BASE_URL + `/api/peserta/seni/${id}`, form)
                 .then (res => {
-                    getRegu ()
+                    getPesertaRegu ()
                     setShowModalPeserta (false)
                 })
                 .catch (err => {
