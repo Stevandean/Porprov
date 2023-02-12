@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Navbar from '../components/navbar'
 import Footer from '../components/footer'
 import axios from 'axios'
+import { useRouter } from 'next/router'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const landingPage = () => {

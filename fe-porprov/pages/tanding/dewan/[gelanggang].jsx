@@ -32,6 +32,7 @@ const detail = () => {
     // to dewan proses
     const toDewanProses = (item) => {
         localStorage.setItem('jadwal', item.id)
+        localStorage.setItem ('peserta', JSON.stringify (item))
         router.push ('./dewan')
     }
 

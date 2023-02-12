@@ -6,6 +6,8 @@ import { useRouter } from 'next/router'
 
 const detailSelesai = () => {
 
+    const router = useRouter ()
+
     const location = useRouter ()
     const { pathname } = location
     const splitLoc = pathname.split ('/tanding/dewan/')
@@ -39,9 +41,9 @@ const detailSelesai = () => {
                         <div className="space-y-5 rounded-lg mb-7">
                             {/* button proses dan finish */}
                             <div className="grid grid-cols-2 w-full gap-x-7">
-                                <Link href={'./detail'} className={splitLoc[1] === 'detail' ? "bg-[#39ac39] hover:bg-[#2f912f] text-center py-2 rounded-lg" : "bg-[#7ed47e] hover:bg-[#39ac39] text-center py-2 rounded-lg"}>
+                                <button onClick={() => router.back ()} className={splitLoc[1] === 'detail' ? "bg-[#39ac39] hover:bg-[#2f912f] text-center py-2 rounded-lg" : "bg-[#7ed47e] hover:bg-[#39ac39] text-center py-2 rounded-lg"}>
                                     <span className='text-2xl font-semibold'>Proses</span>
-                                </Link>
+                                </button>
                                 <Link href={'./detailSelesai'} className={splitLoc[1] === 'detailSelesai' ? "bg-[#39ac39] hover:bg-[#2f912f] text-center py-2 rounded-lg" : "bg-[#7ed47e] hover:bg-[#39ac39] text-center py-2 rounded-lg"}>
                                     <span className='text-2xl font-semibold'>Selesai</span>
                                 </Link>
