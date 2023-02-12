@@ -197,14 +197,14 @@ const modalPeserta = () => {
                                             <div className='border-2 bg-[#212437] border-slate-200 rounded-lg px-2'>
                                                 <select className='w-full bg-[#212437] focus:outline-none' name={jenisKelamin} onChange = {(e) => setKelas (e.target.value)} required>
                                                     <option></option>
-                                                    <option value="singa">Singa</option>
-                                                    <option value="macan">Macan</option>
-                                                    <option value="usia dini">Usia Dini</option>
-                                                    <option value="pra remaja">Pra Remaja</option>
-                                                    <option value="remaja">Remaja</option>
-                                                    <option value="dewasa">Dewasa</option>
-                                                    <option value="master a">Master A</option>
-                                                    <option value="master b">Master B</option>
+                                                    <option value="SINGA">Singa</option>
+                                                    <option value="MACAN">Macan</option>
+                                                    <option value="USIA DINI">Usia Dini</option>
+                                                    <option value="PRA REMAJA">Pra Remaja</option>
+                                                    <option value="REMAJA">Remaja</option>
+                                                    <option value="DEWASA">Dewasa</option>
+                                                    <option value="MASTER A">Master A</option>
+                                                    <option value="MASTER B">Master B</option>
                                                 </select>
                                             </div>
                                         </div>

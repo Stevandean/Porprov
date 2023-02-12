@@ -364,7 +364,7 @@ const modalJadwal = () => {
                                             <input className='w-full bg-[#212437] rounded-md focus:outline-none border-2 border-slate-200'
                                             type="text"
                                             value={babak}
-                                            onChange={(e) => setBabak(e.target.value)}
+                                            onChange={(e) => setBabak((e.target.value).toUpperCase ())}
                                             required
                                             >        
                                             </input>

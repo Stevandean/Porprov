@@ -214,6 +214,23 @@ const detail = () => {
     }
   }
 
+  // untuk ke details jurus
+  const toDetailsJurusBiru = async (item) => {
+    // untuk dikirim ke halaman details jurus melalui local storage
+    localStorage.setItem ('peserta', JSON.stringify(item.biru))
+    localStorage.setItem ('jadwal', (item.id))
+
+    router.push ('/seni/dewan/detailJurus')
+  }
+
+  const toDetailJurusMerah = async (item) => {
+    // untuk dikirim ke halaman details jurus melalui local storage
+    localStorage.setItem ('peserta', JSON.stringify(item.merah))
+    localStorage.setItem ('jadwal', (item.id))
+
+    router.push ('/seni/dewan/detailJurus')
+  }
+
   // state kematian
   const router = useRouter()
   const { proses } = router.query
@@ -405,8 +422,8 @@ const detail = () => {
                               {/* kontingen pesilat biru */}
                               <span className='font-medium texy-lg text-[#2C2F48]'>{item.biru.kontingen}</span>
                               {/* score & selesai button */}
-                              <div className="px-7 pb-3 space-y-5">
-                                <div className="grid grid-rows-2 mt-2 gap-x-7 gap-y-0.5">
+                              <div className="px-7 pb-3">
+                                <div className="grid grid-rows-2 mt-2 gap-x-7 gap-y-0.5 mb-5">
                                   <div className="grid grid-cols-2">
                                     <span className='bg-[#2C2F48] rounded-l-lg font-semibold py-1'>Skor Akhir</span>
                                     <span className='text-[#2C2F48] border-2 border-[#2C2F48] rounded-r-lg font-bold'>{item.skor_biru.skor_akhir.toFixed(2)}</span>
@@ -415,9 +432,15 @@ const detail = () => {
                                     <span className='bg-[#2C2F48] rounded-l-lg font-semibold py-1'>Standart Deviasi</span>
                                     <span className='text-[#2C2F48] border-2 border-[#2C2F48] rounded-r-lg font-bold'>{item.skor_biru.deviasi.toFixed(2)}</span>
                                   </div>
+                                  <div className="grid grid-cols-2">
+                                    <span className='bg-[#2C2F48] rounded-l-lg font-semibold py-1'>Waktu</span>
+                                    <span className='text-[#2C2F48] border-2 border-[#2C2F48] rounded-r-lg font-bold'>-</span>
+                                  </div>
                                 </div>
                                 {/* detail nilai button */}
-                                <button className='bg-[#39ac39] hover:bg-[#2f912f] px-7 w-full rounded-lg py-2 font-lg font-semibold' onClick={() => toDetailSelesaiBiru(item)}>Details Nilai</button>
+                                <button className='bg-[#39ac39] hover:bg-[#2f912f] px-7 w-full rounded-lg py-2 font-lg font-semibold mb-1.5' onClick={() => toDetailSelesaiBiru(item)}>Details Nilai</button>
+                                {/* detail jurus button */}
+                                <button className='bg-[#39ac39] hover:bg-[#2f912f] px-7 w-full rounded-lg py-2 font-lg font-semibold' onClick={() => toDetailsJurusBiru(item)}>Details Jurus</button>
                               </div>
                             </div>
                             {/* card pesilat merah */}
@@ -447,8 +470,8 @@ const detail = () => {
                               {/* kontingen pesilat merah */}
                               <span className='font-medium texy-lg text-[#2C2F48]'>{item.merah.kontingen}</span>
                               {/* score & selesai button */}
-                              <div className="px-7 pb-3 space-y-5">
-                                <div className="grid grid-rows-2 mt-2 gap-x-7 gap-y-0.5">
+                              <div className="px-7 pb-3">
+                                <div className="grid grid-rows-2 mt-2 gap-x-7 gap-y-0.5 mb-5">
                                   <div className="grid grid-cols-2">
                                     <span className='bg-[#2C2F48] rounded-l-lg font-semibold py-1'>Skor Akhir</span>
                                     <span className='text-[#2C2F48] border-2 border-[#2C2F48] rounded-r-lg font-bold'>{item.skor_merah.skor_akhir.toFixed(2)}</span>
@@ -457,9 +480,15 @@ const detail = () => {
                                     <span className='bg-[#2C2F48] rounded-l-lg font-semibold py-1'>Standart Deviasi</span>
                                     <span className='text-[#2C2F48] border-2 border-[#2C2F48] rounded-r-lg font-bold'>{item.skor_merah.deviasi.toFixed(2)}</span>
                                   </div>
+                                  <div className="grid grid-cols-2">
+                                    <span className='bg-[#2C2F48] rounded-l-lg font-semibold py-1'>Waktu</span>
+                                    <span className='text-[#2C2F48] border-2 border-[#2C2F48] rounded-r-lg font-bold'>-</span>
+                                  </div>
                                 </div>
                                 {/* detail nilai button */}
-                                <button className='bg-[#39ac39] hover:bg-[#2f912f] px-7 w-full rounded-lg py-2 font-lg font-semibold'onClick={() => toDetailSelesaiMerah (item)}>Details Nilai</button>
+                                <button className='bg-[#39ac39] hover:bg-[#2f912f] px-7 w-full rounded-lg py-2 font-lg font-semibold mb-1'onClick={() => toDetailSelesaiMerah (item)}>Details Nilai</button>
+                                {/* detail jurus button */}
+                                <button className='bg-[#39ac39] hover:bg-[#2f912f] px-7 w-full rounded-lg py-2 font-lg font-semibold'onClick={() => toDetailJurusMerah (item)}>Details Jurus</button>
                               </div>
                             </div>
                           </div>
@@ -467,7 +496,6 @@ const detail = () => {
                             <div className="flex flex-col px-3 space-y-1">
                               <span className='text-[#2C2F48] text-3xl font-bold'>Pemenang :</span>
                               {(() => {
-                                console.log(item.pemenang);
                                 if(item.id_pemenang == item.id_merah){
                                   return(
                                     <span className='bg-red-600 text-lg font-bold rounded-lg py-1'>Sudut Merah</span>
