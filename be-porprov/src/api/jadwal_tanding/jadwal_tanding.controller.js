@@ -17,7 +17,7 @@ module.exports = {
         try{
             const tanding = await Tanding.findAll({
                 attributes:{
-                    exclude:['createAt','updateAt']
+                    exclude:['createdAt','updatedAt']
                 },
                 include:[
                     "biru",
@@ -36,14 +36,40 @@ module.exports = {
             const tanding = await Tanding.findOne({
                 where:param,
                 attributes:{
-                    exclude:['createAt','updateAt']
-                }
+                    exclude:['createdAt','updatedAt']
+                },
+                include:[
+                    "biru",
+                    "merah",
+                    "pemenang",
+                ],
             })
             return getResponse( req, res, tanding )
         } catch (error) {
             return errorResponse( req, res, error.message )
         }
     },
+
+    getbyGelanggang: async (req,res)=>{
+        try{
+            let param = {gelanggang: req.params.gelanggang}
+            const tanding = await Tanding.findAll({
+                where:param,
+                attributes:{
+                    exclude:['createdAt','updatedAt']
+                },
+                include:[
+                    "biru",
+                    "merah",
+                    "pemenang",
+                ],
+            })
+            return getResponse( req, res, tanding )
+        } catch (error) {
+            return errorResponse( req, res, error.message )
+        }
+    },
+
     importCsv: async (req, res)=>{
         try{
             let file = "src/tmp/tanding.csv"
@@ -154,6 +180,51 @@ module.exports = {
             const result = await Tanding.destroy({truncate: true})
             return deleteResponse( req,res, data )
         } catch (error){
+            return errorResponse( req, res, error.message )
+        }
+    },
+
+    setKet: async (req,res) =>{
+        try {
+            let id = {id: req.params.id_jadwal}
+            let data = {
+                keterangan: req.body.keterangan
+            }
+            let result = await Tanding.update(data, {where: id})
+            return editResponse( req, res, result )
+        } catch (error) {
+            return errorResponse( req, res, error.message )
+        }
+    },
+
+    setSelesai: async (req,res) =>{
+        try {
+            let id = {id: req.params.id_jadwal}
+
+            const getJadwal = await Tanding.findOne({
+                where: id
+            })
+
+            let merah = getJadwal.total_merah
+            let biru = getJadwal.total_biru
+
+            let data = {
+                selesai: true
+            }
+
+
+            if (merah > biru) {
+                data.id_pemenang = getJadwal.id_merah                
+            } else if (biru > merah) {
+                data.id_pemenang = getJadwal.id_biru                
+            } else if (biru === merah){
+                return res.json({
+                    message: "Tidak dapat selesai. Total poin merah dan biru sama"
+                })
+            }
+            let result = await Tanding.update(data, {where: id})
+            return editResponse( req, res, result )
+        } catch (error) {
             return errorResponse( req, res, error.message )
         }
     }

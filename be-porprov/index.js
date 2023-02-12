@@ -89,6 +89,11 @@ app.use("/api/hukum/tgr", hukumTGRRouter)
 const eventRouter = require('./src/api/event/event.router')
 app.use("/api/event/", eventRouter)
 
+const GelanggangRouter = require("./src/api/gelanggang/gelanggang.router")
+app.use("/api/gelanggang/tanding", GelanggangRouter)
+
+const NilaiTandingRouter = require('./src/api/nilai_tanding/nilai_tanding.router')
+app.use('/api/nilai/tanding', NilaiTandingRouter)
 
 server.listen(PORT,() =>{
     console.log('server run on port ' + PORT)
