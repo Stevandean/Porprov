@@ -195,7 +195,7 @@ const nilai = () => {
                 babak : 'II',
                 poin : 2
             }
-            axios.post (BASE_URL + `/api/nilai/tanding/biru.juri`, form)
+            axios.post (BASE_URL + `/api/nilai/tanding/biru/juri`, form)
             .then (res => {
                 getNilai ()
                 console.log(res.data.message);
@@ -206,7 +206,7 @@ const nilai = () => {
         } else if (e == 'tambahTendanganMerah2') {
             let form = {
                 id_jadwal : jadwal,
-                id_juri : juri,
+                id_juri : juri.id,
                 babak : 'II',
                 poin : 2
             }
@@ -553,7 +553,7 @@ const nilai = () => {
                                                 </button>
                                             </div>
                                             {/* button hapus */}
-                                            <button onCLick={() => deleteNilai ('hapusNilaiBiru')} className="bg-blue-600 hover:bg-blue-700 rounded-xl flex justify-center items-center">
+                                            <button onClick={() => deleteNilai ('hapusNilaiBiru')} className="bg-blue-600 hover:bg-blue-700 rounded-xl flex justify-center items-center">
                                                 <h1 className='text-xl font-semibold'>Hapus</h1>
                                             </button>
                                         </div>
@@ -570,7 +570,7 @@ const nilai = () => {
                                                     <h1 className='text-xl font-semibold tracking-wider'>Pukulan</h1>
                                                 </button>
                                                 {/* button tendangan */}
-                                                <button onClick={() => tambahTedangan ('tambahTendanganMerah2')} className="bg-red-600 hover:bg-red-700 rounded-lg py-2 text-center">
+                                                <button onClick={() => tambahTendangan ('tambahTendanganMerah2')} className="bg-red-600 hover:bg-red-700 rounded-lg py-2 text-center">
                                                     <h1 className='text-xl font-semibold tracking-wider'>Tendangan</h1>
                                                 </button>
                                             </div>
