@@ -48,8 +48,18 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.UUID
     },
-    id_nilai_merah: DataTypes.UUID,
-    id_nilai_biru: DataTypes.UUID,
+    total_merah:{
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    total_biru:{
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    keterangan: {
+      type: DataTypes.STRING,
+      defaultValue: null
+    },
     selesai:{
       type: DataTypes.BOOLEAN,
       defaultValue: 0

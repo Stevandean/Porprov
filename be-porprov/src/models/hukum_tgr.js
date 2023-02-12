@@ -13,17 +13,11 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       this.belongsTo(models.jadwal_tgr,{
         foreignKey: "id_jadwal",
-        attributes:{
-          exclude:['createdAt','updatedAt']
-        },
         as: "jadwal"
       })
       this.belongsTo(models.peserta_seni,{
         foreignKey: "id_peserta",
         as: "peserta",
-        attributes:{
-          exclude:['createdAt','updatedAt']
-        },
       })
     }
   }
@@ -34,11 +28,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID
     },
     id_jadwal: {
-      allowNull: false,
       type: DataTypes.UUID
     },
     id_peserta: {
-      allowNull: false,
       type: DataTypes.UUID
     },
     hukum1: {

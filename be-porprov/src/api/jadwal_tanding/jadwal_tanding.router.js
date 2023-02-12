@@ -18,14 +18,20 @@ const {
     importCsv,
     editTanding,
     deleteTandingbyId,
-    deleteAllTanding
+    deleteAllTanding,
+    getbyGelanggang,
+    setKet,
+    setSelesai
  }= require("./jadwal_tanding.controller");
 
 //router
 router.get("/", getAll)
+router.get("/gel/:gelanggang", getbyGelanggang)
 router.get("/:id", getId);;
 router.post("/", addTanding)
 router.put("/:id", editTanding)
+router.put("/keterangan/:id_jadwal", setKet)
+router.put("/selesai/:id_jadwal", setSelesai)
 router.delete("/:id", deleteTandingbyId)
 router.delete("/delete/all", deleteAllTanding)
 router.post("/import", upload.single('file'), importCsv)
