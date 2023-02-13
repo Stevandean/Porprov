@@ -18,7 +18,7 @@ const jadwalGanda = () => {
     const [dropdownJadwal, setDropdownJadwal] = useState (false)
     
     // ini state
-    const [dataGanda, setDataGanda] = useState ([])
+    const [dataJadwalGanda, setDataJadwalGanda] = useState ([])
     const [action, setAction] = useState ('')
     const [idBiru, setIdBiru] = useState ('')
     const [idMerah, setIdMerah] = useState ('')
@@ -58,10 +58,10 @@ const jadwalGanda = () => {
         setIdJadwal (selectedId)
     }
 
-    const getGanda = () => {
+    const getJadwalGanda = () => {
         axios.get (BASE_URL + `/api/tgr/ganda`)
         .then (res => {
-            setDataGanda (res.data.data)
+            setDataJadwalGanda (res.data.data)
         })
         .catch (err => {
             console.log(err.message);
@@ -69,7 +69,7 @@ const jadwalGanda = () => {
     }
 
     useEffect (() => {
-        getGanda ()
+        getJadwalGanda ()
     }, [])
 
     return (
@@ -156,7 +156,7 @@ const jadwalGanda = () => {
                             </tr>
                         </thead>
                         <tbody className='text-center'>
-                        {dataGanda.map((item, index) => (
+                        {dataJadwalGanda.map((item, index) => (
                             <tr className='even:bg-[#4C4F6D] odd:bg-[#2c2f48]'>
                             <td className='py-5'>{index + 1}</td>
                             <td>{item.kelas}</td>
@@ -187,7 +187,7 @@ const jadwalGanda = () => {
             {/* akhir konten utama */}
         </div>
 
-        <globalState.Provider value={{ showModalJadwal, setShowModalJadwal, action, setAction, dataGanda, setDataGanda, idBiru, setIdBiru, idMerah, setIdMerah, idJadwal, setIdJadwal, jk, setJk, babak, setBabak}}>
+        <globalState.Provider value={{ showModalJadwal, setShowModalJadwal, action, setAction, dataJadwalGanda, setDataJadwalGanda, idBiru, setIdBiru, idMerah, setIdMerah, idJadwal, setIdJadwal, jk, setJk, babak, setBabak}}>
         <ModalJadwal />
         </globalState.Provider>
 
@@ -195,7 +195,7 @@ const jadwalGanda = () => {
         <ModalImport />
         </globalState.Provider>
 
-        <globalState.Provider value={{ showAlertHapus, setShowAlertHapus, idJadwal, setDataGanda }}>
+        <globalState.Provider value={{ showAlertHapus, setShowAlertHapus, idJadwal, setDataJadwalGanda }}>
         <ModalDelete />
         </globalState.Provider>
         </>

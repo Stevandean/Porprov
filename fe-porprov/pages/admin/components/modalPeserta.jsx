@@ -1,13 +1,10 @@
 import React, { useContext } from 'react'
 import { globalState } from '../../../context/context'
 import axios from 'axios'
-import socketIo from 'socket.io-client'
 import { useRouter } from 'next/router';
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const modalPeserta = () => {
-
-    const socket = socketIo (BASE_URL)
 
     const location = useRouter()
     const {pathname} = location
@@ -17,10 +14,10 @@ const modalPeserta = () => {
     const {action, id} = useContext (globalState)
 
     // ini state
-    const {dataTunggal, setDataTunggal} = useContext (globalState)
-    const {dataGanda, setDataGanda} = useContext (globalState)
-    const {dataRegu, setDataRegu} = useContext (globalState)
-    const {dataSoloKreatif, setDataSoloKreatif} = useContext (globalState)
+    const {dataTunggal, setDataPesertaTunggal} = useContext (globalState)
+    const {dataGanda, setDataPesertaGanda} = useContext (globalState)
+    const {dataRegu, setDataPesertaRegu} = useContext (globalState)
+    const {dataSoloKreatif, setDataPesertaSoloKreatif} = useContext (globalState)
     const {kelas, setKelas} = useContext (globalState)
     const {jenisKelamin, setJenisKelamin} = useContext (globalState)
     const {nama1, setNama1} = useContext (globalState)
@@ -28,40 +25,40 @@ const modalPeserta = () => {
     const {nama3, setNama3} = useContext (globalState)
     const {kontingen, setKontingen} = useContext (globalState)
 
-    const getTunggal = () => {
+    const getPesertaTunggal = () => {
         axios.get (BASE_URL + `/api/peserta/seni/tunggal`)
         .then (res => {
-            setDataTunggal (res.data.data)
+            setDataPesertaTunggal (res.data.data)
         })
         .catch (err => {
             console.log(err.message);
         })
     }
 
-    const getGanda = () => {
+    const getPesertaGanda = () => {
         axios.get (BASE_URL + `/api/peserta/seni/ganda`)
         .then (res => {
-            setDataGanda (res.data.data)
+            setDataPesertaGanda (res.data.data)
         })
         .catch (err => {
             console.log(err.message);
         })
     }
 
-    const getSoloKreatif = () => {
+    const getPesertaSoloKreatif = () => {
         axios.get (BASE_URL + `/api/peserta/seni/solo_kreatif`)
         .then (res => {
-            setDataSoloKreatif (res.data.data)
+            setDataPesertaSoloKreatif (res.data.data)
         })
         .catch (err => {
             console.log(err.message);
         })
     }
 
-    const getRegu = () => {
+    const getPesertaRegu = () => {
         axios.get (BASE_URL + `/api/peserta/seni/regu`)
         .then (res => {
-            setDataRegu (res.data.data)
+            setDataPesertaRegu (res.data.data)
         })
         .catch (err => {
             console.log(err.message);
@@ -82,7 +79,7 @@ const modalPeserta = () => {
             if (splitLoc.toString() === ',Tunggal') {
                 axios.post (BASE_URL + `/api/peserta/seni/tunggal`, form)
                 .then (res => {
-                    getTunggal ()
+                    getPesertaTunggal ()
                     setShowModalPeserta (false)
                 })
                 .catch (err => {
@@ -91,7 +88,7 @@ const modalPeserta = () => {
             } else if (splitLoc.toString() === ',Ganda') {
                 axios.post (BASE_URL + `/api/peserta/seni/ganda`, form)
                 .then(res => {
-                    getGanda ()
+                    getPesertaGanda ()
                     setShowModalPeserta (false)
                 })
                 .catch (err => {
@@ -100,13 +97,13 @@ const modalPeserta = () => {
             } else if (splitLoc.toString() === ',SoloKreatif') {
                 axios.post (BASE_URL + `/api/peserta/seni/solo_kreatif`, form)
                 .then (res => {
-                    getSoloKreatif ()
+                    getPesertaSoloKreatif ()
                     setShowModalPeserta (false)
                 })
             } else if (splitLoc.toString() === ',Regu') {
                 axios.post (BASE_URL + `/api/peserta/seni/regu`, form)
                 .then (res => {
-                    getRegu ()
+                    getPesertaRegu ()
                     setShowModalPeserta (false)
                 })
             } else {
@@ -116,7 +113,7 @@ const modalPeserta = () => {
             if (splitLoc.toString() === ',Tunggal') {
                 axios.put (BASE_URL + `/api/peserta/seni/${id}`, form)
                 .then (res => {
-                    getTunggal ()
+                    getPesertaTunggal ()
                     setShowModalPeserta (false)
                 })
                 .catch (err => {
@@ -125,7 +122,7 @@ const modalPeserta = () => {
             } else if (splitLoc.toString() === ',Ganda') {
                 axios.put (BASE_URL + `/api/peserta/seni/${id}`, form)
                 .then (res => {
-                    getGanda ()
+                    getPesertaGanda ()
                     setShowModalPeserta (false)
                 })
                 .catch (err => {
@@ -134,7 +131,7 @@ const modalPeserta = () => {
             } else if (splitLoc.toString() === ',SoloKreatif') {
                 axios.put (BASE_URL + `/api/peserta/seni/${id}`, form)
                 .then (res => {
-                    getSoloKreatif ()
+                    getPesertaSoloKreatif ()
                     setShowModalPeserta (false)
                 })
                 .catch (err => {
@@ -143,7 +140,7 @@ const modalPeserta = () => {
             } else if (splitLoc.toString() === ',Regu') {
                 axios.put (BASE_URL + `/api/peserta/seni/${id}`, form)
                 .then (res => {
-                    getRegu ()
+                    getPesertaRegu ()
                     setShowModalPeserta (false)
                 })
                 .catch (err => {
@@ -200,14 +197,14 @@ const modalPeserta = () => {
                                             <div className='border-2 bg-[#212437] border-slate-200 rounded-lg px-2'>
                                                 <select className='w-full bg-[#212437] focus:outline-none' name={jenisKelamin} onChange = {(e) => setKelas (e.target.value)} required>
                                                     <option></option>
-                                                    <option value="singa">Singa</option>
-                                                    <option value="macan">Macan</option>
-                                                    <option value="usia dini">Usia Dini</option>
-                                                    <option value="pra remaja">Pra Remaja</option>
-                                                    <option value="remaja">Remaja</option>
-                                                    <option value="dewasa">Dewasa</option>
-                                                    <option value="master a">Master A</option>
-                                                    <option value="master b">Master B</option>
+                                                    <option value="SINGA">Singa</option>
+                                                    <option value="MACAN">Macan</option>
+                                                    <option value="USIA DINI">Usia Dini</option>
+                                                    <option value="PRA REMAJA">Pra Remaja</option>
+                                                    <option value="REMAJA">Remaja</option>
+                                                    <option value="DEWASA">Dewasa</option>
+                                                    <option value="MASTER A">Master A</option>
+                                                    <option value="MASTER B">Master B</option>
                                                 </select>
                                             </div>
                                         </div>

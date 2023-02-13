@@ -18,7 +18,7 @@ const pesertaGanda = () => {
     const [showAlertHapus, setShowAlertHapus] = useState (false)
 
     // ini state
-    const [dataGanda, setDataGanda] = useState ([])
+    const [dataPesertaGanda, setDataPesertaGanda] = useState ([])
     const [action, setAction] = useState ('')
     const [id, setId] = useState ('')
     const [kelas, setKelas] = useState ('')
@@ -54,15 +54,18 @@ const pesertaGanda = () => {
         setId (selectedId)
     }
 
-    const getGanda = () => {
+    const getPesertaGanda = () => {
         axios.get (BASE_URL + `/api/peserta/seni/ganda`)
         .then (res => {
-            setDataGanda (res.data.data)
+            setDataPesertaGanda (res.data.data)
+        })
+        .catch (err => {
+          console.log (err.message)
         })
     }
 
     useEffect (() => {
-      getGanda ()
+      getPesertaGanda ()
     }, [])
 
   return (
@@ -112,7 +115,7 @@ const pesertaGanda = () => {
                     </tr>
                   </thead>
                 <tbody className='text-center'>
-                  {dataGanda.map((item, index) => (
+                  {dataPesertaGanda.map((item, index) => (
                     <tr className='even:bg-[#4C4F6D] odd:bg-[#2c2f48]'>
                       <td className='py-5'>{index + 1}</td>
                       <td>{item.kelas}</td>
@@ -142,7 +145,7 @@ const pesertaGanda = () => {
       {/* akhir konten utama */}
     </div>
 
-    <globalState.Provider value={{ showModalPeserta, setShowModalPeserta, action, setAction, id, setId, dataGanda, setDataGanda, kelas, setKelas, jenisKelamin, setJenisKelamin, nama1, setNama1, nama2, setNama2, kontingen, setKontingen, aktif, setAktif }}>
+    <globalState.Provider value={{ showModalPeserta, setShowModalPeserta, action, setAction, id, setId, dataPesertaGanda, setDataPesertaGanda, kelas, setKelas, jenisKelamin, setJenisKelamin, nama1, setNama1, nama2, setNama2, kontingen, setKontingen, aktif, setAktif }}>
       <ModalPeserta />
     </globalState.Provider>
 
@@ -150,7 +153,7 @@ const pesertaGanda = () => {
       <ModalImport />
     </globalState.Provider>
 
-    <globalState.Provider value={{ showAlertHapus, setShowAlertHapus, id, setDataGanda }}>
+    <globalState.Provider value={{ showAlertHapus, setShowAlertHapus, id, setDataPesertaGanda }}>
       <ModalDelete />
     </globalState.Provider>
 

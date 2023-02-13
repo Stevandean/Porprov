@@ -18,7 +18,7 @@ const jadwalRegu = () => {
     const [dropdownJadwal, setDropdownJadwal] = useState (false)
 
     // ini state
-    const [dataRegu, setDataRegu] = useState ([])
+    const [dataJadwalRegu, setDataJadwalRegu] = useState ([])
     const [action, setAction] = useState ('')
     const [idBiru, setIdBiru] = useState ('')
     const [idMerah, setIdMerah] = useState ('')
@@ -58,10 +58,10 @@ const jadwalRegu = () => {
         setIdJadwal (selectedId)
     }
 
-    const getRegu = () => {
+    const getJadwalRegu = () => {
         axios.get (BASE_URL + `/api/tgr/regu`)
         .then (res => {
-            setDataRegu (res.data.data)
+            setDataJadwalRegu (res.data.data)
         })
         .catch (err => {
             console.log(err.message);
@@ -69,7 +69,7 @@ const jadwalRegu = () => {
     }
 
     useEffect (() => {
-        getRegu ()
+        getJadwalRegu ()
     }, [])
 
     return (
@@ -156,7 +156,7 @@ const jadwalRegu = () => {
                                     </tr>
                                 </thead>
                                 <tbody className='text-center'>
-                                {dataRegu.map((item, index) => (
+                                {dataJadwalRegu.map((item, index) => (
                                     <tr className='even:bg-[#4C4F6D] odd:bg-[#2c2f48]'>
                                     <td className='py-5'>{index + 1}</td>
                                     <td>{item.kelas}</td>
@@ -187,7 +187,7 @@ const jadwalRegu = () => {
                 {/* akhir konten utama */}
             </div>
 
-            <globalState.Provider value={{ showModalJadwal, setShowModalJadwal, action, setAction, dataRegu, setDataRegu, idBiru, setIdBiru, idMerah, setIdMerah, idJadwal, setIdJadwal, jk, setJk, babak, setBabak}}>
+            <globalState.Provider value={{ showModalJadwal, setShowModalJadwal, action, setAction, dataJadwaRegu, setDataJadwalRegu, idBiru, setIdBiru, idMerah, setIdMerah, idJadwal, setIdJadwal, jk, setJk, babak, setBabak}}>
                 <ModalJadwal />
             </globalState.Provider>
 
@@ -195,7 +195,7 @@ const jadwalRegu = () => {
                 <ModalImport />
             </globalState.Provider>
 
-            <globalState.Provider value={{ showAlertHapus, setShowAlertHapus, idJadwal, setDataRegu }}>
+            <globalState.Provider value={{ showAlertHapus, setShowAlertHapus, idJadwal, setDataJadwalRegu }}>
                 <ModalDelete />
             </globalState.Provider>
     </>

@@ -468,7 +468,7 @@ const detailSelesai = () => {
                         </div>
                         <div className="grid grid-cols-2 gap-x-4">
                             <span className='text-xl font-semibold rounded-lg bg-[#2C2F48]'>Standart Deviasi</span>
-                            <span className='text-xl font-semibold rounded-lg bg-white text-black border-2 border-[#2C2F48]'>{deviasi?.toFixed(2)}</span>
+                            <span className='text-xl font-semibold rounded-lg bg-white text-black border-2 border-[#2C2F48]'>{deviasi}</span>
                         </div>
                     </div>
 

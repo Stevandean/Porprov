@@ -17,7 +17,7 @@ const pesertaSoloKreatif = () => {
     const [showAlertHapus, setShowAlertHapus] = useState (false)
 
     // ini state
-    const [dataSoloKreatif, setDataSoloKreatif] = useState ([])
+    const [dataPesertaSoloKreatif, setDataPesertaSoloKreatif] = useState ([])
     const [action, setAction] = useState ('')
     const [id, setId] = useState ('')
     const [kelas, setKelas] = useState ('')
@@ -51,10 +51,10 @@ const pesertaSoloKreatif = () => {
         setId (selectedId)
     }
 
-    const getSoloKreatif = () => {
+    const getPesertaSoloKreatif = () => {
         axios.get (BASE_URL + `/api/peserta/seni/solo_kreatif`)
         .then (res => {
-            setDataSoloKreatif (res.data.data)
+            setDataPesertaSoloKreatif (res.data.data)
         })
         .catch (err => {
             console.log(err.response.data.message);
@@ -62,7 +62,7 @@ const pesertaSoloKreatif = () => {
     }
 
     useEffect (() => {
-        getSoloKreatif ()
+        getPesertaSoloKreatif ()
     }, [])
 
     return (
@@ -112,7 +112,7 @@ const pesertaSoloKreatif = () => {
                                 </tr>
                             </thead>
                             <tbody className='text-center'>
-                            {dataSoloKreatif.map((item, index) => (
+                            {dataPesertaSoloKreatif.map((item, index) => (
                                 <tr className='even:bg-[#4C4F6D] odd:bg-[#2c2f48]'>
                                 <td className='py-5'>{index + 1}</td>
                                 <td>{item.kelas}</td>
@@ -142,7 +142,7 @@ const pesertaSoloKreatif = () => {
                 {/* akhir konten utama */}
             </div>
 
-            <globalState.Provider value={{ showModalPeserta, setShowModalPeserta, action, setAction, id, setId, dataSoloKreatif, setDataSoloKreatif, kelas, setKelas, jenisKelamin, setJenisKelamin, nama1, setNama1, kontingen, setKontingen, aktif, setAktif }}>
+            <globalState.Provider value={{ showModalPeserta, setShowModalPeserta, action, setAction, id, setId, dataPesertaSoloKreatif, setDataPesertaSoloKreatif, kelas, setKelas, jenisKelamin, setJenisKelamin, nama1, setNama1, kontingen, setKontingen, aktif, setAktif }}>
                 <ModalPeserta />
             </globalState.Provider>
 
@@ -150,7 +150,7 @@ const pesertaSoloKreatif = () => {
                 <ModalImport />
             </globalState.Provider>
 
-            <globalState.Provider value={{ showAlertHapus, setShowAlertHapus, id, setDataSoloKreatif }}>
+            <globalState.Provider value={{ showAlertHapus, setShowAlertHapus, id, setDataPesertaSoloKreatif }}>
                 <ModalDelete />
             </globalState.Provider>
 
