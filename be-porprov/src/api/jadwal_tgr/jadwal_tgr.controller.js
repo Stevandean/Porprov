@@ -314,7 +314,7 @@ module.exports = {
                 deviasi: req.body.deviasi,
                 selesai: 1
             }
-            const result = await Skor.update(data, {where:id})
+            const update_peserta = await Skor.update(data, {where:id})
 
             //cek apakah semua peserta telah selesai
             const peserta = await Tgr.findOne({
@@ -327,10 +327,9 @@ module.exports = {
             let merah = peserta.skor_merah
             let biru = peserta.skor_biru
 
-            if(merah && biru){
+            let result= []
 
-                let satu = merah.selesai
-                let dua = biru.selesai
+            if(merah && biru){
                 
                 let skorMerah = merah.deviasi
                 let skorBiru = biru.deviasi
@@ -338,27 +337,29 @@ module.exports = {
                 console.log("biru " +skorBiru);
                 console.log("merah " +skorMerah);
 
-                if(satu === 1 && dua === 1){
-                    if(skorMerah < skorBiru){
-                        console.log("menang merah");
-                        let selesai = {
-                            id_pemenang: merah.id_peserta,
-                            selesai: 1,
-                            aktif: 0
-                        }
-                        await Tgr.update(selesai, {where: {id: req.params.id_jadwal}})
-                    }else if(skorBiru < skorMerah){
-                        console.log("menang biru");
-                        let selesai = {
-                            id_pemenang: biru.id_peserta,
-                            selesai: 1,
-                            aktif: 0
-                        }
-                        await Tgr.update(selesai, {where: {id: req.params.id_jadwal}})
+                if(skorMerah < skorBiru){
+                    console.log("menang merah");
+                    let selesai = {
+                        // id_pemenang: merah.id_peserta,
+                        selesai: 1,
+                        // aktif: 0
                     }
+                    result = await Tgr.update(selesai, {where: {id: req.params.id_jadwal}})
+                }else if(skorBiru < skorMerah){
+                    console.log("menang biru");
+                    let selesai = {
+                        id_pemenang: biru.id_peserta,
+                        selesai: 1,
+                        aktif: 0
+                    }
+                    result = await Tgr.update(selesai, {where: {id: req.params.id_jadwal}})
+                }else if (skorBiru = skorMerah) {
+                    return res.json({
+                        status: false,
+                        message: "Tidak dapat menyelesaikan pertandingan Karena Nilai sama"
+                    })
                 }
-
-            }else{
+            } else {
                 console.log("peserta lain belum selesai");
             }
             return editResponse(req, res, result)
@@ -378,7 +379,8 @@ module.exports = {
                 id_merah: req.body.id_merah,
                 babak: req.body.babak,
                 selesai: req.body.selesai,
-                aktif: req.body.aktif
+                aktif: req.body.aktif,
+                id_pemenang: req.body.id_pemenang
             }
 
             if(req.body.partai){
