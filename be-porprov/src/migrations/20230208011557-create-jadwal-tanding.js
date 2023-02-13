@@ -40,11 +40,14 @@ module.exports = {
           key:"id"
         }
       },
-      id_nilai_merah: {
-        type: Sequelize.UUID
+      total_merah: {
+        type: Sequelize.INTEGER
       },
-      id_nilai_biru: {
-        type: Sequelize.UUID
+      total_biru: {
+        type: Sequelize.INTEGER
+      },
+      keterangan: {
+        type: Sequelize.STRING
       },
       id_pemenang: {
         type: Sequelize.UUID,
