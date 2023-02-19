@@ -6,6 +6,7 @@ const Regu = models.nilai_regu
 const Hukum = models.hukum_tgr
 const Peserta = models.peserta_seni
 const Skor = models.skor
+const Timer = models.timer_seni
 
 const fs = require("fs");
 const readline = require("readline");
@@ -69,7 +70,7 @@ module.exports = {
             const tgr = await Tgr.findAll({
                 where:kategori,
                 attributes: 
-                [sequelize.fn('DISTINCT', sequelize.col('jk', 'kelas', 'babak')),'jk', 'kelas', 'babak'],
+                [sequelize.fn('DISTINCT', sequelize.col('jk', 'kelas')),'jk', 'kelas'],
                 order: [
                     ['kelas', 'ASC'],
                 ],
@@ -89,7 +90,7 @@ module.exports = {
             const tgr = await Tgr.findAll({
                 where:kategori,
                 attributes: 
-                [sequelize.fn('DISTINCT', sequelize.col('jk', 'kelas', 'babak')),'jk', 'kelas', 'babak'],
+                [sequelize.fn('DISTINCT', sequelize.col('jk', 'kelas')),'jk', 'kelas'],
                 order: [
                     ['kelas', 'ASC'],
                 ],
@@ -115,7 +116,9 @@ module.exports = {
                 include:[
                     "biru",
                     "merah",
-                    "pemenang"
+                    "pemenang",
+                    "skor_merah",
+                    "skor_biru"
                 ],
                 order: [
                     ['partai', 'ASC'],
@@ -132,8 +135,7 @@ module.exports = {
             let body = {
                 kategori: req.params.kategori,
                 jk: req.params.jk,
-                kelas: req.params.kelas,
-                babak: req.params.babak
+                kelas: req.params.kelas
             }
             const tgr = await Tgr.findAll({
                 where:body,
@@ -157,7 +159,7 @@ module.exports = {
         }
     },
 
-    getTunggalId: async (req,res) =>{
+    getbyId: async (req,res) =>{
         try{
             let param = {id: req.params.id}
             const tgr = await Tgr.findOne({
@@ -166,11 +168,11 @@ module.exports = {
                     exclude:['createdAt','updatedAt']
                 },
                 include : [
-                    {
-                        model: models.nilai_tunggal,
-                        as: "nilai_tunggal",
-                        include:["juri"]
-                    }
+                    "biru",
+                    "merah",
+                    "pemenang",
+                    "skor_merah",
+                    "skor_biru"
                 ]
             })
             return getResponse( req, res, tgr)
@@ -192,18 +194,33 @@ module.exports = {
                 kelas: req.body.kelas,
                 babak: req.body.babak
             }
-            let result = await Tgr.create(data)
-            let peserta = await Peserta.findOne({
-                where: {id: result.id_merah}
+            let cekPartai = await Tgr.findOne({
+                where: {
+                    partai: req.body.partai,
+                    kategori: "TUNGGAL",
+                }
             })
-            let data2 = {
-                jk: peserta.jk,
-                kelas: peserta.kelas
+
+            if(cekPartai){
+                return res.json({
+                    message: `partai ${req.body.partai} sudah ada`
+                })
+            } else {
+                let result = await Tgr.create(data)
+
+                let peserta = await Peserta.findOne({
+                    where: {id: result.id_merah}
+                })
+    
+                let data2 = {
+                    jk: peserta.jk,
+                    kelas: peserta.kelas
+                }
+                let update = await Tgr.update(data2,{
+                    where: {id: id}
+                })
+                return addResponse( req, res, update )
             }
-            let update = await Tgr.update(data2,{
-                where: {id: id}
-            })
-            return addResponse( req, res, update )
         } catch (error){
             return errorResponse( req, res, error.message )
         }
@@ -222,18 +239,33 @@ module.exports = {
                 kelas: req.body.kelas,
                 babak: req.body.babak
             }
-            let result = await Tgr.create(data)
-            let peserta = await Peserta.findOne({
-                where: {id: result.id_merah}
+            let cekPartai = await Tgr.findOne({
+                where: {
+                    partai: req.body.partai,
+                    kategori: "GANDA",
+                }
             })
-            let data2 = {
-                jk: peserta.jk,
-                kelas: peserta.kelas
+
+            if(cekPartai){
+                return res.json({
+                    message: `partai ${req.body.partai} sudah ada`
+                })
+            } else {
+                let result = await Tgr.create(data)
+
+                let peserta = await Peserta.findOne({
+                    where: {id: result.id_merah}
+                })
+    
+                let data2 = {
+                    jk: peserta.jk,
+                    kelas: peserta.kelas
+                }
+                let update = await Tgr.update(data2,{
+                    where: {id: id}
+                })
+                return addResponse( req, res, update )
             }
-            let update = await Tgr.update(data2,{
-                where: {id: id}
-            })
-            return addResponse( req, res, update )
         } catch (error){
             return errorResponse( req, res, error.message )
         }
@@ -252,18 +284,33 @@ module.exports = {
                 kelas: req.body.kelas,
                 babak: req.body.babak
             }
-            let result = await Tgr.create(data)
-            let peserta = await Peserta.findOne({
-                where: {id: result.id_merah}
+            let cekPartai = await Tgr.findOne({
+                where: {
+                    partai: req.body.partai,
+                    kategori: "REGU",
+                }
             })
-            let data2 = {
-                jk: peserta.jk,
-                kelas: peserta.kelas
+
+            if(cekPartai){
+                return res.json({
+                    message: `partai ${req.body.partai} sudah ada`
+                })
+            } else {
+                let result = await Tgr.create(data)
+
+                let peserta = await Peserta.findOne({
+                    where: {id: result.id_merah}
+                })
+    
+                let data2 = {
+                    jk: peserta.jk,
+                    kelas: peserta.kelas
+                }
+                let update = await Tgr.update(data2,{
+                    where: {id: id}
+                })
+                return addResponse( req, res, update )
             }
-            let update = await Tgr.update(data2,{
-                where: {id: id}
-            })
-            return addResponse( req, res, update )
         } catch (error){
             return errorResponse( req, res, error.message )
         }
@@ -277,23 +324,38 @@ module.exports = {
                 partai: req.body.partai,
                 id_biru: req.body.id_biru,
                 id_merah: req.body.id_merah,
-                kategori: "solo_kreatif",
+                kategori: "SOLO_KREATIF",
                 jk: req.body.jk,
                 kelas: req.body.kelas,
                 babak: req.body.babak
             }
-            let result = await Tgr.create(data)
-            let peserta = await Peserta.findOne({
-                where: {id: result.id_merah}
+            let cekPartai = await Tgr.findOne({
+                where: {
+                    partai: req.body.partai,
+                    kategori: "SOLO_KREATIF",
+                }
             })
-            let data2 = {
-                jk: peserta.jk,
-                kelas: peserta.kelas
+
+            if(cekPartai){
+                return res.json({
+                    message: `partai ${req.body.partai} sudah ada`
+                })
+            } else {
+                let result = await Tgr.create(data)
+
+                let peserta = await Peserta.findOne({
+                    where: {id: result.id_merah}
+                })
+    
+                let data2 = {
+                    jk: peserta.jk,
+                    kelas: peserta.kelas
+                }
+                let update = await Tgr.update(data2,{
+                    where: {id: id}
+                })
+                return addResponse( req, res, update )
             }
-            let update = await Tgr.update(data2,{
-                where: {id: id}
-            })
-            return addResponse( req, res, update )
         } catch (error){
             return errorResponse( req, res, error.message )
         }
@@ -308,8 +370,8 @@ module.exports = {
             
             //set selesai peserta
             let data = {
-                waktu: req.body.waktu,
                 median: req.body.median,
+                total_hukum: req.body.total_hukum,
                 skor_akhir: req.body.skor_akhir,
                 deviasi: req.body.deviasi,
                 selesai: 1
@@ -329,23 +391,25 @@ module.exports = {
 
             let result= []
 
-            if(merah && biru){
+            if(merah.selesai == true && biru.selesai == true){
                 
-                let skorMerah = merah.deviasi
-                let skorBiru = biru.deviasi
+                let skorMerah = merah.skor_akhir
+                let skorBiru = biru.skor_akhir
+                let devMerah = merah.deviasi
+                let devBiru = biru.deviasi
 
-                console.log("biru " +skorBiru);
-                console.log("merah " +skorMerah);
+                console.log("biru " + devBiru);
+                console.log("merah " + devMerah);
 
-                if(skorMerah < skorBiru){
+                if(skorMerah > skorBiru){
                     console.log("menang merah");
                     let selesai = {
-                        // id_pemenang: merah.id_peserta,
+                        id_pemenang: merah.id_peserta,
                         selesai: 1,
-                        // aktif: 0
+                        aktif: 0
                     }
                     result = await Tgr.update(selesai, {where: {id: req.params.id_jadwal}})
-                }else if(skorBiru < skorMerah){
+                }else if(skorBiru > skorMerah){
                     console.log("menang biru");
                     let selesai = {
                         id_pemenang: biru.id_peserta,
@@ -354,10 +418,28 @@ module.exports = {
                     }
                     result = await Tgr.update(selesai, {where: {id: req.params.id_jadwal}})
                 }else if (skorBiru = skorMerah) {
-                    return res.json({
-                        status: false,
-                        message: "Tidak dapat menyelesaikan pertandingan Karena Nilai sama"
-                    })
+                    if(devMerah < devBiru){
+                        console.log("menang merah");
+                        let selesai = {
+                            id_pemenang: merah.id_peserta,
+                            selesai: 1,
+                            aktif: 0
+                        }
+                        result = await Tgr.update(selesai, {where: {id: req.params.id_jadwal}})
+                    } else if (devBiru < devMerah){
+                        console.log("menang biru");
+                        let selesai = {
+                            id_pemenang: biru.id_peserta,
+                            selesai: 1,
+                            aktif: 0
+                        }
+                        result = await Tgr.update(selesai, {where: {id: req.params.id_jadwal}})
+                    } else {
+                        return res.json({
+                            status: false,
+                            message: "Tidak dapat menyelesaikan pertandingan Karena Nilai sama"
+                        })
+                    }
                 }
             } else {
                 console.log("peserta lain belum selesai");
@@ -440,6 +522,84 @@ module.exports = {
             const result = await Tgr.destroy({truncate: { cascade: false }})
             return deleteResponse( req,res, data )
         } catch (error){
+            return errorResponse( req, res, error.message )
+        }
+    },
+
+    getTimer: async (req,res) => {
+        try {
+            const result = await Timer.findOne({
+                where: {
+                    id_jadwal: req.params.id_jadwal,
+                    id_peserta: req.params.id_peserta
+                }
+            })
+            return getResponse ( req, res, result )
+        } catch (error) {
+            return errorResponse( req, res, error.message )
+        }
+    },
+
+    startTimer: async (req,res) => {
+        try {
+            let data = {
+                id: uuidv4(),
+                id_jadwal: req.body.id_jadwal,
+                id_peserta: req.body.id_peserta,
+                running: true,
+                start: new Date().toISOString()
+            }
+
+            let cek = await Timer.findOne({
+                where: {
+                    id_jadwal: req.body.id_jadwal,
+                    id_peserta: req.body.id_peserta
+                }
+            })
+
+            let result = []
+            if(cek){
+                console.log("Jadwal Peserta Telah Dimulai")
+                return res.json({
+                    message: "Jadwal Peserta telah dimulai"
+                })
+            } else {
+                result = await Timer.create(data)
+            }
+            return addResponse( req, res, result )
+        } catch (error) {
+            return errorResponse( req, res, error.message )
+        }
+    },
+
+    timerSelesai: async (req,res) => {
+        try{
+            let id = {
+                id_jadwal: req.body.id_jadwal,
+                id_peserta: req.body.id_peserta
+            }
+
+            const getTimer = await Timer.findOne({where: id})
+
+            if (getTimer.selesai === true) {
+                return res.json({
+                    message: "Pertandingan telah selesai"
+                })
+            } else {
+                let data = {
+                    running: false,
+                    finish: new Date().toISOString(),
+                    selesai: 1
+                }
+                let result = await Timer.update(data, {where: id})
+    
+                let waktu = {
+                    waktu: req.body.waktu
+                }
+                const update_peserta = await Skor.update(waktu, {where:id})
+                return editResponse( req, res, result )
+            }
+        } catch (error) {
             return errorResponse( req, res, error.message )
         }
     }

@@ -2,7 +2,8 @@ const models = require('../../models/index')
 const Tanding = models.jadwal_tanding
 const Nilai = models.nilai_tanding
 const Poin = models.poin
-const Logs = models.log_poin_juri1
+const Juri = models.juri
+const Logs1 = models.log_poin_juri1
 const {v4 : uuidv4} = require("uuid")
 const {
     getResponse,
@@ -227,32 +228,14 @@ module.exports = {
             return errorResponse( req, res, error.message )
         }
     },
-    getbyIdJadwal: async (req,res) =>{
+
+    getNilaiLayar: async (req,res) =>{
         try{
             const id_jadwal = {id_jadwal: req.params.id_jadwal}
             const result = await Nilai.findAll({
                 where: id_jadwal,
                 attributes: ["id","babak"],
                 include:[
-                    //include jadwal
-                    {
-                        model: models.jadwal_tanding,
-                        as: 'jadwal',
-                        attributes: ["id","partai","kelas","jk","babak","total_merah","total_biru"],
-                        include:[
-                            {
-                                model: models.peserta_tanding,
-                                as: 'merah',
-                                attributes: ["id","nama","kontingen"]
-                            },
-                            {
-                                model: models.peserta_tanding,
-                                as: 'biru',
-                                attributes: ["id","nama","kontingen"]
-                            },
-                        ]
-                    },
-
                     //include poin merah
                     {
                         model: models.poin,
@@ -261,65 +244,11 @@ module.exports = {
                             exclude: ["createdAt","updatedAt"]
                         },
                         include:[
-
-                            //show log juri 1
-                            {
-                                model: models.log_poin_juri1,
-                                as: "log_juri1",
-                                attributes:["poin", "masuk", "createdAt"],
-                                order: [
-                                    [{model:models.log_poin_juri1, as: "juri1"}, 'createdAt', 'DESC'],
-                                ]
-                            },
-
-                            //show log juri 2
-                            {
-                                model: models.log_poin_juri2,
-                                as: "log_juri2",
-                                attributes:["poin", "createdAt"],
-                                order: [
-                                    [{model:models.log_poin_juri2, as: "juri2"}, 'createdAt', 'DESC'],
-                                ]
-                            },
-
-                            //show log juri 3
-                            {
-                                model: models.log_poin_juri3,
-                                as: "log_juri3",
-                                attributes:["poin", "createdAt"],
-                                order: [
-                                    [{model:models.log_poin_juri3, as: "juri3"}, 'createdAt', 'DESC'],
-                                ]
-                            },
-
-                            //show log poin masuk
-                            {
-                                model: models.log_poin_masuk,
-                                as: "log_poin_masuk",
-                                attributes:["poin", "createdAt"],
-                                order: [
-                                    [{model:models.log_poin_masuk, as: "log_poin_masuk"}, 'createdAt', 'DESC'],
-                                ]
-                            },
-
-                            //show log jatuhan
-                            {
-                                model: models.log_jatuhan,
-                                as: "log_jatuhan",
-                                attributes:["poin", "createdAt"],
-                                order: [
-                                    [{model:models.log_jatuhan, as: "log_jatuhan"}, 'createdAt', 'DESC'],
-                                ]
-                            },
-
                             //show log binaan
                             {
                                 model: models.log_binaan,
                                 as: "log_binaan",
                                 attributes:["poin", "createdAt"],
-                                order: [
-                                    [{model:models.log_binaan, as: "log_binaan"}, 'createdAt', 'DESC'],
-                                ]
                             },
 
                             //show log teguran
@@ -327,9 +256,6 @@ module.exports = {
                                 model: models.log_teguran,
                                 as: "log_teguran",
                                 attributes:["poin", "createdAt"],
-                                order: [
-                                    [{model:models.log_teguran, as: "log_teguran"}, 'createdAt', 'DESC'],
-                                ]
                             },
 
                             //show log peringatan
@@ -337,9 +263,6 @@ module.exports = {
                                 model: models.log_peringatan,
                                 as: "log_peringatan",
                                 attributes:["poin", "createdAt"],
-                                order: [
-                                    [{model:models.log_peringatan, as: "log_peringatan"}, 'createdAt', 'DESC'],
-                                ]
                             },
                         ]
                     },
@@ -352,59 +275,11 @@ module.exports = {
                             exclude: ["createdAt","updatedAt"]
                         },
                         include:[
-
-                            //show log juri 1
-                            {
-                                model: models.log_poin_juri1,
-                                as: "log_juri1",
-                                attributes:["poin", "masuk", "createdAt"],
-                            },
-
-                            //show log juri 2
-                            {
-                                model: models.log_poin_juri2,
-                                as: "log_juri2",
-                                attributes:["poin", "masuk", "createdAt"],
-                            },
-
-                            //show log juri 3
-                            {
-                                model: models.log_poin_juri3,
-                                as: "log_juri3",
-                                attributes:["poin", "masuk", "createdAt"],
-                                order: [
-                                    [{model:models.log_poin_juri3, as: "juri3"}, 'createdAt', 'DESC'],
-                                ]
-                            },
-
-                            //show log poin masuk
-                            {
-                                model: models.log_poin_masuk,
-                                as: "log_poin_masuk",
-                                attributes:["poin", "createdAt"],
-                                order: [
-                                    [{model:models.log_poin_masuk, as: "log_poin_masuk"}, 'createdAt', 'DESC'],
-                                ]
-                            },
-
-                            //show log jatuhan
-                            {
-                                model: models.log_jatuhan,
-                                as: "log_jatuhan",
-                                attributes:["poin", "createdAt"],
-                                order: [
-                                    [{model:models.log_jatuhan, as: "log_jatuhan"}, 'createdAt', 'DESC'],
-                                ]
-                            },
-
                             //show log binaan
                             {
                                 model: models.log_binaan,
                                 as: "log_binaan",
                                 attributes:["poin", "createdAt"],
-                                order: [
-                                    [{model:models.log_binaan, as: "log_binaan"}, 'createdAt', 'DESC'],
-                                ]
                             },
 
                             //show log teguran
@@ -412,9 +287,6 @@ module.exports = {
                                 model: models.log_teguran,
                                 as: "log_teguran",
                                 attributes:["poin", "createdAt"],
-                                order: [
-                                    [{model:models.log_teguran, as: "log_teguran"}, 'createdAt', 'DESC'],
-                                ]
                             },
 
                             //show log peringatan
@@ -422,9 +294,6 @@ module.exports = {
                                 model: models.log_peringatan,
                                 as: "log_peringatan",
                                 attributes:["poin", "createdAt"],
-                                order: [
-                                    [{model:models.log_peringatan, as: "log_peringatan"}, 'createdAt', 'DESC'],
-                                ]
                             },
                         ]
                     },
@@ -434,86 +303,36 @@ module.exports = {
 
                     //order poin biru
                     [
-                    {model: models.poin, as: "poin_merah"}, 
-                    {model: models.log_poin_juri1,
-                    as: "log_juri1"},  'createdAt', 'DESC'
-                    ],
-                    [
-                        {model: models.poin, as: "poin_merah"}, 
-                        {model: models.log_poin_juri2,
-                        as: "log_juri2"},  'createdAt', 'DESC'
-                    ],
-                    [
-                        {model: models.poin, as: "poin_merah"}, 
-                        {model: models.log_poin_juri3,
-                        as: "log_juri3"},  'createdAt', 'DESC'
-                    ],
-                    [
-                        {model: models.poin, as: "poin_merah"}, 
-                        {model: models.log_poin_masuk,
-                        as: "log_poin_masuk"},  'createdAt', 'DESC'
-                    ],
-                    [
-                        {model: models.poin, as: "poin_merah"}, 
-                        {model: models.log_jatuhan,
-                        as: "log_jatuhan"},  'createdAt', 'DESC'
-                    ],
-                    [
                         {model: models.poin, as: "poin_merah"}, 
                         {model: models.log_binaan,
-                        as: "log_binaan"},  'createdAt', 'DESC'
+                        as: "log_binaan"},  'createdAt', 'ASC'
                     ],
                     [
                         {model: models.poin, as: "poin_merah"}, 
-                        {model: models.log_teguran,
-                        as: "log_teguran"},  'createdAt', 'DESC'
+                        {model: models.log_teguran,as: "log_teguran"},
+                        'poin', 'DESC'
                     ],
                     [
                         {model: models.poin, as: "poin_merah"}, 
-                        {model: models.log_peringatan,
-                        as: "log_peringatan"},  'createdAt', 'DESC'
+                        {model: models.log_peringatan, as: "log_peringatan"},
+                        'poin', 'DESC'
                     ],
 
                     //order poin biru
                     [
                         {model: models.poin, as: "poin_biru"}, 
-                        {model: models.log_poin_juri1,
-                        as: "log_juri1"},  'createdAt', 'DESC'
-                    ],
-                    [
-                        {model: models.poin, as: "poin_biru"}, 
-                        {model: models.log_poin_juri2,
-                        as: "log_juri2"},  'createdAt', 'DESC'
-                    ],
-                    [
-                        {model: models.poin, as: "poin_biru"}, 
-                        {model: models.log_poin_juri3,
-                        as: "log_juri3"},  'createdAt', 'DESC'
-                    ],
-                    [
-                        {model: models.poin, as: "poin_biru"}, 
-                        {model: models.log_poin_masuk,
-                        as: "log_poin_masuk"},  'createdAt', 'DESC'
-                    ],
-                    [
-                        {model: models.poin, as: "poin_biru"}, 
-                        {model: models.log_jatuhan,
-                        as: "log_jatuhan"},  'createdAt', 'DESC'
-                    ],
-                    [
-                        {model: models.poin, as: "poin_biru"}, 
                         {model: models.log_binaan,
                         as: "log_binaan"},  'createdAt', 'DESC'
                     ],
                     [
                         {model: models.poin, as: "poin_biru"}, 
                         {model: models.log_teguran,
-                        as: "log_teguran"},  'createdAt', 'DESC'
+                        as: "log_teguran"},  'poin', 'DESC'
                     ],
                     [
                         {model: models.poin, as: "poin_biru"}, 
                         {model: models.log_peringatan,
-                        as: "log_peringatan"},  'createdAt', 'DESC'
+                        as: "log_peringatan"},  'poin', 'DESC'
                     ],
                     
                 ],
@@ -523,6 +342,958 @@ module.exports = {
             return errorResponse( req, res, error.message )
         }
     },
+
+    getbyIdJadwal: async (req,res) =>{
+        try{
+            const id_jadwal = {id_jadwal: req.params.id_jadwal}
+            const result = await Nilai.findAll({
+                where: id_jadwal,
+                attributes: ["babak"],
+                include:[
+                    //include poin merah
+                    {
+                        model: models.poin,
+                        as: 'poin_merah',
+                        attributes: ['dis'],
+                        include:[
+
+                            //show log juri 1
+                            {
+                                model: models.log_poin_juri1,
+                                as: "log_juri1",
+                                attributes:["poin"],
+                            },
+
+                            //show log juri 2
+                            {
+                                model: models.log_poin_juri2,
+                                as: "log_juri2",
+                                attributes:["poin"],
+                            },
+
+                            //show log juri 3
+                            {
+                                model: models.log_poin_juri3,
+                                as: "log_juri3",
+                                attributes:["poin"],
+                            },
+
+                            //show log poin masuk
+                            {
+                                model: models.log_poin_masuk,
+                                as: "log_poin_masuk",
+                                attributes:["poin"],
+                            },
+
+                            //show log jatuhan
+                            {
+                                model: models.log_jatuhan,
+                                as: "log_jatuhan",
+                                attributes:["poin"],
+                            },
+
+                            //show log binaan
+                            {
+                                model: models.log_binaan,
+                                as: "log_binaan",
+                                attributes:["poin"],
+                            },
+
+                            //show log teguran
+                            {
+                                model: models.log_teguran,
+                                as: "log_teguran",
+                                attributes:["poin"],
+                            },
+
+                            //show log peringatan
+                            {
+                                model: models.log_peringatan,
+                                as: "log_peringatan",
+                                attributes:["poin"],
+                            },
+                        ]
+                    },
+
+                    //include poin biru
+                    {
+                        model: models.poin,
+                        as: 'poin_biru',
+                        attributes: ['dis'],
+                        include:[
+
+                            //show log juri 1
+                            {
+                                model: models.log_poin_juri1,
+                                as: "log_juri1",
+                                attributes:["poin"],
+                            },
+
+                            //show log juri 2
+                            {
+                                model: models.log_poin_juri2,
+                                as: "log_juri2",
+                                attributes:["poin"],
+                            },
+
+                            //show log juri 3
+                            {
+                                model: models.log_poin_juri3,
+                                as: "log_juri3",
+                                attributes:["poin"],
+                            },
+
+                            //show log poin masuk
+                            {
+                                model: models.log_poin_masuk,
+                                as: "log_poin_masuk",
+                                attributes:["poin"],
+                            },
+
+                            //show log jatuhan
+                            {
+                                model: models.log_jatuhan,
+                                as: "log_jatuhan",
+                                attributes:["poin"],
+                            },
+
+                            //show log binaan
+                            {
+                                model: models.log_binaan,
+                                as: "log_binaan",
+                                attributes:["poin"],
+                            },
+
+                            //show log teguran
+                            {
+                                model: models.log_teguran,
+                                as: "log_teguran",
+                                attributes:["poin"],
+                            },
+
+                            //show log peringatan
+                            {
+                                model: models.log_peringatan,
+                                as: "log_peringatan",
+                                attributes:["poin"],
+                            },
+                        ]
+                    },
+                ],
+                order: [
+                    ['babak', 'ASC'],
+
+                //     // order poin biru
+                //     [
+                //     {model: models.poin, as: "poin_merah"}, 
+                //     {model: models.log_poin_juri1,
+                //     as: "log_juri1"},  'createdAt', 'ASC'
+                //     ],
+                //     [
+                //         {model: models.poin, as: "poin_merah"}, 
+                //         {model: models.log_poin_juri2,
+                //         as: "log_juri2"},  'createdAt', 'ASC'
+                //     ],
+                //     [
+                //         {model: models.poin, as: "poin_merah"}, 
+                //         {model: models.log_poin_juri3,
+                //         as: "log_juri3"},  'createdAt', 'ASC'
+                //     ],
+                //     [
+                //         {model: models.poin, as: "poin_merah"}, 
+                //         {model: models.log_poin_masuk,
+                //         as: "log_poin_masuk"},  'createdAt', 'ASC'
+                //     ],
+                //     [
+                //         {model: models.poin, as: "poin_merah"}, 
+                //         {model: models.log_jatuhan,
+                //         as: "log_jatuhan"},  'createdAt', 'ASC'
+                //     ],
+                //     [
+                //         {model: models.poin, as: "poin_merah"}, 
+                //         {model: models.log_binaan,
+                //         as: "log_binaan"},  'createdAt', 'ASC'
+                //     ],
+                //     [
+                //         {model: models.poin, as: "poin_merah"}, 
+                //         {model: models.log_teguran,as: "log_teguran"},
+                //         'poin', 'DESC'
+                //     ],
+                //     [
+                //         {model: models.poin, as: "poin_merah"}, 
+                //         {model: models.log_peringatan, as: "log_peringatan"},
+                //         'poin', 'DESC'
+                //     ],
+
+                //     //order poin biru
+                //     [
+                //         {model: models.poin, as: "poin_biru"}, 
+                //         {model: models.log_poin_juri1,
+                //         as: "log_juri1"},  'createdAt', 'ASC'
+                //     ],
+                //     [
+                //         {model: models.poin, as: "poin_biru"}, 
+                //         {model: models.log_poin_juri2,
+                //         as: "log_juri2"},  'createdAt', 'ASC'
+                //     ],
+                //     [
+                //         {model: models.poin, as: "poin_biru"}, 
+                //         {model: models.log_poin_juri3,
+                //         as: "log_juri3"},  'createdAt', 'ASC'
+                //     ],
+                //     [
+                //         {model: models.poin, as: "poin_biru"}, 
+                //         {model: models.log_poin_masuk,
+                //         as: "log_poin_masuk"},  'createdAt', 'ASC'
+                //     ],
+                //     [
+                //         {model: models.poin, as: "poin_biru"}, 
+                //         {model: models.log_jatuhan,
+                //         as: "log_jatuhan"},  'createdAt', 'ASC'
+                //     ],
+                //     [
+                //         {model: models.poin, as: "poin_biru"}, 
+                //         {model: models.log_binaan,
+                //         as: "log_binaan"},  'createdAt', 'DESC'
+                //     ],
+                //     [
+                //         {model: models.poin, as: "poin_biru"}, 
+                //         {model: models.log_teguran,
+                //         as: "log_teguran"},  'poin', 'DESC'
+                //     ],
+                //     [
+                //         {model: models.poin, as: "poin_biru"}, 
+                //         {model: models.log_peringatan,
+                //         as: "log_peringatan"},  'poin', 'DESC'
+                //     ],
+                    
+                ],
+            })
+            return getResponse ( req, res, result )
+        } catch (error) {
+            return errorResponse( req, res, error.message )
+        }
+    },
+
+    getBabakbyJadwal: async (req,res) => {
+        try {
+            const result = await Nilai.findAll({
+                where: {id_jadwal: req.params.id_jadwal},
+                attributes: ['babak'],
+                order:[['babak', 'ASC']]
+            })
+            return getResponse( req, res, result )
+        } catch (error) {
+            return errorResponse( req, res, error.message )   
+        }
+    },
+
+    getJuribyBabak: async (req,res) =>{
+        try {
+            const juri = req.params.no_juri
+
+            let result = []
+            if (juri == 1) {
+                result = await Nilai.findAll({
+                    where: {
+                        id_jadwal: req.params.id_jadwal,
+                        babak: req.params.babak
+                    },
+                    attributes: ["id","babak"],
+                    include: [
+                        //include poin merah
+                        {
+                            model: models.poin,
+                            as: 'poin_merah',
+                            attributes: ['dis'],
+                            include:[
+    
+                                //show log juri 1
+                                {
+                                    model: models.log_poin_juri1,
+                                    as: "log_juri1",
+                                    attributes:["poin", "masuk", 'createdAt'],
+                                },
+                            ]
+                        },
+    
+                        //include poin biru
+                        {
+                            model: models.poin,
+                            as: 'poin_biru',
+                            attributes: ['dis'],
+                            include:[
+    
+                                //show log juri 1
+                                {
+                                    model: models.log_poin_juri1,
+                                    as: "log_juri1",
+                                    attributes:["poin", "masuk", 'createdAt'],
+                                },
+                            ]
+                        },
+                    ],
+                    order: [
+                        ['babak', 'ASC'],
+    
+                        //order poin biru
+                        [
+                            {model: models.poin, as: "poin_merah"}, 
+                            {model: models.log_poin_juri1,
+                            as: "log_juri1"}, 'createdAt', 'ASC'
+                        ],
+    
+                        //order poin biru
+                        [
+                            {model: models.poin, as: "poin_biru"}, 
+                            {model: models.log_poin_juri1,
+                            as: "log_juri1"}, 'createdAt', 'ASC'
+                        ],
+
+                    ],
+                })
+            }else if (juri === 2){
+                const result = await Nilai.findOne({
+                    where: {
+                        id_jadwal: req.params.id_jadwal,
+                        babak: req.params.babak
+                    },
+                    attributes: ["id","babak"],
+                    include: [
+                        //include poin merah
+                        {
+                            model: models.poin,
+                            as: 'poin_merah',
+                            attributes: {
+                                exclude: ["createdAt","updatedAt"]
+                            },
+                            include:[
+    
+                                //show log juri 2
+                                {
+                                    model: models.log_poin_juri2,
+                                    as: "log_juri2",
+                                    attributes:["poin", "masuk", "createdAt"],
+                                },
+                            ]
+                        },
+    
+                        //include poin biru
+                        {
+                            model: models.poin,
+                            as: 'poin_biru',
+                            attributes: {
+                                exclude: ["createdAt","updatedAt"]
+                            },
+                            include:[
+    
+                                 //show log juri 2
+                                 {
+                                    model: models.log_poin_juri2,
+                                    as: "log_juri2",
+                                    attributes:["poin", "masuk", "createdAt"],
+                                },
+    
+                            ]
+                        },
+                    ],
+                    order: [
+                        ['babak', 'ASC'],
+    
+                        //order poin biru
+                        [
+                            {model: models.poin, as: "poin_merah"}, 
+                            {model: models.log_poin_juri2,
+                            as: "log_juri2"},  'createdAt', 'ASC'
+                        ],
+    
+                        //order poin biru
+                        [
+                            {model: models.poin, as: "poin_biru"}, 
+                            {model: models.log_poin_juri2,
+                            as: "log_juri2"},  'createdAt', 'ASC'
+                        ],
+                    ],
+                })
+                return getResponse( req, res, result )
+            }else if (juri === 3){
+                const result = await Nilai.findOne({
+                    where: {
+                        id_jadwal: req.params.id_jadwal,
+                        babak: req.params.babak
+                    },
+                    attributes: ["id","babak"],
+                    include: [
+                        //include poin merah
+                        {
+                            model: models.poin,
+                            as: 'poin_merah',
+                            attributes: {
+                                exclude: ["createdAt","updatedAt"]
+                            },
+                            include:[
+                                //show log juri 3
+                                {
+                                    model: models.log_poin_juri3,
+                                    as: "log_juri3",
+                                    attributes:["poin", "masuk", "createdAt"],
+                                },
+                            ]
+                        },
+    
+                        //include poin biru
+                        {
+                            model: models.poin,
+                            as: 'poin_biru',
+                            attributes: {
+                                exclude: ["createdAt","updatedAt"]
+                            },
+                            include:[
+                                //show log juri 3
+                                {
+                                    model: models.log_poin_juri3,
+                                    as: "log_juri3",
+                                    attributes:["poin", "masuk", "createdAt"],
+                                },
+                            ]
+                        },
+                    ],
+                    order: [
+                        ['babak', 'ASC'],
+    
+                        //order poin biru
+                        [
+                            {model: models.poin, as: "poin_merah"}, 
+                            {model: models.log_poin_juri3,
+                            as: "log_juri3"},  'createdAt', 'ASC'
+                        ],
+    
+                        //order poin biru
+                        [
+                            {model: models.poin, as: "poin_biru"}, 
+                            {model: models.log_poin_juri3,
+                            as: "log_juri3"},  'createdAt', 'ASC'
+                        ],
+                    ],
+                })
+                return getResponse( req, res, result )
+            }
+            return getResponse( req, res, result )
+        } catch (error) {
+            return errorResponse( req, res, error.message )
+        }
+    },
+
+    getJuribySudutbyBabak: async (req,res) =>{
+        try {
+            const juri = req.params.no_juri
+            const sudut = req.params.sudut
+
+            let result = []
+            if (sudut == 'biru') {
+                if (juri == 1) {
+                    result = await Nilai.findOne({
+                        where: {
+                            id_jadwal: req.params.id_jadwal,
+                            babak: req.params.babak
+                        },
+                        attributes: ["id","babak"],
+                        include: [        
+                            //include poin biru
+                            {
+                                model: models.poin,
+                                as: 'poin_biru',
+                                attributes: ['dis'],
+                                include:[
+        
+                                    //show log juri 1
+                                    {
+                                        model: models.log_poin_juri1,
+                                        as: "log_juri1",
+                                        attributes:["poin", "masuk", "createdAt"],
+                                    },
+                                ]
+                            },
+                        ],
+                        order: [
+                            ['babak', 'ASC'],
+                            //order poin biru
+                            [
+                                {model: models.poin, as: "poin_biru"}, 
+                                {model: models.log_poin_juri1,
+                                as: "log_juri1"}, 'createdAt', 'ASC'
+                            ],
+    
+                        ],
+                    })
+                }else if (juri == 2){
+                    const result = await Nilai.findOne({
+                        where: {
+                            id_jadwal: req.params.id_jadwal,
+                            babak: req.params.babak
+                        },
+                        attributes: ["id","babak"],
+                        include: [
+                            //include poin biru
+                            {
+                                model: models.poin,
+                                as: 'poin_biru',
+                                attributes: {
+                                    exclude: ["createdAt","updatedAt"]
+                                },
+                                include:[
+        
+                                     //show log juri 2
+                                     {
+                                        model: models.log_poin_juri2,
+                                        as: "log_juri2",
+                                        attributes:["poin", "masuk", "createdAt"],
+                                    },
+        
+                                ]
+                            },
+                        ],
+                        order: [
+                            ['babak', 'ASC'],
+        
+                            //order poin biru
+                            [
+                                {model: models.poin, as: "poin_biru"}, 
+                                {model: models.log_poin_juri2,
+                                as: "log_juri2"},  'createdAt', 'ASC'
+                            ],
+                        ],
+                    })
+                    return getResponse( req, res, result )
+                }else if (juri == 3){
+                    const result = await Nilai.findOne({
+                        where: {
+                            id_jadwal: req.params.id_jadwal,
+                            babak: req.params.babak
+                        },
+                        attributes: ["id","babak"],
+                        include: [
+                            //include poin biru
+                            {
+                                model: models.poin,
+                                as: 'poin_biru',
+                                attributes: {
+                                    exclude: ["createdAt","updatedAt"]
+                                },
+                                include:[
+                                    //show log juri 3
+                                    {
+                                        model: models.log_poin_juri3,
+                                        as: "log_juri3",
+                                        attributes:["poin", "masuk", "createdAt"],
+                                    },
+                                ]
+                            },
+                        ],
+                        order: [
+                            ['babak', 'ASC'],
+                            //order poin biru
+                            [
+                                {model: models.poin, as: "poin_biru"}, 
+                                {model: models.log_poin_juri3,
+                                as: "log_juri3"},  'createdAt', 'ASC'
+                            ],
+                        ],
+                    })
+                    return getResponse( req, res, result )
+                }
+            } else if (sudut == 'merah'){
+                if (juri == 1) {
+                    result = await Nilai.findOne({
+                        where: {
+                            id_jadwal: req.params.id_jadwal,
+                            babak: req.params.babak
+                        },
+                        attributes: ["id","babak"],
+                        include: [
+                            //include poin merah
+                            {
+                                model: models.poin,
+                                as: 'poin_merah',
+                                attributes: ['dis'],
+                                include:[
+        
+                                    //show log juri 1
+                                    {
+                                        model: models.log_poin_juri1,
+                                        as: "log_juri1",
+                                        attributes:["poin", "masuk", "createdAt"],
+                                    },
+                                ]
+                            },
+                        ],
+                        order: [
+                            ['babak', 'ASC'],
+        
+                            //order poin biru
+                            [
+                                {model: models.poin, as: "poin_merah"}, 
+                                {model: models.log_poin_juri1,
+                                as: "log_juri1"}, 'createdAt', 'ASC'
+                            ],
+                        ],
+                    })
+                }else if (juri == 2){
+                    result = await Nilai.findOne({
+                        where: {
+                            id_jadwal: req.params.id_jadwal,
+                            babak: req.params.babak
+                        },
+                        attributes: ["id","babak"],
+                        include: [
+                            //include poin merah
+                            {
+                                model: models.poin,
+                                as: 'poin_merah',
+                                attributes: ['dis'],
+                                include:[
+        
+                                    //show log juri 1
+                                    {
+                                        model: models.log_poin_juri2,
+                                        as: "log_juri2",
+                                        attributes:["poin", "masuk", "createdAt"],
+                                    },
+                                ]
+                            },
+                        ],
+                        order: [
+                            ['babak', 'ASC'],
+        
+                            //order poin biru
+                            [
+                                {model: models.poin, as: "poin_merah"}, 
+                                {model: models.log_poin_juri2,
+                                as: "log_juri2"}, 'createdAt', 'ASC'
+                            ],
+                        ]
+                    })
+                    return getResponse( req, res, result )
+                }else if (juri == 3){
+                    const result = await Nilai.findOne({
+                        where: {
+                            id_jadwal: req.params.id_jadwal,
+                            babak: req.params.babak
+                        },
+                        attributes: ["id","babak"],
+                        include: [
+                            //include poin merah
+                            {
+                                model: models.poin,
+                                as: 'poin_merah',
+                                attributes: {
+                                    exclude: ["createdAt","updatedAt"]
+                                },
+                                include:[
+                                    //show log juri 3
+                                    {
+                                        model: models.log_poin_juri3,
+                                        as: "log_juri3",
+                                        attributes:["poin", "masuk", "createdAt"],
+                                    },
+                                ]
+                            },
+                        ],
+                        order: [
+                            ['babak', 'ASC'],
+        
+                            //order poin merah
+                            [
+                                {model: models.poin, as: "poin_merah"}, 
+                                {model: models.log_poin_juri3,
+                                as: "log_juri3"},  'createdAt', 'ASC'
+                            ],
+                        ],
+                    })
+                    return getResponse( req, res, result )
+                }
+            }
+            return getResponse( req, res, result )
+        } catch (error) {
+            return errorResponse( req, res, error.message )
+        }
+    },
+
+    getPoinMasukbysudut: async (req,res) =>{
+        try {
+            const sudut = req.params.sudut
+
+            let result = []
+            if (sudut == 'biru') {
+                result = await Nilai.findOne({
+                    where: {
+                        id_jadwal: req.params.id_jadwal,
+                        babak: req.params.babak
+                    },
+                    attributes: ["id","babak"],
+                    include: [        
+                        //include poin biru
+                        {
+                            model: models.poin,
+                            as: 'poin_biru',
+                            attributes: ['dis'],
+                            include:[
+    
+                                //show poin masuk
+                                {
+                                    model: models.log_poin_masuk,
+                                    as: "log_poin_masuk",
+                                    attributes:["poin", "createdAt"],
+                                },
+                            ]
+                        },
+                    ],
+                    order: [
+                        ['babak', 'ASC'],
+                        //order poin biru
+                        [
+                            {model: models.poin, as: "poin_biru"}, 
+                            {model: models.log_poin_masuk,
+                            as: "log_poin_masuk"}, 'createdAt', 'ASC'
+                        ],
+
+                    ],
+                })
+            } else if (sudut == 'merah'){
+                result = await Nilai.findOne({
+                    where: {
+                        id_jadwal: req.params.id_jadwal,
+                        babak: req.params.babak
+                    },
+                    attributes: ["id","babak"],
+                    include: [        
+                        //include poin biru
+                        {
+                            model: models.poin,
+                            as: 'poin_merah',
+                            attributes: ['dis'],
+                            include:[
+    
+                                //show poin masuk
+                                {
+                                    model: models.log_poin_masuk,
+                                    as: "log_poin_masuk",
+                                    attributes:["poin", "createdAt"],
+                                },
+                            ]
+                        },
+                    ],
+                    order: [
+                        ['babak', 'ASC'],
+                        //order poin biru
+                        [
+                            {model: models.poin, as: "poin_masuk"}, 
+                            {model: models.log_poin_masuk,
+                            as: "log_poin_masuk"}, 'createdAt', 'ASC'
+                        ],
+
+                    ],
+                })
+            }
+            
+        } catch (error) {
+            return errorResponse( req, res, error.message)
+        }
+    },
+
+    getNilaibyJuri: async (req,res) => {
+        try {
+            const juri = req.params.no_juri
+
+            let result = []
+            if (juri == 1) {
+                result = await Nilai.findAll({
+                    where: {
+                        id_jadwal: req.params.id_jadwal,
+                    },
+                    attributes: ["id","babak"],
+                    include: [
+                        //include poin merah
+                        {
+                            model: models.poin,
+                            as: 'poin_merah',
+                            attributes: ['dis'],
+                            include:[
+    
+                                //show log juri 1
+                                {
+                                    model: models.log_poin_juri1,
+                                    as: "log_juri1",
+                                    attributes:["poin", "masuk"],
+                                },
+                            ]
+                        },
+    
+                        //include poin biru
+                        {
+                            model: models.poin,
+                            as: 'poin_biru',
+                            attributes: ['dis'],
+                            include:[
+    
+                                //show log juri 1
+                                {
+                                    model: models.log_poin_juri1,
+                                    as: "log_juri1",
+                                    attributes:["poin", "masuk"],
+                                },
+                            ]
+                        },
+                    ],
+                    order: [
+                        ['babak', 'ASC'],
+    
+                        //order poin biru
+                        [
+                            {model: models.poin, as: "poin_merah"}, 
+                            {model: models.log_poin_juri1,
+                            as: "log_juri1"}, 'createdAt', 'ASC'
+                        ],
+    
+                        //order poin biru
+                        [
+                            {model: models.poin, as: "poin_biru"}, 
+                            {model: models.log_poin_juri1,
+                            as: "log_juri1"}, 'createdAt', 'ASC'
+                        ],
+
+                    ],
+                })
+            }else if (juri == 2){
+                const result = await Nilai.findAll({
+                    where: {
+                        id_jadwal: req.params.id_jadwal,
+                    },
+                    attributes: ["id","babak"],
+                    include: [
+                        //include poin merah
+                        {
+                            model: models.poin,
+                            as: 'poin_merah',
+                            attributes: {
+                                exclude: ["createdAt","updatedAt"]
+                            },
+                            include:[
+    
+                                //show log juri 2
+                                {
+                                    model: models.log_poin_juri2,
+                                    as: "log_juri2",
+                                    attributes:["poin", "masuk", "createdAt"],
+                                },
+                            ]
+                        },
+    
+                        //include poin biru
+                        {
+                            model: models.poin,
+                            as: 'poin_biru',
+                            attributes: {
+                                exclude: ["createdAt","updatedAt"]
+                            },
+                            include:[
+    
+                                 //show log juri 2
+                                 {
+                                    model: models.log_poin_juri2,
+                                    as: "log_juri2",
+                                    attributes:["poin", "masuk", "createdAt"],
+                                },
+    
+                            ]
+                        },
+                    ],
+                    order: [
+                        ['babak', 'ASC'],
+    
+                        //order poin biru
+                        [
+                            {model: models.poin, as: "poin_merah"}, 
+                            {model: models.log_poin_juri2,
+                            as: "log_juri2"},  'createdAt', 'ASC'
+                        ],
+    
+                        //order poin biru
+                        [
+                            {model: models.poin, as: "poin_biru"}, 
+                            {model: models.log_poin_juri2,
+                            as: "log_juri2"},  'createdAt', 'ASC'
+                        ],
+                    ],
+                })
+                return getResponse( req, res, result )
+            }else if (juri == 3){
+                const result = await Nilai.findAll({
+                    where: {
+                        id_jadwal: req.params.id_jadwal,
+                    },
+                    attributes: ["id","babak"],
+                    include: [
+                        //include poin merah
+                        {
+                            model: models.poin,
+                            as: 'poin_merah',
+                            attributes: {
+                                exclude: ["createdAt","updatedAt"]
+                            },
+                            include:[
+                                //show log juri 3
+                                {
+                                    model: models.log_poin_juri3,
+                                    as: "log_juri3",
+                                    attributes:["poin", "masuk", "createdAt"],
+                                },
+                            ]
+                        },
+    
+                        //include poin biru
+                        {
+                            model: models.poin,
+                            as: 'poin_biru',
+                            attributes: {
+                                exclude: ["createdAt","updatedAt"]
+                            },
+                            include:[
+                                //show log juri 3
+                                {
+                                    model: models.log_poin_juri3,
+                                    as: "log_juri3",
+                                    attributes:["poin", "masuk", "createdAt"],
+                                },
+                            ]
+                        },
+                    ],
+                    order: [
+                        ['babak', 'ASC'],
+    
+                        //order poin biru
+                        [
+                            {model: models.poin, as: "poin_merah"}, 
+                            {model: models.log_poin_juri3,
+                            as: "log_juri3"},  'createdAt', 'ASC'
+                        ],
+    
+                        //order poin biru
+                        [
+                            {model: models.poin, as: "poin_biru"}, 
+                            {model: models.log_poin_juri3,
+                            as: "log_juri3"},  'createdAt', 'ASC'
+                        ],
+                    ],
+                })
+                return getResponse( req, res, result )
+            }
+            return getResponse( req, res, result )
+        } catch (error) {
+            return errorResponse( req, res, error.message )
+        }
+    },
+
     getbyIdNilai: async (req,res) => {
         try{
             const id = {id: req.params.id}
@@ -757,6 +1528,18 @@ module.exports = {
         }
     },
 
+    getLogs1: async (req,res) =>{
+        try {
+            const result = await Logs1.findAll({
+                attributes:['poin', 'createdAt'],
+                // order:['createdAt','DESC']
+            })
+            return getResponse(req,res, result)
+        } catch (error) {
+            return errorResponse( req, res, error.message )
+        }
+    },
+
     addBabak1: async (req,res) =>{
         try{
             //set id as uuid
@@ -821,6 +1604,11 @@ module.exports = {
             const getJadwal = await Tanding.findOne({
                 where: {id: req.body.id_jadwal}
             })
+
+            const getBabak1 = await Nilai.findOne({
+                where: {id_jadwal: req.body.id_jadwal, babak:"I"}
+            })
+
 
             const getNilai = await Nilai.findOne({
                 where: {id_jadwal: req.body.id_jadwal, babak:"Ii"}

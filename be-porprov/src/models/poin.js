@@ -67,6 +67,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       defaultValue: 0
     },
+    dis: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: 0
+    }
   }, {
     sequelize,
     modelName: 'poin',

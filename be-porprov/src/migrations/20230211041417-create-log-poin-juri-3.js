@@ -22,8 +22,15 @@ module.exports = {
           key:"id"
         }
       },
+      sudut: {
+        type: Sequelize.ENUM('biru','merah')
+      },
       poin: {
         type: Sequelize.INTEGER
+      },
+      masuk: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: 0
       },
       createdAt: {
         allowNull: false,

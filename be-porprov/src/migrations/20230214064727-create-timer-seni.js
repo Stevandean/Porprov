@@ -2,35 +2,43 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('log_poin_juri1', {
+    await queryInterface.createTable('timer_seni', {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID
       },
-      id_poin: {
+      id_jadwal: {
         type: Sequelize.UUID,
-        references: {
-          model: "poin",
+        allowNull: false,
+        references:{
+          model:"jadwal_tgr",
           key:"id"
         }
       },
-      id_juri: {
+      id_peserta: {
         type: Sequelize.UUID,
-        references: {
-          model: "juri",
+        allowNull: false,
+        references:{
+          model:"peserta_seni",
           key:"id"
         }
       },
-      sudut: {
-        type: Sequelize.ENUM('biru','merah')
-      },
-      poin: {
-        type: Sequelize.INTEGER
-      },
-      masuk: {
+      running: {
         type: Sequelize.BOOLEAN,
-        defaultValue: 0
+        defaultValue: 0,
+      },
+      start: {
+        type: Sequelize.DATE,
+        allowNull: true
+      },
+      finish: {
+        type: Sequelize.DATE,
+        allowNull: true
+      },
+      selesai: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: 0,
       },
       createdAt: {
         allowNull: false,
@@ -43,6 +51,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('log_poin_juri1');
+    await queryInterface.dropTable('timer_senis');
   }
 };

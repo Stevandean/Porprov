@@ -21,7 +21,12 @@ const {
     deleteAllTanding,
     getbyGelanggang,
     setKet,
-    setSelesai
+    setSelesai,
+    getTimer,
+    startTimer,
+    pauseTimer,
+    stopTimer,
+    getPoin
  }= require("./jadwal_tanding.controller");
 
 //router
@@ -35,6 +40,12 @@ router.put("/selesai/:id_jadwal", setSelesai)
 router.delete("/:id", deleteTandingbyId)
 router.delete("/delete/all", deleteAllTanding)
 router.post("/import", upload.single('file'), importCsv)
+
+router.get("/get/timer/:id_jadwal/:babak", getTimer)
+router.post("/timer/start", startTimer)
+router.put("/timer/pause", pauseTimer)
+router.put("/timer/stop", stopTimer)
+router.get('/poin/:id', getPoin)
 
 //export module
 module.exports = router;

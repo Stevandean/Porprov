@@ -2,34 +2,27 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('log_poin_juri1', {
+    await queryInterface.createTable('log_pause_tanding', {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID
       },
-      id_poin: {
+      id_timer_tanding: {
         type: Sequelize.UUID,
-        references: {
-          model: "poin",
+        references:{
+          model:"timer_tanding",
           key:"id"
         }
       },
-      id_juri: {
-        type: Sequelize.UUID,
-        references: {
-          model: "juri",
-          key:"id"
-        }
+      start: {
+        type: Sequelize.DATE
       },
-      sudut: {
-        type: Sequelize.ENUM('biru','merah')
+      finish: {
+        type: Sequelize.DATE
       },
-      poin: {
-        type: Sequelize.INTEGER
-      },
-      masuk: {
-        type: Sequelize.BOOLEAN,
+      total: {
+        type: Sequelize.INTEGER,
         defaultValue: 0
       },
       createdAt: {
@@ -43,6 +36,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('log_poin_juri1');
+    await queryInterface.dropTable('log_pause_tanding');
   }
 };

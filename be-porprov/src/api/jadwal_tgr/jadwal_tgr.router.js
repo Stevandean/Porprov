@@ -22,20 +22,30 @@ const {
     deleteAllTgr,
     getByPoolKelas,
     getKelas,
-    getTunggalId,
     getbyKategori,
     addTgrSolo,
     getKelasAktif,
+    getAllData,
+    startTimer,
+    getTimer,
+    timerSelesai,
+    getbyId,
 
 }= require("./jadwal_tgr.controller");
 
 //router
+router.get("/", getAllData);
 router.get("/:kategori", getAllTgr);
-router.get("/tunggal/:id", getTunggalId);
+router.get("/:id", getbyId);
+router.get("/tunggal/:id", getbyId);
+router.get("/ganda/:id", getbyId);
+router.get("/regu/:id", getbyId);
+router.get("/solo_kreatif/:id", getbyId);
+
 router.get("/get/kelas/:kategori", getKelas);
 router.get("/get/kelas/aktif/:kategori", getKelasAktif);
-router.get("/bykelas/:kategori/:jk/:kelas", getByPoolKelas);
-router.get("/bykelas/:kategori/:jk/:kelas/:babak", getbyKategori);
+// router.get("/bykelas/:kategori/:jk/:kelas", getByPoolKelas);
+router.get("/bykelas/:kategori/:jk/:kelas", getbyKategori);
 router.get("/bykelas/:kategori", getByPoolKelas);
 router.get("/bykelas/:kategori", getByPoolKelas);
 router.post("/tunggal", addTgrTunggal)
@@ -46,6 +56,10 @@ router.put("/:id", editTgr)
 router.put("/selesai/:id_jadwal/:id_peserta", setSelesai)
 router.delete("/:id", deleteTgr)
 router.delete("/delete/all", deleteAllTgr)
+
+router.get("/get/timer/:id_jadwal/:id_peserta", getTimer)
+router.post("/timer/start", startTimer)
+router.put("/timer/selesai", timerSelesai)
 
 //export module
 module.exports = router;

@@ -27,10 +27,18 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.UUID
     },
+    sudut: {
+      type: DataTypes.ENUM('biru','merah'),
+    },
     poin: {
       type: DataTypes.INTEGER,
       defaultValue: 0
     },
+    masuk: {
+      type: DataTypes.BOOLEAN,
+    },
+    cek_start: DataTypes.DATE,
+    cek_end: DataTypes.DATE,
   }, {
     sequelize,
     modelName: 'log_poin_juri3',

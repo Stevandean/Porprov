@@ -8,7 +8,6 @@ const server = createServer(app);
 const io = new Server(server, {
     cors: {
       origin: "*",
-      methods: ["GET", "POST"]
     }
   });;
 
@@ -17,26 +16,126 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const PORT = process.env.PORT;
 
+//endpoint to connect socket
+// const SocketHandler = (req, res) => {
+//   if (res.socket.server.io) {
+//     console.log('Socket is already running')
+//   } else {
+//     console.log('Socket is initializing')
+//     const io = new Server(res.socket.server)
+//     res.socket.server.io = io
+//   }
+//   res.end()
+// }
+
+
 io.on('connection', socket => {
     // console.log(`⚡: ${socket.id} user just connected!`);
+    // socket.disconnect() 
     // socket.disconnect(0) 
 
+
+    //socket penilaian 
     socket.on("init_data", () => {
         io.emit("getData")
     })
 
-    socket.on("timer_seni_start", () => {
-      io.emit("start_seni")
-    })
-
-    socket.on("timer_seni_stop", () => {
-      io.emit("stop_seni")
-    })
-
     socket.on("editData", () =>{
-        io.emit("change_data")
-    } )
+      io.emit("change_data")
+    })
+    
+    //socket penilaian 
+    socket.on("init_nilai_tanding", () => {
+        io.emit("getNilaiTanding")
+    })
 
+    socket.on("editNilaiTanding", () =>{
+      io.emit("change_nilai_tanding")
+    })
+
+    //socket timer seni
+    socket.on("init_time_seni", () => {
+      io.emit("get_time_seni")
+    })
+
+    socket.on("update_time_seni", () => {
+      io.emit("change_time_seni")
+    })
+
+    //socket timer tanding
+    socket.on("init_time_tanding", () => {
+      io.emit("get_time_tanding")
+    })
+
+    socket.on("update_time_tanding", () => {
+      io.emit("change_time_tanding")
+    })
+
+    //socket verifikasi
+    socket.on("init_verif", () => {
+      io.emit("getVerif")
+    })
+
+    socket.on("editVerif", () =>{
+      io.emit("change_verif")
+    })
+
+    socket.on("closeVerif", () => {
+      io.emit("close_verif")
+    })
+
+    socket.on("openVerif", () => {
+      io.emit("open_verif")
+    })
+
+    //socket indikator juri
+    socket.on("pbj1", () => {
+      io.emit("pbj1On")
+    })
+
+    socket.on("pbj2", () => {
+      io.emit("pbj2On")
+    })
+
+    socket.on("pbj3", () => {
+      io.emit("pbj3On")
+    })
+
+    socket.on("pmj1", () => {
+      io.emit("pmj1On")
+    })
+
+    socket.on("pmj2", () => {
+      io.emit("pmj2On")
+    })
+
+    socket.on("pmj3", () => {
+      io.emit("pmj3On")
+    })
+
+    socket.on("tbj1", () => {
+      io.emit("tbj1On")
+    })
+
+    socket.on("tbj2", () => {
+      io.emit("tbj2On")
+    })
+
+    socket.on("tbj3", () => {
+      io.emit("tbj3On")
+    })
+
+    socket.on("tmj1", () => {
+      io.emit("tmj1On")
+    })
+
+    socket.on("tmj2", () => {
+      io.emit("tmj2On")
+    })
+
+    socket.on("tmj3", () => {
+      io.emit("tmj3On")
+    })
     socket.on('disconnect', () => {
       // socket.disconnect() 
       // console.log('🔥: A user disconnected');
@@ -51,7 +150,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.json())
 
 const AdminRouter = require('./src/api/admin/admin.router.js')
-app.use("/api/admin", AdminRouter)
+app.use("/api/", AdminRouter)
 
 const NamaRouter = require("./src/api/nama_juri/nama_router")
 app.use("/api/nama", NamaRouter)
@@ -94,6 +193,9 @@ app.use("/api/gelanggang/tanding", GelanggangRouter)
 
 const NilaiTandingRouter = require('./src/api/nilai_tanding/nilai_tanding.router')
 app.use('/api/nilai/tanding', NilaiTandingRouter)
+
+const verifRouter = require('./src/api/verif_tanding/verif_tanding.router')
+app.use('/api/verif/tanding', verifRouter)
 
 server.listen(PORT,() =>{
     console.log('server run on port ' + PORT)
