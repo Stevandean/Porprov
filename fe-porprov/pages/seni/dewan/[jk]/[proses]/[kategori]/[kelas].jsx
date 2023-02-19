@@ -27,7 +27,7 @@ const detail = () => {
 
     // untuk di kirim ke halaman dewan melalui local storage
     localStorage.setItem ('jadwalSeni', JSON.stringify (item))
-    localStorage.setItem ("peserta", JSON.stringify (item.biru))
+    localStorage.setItem ("pesertaSeni", JSON.stringify (item.biru))
 
     let form = {
       id_jadwal : item.id,

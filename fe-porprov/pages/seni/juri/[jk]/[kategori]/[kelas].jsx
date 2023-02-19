@@ -25,7 +25,7 @@ const detail = () => {
     const { jk } = router.query
 
     const addModalBiru = (item) => {
-        localStorage.setItem ('peserta', JSON.stringify (item.biru))
+        localStorage.setItem ('pesertaSeni', JSON.stringify (item.biru))
         localStorage.setItem ('jadwalSeni', JSON.stringify(item))
         localStorage.setItem ('jurus', 1) 
         
