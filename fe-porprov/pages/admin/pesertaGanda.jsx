@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { useRouter } from 'next/router'
 import Navbar from './components/navbar'
 import Sidebar from './components/sidebar'
 import Footer from './components/footer'
@@ -9,64 +10,72 @@ import ModalDelete from './components/modalDelete'
 import { globalState } from '../../context/context'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-
 const pesertaGanda = () => {
 
-    // state modal
-    const [showModalPeserta, setShowModalPeserta] = useState (false)
-    const [showModalImport, setShowModalImport] = useState (false)
-    const [showAlertHapus, setShowAlertHapus] = useState (false)
+  const router = useRouter ()
 
-    // ini state
-    const [dataPesertaGanda, setDataPesertaGanda] = useState ([])
-    const [action, setAction] = useState ('')
-    const [id, setId] = useState ('')
-    const [kelas, setKelas] = useState ('')
-    const [jenisKelamin, setJenisKelamin] = useState ('')
-    const [nama1, setNama1] = useState ('')
-    const [nama2, setNama2] = useState ('')
-    const [kontingen, setKontingen] = useState ('')
-    const [aktif, setAktif] = useState ('')
+  // state modal
+  const [showModalPeserta, setShowModalPeserta] = useState (false)
+  const [showModalImport, setShowModalImport] = useState (false)
+  const [showAlertHapus, setShowAlertHapus] = useState (false)
 
-    const addModal = () => {
-        setShowModalPeserta (true)
-        setAction ('insert')
-        setKelas ('')
-        setJenisKelamin ('')
-        setNama1 ('')
-        setNama2 ('')
-        setKontingen ('')
+  // ini state
+  const [dataPesertaGanda, setDataPesertaGanda] = useState ([])
+  const [action, setAction] = useState ('')
+  const [id, setId] = useState ('')
+  const [kelas, setKelas] = useState ('')
+  const [jenisKelamin, setJenisKelamin] = useState ('')
+  const [nama1, setNama1] = useState ('')
+  const [nama2, setNama2] = useState ('')
+  const [kontingen, setKontingen] = useState ('')
+  const [aktif, setAktif] = useState ('')
+
+  const addModal = () => {
+      setShowModalPeserta (true)
+      setAction ('insert')
+      setKelas ('')
+      setJenisKelamin ('')
+      setNama1 ('')
+      setNama2 ('')
+      setKontingen ('')
+  }
+
+  const editModal = (selectedItem) => {
+      setShowModalPeserta (true)
+      setAction ('update')
+      setId (selectedItem.id)
+      setKelas (selectedItem.kelas)
+      setJenisKelamin (selectedItem.jk)
+      setNama1 (selectedItem.nama1)
+      setNama2 (selectedItem.nama2)
+      setKontingen (selectedItem.kontingen)
+  }
+
+  const deleteModal = (selectedId) => {
+      setShowAlertHapus (true)
+      setId (selectedId)
+  }
+
+  const getPesertaGanda = () => {
+    axios.get (BASE_URL + `/api/peserta/seni/ganda`)
+    .then (res => {
+        setDataPesertaGanda (res.data.data)
+    })
+    .catch (err => {
+      console.log (err.message)
+    })
+  }
+
+  const isLogged = () => {
+    if (localStorage.getItem ('token') == null || localStorage.getItem ('admin') === null) {
+      router.push ('/admin/login')
     }
+  }
 
-    const editModal = (selectedItem) => {
-        setShowModalPeserta (true)
-        setAction ('update')
-        setId (selectedItem.id)
-        setKelas (selectedItem.kelas)
-        setJenisKelamin (selectedItem.jk)
-        setNama1 (selectedItem.nama1)
-        setNama2 (selectedItem.nama2)
-        setKontingen (selectedItem.kontingen)
-    }
-
-    const deleteModal = (selectedId) => {
-        setShowAlertHapus (true)
-        setId (selectedId)
-    }
-
-    const getPesertaGanda = () => {
-        axios.get (BASE_URL + `/api/peserta/seni/ganda`)
-        .then (res => {
-            setDataPesertaGanda (res.data.data)
-        })
-        .catch (err => {
-          console.log (err.message)
-        })
-    }
-
-    useEffect (() => {
-      getPesertaGanda ()
-    }, [])
+  useEffect (() => {
+    getPesertaGanda ()
+    isLogged ()
+  }, [])
 
   return (
     <>
@@ -106,11 +115,10 @@ const pesertaGanda = () => {
                 <thead className='border-b-2'>
                     <tr>
                       <th className='py-4'>No</th>
-                      <th className='w-[10%]'>Kelas</th>
+                      <th className='w-[10%]'>Golongan</th>
                       <th>Jenis Kelamin</th>
                       <th className='w-[25%]'>Nama</th>
                       <th className='w-[25%]'>Kontingen</th>
-                      <th>Aktif</th>
                       <th className='w-[10%]'>Aksi</th>
                     </tr>
                   </thead>
@@ -122,7 +130,6 @@ const pesertaGanda = () => {
                       <td>{item.jk}</td>
                       <td>{item.nama1} <br></br> {item.nama2} </td>
                       <td>{item.kontingen}</td>
-                      <td>{item.aktif}</td>
                       <td>
                       <div className="p-2 space-x-2">
                         <button onClick={() => editModal(item)} className='w-10 h-10 p-2 bg-green-600 rounded-xl'>

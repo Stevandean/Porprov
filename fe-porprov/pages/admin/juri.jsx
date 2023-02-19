@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { useRouter } from 'next/router'
 import Navbar from './components/navbar'
 import Sidebar from './components/sidebar'
 import Footer from './components/footer'
@@ -10,46 +11,55 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const juri = () => {
 
-    const [namaJuri, setNamaJuri] = useState ([])
-    const [action, setAction] = useState ('')
-    const [nama, setNama] = useState ('')
-    const [id, setId] = useState ('')
+  const router = useRouter ()
 
-    // state modal
-    const [showModalJuri, setShowModalJuri] = useState (false)
-    const [showAlertHapus, setShowAlertHapus] = useState (false)
+  const [namaJuri, setNamaJuri] = useState ([])
+  const [action, setAction] = useState ('')
+  const [nama, setNama] = useState ('')
+  const [id, setId] = useState ('')
 
-    const addModal = () => {
-        setShowModalJuri (true)
-        setAction ('insert')
-        setNama ('')
+  // state modal
+  const [showModalJuri, setShowModalJuri] = useState (false)
+  const [showAlertHapus, setShowAlertHapus] = useState (false)
+
+  const addModal = () => {
+      setShowModalJuri (true)
+      setAction ('insert')
+      setNama ('')
+  }
+
+  const editModal = (selectedItem) => {
+      setShowModalJuri (true)
+      setAction ('update')
+      setNama (selectedItem.nama)
+      setId (selectedItem.id)
+  }
+
+  const deleteModal = (selectedId) => {
+      setShowAlertHapus (true)
+      setId (selectedId)
+  }
+
+  const getJuri = () => {
+      axios.get (BASE_URL + `/api/nama`)
+      .then (res => {
+          setNamaJuri (res.data.data)
+      })
+      .catch (err => {
+          console.log(err.response.data.message);
+      })
+  }
+
+  const isLogged = () => {
+    if (localStorage.getItem ('token') === null || localStorage.getItem ('admin') === null) {
+      router.push ('/admin/login')
     }
+  }
 
-    const editModal = (selectedItem) => {
-        setShowModalJuri (true)
-        setAction ('update')
-        setNama (selectedItem.nama)
-        setId (selectedItem.id)
-    }
-
-    const deleteModal = (selectedId) => {
-        setShowAlertHapus (true)
-        setId (selectedId)
-    }
-
-    const getJuri = () => {
-        axios.get (BASE_URL + `/api/nama`)
-        .then (res => {
-            setNamaJuri (res.data.data)
-        })
-        .catch (err => {
-            console.log(err.response.data.message);
-        })
-    }
-
-    useEffect (() => {
-        getJuri ()
-    }, [])
+  useEffect (() => {
+      getJuri ()
+      isLogged ()
+  }, [])
 
   return (
     <>

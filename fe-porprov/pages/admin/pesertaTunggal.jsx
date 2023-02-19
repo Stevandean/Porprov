@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import { useRouter } from 'next/router'
 import Sidebar from './components/sidebar'
 import Navbar from './components/navbar'
 import Footer from './components/footer'
@@ -10,6 +11,8 @@ import { globalState } from '../../context/context'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const pesertaTunggal = () => {
+
+  const router = useRouter ()
 
   // handling error
   const [msg, setMsg] = useState ('')
@@ -63,8 +66,15 @@ const pesertaTunggal = () => {
     })
   }
 
+  const isLogged = () => {
+    if (localStorage.getItem ('token') === null || localStorage.getItem ('admin') === null) {
+      router.push ('/admin/login')
+    }
+  }
+
   React.useEffect(() => {
     getPesertaTunggal ()
+    isLogged ()
   }, [])
 
 
@@ -106,11 +116,10 @@ const pesertaTunggal = () => {
                   <thead className='border-b-2'>
                       <tr>
                         <th className='py-4'>No</th>
-                        <th className='w-[10%]'>Kelas</th>
+                        <th className='w-[10%]'>Golongan</th>
                         <th>Jenis Kelamin</th>
                         <th className='w-[25%]'>Nama</th>
                         <th className='w-[25%]'>Kontingen</th>
-                        <th>Aktif</th>
                         <th className='w-[10%]'>Aksi</th>
                       </tr>
                     </thead>
@@ -122,7 +131,6 @@ const pesertaTunggal = () => {
                         <td>{item.jk}</td>
                         <td>{item.nama1}</td>
                         <td>{item.kontingen}</td>
-                        <td>{item.aktif}</td>
                         <td>
                         <div className="p-2 space-x-2">
                           <button onClick={() => editModal(item)} className='w-10 h-10 p-2 bg-green-600 rounded-xl'>
