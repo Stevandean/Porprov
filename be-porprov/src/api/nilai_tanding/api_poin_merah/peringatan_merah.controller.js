@@ -32,24 +32,28 @@ module.exports ={
             })
     
             const getPeringatan = await Peringatan.findOne({
-                where: {id_poin: getNilai.id_poin_merah}
+                where: {id_poin: getNilai.id_poin_merah},
+                order:[['poin','ASC']]
             })
+            console.log(getPeringatan);
 
             if (getPeringatan) {
                 if(getPeringatan.poin === -5){
                     //set data peringatan
                     let data = {
+                        id: uuidv4(),
+                        id_poin: getNilai.id_poin_merah,
                         poin: -10
                     }
-                    result = await Peringatan.update(data, {where: {id_poin: getNilai.id_poin_merah}})
+                    result = await Peringatan.create(data)
 
                     //update total hukum babak
                     const getPoin = await Poin.findOne({
                         where: {id: getNilai.id_poin_merah}
                     })
                     let data_poin = {
-                        total_hukum: (getPoin.total_hukum) + (-5),
-                        total_poin: (getPoin.total_poin) + (-5)
+                        total_hukum: (getPoin.total_hukum) + (-10),
+                        total_poin: (getPoin.total_poin) + (-10)
                     }
                     await Poin.update(data_poin,{where:{id: getNilai.id_poin_merah}})
                     .then(result => {
@@ -64,7 +68,7 @@ module.exports ={
                         where: {id: getNilai.id_jadwal}
                     })
                     let data_total = {
-                        total_merah: (getJadwal.total_merah) + (-5)
+                        total_merah: (getJadwal.total_merah) + (-10)
                     }
                     await Tanding.update(data_total, {where:{id: getNilai.id_jadwal}})
                     .then(result => {
@@ -76,9 +80,21 @@ module.exports ={
                     })
                     return editResponse( req, res, result )
                 } else if (getPeringatan.poin === (-10)) {
-                    return res.json({
-                        message: "peringatan sudah 2x"
+                    //update total hukum babak
+                    const getPoin = await Poin.findOne({
+                        where: {id: getNilai.id_poin_merah}
                     })
+
+                    let data_poin = {
+                        dis: true
+                    }
+
+                    result = await Poin.update(data_poin,{where:{id: getNilai.id_poin_merah}})
+
+                    return editResponse( req, res, result )
+                    // return res.json({
+                    //     message: "peringatan sudah 2x"
+                    // })
                 }
             } else if(!getPeringatan){
                 const peringatan1 = -5
@@ -136,7 +152,7 @@ module.exports ={
             //cek peringatan
             const getPeringatan = await Peringatan.findOne({
                 where: {id_poin: getNilai.id_poin_merah},
-                order: [["createdAt","ASC"]]
+                order: [["poin","ASC"]]
             })
             let result = []
             if (getPeringatan) {
@@ -178,17 +194,14 @@ module.exports ={
 
                     return deleteResponse(req, res, result)
                 }else if(getPeringatan.poin === -10){
-                    let data = {
-                        poin: -5
-                    }
-                    result = await Peringatan.update(data,{where: {id_poin: getNilai.id_poin_merah}})
+                    result = await Peringatan.destroy({where: {id: getPeringatan.id}})
                     //update total hukum babak
                     const getPoin = await Poin.findOne({
                         where: {id: getNilai.id_poin_merah}
                     })
                     let data_poin = {
-                        total_hukum: (getPoin.total_hukum) + 5,
-                        total_poin: (getPoin.total_poin) + 5
+                        total_hukum: (getPoin.total_hukum) + 10,
+                        total_poin: (getPoin.total_poin) + 10
                     }
                     await Poin.update(data_poin,{where:{id: getNilai.id_poin_merah}})
                     .then(result => {
@@ -203,7 +216,7 @@ module.exports ={
                         where: {id: getNilai.id_jadwal}
                     })
                     let data_total = {
-                        total_merah: (getJadwal.total_merah) + 5
+                        total_merah: (getJadwal.total_merah) + 10
                     }
                     await Tanding.update(data_total, {where:{id: getNilai.id_jadwal}})
                     .then(result => {
@@ -224,5 +237,22 @@ module.exports ={
         } catch (error) {
             return errorResponse( req, res, error.message)
         }
-    }
+    },
+
+    // disMerah: async (req,res) => {
+    //     try {
+    //         const getNilai = await Nilai.findOne({
+    //             where: {id_jadwal : req.body.id_jadwal, babak: req.body.babak}  
+    //         })
+    
+    //         const getPeringatan = await Peringatan.findOne({
+    //             where: {id_poin: getNilai.id_poin_merah},
+    //             order:[['poin','ASC']]
+    //         })
+    //         console.log(getPeringatan);
+
+    //     } catch (error) {
+    //         return errorResponse( req, res, error.message )
+    //     }
+    // },
 }

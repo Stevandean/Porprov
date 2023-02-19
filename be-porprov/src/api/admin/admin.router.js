@@ -4,6 +4,9 @@ const {
     allAdmin,
     addAdmin,
     login,
+    dewanLogin,
+    timerLogin,
+    editUser
 }= require("./admin.controller");
 
 //--------------------------------
@@ -11,9 +14,13 @@ const {
 //---------------------------------
 
 //router
-router.get("/", allAdmin);
-router.post("/", addAdmin);
-router.post("/login", login)
+router.get("/user", allAdmin);
+router.post("/admin", addAdmin);
+router.put("/user/edit/:id", editUser);
+router.post("/admin/login", login)
+router.post("/dewan/login", dewanLogin)
+router.post("/timer/login", timerLogin)
+
 
 //export module
 module.exports = router;

@@ -32,24 +32,27 @@ module.exports ={
             })
     
             const getPeringatan = await Peringatan.findOne({
-                where: {id_poin: getNilai.id_poin_biru}
+                where: {id_poin: getNilai.id_poin_biru},
+                order:[["createdAt","DESC"]]
             })
 
             if (getPeringatan) {
                 if(getPeringatan.poin === -5){
                     //set data peringatan
                     let data = {
+                        id: uuidv4(),
+                        id_poin: getNilai.id_poin_biru,
                         poin: -10
                     }
-                    result = await Peringatan.update(data, {where: {id_poin: getNilai.id_poin_biru}})
+                    result = await Peringatan.create(data)
 
                     //update total hukum babak
                     const getPoin = await Poin.findOne({
                         where: {id: getNilai.id_poin_biru}
                     })
                     let data_poin = {
-                        total_hukum: (getPoin.total_hukum) + (-5),
-                        total_poin: (getPoin.total_poin) + (-5)
+                        total_hukum: (getPoin.total_hukum) + (-10),
+                        total_poin: (getPoin.total_poin) + (-10)
                     }
                     await Poin.update(data_poin,{where:{id: getNilai.id_poin_biru}})
                     .then(result => {
@@ -64,7 +67,7 @@ module.exports ={
                         where: {id: getNilai.id_jadwal}
                     })
                     let data_total = {
-                        total_biru: (getJadwal.total_biru) + (-5)
+                        total_biru: (getJadwal.total_biru) + (-10)
                     }
                     await Tanding.update(data_total, {where:{id: getNilai.id_jadwal}})
                     .then(result => {
@@ -74,11 +77,18 @@ module.exports ={
                         console.log(error.message);
 
                     })
-                    return editResponse( req, res, result )
+                    return addResponse( req, res, result )
                 } else if (getPeringatan.poin === (-10)) {
-                    return res.json({
-                        message: "peringatan sudah 2x"
-                    })
+                    let data_poin = {
+                        dis: true
+                    }
+
+                    result = await Poin.update(data_poin,{where:{id: getNilai.id_poin_biru}})
+
+                    return editResponse( req, res, result )
+                    // return res.json({
+                    //     message: "peringatan sudah 2x"
+                    // })
                 }
             } else if(!getPeringatan){
                 const peringatan1 = -5
@@ -136,7 +146,7 @@ module.exports ={
             //cek peringatan
             const getPeringatan = await Peringatan.findOne({
                 where: {id_poin: getNilai.id_poin_biru},
-                order: [["createdAt","ASC"]]
+                order: [["createdAt","DESC"]]
             })
             let result = []
             if (getPeringatan) {
@@ -178,17 +188,14 @@ module.exports ={
 
                     return deleteResponse(req, res, result)
                 }else if(getPeringatan.poin === -10){
-                    let data = {
-                        poin: -5
-                    }
-                    result = await Peringatan.update(data,{where: {id_poin: getNilai.id_poin_biru}})
+                    result = await Peringatan.destroy({where: {id: getPeringatan.id}})
                     //update total hukum babak
                     const getPoin = await Poin.findOne({
                         where: {id: getNilai.id_poin_biru}
                     })
                     let data_poin = {
-                        total_hukum: (getPoin.total_hukum) + 5,
-                        total_poin: (getPoin.total_poin) + 5
+                        total_hukum: (getPoin.total_hukum) + 10,
+                        total_poin: (getPoin.total_poin) + 10
                     }
                     await Poin.update(data_poin,{where:{id: getNilai.id_poin_biru}})
                     .then(result => {
@@ -203,7 +210,7 @@ module.exports ={
                         where: {id: getNilai.id_jadwal}
                     })
                     let data_total = {
-                        total_biru: (getJadwal.total_biru) + 5
+                        total_biru: (getJadwal.total_biru) + 10
                     }
                     await Tanding.update(data_total, {where:{id: getNilai.id_jadwal}})
                     .then(result => {
@@ -213,7 +220,7 @@ module.exports ={
                         console.log(error.message);
         
                     })
-                    return editResponse(req, res, result)
+                    return deleteResponse(req, res, result)
                 }
             } else if (!getPeringatan) {
                 return res.json({

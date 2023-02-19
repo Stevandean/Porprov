@@ -2,40 +2,35 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('skor', {
+    await queryInterface.createTable('log_poin_juri2', {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID
       },
-      id_jadwal: {
+      id_poin: {
         type: Sequelize.UUID,
         references: {
-          model: "jadwal_tgr",
+          model: "poin",
           key:"id"
         }
       },
-      id_peserta: {
+      id_juri: {
         type: Sequelize.UUID,
         references: {
-          model: "peserta_seni",
+          model: "juri",
           key:"id"
         }
       },
-      waktu: {
-        type: Sequelize.STRING
+      sudut: {
+        type: Sequelize.ENUM('biru','merah')
       },
-      median: {
-        type: Sequelize.STRING
+      poin: {
+        type: Sequelize.INTEGER
       },
-      skor_akhir: {
-        type: Sequelize.STRING
-      },
-      deviasi: {
-        type: Sequelize.DOUBLE
-      },
-      selesai: {
-        type: Sequelize.BOOLEAN
+      masuk: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: 0
       },
       createdAt: {
         allowNull: false,
@@ -48,6 +43,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('skor');
+    await queryInterface.dropTable('log_poin_juri2');
   }
 };

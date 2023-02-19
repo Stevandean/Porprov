@@ -8,10 +8,17 @@ const {
     addBabak2,
     addBabak3,
     getPoinbyBabak,
+    getJuribyBabak,
+    getNilaibyJuri,
+    getBabakbyJadwal,
+    getNilaiLayar,
+    getJuribySudutbyBabak,
+    getPoinMasukbysudut,
+    getPoin,
+    getLogs1
 } = require('./nilai_tanding.controller')
 
 const {
-    addJuriBiru,
     deletePoinBiru,
     addJatuhanBiru,
     deleteJatuhanBiru,
@@ -20,7 +27,9 @@ const {
     addTeguranBiru,
     deleteTeguranBiru,
     addPeringatanBiru,
-    deletePeringatanBiru
+    deletePeringatanBiru,
+    addJuriPukulanBiru,
+    addJuriTendanganBiru
 } = require('./api_poin_biru/poin_biru.controller')
 
 const {
@@ -33,20 +42,37 @@ const {
     addTeguranMerah,
     deleteTeguranMerah,
     addPeringatanMerah,
-    deletePeringatanMerah
+    deletePeringatanMerah,
+    addPukulanJuriMerah,
+    addJuriTendanganMerah
 } = require('./api_poin_merah/poin_merah.controller')
  
 //router
 router.get('/', getAllNilai),
 router.get('/:id', getbyIdNilai)
-router.get('/jadwal/:id_jadwal', getbyIdJadwal),
+router.get('/babakbyjadwal/:id_jadwal', getBabakbyJadwal),
+
+
+router.get('/jadwal/:id_jadwal', getbyIdJadwal),    
+
+router.get('/juri/:id_jadwal/:no_juri', getNilaibyJuri),
+
+router.get('/juri/babak/:id_jadwal/:babak/:no_juri', getJuribyBabak)
+router.get('/poinmasuk/:sudut/:id_jadwal/:babak', getPoinMasukbysudut)
+
+router.get('/juri/:sudut/:id_jadwal/:babak/:no_juri', getJuribySudutbyBabak)
+
+
+router.get("/getpoin/poin/juri", getLogs1)
+router.get('/layar/:id_jadwal', getNilaiLayar),
 router.get('/babak/', getPoinbyBabak),
 router.post('/babak1', addBabak1)
 router.post('/babak2', addBabak2)
 router.post('/babak3', addBabak3)
 
 //router biru
-router.post('/biru/juri', addJuriBiru)
+router.post('/biru/juri/pukulan', addJuriPukulanBiru)
+router.post('/biru/juri/tendangan', addJuriTendanganBiru)
 router.delete('/biru/juri/:id_juri', deletePoinBiru)
 router.post('/biru/jatuhan', addJatuhanBiru)
 router.delete('/biru/jatuhan', deleteJatuhanBiru)
@@ -59,7 +85,8 @@ router.delete('/biru/peringatan', deletePeringatanBiru)
 
 
 //router merah
-router.post('/merah/juri', addJuriMerah)
+router.post('/merah/juri/pukulan', addPukulanJuriMerah)
+router.post('/merah/juri/tendangan', addJuriTendanganMerah)
 router.delete('/merah/juri/:id_juri', deletePoinMerah)
 router.post('/merah/jatuhan', addJatuhanMerah)
 router.delete('/merah/jatuhan', deleteJatuhanMerah)

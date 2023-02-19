@@ -55,7 +55,10 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.UUID
     },
-    partai: DataTypes.INTEGER,
+    partai: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    }, 
     id_biru: {
       allowNull: false,
       type: DataTypes.UUID

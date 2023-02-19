@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('skor', {
+    await queryInterface.createTable('timer_tanding', {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -10,32 +10,34 @@ module.exports = {
       },
       id_jadwal: {
         type: Sequelize.UUID,
-        references: {
-          model: "jadwal_tgr",
+        references:{
+          model:"jadwal_tanding",
           key:"id"
         }
       },
-      id_peserta: {
-        type: Sequelize.UUID,
-        references: {
-          model: "peserta_seni",
-          key:"id"
-        }
+      babak: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
-      waktu: {
-        type: Sequelize.STRING
+      running: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: 0,
       },
-      median: {
-        type: Sequelize.STRING
+      start: {
+        type: Sequelize.DATE,
+        allowNull: true
       },
-      skor_akhir: {
-        type: Sequelize.STRING
+      total_pause: {
+        type: Sequelize.INTEGER,
+        allowNull: true
       },
-      deviasi: {
-        type: Sequelize.DOUBLE
+      finish: {
+        type: Sequelize.DATE,
+        allowNull: true
       },
       selesai: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: 0,
       },
       createdAt: {
         allowNull: false,
@@ -48,6 +50,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('skor');
+    await queryInterface.dropTable('timer_tanding');
   }
 };

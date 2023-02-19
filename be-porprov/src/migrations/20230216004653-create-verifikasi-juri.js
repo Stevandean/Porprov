@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('skor', {
+    await queryInterface.createTable('verifikasi_juri', {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -10,32 +10,27 @@ module.exports = {
       },
       id_jadwal: {
         type: Sequelize.UUID,
-        references: {
-          model: "jadwal_tgr",
+        allowNull: false,
+        references:{
+          model:"jadwal_tanding",
           key:"id"
         }
       },
-      id_peserta: {
-        type: Sequelize.UUID,
-        references: {
-          model: "peserta_seni",
-          key:"id"
-        }
+      show: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: 1
       },
-      waktu: {
-        type: Sequelize.STRING
+      poin: {
+        type: Sequelize.ENUM('Jatuhan', 'Hukuman')
       },
-      median: {
-        type: Sequelize.STRING
+      juri1: {
+        type: Sequelize.ENUM('biru','tidak_sah','merah')
       },
-      skor_akhir: {
-        type: Sequelize.STRING
+      juri2: {
+        type: Sequelize.ENUM('biru','tidak_sah','merah')
       },
-      deviasi: {
-        type: Sequelize.DOUBLE
-      },
-      selesai: {
-        type: Sequelize.BOOLEAN
+      juri3: {
+        type: Sequelize.ENUM('biru','tidak_sah','merah')
       },
       createdAt: {
         allowNull: false,
@@ -48,6 +43,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('skor');
+    await queryInterface.dropTable('verifikasi_juri');
   }
 };
