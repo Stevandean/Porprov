@@ -181,11 +181,36 @@ module.exports = {
         }
     },
 
+    getbyGelanggang: async (req,res)=>{
+        try{
+            let param = {gelanggang: req.params.gelanggang}
+            const tanding = await Tgr.findAll({
+                where:param,
+                attributes:{
+                    exclude:['createdAt','updatedAt']
+                },
+                include:[
+                    "biru",
+                    "merah",
+                    "pemenang",
+                ],
+                order:[
+                    ['gelanggang', 'ASC'],
+                    ['partai', 'ASC']
+                ]
+            })
+            return getResponse( req, res, tanding )
+        } catch (error) {
+            return errorResponse( req, res, error.message )
+        }
+    },
+
     addTgrTunggal: async (req,res)=>{
         try{
             const id = uuidv4()
             let data = {
                 id: id,
+                gelanggang: req.body.gelanggang,
                 partai: req.body.partai,
                 id_biru: req.body.id_biru,
                 id_merah: req.body.id_merah,
@@ -231,6 +256,7 @@ module.exports = {
             const id = uuidv4()
             let data = {
                 id: id,
+                gelanggang: req.body.gelanggang,
                 partai: req.body.partai,
                 id_biru: req.body.id_biru,
                 id_merah: req.body.id_merah,
@@ -276,6 +302,7 @@ module.exports = {
             const id = uuidv4()
             let data = {
                 id: id,
+                gelanggang: req.body.gelanggang,
                 partai: req.body.partai,
                 id_biru: req.body.id_biru,
                 id_merah: req.body.id_merah,
@@ -321,6 +348,7 @@ module.exports = {
             const id = uuidv4()
             let data = {
                 id: id,
+                gelanggang: req.body.gelanggang,
                 partai: req.body.partai,
                 id_biru: req.body.id_biru,
                 id_merah: req.body.id_merah,
@@ -456,6 +484,7 @@ module.exports = {
             let param = {id: req.params.id}
 
             let data = {
+                gelanggang: req.body.gelanggang,
                 partai: req.body.partai,
                 id_biru: req.body.id_biru,
                 id_merah: req.body.id_merah,
@@ -476,7 +505,7 @@ module.exports = {
                     },
                 })
                 console.log(partai);
-                if(!partai){
+                if(!partai || partai == jadwal.partai){
                     const result = await Tgr.update(data, {where: param})
                     return editResponse(req, res, result)
                 }else{
