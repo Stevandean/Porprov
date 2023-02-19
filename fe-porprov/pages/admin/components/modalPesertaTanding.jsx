@@ -76,7 +76,7 @@ const modalPesertaTanding = () => {
                                             return (
                                                 <>    
                                                     <h3 className="text-3xl font-semibold text-white">
-                                                        Tambah Jadwal Tanding
+                                                        Tambah Peserta Tanding
                                                     </h3>
                                                 </>
                                             )
@@ -84,7 +84,7 @@ const modalPesertaTanding = () => {
                                             return (
                                                 <>    
                                                     <h3 className="text-3xl font-semibold text-white">
-                                                        Edit Jadwal Tanding
+                                                        Edit Peserta Tanding
                                                     </h3>
                                                 </>
                                             )

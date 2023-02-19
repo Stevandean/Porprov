@@ -8,9 +8,11 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const landingPagePutri = () => {
 
+    const router = useRouter ()
+
     const location = useRouter()
     const {pathname} = location;
-    const splitLoc = pathname.split('/seni/timer/')
+    const splitLoc = pathname.split('/seni/timer')
 
     const [dataTunggal, setDataTunggal] = useState ([])
     const [dataGanda, setDataGanda] = useState ([])
@@ -48,7 +50,7 @@ const landingPagePutri = () => {
     }
     
     const getSoloKreatif = () => {
-        axios.get (BASE_URL + `/api/tgr/get/kelas/soloKreatif`)
+        axios.get (BASE_URL + `/api/tgr/get/kelas/solo_kreatif`)
         .then (res => {
             setDataSoloKreatif (res.data.data)
         })
@@ -57,11 +59,18 @@ const landingPagePutri = () => {
         })
     }
 
+    const isLogged = () => {
+        if (localStorage.getItem ('token') === null || localStorage.getItem ('timerSeni') === null) {
+         router.push ('/seni/timer/login') 
+        }
+    }
+
     useEffect (() => {
         getTunggal ()
         getGanda ()
         getRegu ()
         getSoloKreatif ()
+        isLogged ()
     }, [])
 
   return (
@@ -82,10 +91,10 @@ const landingPagePutri = () => {
 
                     {/* button putra putri */}
                     <div className="grid grid-cols-2 space-x-5">
-                        <Link href={'./landingPageputra'} className={splitLoc[1] === 'landingPageputra' ? "bg-[#222954] rounded-lg text-center py-1" : "border-2 border-[#222954] rounded-lg text-center py-1 text-[#2C2F48]"}>
+                        <Link href={'/seni/timer'} className={splitLoc[1] === '' ? "bg-[#222954] rounded-lg text-center py-1" : "border-2 border-[#222954] rounded-lg text-center py-1 text-[#2C2F48]"}>
                             <span className='text-2xl font-semibold'>Putra</span>
                         </Link>
-                        <Link href={'./landingPageputri'} className={splitLoc[1] === 'landingPageputri' ? "bg-[#222954] rounded-lg text-center py-1" : "border-2 border-[#222954] rounded-lg text-center py-1 text-[#2C2F48]"}>
+                        <Link href={'/seni/timer/landingPageputri'} className={splitLoc[1] === '/landingPageputri' ? "bg-[#222954] rounded-lg text-center py-1" : "border-2 border-[#222954] rounded-lg text-center py-1 text-[#2C2F48]"}>
                             <span className='text-2xl font-semibold'>Putri</span>
                         </Link>
                     </div>
@@ -105,9 +114,9 @@ const landingPagePutri = () => {
                                 <img className='w-full -mt-6' src="../../svg/vshape.svg" />
                                 {/* pool */}
                                 <div className="flex flex-col px-5">
-                                    {dataTunggal.filter(a => a.jk == 'PUTRI').map ((item) => (
-                                    <Link href={'./putri/tunggal/' + item.kelas + "/" +  item.babak   } className="bg-[#222954] rounded-lg p-3 mb-4">
-                                        <span className='uppercase text-xl font-semibold'>{item.kelas} - {item.babak}</span>
+                                    {dataTunggal.filter(a => a.jk == 'PUTRI').map ((item, index) => (
+                                    <Link key={index + 1} href={'/seni/timer/putri/tunggal/' + item.kelas} className="bg-[#222954] rounded-lg p-3 mb-4">
+                                        <span className='uppercase text-xl font-semibold'>{item.kelas}</span>
                                     </Link>
                                     ))}
                                 </div>
@@ -126,9 +135,9 @@ const landingPagePutri = () => {
                                 <img className='w-full -mt-6' src="../../svg/vshape.svg" />
                                 {/* pool */}
                                 <div className="flex flex-col px-5">
-                                    {dataGanda.filter(a => a.jk == 'PUTRI').map ((item) => (
-                                    <Link href={'./putri/ganda/' + item.kelas + "/" + item.babak} className="bg-[#222954] rounded-lg p-3 mb-4">
-                                        <span className='uppercase text-xl font-semibold'>{item.kelas} - {item.babak}</span>
+                                    {dataGanda.filter(a => a.jk == 'PUTRI').map ((item, index) => (
+                                    <Link key={index + 1} href={'/seni/timer/putri/ganda/' + item.kelas} className="bg-[#222954] rounded-lg p-3 mb-4">
+                                        <span className='uppercase text-xl font-semibold'>{item.kelas}</span>
                                     </Link>
                                     ))}
                                     
@@ -148,9 +157,9 @@ const landingPagePutri = () => {
                                 <img className='w-full -mt-6' src="../../svg/vshape.svg" />
                                 {/* pool */}
                                 <div className="flex flex-col px-5">
-                                    {dataRegu.filter(a => a.jk == 'PUTRI').map ((item) => (
-                                    <Link href={'./putri/regu/' + item.kelas + "/" + item.babak} className="bg-[#222954] rounded-lg p-3 mb-4">
-                                        <span className='uppercase text-xl font-semibold'>{item.kelas} - {item.babak}</span>
+                                    {dataRegu.filter(a => a.jk == 'PUTRI').map ((item, index) => (
+                                    <Link key={index + 1} href={'/seni/timer/putri/regu/' + item.kelas} className="bg-[#222954] rounded-lg p-3 mb-4">
+                                        <span className='uppercase text-xl font-semibold'>{item.kelas}</span>
                                     </Link>
                                     ))}
                                     
@@ -170,9 +179,9 @@ const landingPagePutri = () => {
                                 <img className='w-full -mt-6' src="../../svg/vshape.svg" />
                                 {/* pool */}
                                 <div className="flex flex-col px-5">
-                                {dataSoloKreatif.filter(a => a.jk == 'PUTRA').map ((item) => (
-                                    <Link href={'./putra/solo_kreatif/' + item.kelas + "/" + item.babak} className="bg-[#222954] rounded-lg p-3 mb-4">
-                                    <span className='uppercase text-xl font-semibold'>{item.kelas} - {item.babak}</span>
+                                {dataSoloKreatif.filter(a => a.jk == 'PUTRA').map ((item, index) => (
+                                    <Link key={index + 1} href={'/seni/timer/putra/solo_kreatif/' + item.kelas} className="bg-[#222954] rounded-lg p-3 mb-4">
+                                    <span className='uppercase text-xl font-semibold'>{item.kelas}</span>
                                     </Link>
                                 ))}
                                 </div>

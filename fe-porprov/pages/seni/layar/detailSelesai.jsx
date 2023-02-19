@@ -5,7 +5,8 @@ import Link from 'next/link'
 import { globalState } from '../../../context/context'
 import Navbar from '../components/navbar'
 import Footer from '../components/footer'
-import Timer from '../components/timer'
+import TimerLayar from '../components/timerLayar'
+import { useRouter } from 'next/router'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 // socket io
@@ -15,6 +16,9 @@ const detailSelesai = () => {
 
     // state data dari local storage
     const [peserta, setPeserta] = useState ([])
+    const [jadwal, setJadwal] = useState("")
+    const router = useRouter ()
+
 
     // state
     const {duration, setDuration} = useContext (globalState)
@@ -39,7 +43,9 @@ const detailSelesai = () => {
 
     const getNilai = async () => {
         const peserta = JSON.parse (localStorage.getItem ('peserta'))
-        const jadwal = (localStorage.getItem ('jadwal'))
+        setPeserta(peserta)
+        const jadwal = (localStorage.getItem ('id_jadwal'))
+        setJadwal(jadwal)
         const babak = JSON.parse (localStorage.getItem ('babak'))
         setKategori ((peserta.kategori).toLowerCase())
         setBabak (babak)
@@ -150,15 +156,15 @@ const detailSelesai = () => {
         setMedian (median)
 
         // hitung skor akhir
-        let total = median - hukum.total
+        let total = median + hukum.total
         setTotal (total)
 
         // hitung deviasi
         let arrayNilai = []
         let sum = 0
         for (let i = 0; i < nilai.length; i++) {
-            let skorA = nilai [1]
-            arrayNilai.push (skorA.skor_a)
+            let skorA = nilai [i]
+            arrayNilai.push (skorA.total_skor)
             sum += (arrayNilai[i])
         }
         let deviasi = Math.sqrt (sum/arrayNilai.length)
@@ -193,15 +199,15 @@ const detailSelesai = () => {
         <div className="bg-white text-white min-h-full">
             
             {/* wrapper keseluruhan */}
-            <div className="w-4/5 mx-auto py-10 space-y-5">
+            <div className="w-11/12 mx-auto py-10 space-y-5">
 
                 {/* wrapper info & aktif timer*/}
                 <div className="flex flex-col gap-y-3">
                     <div className="flex justify-between space-x-3">
                         {/* button back */}
-                        <Link href={'./landingPageputra'} className="bg-red-700 rounded-lg w-12 h-12 my-auto">
+                        <button onClick={() => router.back()} className="bg-red-700 rounded-lg w-12 h-12 my-auto">
                             <img className='p-3' src="../../svg/back.svg" />
-                        </Link>
+                        </button>
                         <div className="bg-[#222954] py-2 px-8 rounded-lg flex flex-col jusitfy-center items-center">
                             <span className='text-lg font-semibold'>{babak.babak}</span>
                             <span className='text-lg font-semibold'>{peserta.kategori} - {peserta.kelas}</span>
@@ -218,16 +224,13 @@ const detailSelesai = () => {
                                 } else if (peserta.kategori === 'ganda') {
                                     return (
                                         <>
-                                            <span className='text-2xl font-bold'>{peserta.nama1}</span>
-                                            <span className='text-2xl font-bold'>{peserta.nama2}</span>
+                                            <span className='text-2xl font-bold'>{peserta.nama1} - {peserta.nama2}</span>
                                         </>
                                     )
                                 } else if (peserta.kategori === 'regu') {
                                     return (
                                         <>
-                                            <span className='text-2xl font-bold'>{peserta.nama1}</span>
-                                            <span className='text-2xl font-bold'>{peserta.nama2}</span>
-                                            <span className='text-2xl font-bold'>{peserta.nama3}</span>
+                                            <span className='text-2xl font-bold'>{peserta.nama1} - {peserta.nama2} - {peserta}</span>
                                         </>
                                     )
                                 }
@@ -235,9 +238,7 @@ const detailSelesai = () => {
                             <span className='text-lg font-normal'>{peserta.kontingen}</span>
                         </div>
                         <div className="bg-[#222954] col-span-2 flex justify-center items-center text-3xl font-bold rounded-lg">
-                            <globalState.Provider value={{duration, setDuration, running, setRunning}}>
-                                <Timer/>
-                            </globalState.Provider>
+                            {jadwal ? <TimerLayar id_jadwal={jadwal} id_peserta={peserta.id}/> : null}
                         </div>
                     </div>
                 </div>
@@ -324,7 +325,7 @@ const detailSelesai = () => {
                             </div>
                             <div className="grid grid-cols-2 gap-x-4 content-center	">
                                 <span className='text-xl font-semibold rounded-lg bg-[#2C2F48] py-2'>Standart Deviasi</span>
-                                <span className='text-xl font-semibold rounded-lg bg-white text-black border-2 border-[#2C2F48] py-2'>{deviasi?.toFixed(2)}</span>
+                                <span className='text-xl font-semibold rounded-lg bg-white text-black border-2 border-[#2C2F48] py-2'>{deviasi}</span>
                             </div>
                         </div>
                     </div>

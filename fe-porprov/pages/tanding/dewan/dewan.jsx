@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import Link from 'next/link'
 import Navbar from '../components/navbar'
 import Footer from '../components/footer'
 import { useRouter } from 'next/router'
 import axios from 'axios'
+import { globalState } from '../../../context/context';
+import ModalDewan from '../components/modalDewan'
+import socketIo from 'socket.io-client'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const socket = socketIo (BASE_URL)
 
 const dewan = () => {
 
@@ -16,6 +20,9 @@ const dewan = () => {
     const [jadwalBiru, setJadwalBiru] = useState ([])
     const [jadwalMerah, setJadwalMerah] = useState ([])
     const [keterangan, setKeterangan] = useState ('')
+    const {showModalDewan, setShowModalDewan} = useContext (globalState)
+    const {infoVerif, setInfoVerif} = useContext (globalState)
+
 
     const getNilai = () => {
         const jadwal = localStorage.getItem ('jadwal')
@@ -28,6 +35,7 @@ const dewan = () => {
         .catch (err => {
             console.log(err.message);
         })
+        console.log(BASE_URL +`/api/nilai/tanding/jadwal/${id_jadwal}`)
     }
 
     const getJadwal = () => {
@@ -58,7 +66,8 @@ const dewan = () => {
             axios.post (BASE_URL + `/api/nilai/tanding/biru/jatuhan`, form)
             .then (res => {
                 console.log(res.data.message);
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -71,8 +80,9 @@ const dewan = () => {
             axios.post (BASE_URL + `/api/nilai/tanding/merah/jatuhan`, form)
             .then (res => {
                 console.log(res.data.message);
-                console.log('berhasil');
-                getNilai ()
+                // console.log('berhasil');
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
             })
             .catch (err => {
                 console.log('gagal');
@@ -89,7 +99,8 @@ const dewan = () => {
             axios.post (BASE_URL + `/api/nilai/tanding/biru/jatuhan`, form)
             .then (res => {
                 console.log(res.data.message);
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -102,7 +113,8 @@ const dewan = () => {
             axios.post (BASE_URL + `/api/nilai/tanding/merah/jatuhan`, form)
             .then (res => {
                 console.log(res.data.message);
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -118,7 +130,8 @@ const dewan = () => {
             axios.post (BASE_URL + `/api/nilai/tanding/biru/jatuhan`, form)
             .then (res => {
                 console.log(res.data.message);
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -131,7 +144,8 @@ const dewan = () => {
             axios.post (BASE_URL + `/api/nilai/tanding/merah/jatuhan`, form)
             .then (res => {
                 console.log(res.data.message);
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -152,7 +166,8 @@ const dewan = () => {
             axios.post (BASE_URL + `/api/nilai/tanding/biru/binaan`, form)
             .then (res => {
                 console.log(res.data.message);
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -164,7 +179,8 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/merah/binaan`, form)
             .then (res => {
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -181,7 +197,8 @@ const dewan = () => {
             axios.post (BASE_URL + `/api/nilai/tanding/biru/binaan`, form)
             .then (res => {
                 console.log(res.data.message);
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -194,7 +211,8 @@ const dewan = () => {
             axios.post (BASE_URL + `/api/nilai/tanding/merah/binaan`, form)
             .then (res => {
                 console.log(res.data.message);
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -210,7 +228,8 @@ const dewan = () => {
             axios.post  (BASE_URL + `/api/nilai/tanding/biru/binaan`, form)
             .then (res => {
                 console.log(res.data.message);
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -223,7 +242,8 @@ const dewan = () => {
             axios.post (BASE_URL + `/api/nilai/tanding/merah/binaan`, form)
             .then (res => {
                 console.log(res.data.message);
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -244,7 +264,8 @@ const dewan = () => {
             axios.post (BASE_URL + `/api/nilai/tanding/biru/teguran`, form)
             .then (res => {
                 console.log(res.data.message);
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -257,7 +278,8 @@ const dewan = () => {
             axios.post (BASE_URL + `/api/nilai/tanding/merah/teguran`, form)
             .then (res => {
                 console.log(res.data.message);
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -273,7 +295,8 @@ const dewan = () => {
             axios.post (BASE_URL + `/api/nilai/tanding/biru/teguran`, form)
             .then (res => {
                 console.log(res.data.message);
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -286,7 +309,8 @@ const dewan = () => {
             axios.post (BASE_URL + `/api/nilai/tanding/merah/teguran`, form)
             .then (res => {
                 console.log(res.data.message);
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -302,7 +326,8 @@ const dewan = () => {
             axios.post (BASE_URL + `/api/nilai/tanding/biru/teguran`, form)
             .then (res => {
                 console.log(res.data.message);
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -315,7 +340,8 @@ const dewan = () => {
             axios.post (BASE_URL + `/api/nilai/tanding/merah/teguran`, form)
             .then (res => {
                 console.log(res.data.message);
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -327,6 +353,10 @@ const dewan = () => {
     const tambahPeringatan = (e) => {
         const jadwal = localStorage.getItem ('jadwal')
 
+        // if (condition) {
+            
+        // }
+
         // babak 1
         if (e == 'tambahPeringatanBiru1') {
             let form = {
@@ -336,7 +366,8 @@ const dewan = () => {
             axios.post (BASE_URL + `/api/nilai/tanding/biru/peringatan`, form)
             .then (res => {
                 console.log(res.data.message);
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -349,7 +380,8 @@ const dewan = () => {
             axios.post (BASE_URL + `/api/nilai/tanding/merah/peringatan`, form)
             .then (res => {
                 console.log(res.data.message);
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -365,7 +397,8 @@ const dewan = () => {
             axios.post (BASE_URL + `/api/nilai/tanding/biru/peringatan`, form)
             .then (res => {
                 console.log(res.data.message);
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -378,7 +411,8 @@ const dewan = () => {
             axios.post (BASE_URL + `/api/nilai/tanding/merah/peringatan`, form)
             .then (res => {
                 console.log(res.data.message);
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -394,7 +428,8 @@ const dewan = () => {
             axios.post (BASE_URL + `/api/nilai/tanding/biru/peringatan`, form)
             .then (res => {
                 console.log(res.data.message);
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -407,7 +442,8 @@ const dewan = () => {
             axios.post (BASE_URL + `/api/nilai/tanding/merah/peringatan`, form)
             .then (res => {
                 console.log(res.data.message);
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -427,7 +463,8 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/biru/jatuhan`, {data : form})
             .then (res => {
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -440,7 +477,8 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/merah/jatuhan`, {data : form})
             .then (res => {
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -456,7 +494,8 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/biru/jatuhan`, {data : form})
             .then (res => {
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -469,7 +508,8 @@ const dewan = () => {
             }
             axios.delete (BASE_URL +`/api/nilai/tanding/merah/jatuhan`, {data : form})
             .then (res => {
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -485,7 +525,8 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/biru/jatuhan`, {data : form})
             .then (res => {
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -498,7 +539,8 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/merah/jatuhan`, {data : form})
             .then (res => {
-                getNilai()
+                // getNilai()
+                socket.emit ('editNilaiTanding')
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -519,7 +561,8 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/biru/binaan`, {data : form})
             .then (res => {
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
                 console.log(res.data.message)
             })
             .catch (err => {
@@ -532,7 +575,8 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/merah/binaan`, {data : form})
             .then (res => {
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -548,7 +592,8 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/biru/binaan`, {data : form})
             .then (res => {
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -561,7 +606,8 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/merah/binaan`, {data : form})
             .then (res => {
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -577,7 +623,8 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/binaan`, {data : form})
             .then (res => {
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -590,7 +637,8 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/binaan`, {data : form})
             .then (res => {
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -611,7 +659,8 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/biru/teguran`, {data : form})
             .then (res => {
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -624,7 +673,8 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/merah/teguran`, {data : form})
             .then (res => {
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -640,7 +690,8 @@ const dewan = () => {
             }
             axios.delete (BASE_URL +`/api/nilai/tanding/biru/teguran`, {data : form})
             .then (res => {
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -653,7 +704,8 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/merah/teguran`, {data : form})
             .then (res => {
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -669,7 +721,8 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/biru/teguran`, {data : form})
             .then (res => {
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -682,7 +735,8 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/merah/teguran`, {data : form})
             .then (res => {
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -703,7 +757,8 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/biru/peringatan`, {data : form})
             .then (res => {
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -716,7 +771,8 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/merah/peringatan`, {data : form})
             .then (res => {
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -732,7 +788,8 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/biru/peringatan`, {data : form})
             .then (res => {
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -745,7 +802,8 @@ const dewan = () => {
             }
             axios.delete (BASE_URL +  `/api/nilai/tanding/merah/peringatan`, {data : form})
             .then (res => {
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -761,7 +819,8 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/biru/peringatan`, {data : form})
             .then (res => {
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -774,7 +833,8 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/merah/peringatan`, {data : form})
             .then (res => {
-                getNilai ()
+                // getNilai ()
+                socket.emit ('editNilaiTanding')
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -788,23 +848,165 @@ const dewan = () => {
         let id_jadwal = jadwal
         setKeterangan (e)
 
+        if (e == 'angkaBiru' || e == 'angkaMerah') {
+            let form = {
+                keterangan : 'ANGKA'
+            }
+            axios.put (BASE_URL + `/api/tanding/keterangan/${id_jadwal}`, form)
+            .then (res => {
+                console.log(res.data.message);
+            })
+            .catch (err => {
+                console.log(err.response.data.message);
+            })
+        } else if (e == 'udBiru' || e == 'udMerah') {
+            let form = {
+                keterangan : 'U.D.'
+            }
+            axios.put (BASE_URL + `/api/tanding/keterangan/${id_jadwal}`, form)
+            .then (res => {
+                console.log(res.data.message);
+            })
+            .catch (err => {
+                console.log(err.response.data.message);
+            })
+        } else if (e == 'disBiru' || e == 'disMerah') {
+            let form = {
+                keterangan : 'DIS'
+            }
+            axios.put (BASE_URL + `/api/tanding/keterangan/${id_jadwal}`, form)
+            .then (res => {
+                console.log(res.data.message);
+            })
+            .catch (err => {
+                console.log(err.response.data.message);
+            })
+        } else if (e == 'teknikBiru' || e == 'teknikMerah') {
+            let form = {
+                keterangan : 'TEKNIK'
+            }
+            axios.put (BASE_URL + `/api/tanding/keterangan/${id_jadwal}`, form)
+            .then (res => {
+                console.log(res.data.message);
+            })
+            .catch (err => {
+                console.log(err.response.data.message);
+            })
+        } else if (e == 'wmpBiru' || e == 'wmpMerah') {
+            let form = {
+                keterangan : 'W.M.P.'
+            }
+            axios.put (BASE_URL + `/api/tanding/keterangan/${id_jadwal}`, form)
+            .then (res => {
+                console.log(res.data.message);
+            })
+            .catch (err => {
+                console.log(err.response.data.message);
+            })
+        } else if (e == 'mutlakBiru' || e == 'mutlakMerah') {
+            let form = {
+                keterangan : 'MUTLAK'
+            }
+            axios.put (BASE_URL + `/api/tanding/keterangan/${id_jadwal}`, form)
+            .then (res => {
+                console.log(res.data.message);
+            })
+            .catch (err => {
+                console.log(err.response.data.message);
+            })
+        } 
+    }
+
+    const selesai = () => {
+        const jadwal = localStorage.getItem ('jadwal')
+
         let form = {
-            keterangan : e
+            selesai : 1,
         }
-        axios.put (BASE_URL + `/api/tanding/keterangan/${id_jadwal}`, form)
-        .then (res => {
-            console.log(res.data.message);
-        })
-        .catch (err => {
+
+        if (confirm ('Apa anda yakin untuk mengakhiri pertandingan ini?') == 1) {
+            axios.put (BASE_URL + `/api/tanding/selesai/${jadwal}`, form)
+            .then (res => {
+                router.back ()
+            })
+            .catch (err => {
+                console.log(err.response.data.message);
+            })
+        }
+    }
+
+    const disWinner = () => {
+        if (data.poin_biru?.dis == true) {
+            setKeterangan ('disMerah')
+        } else if (data.poin_merah?.dis == true) {
+            setKeterangan ('disBiru')
+        } else console.log('gagal');
+    }
+
+    const isLogged = () => {
+        if (localStorage.getItem ('token') === null || localStorage.getItem ('dewanTanding') === null) {
+         router.push ('/tanding/dewan/login') 
+        }
+    }
+
+    // verif jatuhan
+    const addVerifJatuhan = async () => {
+        // setInfoVerif('Jatuhan')
+        // setShowModalDewan(true)
+        // socket.emit('openVerif')
+
+        const jadwal = localStorage.getItem ('jadwal')
+            let form = {
+                id_jadwal : jadwal
+            }
+            await axios.post(BASE_URL + `/api/verif/tanding/jatuhan`, form)
+            .then(res =>{
+                if(res.data.status === true){
+                    setInfoVerif('Jatuhan')
+                    setShowModalDewan(true)
+                    socket.emit('openVerif')
+                }
+            }).catch (err => {
+                console.log(err.response.data.message);
+            })
+    }
+
+    const addVerifHukum = async () =>{
+        // setInfoVerif('Hukuman')
+        // setShowModalDewan(true)
+        // socket.emit('openVerif')
+        const jadwal = localStorage.getItem ('jadwal')
+
+        let form = {
+            id_jadwal : jadwal
+        }
+        await axios.post(BASE_URL + `/api/verif/tanding/hukuman`, form)
+        .then(res =>{
+            if(res.data.status === true){
+                setInfoVerif('Hukuman')
+                setShowModalDewan(true)
+                socket.emit('openVerif')
+            }
+        }).catch (err => {
             console.log(err.response.data.message);
         })
     }
 
-    // tambah jatuhan
+    const ubah_data = () => socket.emit ('init_nilai_tanding')
 
     useEffect (() => {
-        getNilai ()
-        getJadwal ()
+        socket.emit('init_nilai_tanding')
+        socket.on("getNilaiTanding", getNilai)
+        socket.on('change_nilai_tanding', ubah_data)
+        isLogged ()
+        getNilai()
+        getJadwal()
+
+        // socket.on ('getNilaiTanding', disWinner)
+        return () => {
+            socket.off('getNilaiTanding')
+            socket.off('change_nilai_tanding')
+        }
     }, [])
 
     return (
@@ -821,17 +1023,17 @@ const dewan = () => {
                 {/* konten utama */}
                 <div className="bg-white text-white min-h-full">
                     {/* wrapper keseluruhan */}
-                    <div className="w-9/12 mx-auto py-10">
+                    <div className="w-11/12 mx-auto py-10">
 
                         {/* wrapper tanding information */}
                         <div className="grid grid-cols-3 gap-x-3 mb-8">
                             {/* partai */}
                             <div className="bg-[#222954] py-2 flex justify-center items-center rounded-lg">
-                                <h1 className='text-xl font-bold'>Partai {jadwal.partai}</h1>
+                                <h1 className='text-xl font-bold'>PARTAI {jadwal.partai}</h1>
                             </div>
                             {/* kelas and kategori */}
                             <div className="bg-[#222954] py-2 flex justify-center items-center rounded-lg">
-                                <h1 className='text-xl font-bold'>{jadwal.jk} {jadwal.golongan}</h1>
+                                <h1 className='text-xl font-bold'>{jadwal.kelas} {jadwal.jk} {jadwal.golongan}</h1>
                             </div>
                             {/* babak */}
                             <div className="bg-[#222954] py-2 flex justify-center items-center rounded-lg">
@@ -871,11 +1073,11 @@ const dewan = () => {
                             <table key={index + 1} className='w-full table-fixed border-separate border-spacing-1 mb-4'>
                                 <thead>
                                     <tr>
-                                        <th className='rounded-lg py-3 bg-blue-600'>total</th>
-                                        <th className='rounded-lg bg-blue-600' colSpan={4}>Detail poin</th>
-                                        <th className='rounded-lg bg-yellow-300 text-[#222954]'>Babak</th>
-                                        <th className='rounded-lg bg-red-600' colSpan={4}>Detail poin</th>
-                                        <th className='rounded-lg bg-red-600'>total</th>
+                                        <th className='rounded-lg py-3 bg-blue-600'>TOTAL</th>
+                                        <th className='rounded-lg bg-blue-600' colSpan={4}>DETAIL POIN</th>
+                                        <th className='rounded-lg bg-yellow-300 text-[#222954]'>BABAK</th>
+                                        <th className='rounded-lg bg-red-600' colSpan={4}>DETAIL POIN</th>
+                                        <th className='rounded-lg bg-red-600'>TOTAL</th>
                                     </tr>
                                 </thead>
                                 <tbody className='text-[#222954]'>
@@ -890,9 +1092,9 @@ const dewan = () => {
                                             <div className="grid grid-cols-6 gap-x-2">
                                                 {/* nilai */}
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-4 text-blue-600">
-                                                    {item.poin_biru.log_juri1.map ((item, index) => (
+                                                    {/* {item.poin_biru.log_juri1.map ((item, index) => (
                                                         <span key={index + 1}>{item.poin}, </span>
-                                                    ))}
+                                                    ))} */}
                                                 </div>
                                                 {/* urutan juri */}
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-2 text-center">Juri 1</div>
@@ -910,9 +1112,9 @@ const dewan = () => {
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-2 text-center">Juri 1</div>
                                                 {/* nilai */}
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-4 text-red-600">
-                                                    {item.poin_merah.log_juri1.map ((item, index) => (
+                                                    {/* {item.poin_merah.log_juri1.map ((item, index) => (
                                                         <span key={index + 1}>{item.poin}, </span>
-                                                    ))}
+                                                    ))} */}
                                                 </div>
                                             </div>
                                         </td>
@@ -929,9 +1131,9 @@ const dewan = () => {
                                             <div className="grid grid-cols-6 gap-x-2">
                                                 {/* nilai */}
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-4 text-blue-600">
-                                                    {item.poin_biru.log_juri2.map ((item, index) => (
+                                                    {/* {item.poin_biru.log_juri2.map ((item, index) => (
                                                         <span key={index + 1}>{item.poin}, </span>
-                                                    ))}
+                                                    ))} */}
                                                 </div>
                                                 {/* urutan juri */}
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-2 text-center">Juri 2</div>
@@ -945,9 +1147,9 @@ const dewan = () => {
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-2 text-center">Juri 2</div>
                                                 {/* nilai */}
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-4 text-red-600">
-                                                    {item.poin_merah.log_juri2.map ((item, index) => (
+                                                    {/* {item.poin_merah.log_juri2.map ((item, index) => (
                                                         <span key={index + 1}>{item.poin}, </span>
-                                                    ))}
+                                                    ))} */}
                                                 </div>
                                             </div>
                                         </td>
@@ -961,9 +1163,9 @@ const dewan = () => {
                                             <div className="grid grid-cols-6 gap-x-2">
                                                 {/* nilai */}
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-4 text-blue-600">
-                                                    {item.poin_biru.log_juri3.map((item, index) => (
+                                                    {/* {item.poin_biru.log_juri3.map((item, index) => (
                                                         <span key={index + 1}>{item.poin}, </span>
-                                                    ))}
+                                                    ))} */}
                                                 </div>
                                                 {/* urutan juri */}
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-2 text-center">Juri 3</div>
@@ -977,9 +1179,9 @@ const dewan = () => {
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-2 text-center">Juri 3</div>
                                                 {/* nilai */}
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-4 text-red-600">
-                                                    {item.poin_merah.log_juri3.map ((item, index) => (
+                                                    {/* {item.poin_merah.log_juri3.map ((item, index) => (
                                                         <span key={index + 1}>{item.poin}, </span>
-                                                    ))}
+                                                    ))} */}
                                                 </div>
                                             </div>
                                         </td>
@@ -996,9 +1198,9 @@ const dewan = () => {
                                                     <span>{item.poin_biru.poin_masuk}</span>
                                                 </div>
                                                 {/* nilai */}
-                                                <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-3 bg-[#FDFFA0]">
+                                                <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-3 bg-[#FDFFA0] break-words">
                                                     {item.poin_biru.log_poin_masuk.map ((item, index) => (
-                                                        <span key={index + 1}>{item.poin}, </span>
+                                                        <span key={index + 1}>{item.poin},</span>
                                                     ))}
                                                 </div>
                                                 {/* nama poin */}
@@ -1012,9 +1214,9 @@ const dewan = () => {
                                                 {/* nama poin */}
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-2 text-center bg-[#FDFFA0]">Poin Masuk</div>
                                                 {/* nilai */}
-                                                <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-3 bg-[#FDFFA0]">
+                                                <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-3 bg-[#FDFFA0] break-words">
                                                     {item.poin_merah.log_poin_masuk.map ((item, index) => (
-                                                        <span key={index + 1}>{item.poin}, </span>
+                                                        <span key={index + 1}>{item.poin},</span>
                                                     ))}
                                                 </div>
                                                 {/* total nilai */}
@@ -1032,7 +1234,7 @@ const dewan = () => {
                                             {/* detail nilai */}
                                             <div className="grid grid-cols-6 gap-x-2">
                                                 {/* total jatuhan */}
-                                                <div className="border-2 border-[#222954] rounded-lg text-center py-1 col-span-1 bg-[#BDEBFF]">
+                                                <div className="border-2 border-[#222954] rounded-lg text-center py-1 col-span-1 bg-[#BDEBFF] break-words">
                                                     <span>
                                                         {item.poin_biru.jatuhan}
                                                     </span>
@@ -1040,7 +1242,7 @@ const dewan = () => {
                                                 {/* nilai */}
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-3 bg-[#BDEBFF]">
                                                     {item.poin_biru.log_jatuhan.map((item, index) => (
-                                                        <span key={index + 1}>{item.poin}, </span>
+                                                        <span key={index + 1}>{item.poin},</span>
                                                     ))}
                                                 </div>
                                                 {/* nama poin */}
@@ -1054,9 +1256,9 @@ const dewan = () => {
                                                 {/* nama poin */}
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-2 text-center bg-[#BDEBFF]">Jatuhan</div>
                                                 {/* nilai */}
-                                                <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-3 bg-[#BDEBFF]">
+                                                <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-3 bg-[#BDEBFF] break-words">
                                                     {item.poin_merah.log_jatuhan.map((item, index) => (
-                                                        <span key={index + 1}>{item.poin}, </span>
+                                                        <span key={index + 1}>{item.poin},</span>
                                                     ))}
                                                 </div>
                                                 {/* total nilai */}
@@ -1075,23 +1277,23 @@ const dewan = () => {
                                             <div className="grid grid-cols-6 gap-x-2">
                                                 {/* total hukuman */}
                                                 <div className="border-2 border-[#222954] rounded-lg text-center py-1 col-span-1 bg-[#FFBBBB] flex justify-center items-center">
-                                                    <span>{item.poin_biru.total_hukum}</span>
+                                                    <span>{item.poin_biru?.total_hukum}</span>
                                                 </div>
                                                 {/* nilai hukuman */}
                                                 <div className="py-1 col-span-3 grid grid-rows-3 gap-y-1">
                                                     <div className="border-2 border-[#222954] rounded-lg px-4 bg-[#FFBBBB]">
-                                                        {item.poin_biru.log_binaan.map((item, index) => (
-                                                            <span key={index + 1}>{item.poin}, </span>
+                                                        {item.poin_biru?.log_binaan.map((item, index) => (
+                                                        <span key={index + 1}>{item.poin},</span>
                                                         ))}
                                                     </div>
                                                     <div className="border-2 border-[#222954] rounded-lg px-4 bg-[#FFBBBB]">
-                                                        {item.poin_biru.log_teguran.map((item, index) => (
-                                                            <span key={index + 1}>{item.poin}, </span>
+                                                        {item.poin_biru?.log_teguran.map((item, index) => (
+                                                            <span key={index + 1}>{item.poin},</span>
                                                         ))}
                                                     </div>
                                                     <div className="border-2 border-[#222954] rounded-lg px-4 bg-[#FFBBBB]">
-                                                        {item.poin_biru.log_peringatan.map((item, index) => (
-                                                            <span key={index + 1}>{item.poin}, </span>
+                                                        {item.poin_biru?.log_peringatan.map((item, index) => (
+                                                            <span key={index + 1}>{item.poin},</span>
                                                         ))}
                                                     </div>
                                                 </div>
@@ -1117,17 +1319,17 @@ const dewan = () => {
                                                 <div className="py-1 col-span-3 grid grid-rows-3 gap-y-1">
                                                     <div className="border-2 border-[#222954] rounded-lg px-4 bg-[#FFBBBB]">
                                                         {item.poin_merah.log_binaan.map((item, index) => (
-                                                            <span key={index + 1}>{item.poin}, </span>
+                                                            <span key={index + 1}>{item.poin},</span>
                                                         ))}
                                                     </div>
                                                     <div className="border-2 border-[#222954] rounded-lg px-4 bg-[#FFBBBB]">
                                                         {item.poin_merah.log_teguran.map((item, index) => (
-                                                            <span key={index + 1}>{item.poin}, </span>
+                                                            <span key={index + 1}>{item.poin},</span>
                                                         ))}
                                                     </div>
                                                     <div className="border-2 border-[#222954] rounded-lg px-4 bg-[#FFBBBB]">
                                                         {item.poin_merah.log_peringatan.map((item, index) => (
-                                                            <span key={index + 1}>{item.poin}, </span>
+                                                            <span key={index + 1}>{item.poin},</span>
                                                         ))}
                                                     </div>
                                                 </div>
@@ -1147,14 +1349,14 @@ const dewan = () => {
                                 return (
                                     <div className="border-2 border-black rounded-lg py-3 px-2 mb-8">
                                         {/*  wrapper button tambah nilai */}
-                                        <div className="grid grid-cols-7 mb-3">
+                                        <div className="grid grid-cols-7 mb-3 ">
                                             {/* button button nilai biru */}
                                             <div className="col-span-3">
                                                 <div className="grid grid-cols-4 gap-x-3">
-                                                    <button onClick={() => tambahJatuhan ('tambahJatuhanBiru1')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Jatuhan</button>
-                                                    <button onClick={() => tambahBinaan ('tambahBinaanBiru1')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Binaan</button>
-                                                    <button onClick={() => tambahTeguran ('tambahTeguranBiru1')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Teguran</button>
                                                     <button onClick={() => tambahPeringatan ('tambahPeringatanBiru1')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Peringatan</button>
+                                                    <button onClick={() => tambahTeguran ('tambahTeguranBiru1')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Teguran</button>
+                                                    <button onClick={() => tambahBinaan ('tambahBinaanBiru1')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Binaan</button>
+                                                    <button onClick={() => tambahJatuhan ('tambahJatuhanBiru1')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Jatuhan</button>
                                                 </div>
                                             </div>
                                             <div></div>
@@ -1174,10 +1376,10 @@ const dewan = () => {
                                             {/* wrapper button delete nilai biru */}
                                             <div className="col-span-3 text-[#222954]">
                                                 <div className="grid grid-cols-4 gap-x-3">
-                                                    <button onClick={() => deleteJatuhan ('hapusJatuhanBiru1')} className='bg-yellow-300 hover:bg-yellow-400     text-lg font-semibold py-2.5 rounded-lg'>Hapus Jatuhan</button>
-                                                    <button onClick={() => deleteBinaan ('hapusBinaanBiru1')} className='bg-yellow-300 hover:bg-yellow-400     text-lg font-semibold py-2.5 rounded-lg'>Hapus Binaan</button>
-                                                    <button onClick={() => deleteTeguran ('hapusTeguranBiru1')} className='bg-yellow-300 hover:bg-yellow-400     text-lg font-semibold py-2.5 rounded-lg'>Hapus Teguran</button>
                                                     <button onClick={() => deletePeringatan ('hapusPeringatanBiru1')} className='bg-yellow-300 hover:bg-yellow-400     text-lg font-semibold py-2.5 rounded-lg'>Hapus Peringatan</button>
+                                                    <button onClick={() => deleteTeguran ('hapusTeguranBiru1')} className='bg-yellow-300 hover:bg-yellow-400     text-lg font-semibold py-2.5 rounded-lg'>Hapus Teguran</button>
+                                                    <button onClick={() => deleteBinaan ('hapusBinaanBiru1')} className='bg-yellow-300 hover:bg-yellow-400     text-lg font-semibold py-2.5 rounded-lg'>Hapus Binaan</button>
+                                                    <button onClick={() => deleteJatuhan ('hapusJatuhanBiru1')} className='bg-yellow-300 hover:bg-yellow-400     text-lg font-semibold py-2.5 rounded-lg'>Hapus Jatuhan</button>
                                                 </div>
                                             </div>
                                             <div></div>
@@ -1193,7 +1395,7 @@ const dewan = () => {
                                         </div>
                                     </div>
                                 )        
-                            } else if (data.length = 2) {
+                            } else if (data.length == 2) {
                                 return (
                                     <div className="border-2 border-black rounded-lg py-3 px-2 mb-8">
                                         {/*  button nilai */}
@@ -1201,10 +1403,10 @@ const dewan = () => {
                                             {/* button button nilai biru */}
                                             <div className="col-span-3">
                                                 <div className="grid grid-cols-4 gap-x-3">
-                                                    <button onClick={() => tambahJatuhan ('tambahJatuhanBiru2')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Jatuhan</button>
-                                                    <button onClick={() => tambahBinaan ('tambahBinaanBiru2')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Binaan</button>
-                                                    <button onClick={() => tambahTeguran ('tambahTeguranBiru2')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Teguran</button>
                                                     <button onClick={() => tambahPeringatan ('tambahPeringatanBiru2')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Peringatan</button>
+                                                    <button onClick={() => tambahTeguran ('tambahTeguranBiru2')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Teguran</button>
+                                                    <button onClick={() => tambahBinaan ('tambahBinaanBiru2')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Binaan</button>
+                                                    <button onClick={() => tambahJatuhan ('tambahJatuhanBiru2')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Jatuhan</button>
                                                 </div>
                                             </div>
                                             <div></div>
@@ -1224,10 +1426,10 @@ const dewan = () => {
                                             {/* wrapper button hapus nilai biru */}
                                             <div className="col-span-3 text-[#222954]">
                                                 <div className="grid grid-cols-4 gap-x-3">
-                                                    <button onClick={() => deleteJatuhan ('hapusJatuhanBiru2')} className='bg-yellow-300 hover:bg-yellow-400     text-lg font-semibold py-2.5 rounded-lg'>Hapus Jatuhan</button>
-                                                    <button onClick={() => deleteBinaan ('hapusBinaanBiru2')} className='bg-yellow-300 hover:bg-yellow-400     text-lg font-semibold py-2.5 rounded-lg'>Hapus Binaan</button>
-                                                    <button onClick={() => deleteTeguran ('hapusTeguranBiru2')} className='bg-yellow-300 hover:bg-yellow-400     text-lg font-semibold py-2.5 rounded-lg'>Hapus Teguran</button>
                                                     <button onClick={() => deletePeringatan ('hapusPeringatanBiru2')} className='bg-yellow-300 hover:bg-yellow-400     text-lg font-semibold py-2.5 rounded-lg'>Hapus Peringatan</button>
+                                                    <button onClick={() => deleteTeguran ('hapusTeguranBiru2')} className='bg-yellow-300 hover:bg-yellow-400     text-lg font-semibold py-2.5 rounded-lg'>Hapus Teguran</button>
+                                                    <button onClick={() => deleteBinaan ('hapusBinaanBiru2')} className='bg-yellow-300 hover:bg-yellow-400     text-lg font-semibold py-2.5 rounded-lg'>Hapus Binaan</button>
+                                                    <button onClick={() => deleteJatuhan ('hapusJatuhanBiru2')} className='bg-yellow-300 hover:bg-yellow-400     text-lg font-semibold py-2.5 rounded-lg'>Hapus Jatuhan</button>
                                                 </div>
                                             </div>
                                             <div></div>
@@ -1243,7 +1445,7 @@ const dewan = () => {
                                         </div>
                                     </div>
                                 )
-                            } else if (data.length = 3) {
+                            } else if (data.length == 3) {
                                 return (
                                     <div className="border-2 border-black rounded-lg py-3 px-2 mb-8">
                                         {/*  wrapper button nilai */}
@@ -1251,10 +1453,10 @@ const dewan = () => {
                                             {/* wrapper button nilai biru */}
                                             <div className="col-span-3">
                                                 <div className="grid grid-cols-4 gap-x-3">
-                                                    <button onClick={() => tambahJatuhan ('tambahJatuhanBiru3')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Jatuhan</button>
-                                                    <button onClick={() => tambahBinaan ('tambahBinaanBiru3')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Binaan</button>
-                                                    <button onClick={() => tambahTeguran ('tambahTeguranBiru3')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Teguran</button>
                                                     <button onClick={() => tambahPeringatan ('tambahPeringatanBiru3')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Peringatan</button>
+                                                    <button onClick={() => tambahTeguran ('tambahTeguranBiru3')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Teguran</button>
+                                                    <button onClick={() => tambahBinaan ('tambahBinaanBiru3')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Binaan</button>
+                                                    <button onClick={() => tambahJatuhan ('tambahJatuhanBiru3')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Jatuhan</button>
                                                 </div>
                                             </div>
                                             <div></div>
@@ -1274,10 +1476,10 @@ const dewan = () => {
                                             {/* wrapper button hapus nilai biru */}
                                             <div className="col-span-3 text-[#222954]">
                                                 <div className="grid grid-cols-4 gap-x-3">
-                                                    <button onClick={() => deleteJatuhan ('hapusJatuhanBiru3')} className ='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold py-2.5 rounded-lg'>Hapus Jatuhan</button>
-                                                    <button onClick={() => deleteBinaan ('hapusBinaanBiru3')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold py-2.5 rounded-lg'>Hapus Binaan</button>
-                                                    <button onClick={() => deleteTeguran ('hapusTeguranBiru3')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold py-2.5 rounded-lg'>Hapus Teguran</button>
                                                     <button onClick={() => deletePeringatan ('hapusPeringatanBiru3')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold py-2.5 rounded-lg'>Hapus Peringatan</button>
+                                                    <button onClick={() => deleteTeguran ('hapusTeguranBiru3')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold py-2.5 rounded-lg'>Hapus Teguran</button>
+                                                    <button onClick={() => deleteBinaan ('hapusBinaanBiru3')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold py-2.5 rounded-lg'>Hapus Binaan</button>
+                                                    <button onClick={() => deleteJatuhan ('hapusJatuhanBiru3')} className ='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold py-2.5 rounded-lg'>Hapus Jatuhan</button>
                                                 </div>
                                             </div>
                                             <div></div>
@@ -1300,12 +1502,12 @@ const dewan = () => {
                         <div className="border-2 border-black rounded-lg py-3 px-2 mb-8">
                             {/* verifikasi juri */}
                             <div className="bg-[#222954] text-center rounded-lg py-3 mb-3">
-                                <h1 className='text-2xl font-bold'>Verifikasi juri</h1>
+                                <h1 className='text-2xl font-bold'>VERIFIKASI JURI</h1>
                             </div>
                             {/* wrapper button verifikasi juri */}
                             <div className="grid grid-cols-2 gap-x-7 text-center text-[#222954]">
-                                <button className="bg-yellow-300 hover:bg-yellow-400 py-2 rounded-lg text-xl font-semibold">Jatuhan</button>
-                                <button className="bg-yellow-300 hover:bg-yellow-400 py-2 rounded-lg text-xl font-semibold">Pelanggaran</button>
+                                <button onClick={() => addVerifJatuhan()} className="bg-yellow-300 hover:bg-yellow-400 py-2 rounded-lg text-xl font-semibold">JATUHAN</button>
+                                <button onClick={() => addVerifHukum()} className="bg-yellow-300 hover:bg-yellow-400 py-2 rounded-lg text-xl font-semibold">HUKUMAN</button>
                             </div>
                         </div>
 
@@ -1314,7 +1516,7 @@ const dewan = () => {
                         <div className="border-2 border-[#222954] rounded-lg py-3 px-2 mb-8">
                             {/* keputusan pemenang */}
                             <div className="bg-[#222954] text-center rounded-lg py-3 mb-3">
-                                <h1 className='text-2xl font-bold'>Keputusan Pemenang</h1>
+                                <h1 className='text-2xl font-bold'>KEPUTUSAN PEMENANG</h1>
                             </div>
                             {/* wrapper keputusan pemenang */}
                             <div className="grid grid-cols-2 gap-x-7">
@@ -1347,7 +1549,7 @@ const dewan = () => {
                         {/* wrapper back and selesai */}
                         <div className="grid grid-cols-6 gap-x-4">
                             <button onClick={() => router.back()} className="bg-green-600 hover:bg-green-700 col-span-3 py-3 text-center rounded-lg text-xl font-bold">Kembali</button>
-                            <div className="col-span-3 bg-green-600 hover:bg-green-700 py-3 text-center rounded-lg text-xl font-bold">Selesai</div>
+                            <button onClick={() => selesai()} className="col-span-3 bg-green-600 hover:bg-green-700 py-3 text-center rounded-lg text-xl font-bold">Selesai</button>
                         </div>
 
                     </div>
@@ -1355,6 +1557,8 @@ const dewan = () => {
                 <Footer />
             </div>
             {/* akhir konten utama */}
+
+            <ModalDewan verif={infoVerif}/>
         </div>
         </>
     )

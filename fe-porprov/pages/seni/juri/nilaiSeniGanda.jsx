@@ -3,15 +3,21 @@ import socketIo from 'socket.io-client'
 import axios from 'axios';
 import Navbar from '../components/navbar'
 import Footer from '../components/footer'
-import Router from 'next/router';
+import { useRouter } from 'next/router';
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-const nilaiSeniGanda = () => {
+const socket = socketIo (BASE_URL)   
 
-    const socket = socketIo (BASE_URL)   
+const nilaiSeniGanda = () => {
+    
+    const router = useRouter ()
+    const [event, setEvent] = useState ([])
 
     // state untuk ambil data dari local storage
     const [peserta, setPeserta] = useState ([])
+    const [jadwal, setJadwal] = useState ([])
+    const [dataJuri, setDataJuri] = useState ([])
 
     // ini state
     const [nilai, setNilai] = useState ([])
@@ -20,15 +26,16 @@ const nilaiSeniGanda = () => {
     const [activeS, setActiveS] = useState (0)
     
     const getNilai = () => {
-        const peserta = JSON.parse(localStorage.getItem ('peserta'))
-        const jadwal = (localStorage.getItem ('jadwal'))
-        const juri = JSON.parse (localStorage.getItem ('juri'))
+        const peserta = JSON.parse (localStorage.getItem ('pesertaSeni'))
+        const jadwal = JSON.parse (localStorage.getItem ('jadwalSeni'))
+        const juri = JSON.parse (localStorage.getItem ('juriSeni'))
         
+        setJadwal (jadwal)
+        setDataJuri (juri)
+        setPeserta (peserta)
         let id_peserta = peserta.id
-        let id_jadwal = jadwal
+        let id_jadwal = jadwal.id
         let id_juri = juri.id
-
-        console.log(BASE_URL + `/api/ganda/juri/${id_jadwal}/${id_peserta}/${id_juri}`);
 
         axios.get (BASE_URL + `/api/ganda/juri/${id_jadwal}/${id_peserta}/${id_juri}`)
         .then (res => {
@@ -41,12 +48,12 @@ const nilaiSeniGanda = () => {
 
     const technique = (t) => {
         setActiveT(t)
-        const peserta = JSON.parse (localStorage.getItem ('peserta'))
-        const jadwal = (localStorage.getItem ('jadwal'))
-        const juri = JSON.parse (localStorage.getItem ('juri'))
+        const peserta = JSON.parse (localStorage.getItem ('pesertaSeni'))
+        const jadwal = JSON.parse(localStorage.getItem ('jadwalSeni'))
+        const juri = JSON.parse (localStorage.getItem ('juriSeni'))
 
         let id_peserta = peserta.id
-        let id_jadwal = jadwal
+        let id_jadwal = jadwal.id
         let id_juri = juri.id
 
         let form = {
@@ -64,12 +71,12 @@ const nilaiSeniGanda = () => {
 
     const firmness = (f) => {
         setActiveF(f)
-        const peserta = JSON.parse (localStorage.getItem ('peserta'))
-        const jadwal = (localStorage.getItem ('jadwal'))
-        const juri = JSON.parse (localStorage.getItem ('juri'))
+        const peserta = JSON.parse (localStorage.getItem ('pesertaSeni'))
+        const jadwal = JSON.parse(localStorage.getItem ('jadwalSeni'))
+        const juri = JSON.parse (localStorage.getItem ('juriSeni'))
 
         let id_peserta = peserta.id
-        let id_jadwal = jadwal
+        let id_jadwal = jadwal.id
         let id_juri = juri.id
 
         let form = {
@@ -87,12 +94,12 @@ const nilaiSeniGanda = () => {
 
     const soulfulness = (s) => {
         setActiveS (s)
-        const peserta = JSON.parse (localStorage.getItem ('peserta'))
-        const jadwal = (localStorage.getItem ('jadwal'))
-        const juri = JSON.parse (localStorage.getItem ('juri'))
+        const peserta = JSON.parse (localStorage.getItem ('pesertaSeni'))
+        const jadwal = JSON.parse(localStorage.getItem ('jadwalSeni'))
+        const juri = JSON.parse (localStorage.getItem ('juriSeni'))
 
         let id_peserta = peserta.id
-        let id_jadwal = jadwal
+        let id_jadwal = jadwal.id
         let id_juri = juri.id
 
         let form = {
@@ -109,13 +116,13 @@ const nilaiSeniGanda = () => {
     }
 
     const selesai = () => {
-        const peserta = JSON.parse (localStorage.getItem ('peserta'))
-        const jadwal = (localStorage.getItem ('jadwal'))
-        const juri = JSON.parse (localStorage.getItem ('juri'))
+        const peserta = JSON.parse (localStorage.getItem ('pesertaSeni'))
+        const jadwal = JSON.parse(localStorage.getItem ('jadwalSeni'))
+        const juri = JSON.parse (localStorage.getItem ('juriSeni'))
         const nama = (localStorage.getItem ('nama'))
 
         let id_peserta = peserta.id
-        let id_jadwal = jadwal
+        let id_jadwal = jadwal.id
         let id_juri = juri.id
         let nama_juri = nama
 
@@ -127,13 +134,31 @@ const nilaiSeniGanda = () => {
             axios.put (BASE_URL + `/api/ganda/juri/${id_jadwal}/${id_peserta}/${id_juri}`, form)
             .then (res => {
                 console.log(res.data.message);
-                Router.back()
+                router.back()
             })
             .catch (err => {
                 console.log(err.response.data.message);
             })
         } else {
             console.log('batal selesai');
+        }
+    }
+    
+    const getEvent = () => {
+        axios.get (BASE_URL + `/api/event`)
+        .then (res => {
+        setEvent (res.data.data)
+        })
+        .catch (err => {
+        console.log(err.response.data.message);
+        })
+    }
+
+    const handle = useFullScreenHandle ()
+
+    const isLogged = () => {
+        if (localStorage.getItem ('token') === null || localStorage.getItem ('juriSeni') === null) {
+         router.push ('/seni/juri/login') 
         }
     }
 
@@ -146,6 +171,8 @@ const nilaiSeniGanda = () => {
         socket.emit ('init_data')
         socket.on ('getData', getNilai)
         socket.on ('change_data', ubah_data)
+        getEvent ()
+        isLogged ()
 
         return () =>{
             socket.disconnect();
@@ -153,26 +180,100 @@ const nilaiSeniGanda = () => {
     }, [])
     return (
         <>
-            <div className="flex ">
+            <div className="flex">
 
                 {/* awal konten utama */}
-                <div className="w-full overflow-y-auto h-screen"> 
-                
+                <div className="w-full overflow-y-auto h-screen">
+
                     {/* header */}
-                    <Navbar />
-                    {/* akhir header */}
+                    <div className="bg-[#2C2F48] sticky top-0 h-20 z-40 flex">
+                        {event.map((item, index) => (
+                            <div key={index + 1} className="flex justify-between w-full text-white px-10">
+                                <div className="flex space-x-3">
+                                <button onClick={handle.enter} className="flex justify-center items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-maximize">
+                                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                                    </svg>
+                                </button> 
+                                    <img className='py-3'src={BASE_URL + "/api/event/image/" + item.logo} alt="Kabupaten Trenggalek" />
+                                </div>
+                                <span className='text-xl font-semibold my-auto uppercase text-center'>{item.nama}</span>
+                                <div className="flex space-x-3">
+                                    <img className='py-3' src={BASE_URL + "/api/event/image/" + item.icon1} alt="IPSI" />
+                                    <img className='py-3' src={BASE_URL + "/api/event/image/" + item.icon2} alt="IPSI2" />
+                                </div>
+                            </div>          
+                        ))}
+                    </div>
+                    {/* akhir header */}  
 
                     {/* konten utama */}
-                    <div className="bg-white text-white min-h-full">
+                    <FullScreen handle={handle} className="bg-white text-white min-h-full overflow-y-auto">
                         
                         {/* wrapper keseluruhan */}
-                        <div className="w-4/5 mx-auto py-10 space-y-5">
-                            
+                        <div className="w-[95%] lg:w-4/5 mx-auto py-10 space-y-5">
+
+                            <div className="grid grid-cols-6 gap-x-2 text-center mb-3 lg:mb-5">
+                                <div className="bg-[#222954] rounded-lg">
+                                    <h1 className='text-xl font-semibold py-1.5'>PARTAI {jadwal.partai}</h1>
+                                </div>
+                                <div className="bg-[#222954] rounded-lg col-span-2">
+                                    <h1 className='text-xl font-semibold py-1.5'>{jadwal.kelas} {jadwal.jk} {jadwal.golongan}</h1>
+                                </div>
+                                <div className="bg-[#222954] rounded-lg col-span-2">
+                                    <h1 className='text-xl font-semibold py-1.5'>{jadwal.babak}</h1>
+                                </div>
+                                <div className="bg-[#222954] rounded-lg">
+                                    {(() => {
+                                        if (dataJuri.username == 'juri1') {
+                                            return (
+                                                <h1 className='text-xl font-semibold py-1.5'>JURI 1</h1>
+                                            )
+                                        } else if (dataJuri.username == 'juri2') {
+                                            return (
+                                                <h1 className='text-xl font-semibold py-1.5'>JURI 2</h1>
+                                            )
+                                        } else if (dataJuri.username == 'juri3') {
+                                            return (
+                                                <h1 className='text-xl font-semibold py-1.5'>JURI 3</h1>
+                                            )
+                                        } else if (dataJuri.username == 'juri4') {
+                                            return (
+                                                <h1 className='text-xl font-semibold py-1.5'>JURI 4</h1>
+                                            )
+                                        } else if (dataJuri.username == 'juri5') {
+                                            return (
+                                                <h1 className='text-xl font-semibold py-1.5'>JURI 5</h1>
+                                            )
+                                        } else if (dataJuri.username == 'juri6') {
+                                            return (
+                                                <h1 className='text-xl font-semibold py-1.5'>JURI 6</h1>
+                                            )
+                                        } else if (dataJuri.username == 'juri7') {
+                                            return (
+                                                <h1 className='text-xl font-semibold py-1.5'>JURI 7</h1>
+                                            )
+                                        } else if (dataJuri.username == 'juri8') {
+                                            return (
+                                                <h1 className='text-xl font-semibold py-1.5'>JURI 8</h1>
+                                            )
+                                        } else if (dataJuri.username == 'juri9') {
+                                            return (
+                                                <h1 className='text-xl font-semibold py-1.5'>JURI 9</h1>
+                                            )
+                                        } else if (dataJuri.username == 'juri10') {
+                                            return (
+                                                <h1 className='text-xl font-semibold py-1.5'>JURI 10</h1>
+                                            )
+                                        }
+                                    })()}
+                                </div>
+                            </div>
+
                             {/* info pesilat */}
-                            <div className="flex flex-row items-center space-x-3 p-2 text-[#222954]">
+                            <div className={jadwal.id_biru == peserta.id ? "flex flex-row items-center py-2 px-4 bg-blue-600 rounded-lg text-white" : "flex flex-row items-center space-x-3 p-2 bg-red-600 rounded-lg text-white"}>
                                 <div className="flex flex-col">
-                                    <span className='text-2xl font-bold'>{peserta.nama1}</span>
-                                    <span className='text-2xl font-bold'>{peserta.nama2}</span>
+                                    <span className='text-2xl font-bold'>{peserta.nama1} - {peserta.nama2}</span>
                                     <span className='text-lg font-normal'>{peserta.kontingen}</span>
                                 </div>
                             </div>
@@ -187,8 +288,8 @@ const nilaiSeniGanda = () => {
                                     <table className='w-full table-fixed'>
                                         <thead className='bg-[#222954] border-2 border-[#222954]'>
                                             <tr>
-                                                <th colSpan={2} className="py-3">Krite</th>
-                                                <th colSpan={10}>Skor</th>
+                                                <th colSpan={2} className="py-3">KRITERIA</th>
+                                                <th colSpan={10}>SKOR</th>
                                             </tr>
                                         </thead>
                                         {/* Technique */}
@@ -197,7 +298,7 @@ const nilaiSeniGanda = () => {
                                                 {/* technique */}
                                                 <td colSpan={2} rowSpan={3} className="border-r-2 border-[#222954]">
                                                     <div className="flex flex-col text-[#222954]">
-                                                        <span className='text-2xl font-bold uppercase'>Teknik</span>
+                                                        <span className='text-lg lg:text-2xl font-bold uppercase'>Teknik</span>
                                                         <span className='tracking-widest font-medium'>(0,01 - 0,30)</span>
                                                     </div>
                                                 </td>
@@ -308,7 +409,7 @@ const nilaiSeniGanda = () => {
                                                 {/* firmness */}
                                                 <td colSpan={2} rowSpan={3} className="border-r-2 border-[#222954]">
                                                     <div className="flex flex-col text-[#222954]">
-                                                        <span className='text-2xl font-bold uppercase'>Kemantapan</span>
+                                                        <span className='text-lg lg:text-2xl font-bold uppercase'>Kemantapan</span>
                                                         <span className='tracking-widest font-medium'>(0,01 - 0,30)</span>
                                                     </div>
                                                 </td>
@@ -419,7 +520,7 @@ const nilaiSeniGanda = () => {
                                                 {/* soulfulness */}
                                                 <td colSpan={2} rowSpan={3} className="border-r-2 border-[#222954]">
                                                     <div className="flex flex-col text-[#222954]">
-                                                        <span className='text-2xl font-bold uppercase'>Ekspresi</span>
+                                                        <span className='text-lg lg:text-2xl font-bold uppercase'>Ekspresi</span>
                                                         <span className='tracking-widest font-medium'>(0,01 - 0,30)</span>
                                                     </div>
                                                 </td>
@@ -531,28 +632,28 @@ const nilaiSeniGanda = () => {
                                         {/* technique */}
                                         <div className="grid grid-rows-2 text-center ">
                                             <div className="bg-[#222954] py-1 flex justify-center items-center">
-                                                <span className='text-xl font-bold upprercase'>Teknik</span>
+                                                <span className='text-xl font-bold uppercase'>Teknik</span>
                                             </div>
                                             <div className="text-[#222954] py-1 text-2xl font-bold border-2 border-[#222954]">{nilai.technique?.toFixed(2)}</div>
                                         </div>
                                         {/* firmness */}
                                         <div className="grid grid-rows-2 text-center ">
                                             <div className="bg-[#222954] py-1 flex justify-center items-center">
-                                                <span className='text-xl font-bold upprercase'>Kemantapan</span>
+                                                <span className='text-xl font-bold uppercase'>Kemantapan</span>
                                             </div>
                                             <div className="text-[#222954] py-1 text-2xl font-bold border-2 border-[#222954]">{nilai.firmness?.toFixed(2)}</div>
                                         </div>
                                         {/* soulfulness */}
                                         <div className="grid grid-rows-2 text-center ">
                                             <div className="bg-[#222954] py-1 flex justify-center items-center">
-                                                <span className='text-xl font-bold upprercase'>Ekspresi</span>
+                                                <span className='text-xl font-bold uppercase'>Ekspresi</span>
                                             </div>
                                             <div className="text-[#222954] py-1 text-2xl font-bold border-2 border-[#222954]">{nilai.soulfulness?.toFixed(2)}</div>
                                         </div>
                                         {/* total */}
                                         <div className="grid grid-rows-2 text-center ">
                                             <div className="bg-[#222954] py-1 flex justify-center items-center">
-                                                <span className='text-xl font-bold upprercase'>total</span>
+                                                <span className='text-xl font-bold uppercase'>Total</span>
                                             </div>
                                             <div className="text-[#222954] py-1 text-2xl font-bold border-2 border-[#222954]">{nilai.total?.toFixed(2)}</div>
                                         </div>
@@ -561,7 +662,7 @@ const nilaiSeniGanda = () => {
                                     {/* totol score */}
                                     <div className="grid grid-cols-12">
                                         <div className="col-span-10 bg-[#222954] py-2 text-center">
-                                            <span className='text-2xl font-bold'>Total Skor</span>
+                                            <span className='text-2xl font-bold'>TOTAL SKOR</span>
                                         </div>
                                         <div className="col-span-2 border-2 border-[#222954] flex justify-center items-center">
                                             <span className='text-2xl font-bold text-[#222954]'>{nilai.total_skor?.toFixed(2)}</span>
@@ -577,8 +678,10 @@ const nilaiSeniGanda = () => {
                             </div>
 
                         </div>
+                    </FullScreen>
+                    <div className="hidden lg:block">
+                        <Footer />
                     </div>
-                    <Footer />
                 </div>
                 {/* akhir konten utama */}
             </div>

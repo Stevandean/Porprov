@@ -37,12 +37,18 @@ const modalDelete = () => {
       .then((res) => {
         setDataPesertaTunggal(res.data.data);
       })
+      .catch (err => {
+        console.log(err.response.data.message);
+      })
     }
 
     const getPesertaGanda = () => {
       axios.get(BASE_URL + '/api/peserta/seni/ganda')
       .then((res) => {
         setDataPesertaGanda(res.data.data)
+      })
+      .catch (err => {
+        console.log(err.response.data.message);
       })
     }
 
@@ -51,6 +57,9 @@ const modalDelete = () => {
       .then (res => {
         setDataPesertaSoloKreatif (res.data.data)
       })
+      .catch (err => {
+        console.log(err.response.data.message);
+      })
     }
 
     const getPesertaRegu = () => {
@@ -58,9 +67,50 @@ const modalDelete = () => {
       .then ((res) => {
         setDataPesertaRegu(res.data.data)
       })
+      .catch (err => {
+        console.log(err.response.data.message);
+      })
     }
 
+    const getJadwalTunggal = () => {
+      axios.get (BASE_URL + `/api/tgr/tunggal`)
+      .then (res => {
+        setDataJadwalTunggal (res.data.data)
+      })
+      .catch (err => {
+        console.log(err.response.data.message);
+      })
+    }
     
+    const getJadwalGanda = () => {
+      axios.get (BASE_URL + `/api/tgr/ganda`)
+      .then (res => {
+        setDataJadwalGanda (res.data.data)
+      })
+      .catch (err => {
+        console.log(err.response.data.message);
+      })
+    }
+
+    const getJadwalRegu = () => {
+      axios.get (BASE_URL + `/api/tgr/regu`)
+      .then (res => {
+        setDataJadwalRegu (res.data.data)
+      })
+      .catch (err => {
+        console.log(err.response.data.message);
+      })
+    }
+
+    const getJadwalSoloKreatif = () => {
+      axios.get (BASE_URL + `/api/tgr/solo_kreatif`)
+      .then (res => {
+        setDataJadwalSoloKreatif (res.data.data)
+      })
+      .catch (err => {
+        console.log(err.response.data.message);
+      })
+    }
 
     const getJuri = () => {
       axios.get (BASE_URL + `/api/nama`)
@@ -75,49 +125,50 @@ const modalDelete = () => {
     const handleDelete = (selectedId) => {
 
       if (splitLoc.toString() === ',pesertaTanding') {    
-          axios.delete(BASE_URL + `/api/peserta/tanding/${id}` )
-          .then(res => {
-              getPesertaTanding()
-              setShowAlertHapus (false)
-          })
-          .catch(err => {
-              console.log(err.message);
-          })
-      } else if (splitLoc.toString() === ',pesertaTunggal') {
-        axios.delete(BASE_URL + `/api/peserta/seni/${id}` )
+        axios.delete(BASE_URL + `/api/peserta/tanding/${id}` )
         .then(res => {
-            getTunggal()
-            setShowAlertHapus (false)
+          getPesertaTanding()
+          setShowAlertHapus (false)
         })
         .catch(err => {
           console.log(err.message);
+        })
+      } else if (splitLoc.toString() === ',pesertaTunggal') {
+        axios.delete(BASE_URL + `/api/peserta/seni/${id}` )
+        .then(res => {
+          getPesertaTunggal()
+          setShowAlertHapus (false)
+        })
+        .catch(err => {
           console.log(err.response.data.message);
         })
       } else if (splitLoc.toString() === ',pesertaGanda') {
-          axios.delete(BASE_URL + `/api/peserta/seni/${id}`)
-          .then(res => {
-              getGanda()
-              setShowAlertHapus (false)
-          })
-          .catch(err => {
-              console.log(err.message);
-          })
+        axios.delete(BASE_URL + `/api/peserta/seni/${id}`)
+        .then(res => {
+          getPesertaGanda()
+          setShowAlertHapus (false)
+        })
+        .catch(err => {
+          console.log(err.message);
+        })
       } else if (splitLoc.toString() === ',pesertaSoloKreatif') {
         axios.delete(BASE_URL + `/api/peserta/seni/${id}`)
         .then (res => {
-          getSoloKreatif ()
+          getPesertaSoloKreatif ()
           setShowAlertHapus (false)
-          socket.emit ('changeData')
+        })
+        .catch (err => {
+          console.log(err.response.data.message);
         })
       } else if (splitLoc.toString() === ',pesertaRegu') {
-          axios.delete(BASE_URL + `/api/peserta/seni/${id}`)
-          .then (res => {
-              getRegu()
-              setShowAlertHapus (false)
-          })
-          .catch(err => {
-              console.log(err.message);
-          })
+        axios.delete(BASE_URL + `/api/peserta/seni/${id}`)
+        .then (res => {
+          getPesertaRegu()
+          setShowAlertHapus (false)
+        })
+        .catch(err => {
+          console.log(err.message);
+        })
       } else if (splitLoc.toString() === ',jadwalTanding') {
         axios.delete (BASE_URL + `/api/tanding/${idJadwal}`)
         .then (res => {
@@ -130,6 +181,7 @@ const modalDelete = () => {
       } else if (splitLoc.toString() === ',jadwalTunggal') {
         axios.delete (BASE_URL + `/api/tgr/${idJadwal}`)
         .then (res => {
+          getJadwalTunggal ()
           setShowAlertHapus (false)
         })
         .catch (err => {
@@ -138,6 +190,7 @@ const modalDelete = () => {
       } else if (splitLoc.toString() === ',jadwalGanda') {
         axios.delete (BASE_URL + `/api/tgr/${idJadwal}`)
         .then (res => {
+          getJadwalGanda ()
           setShowAlertHapus (false)
         })
         .catch (err => {
@@ -146,11 +199,16 @@ const modalDelete = () => {
       } else if (splitLoc.toString () === ',jadwalSoloKreatif') {
         axios.delete (BASE_URL + `/api/tgr/${idJadwal}`)
         .then (res => {
+          getJadwalSoloKreatif ()
           setShowAlertHapus (false)
+        })
+        .catch (err => {
+          console.log(err.response.data.message);
         })
       } else if (splitLoc.toString() === ',jadwalRegu') {
         axios.delete (BASE_URL + `/api/tgr/${idJadwal}`)
         .then (res => {
+          getJadwalRegu ()
           setShowAlertHapus (false)
         })
         .catch (err => {

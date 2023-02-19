@@ -167,7 +167,7 @@ const modalPeserta = () => {
                                         return (
                                             <>    
                                                 <h3 className="text-3xl font-semibold text-white">
-                                                    Tambah Jadwal Tanding
+                                                    Tambah Jadwal {splitLoc}
                                                 </h3>
                                             </>
                                         )
@@ -175,7 +175,7 @@ const modalPeserta = () => {
                                         return (
                                             <>    
                                                 <h3 className="text-3xl font-semibold text-white">
-                                                    Edit Jadwal Tanding
+                                                    Edit Jadwal {splitLoc}
                                                 </h3>
                                             </>
                                         )
@@ -189,7 +189,7 @@ const modalPeserta = () => {
                                 {/* Input */}
                                 <div className="flex flex-row space-x-3 w-full">
                                     <div className="w-2/6 flex justify-between">
-                                        <span>Kelas</span>
+                                        <span>Golongan</span>
                                         <span>:</span>
                                     </div>
                                     <div className="w-4/6">

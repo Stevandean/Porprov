@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { useRouter } from 'next/router'
 import Navbar from './components/navbar'
 import Sidebar from './components/sidebar'
 import Footer from './components/footer'
@@ -10,6 +11,8 @@ import { globalState } from '../../context/context'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const jadwalRegu = () => {
+
+    const router = useRouter ()
 
     // state modal
     const [showModalJadwal, setShowModalJadwal] = useState (false)
@@ -25,12 +28,14 @@ const jadwalRegu = () => {
     const [babak, setBabak] = useState ('')
     const [idJadwal, setIdJadwal] = useState ('')
     const [jk, setJk] = useState ('')
+    const [partai, setPartai] = useState ('')
     const [aktif, setAktif] = useState ('')
 
     const addModalPutra = () => {
         setShowModalJadwal (true)
         setAction ('insert')
         setJk ('PUTRA')
+        setPartai ('')
         setIdBiru ('')
         setIdMerah ('')
     }
@@ -39,6 +44,7 @@ const jadwalRegu = () => {
         setShowModalJadwal (true)
         setAction ('insert')
         setJk ('PUTRI')
+        setPartai ('')
         setIdBiru ('')
         setIdMerah ('')
     }
@@ -46,6 +52,7 @@ const jadwalRegu = () => {
     const editModal = (selectedItem) => {
         setShowModalJadwal (true)
         setAction ('update')
+        setPartai (selectedItem.partai)
         setIdBiru (selectedItem.id_biru)
         setIdMerah (selectedItem.id_merah)
         setIdJadwal (selectedItem.id)
@@ -68,8 +75,15 @@ const jadwalRegu = () => {
         })
     }
 
+    const isLogged = () => {
+        if (localStorage.getItem ('token') === null || localStorage.getItem ('admin') === null) {
+            router.push ('/admin/login')
+        }
+    }
+
     useEffect (() => {
         getJadwalRegu ()
+        isLogged ()
     }, [])
 
     return (
@@ -96,7 +110,7 @@ const jadwalRegu = () => {
                             {/* Input Data */}
                             <div className="bg-[#2C2F48] rounded-lg flex justify-between p-3">
                                 <div className="flex items-center px-2">
-                                    <span className='text-lg uppercase font-semibold'>Jadwal tunggal</span>
+                                    <span className='text-lg uppercase font-semibold'>Jadwal Regu</span>
                                 </div>
                                 <div className="flex px-5 space-x-5">
                                 {/* wrapper button dropdown input */}
@@ -141,44 +155,42 @@ const jadwalRegu = () => {
                             </div>
 
                             <div className="bg-[#2C2F48] min-h-full rounded-lg">
-                            {/* Table */}
-                            <table className='w-full table-fixed'>
-                                <thead className='border-b-2'>
-                                    <tr>
-                                    <th className='py-4'>No</th>
-                                    <th className='w-[10%]'>Kelas</th>
-                                    <th>Jenis Kelamin</th>
-                                    <th>Babak</th>
-                                    <th className='w-[21%]'>Sudut Biru</th>
-                                    <th className='w-[21%]'>Sudut Merah</th>
-                                    <th>Aktif</th>
-                                    <th className='w-[10%]'>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody className='text-center'>
-                                {dataJadwalRegu.map((item, index) => (
-                                    <tr className='even:bg-[#4C4F6D] odd:bg-[#2c2f48]'>
-                                    <td className='py-5'>{index + 1}</td>
-                                    <td>{item.kelas}</td>
-                                    <td>{item.jk}</td>
-                                    <td>{item.babak}</td>
-                                    <td>{item.biru.nama1}<br></br>{item.biru.nama2}<br></br>{item.biru.nama3}<br></br>( {item.biru.kontingen} )</td>
-                                    <td>{item.merah.nama1}<br></br>{item.merah.nama2}<br></br>{item.merah.nama3}<br></br>( {item.merah.kontingen} )</td>
-                                    <td>{item.aktif}</td>
-                                    <td>
-                                    <div className="p-2 space-x-2">
-                                        <button onClick={() => editModal(item)} className='w-10 h-10 p-2 bg-green-600 rounded-xl'>
-                                        <img src='../svg/pencil.svg'></img>
-                                        </button>
-                                        <button onClick={() => deleteModal(item.id)} className='w-10 h-10 p-2 bg-red-600 rounded-xl'>
-                                        <img src='../svg/trash.svg'></img>
-                                        </button>
-                                    </div>
-                                    </td>
-                                    </tr>
-                                ))}
-                                </tbody>
-                            </table>
+                                {/* Table */}
+                                <table className='w-full table-fixed'>
+                                    <thead className='border-b-2'>
+                                        <tr>
+                                            <th className='py-4'>Partai</th>
+                                            <th className='w-[10%]'>Kelas</th>
+                                            <th>Jenis Kelamin</th>
+                                            <th>Babak</th>
+                                            <th className='w-[21%]'>Sudut Biru</th>
+                                            <th className='w-[21%]'>Sudut Merah</th>
+                                            <th className='w-[10%]'>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className='text-center'>
+                                    {dataJadwalRegu.map((item, index) => (
+                                        <tr key={index + 1} className='even:bg-[#4C4F6D] odd:bg-[#2c2f48]'>
+                                            <td className='py-5'>{item.partai}</td>
+                                            <td>{item.kelas}</td>
+                                            <td>{item.jk}</td>
+                                            <td>{item.babak}</td>
+                                            <td>{item.biru.nama1}<br></br>{item.biru.nama2}<br></br>{item.biru.nama3}<br></br>( {item.biru.kontingen} )</td>
+                                            <td>{item.merah.nama1}<br></br>{item.merah.nama2}<br></br>{item.merah.nama3}<br></br>( {item.merah.kontingen} )</td>
+                                            <td>
+                                                <div className="p-2 space-x-2">
+                                                    <button onClick={() => editModal(item)} className='w-10 h-10 p-2 bg-green-600 rounded-xl'>
+                                                    <img src='../svg/pencil.svg'></img>
+                                                    </button>
+                                                    <button onClick={() => deleteModal(item.id)} className='w-10 h-10 p-2 bg-red-600 rounded-xl'>
+                                                    <img src='../svg/trash.svg'></img>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -187,7 +199,7 @@ const jadwalRegu = () => {
                 {/* akhir konten utama */}
             </div>
 
-            <globalState.Provider value={{ showModalJadwal, setShowModalJadwal, action, setAction, dataJadwaRegu, setDataJadwalRegu, idBiru, setIdBiru, idMerah, setIdMerah, idJadwal, setIdJadwal, jk, setJk, babak, setBabak}}>
+            <globalState.Provider value={{ showModalJadwal, setShowModalJadwal, action, setAction, dataJadwalRegu, setDataJadwalRegu, partai, setPartai, idBiru, setIdBiru, idMerah, setIdMerah, idJadwal, setIdJadwal, jk, setJk, babak, setBabak}}>
                 <ModalJadwal />
             </globalState.Provider>
 

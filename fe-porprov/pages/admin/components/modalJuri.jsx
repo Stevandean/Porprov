@@ -66,7 +66,7 @@ const modalJuri = () => {
                                         return (
                                             <>    
                                                 <h3 className="text-3xl font-semibold text-white">
-                                                    Tambah Jadwal Tanding
+                                                    Tambah Nama Juri
                                                 </h3>
                                             </>
                                         )
@@ -74,7 +74,7 @@ const modalJuri = () => {
                                         return (
                                             <>    
                                                 <h3 className="text-3xl font-semibold text-white">
-                                                    Edit Jadwal Tanding
+                                                    Edit Nama Juri
                                                 </h3>
                                             </>
                                         )

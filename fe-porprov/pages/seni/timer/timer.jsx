@@ -5,49 +5,22 @@ import Link from 'next/link'
 import Navbar from '../components/navbar'
 import Footer from '../components/footer'
 import Timer from '../components/timer'
+import { useRouter } from 'next/router'
+import socketIo from 'socket.io-client'
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const socket = socketIo(BASE_URL)
 
 const timer = () => {
+
+  const router = useRouter ()
+  const [event, setEvent] = useState ([])
 
   const {duration, setDuration} = useContext(globalState)  
   const {running, setRunning} = useContext(globalState)  
   const [aktif, setAktif] = useState (0)
   const [peserta, setPeserta] = useState ([])
   const [jadwal, setJadwal] = useState ([])
-
-  const start = () => {
-    setDuration (1000)
-    setRunning (true)
-  }
-
-  const selesai = () => {
-    setRunning (false)
-
-    const peserta = JSON.parse (localStorage.getItem ('peserta'))
-    const jadwal = JSON.parse(localStorage.getItem ('jadwal'))
-
-
-    let id_peserta = peserta.id
-    let id_jadwal = jadwal.id
-    
-    // set waktu
-    let minute = `${("0" + Math.floor((duration / 1000 / 60) % 60)).slice(-2)}`
-    let second = `${("0" + Math.floor((duration / 1000) %60)) .slice(-2)}`
-    let time = `${minute} : ${second}`
-
-    let form = {
-      waktu : time
-    }
-
-    axios.put (BASE_URL + `/api/tgr/selesai/${id_jadwal}/${id_peserta}`, form)
-    .then (res => {
-      console.log(res.data.message);
-    })
-    .catch (err => {
-      console.log(err.message);
-      console.log('gagal');
-    })
-  }
 
   const mulai = () => {
     const peserta = JSON.parse(localStorage.getItem('peserta'))
@@ -65,8 +38,8 @@ const timer = () => {
       if (confirm ('Anda yakin untuk memulai pertandingan?') == 1) {
         axios.put (BASE_URL + `/api/tgr/${id_jadwal}`, form)
         .then (res => {
-          socket.emit ('editData')
           console.log(res.data.message);
+          socket.emit ('editData')
         })
         .catch (err => {
           console.log(err.message);
@@ -80,8 +53,8 @@ const timer = () => {
       if (confirm ('Anda yakin untuk mengakhiri pertandingan?') == 1) {
         axios.put (BASE_URL + `/api/tgr/${id_jadwal}`, form)
         .then (res => {
-            socket.emit ('editData')
             console.log(res.data.message);
+            socket.emit ('editData')
         })
         .catch (err => {
             console.log(err.response.data.message);
@@ -91,29 +64,52 @@ const timer = () => {
   }
 
   const getHukum = async () => {
-    const peserta = JSON.parse(localStorage.getItem('peserta'))
-    const jadwal = JSON.parse(localStorage.getItem ('jadwal'))
-    setPeserta (JSON.parse(localStorage.getItem('peserta'))) 
-    setJadwal (JSON.parse(localStorage.getItem('jadwal')))
+    const peserta = JSON.parse(localStorage.getItem('pesertaSeni'))
+    const jadwal = JSON.parse(localStorage.getItem ('jadwalSeni'))
+
+    setPeserta (JSON.parse(localStorage.getItem('pesertaSeni'))) 
+    setJadwal (JSON.parse(localStorage.getItem('jadwalSeni')))
 
     let id_jadwal = jadwal.id
     let id_peserta = peserta.id
 
     await axios.get (BASE_URL + `/api/hukum/tgr/jadwal/${id_jadwal}/${id_peserta}`)
     .then ((res) => {
-        setAktif (res.data.data.jadwal.aktif)
+      setAktif (res.data.data.jadwal.aktif)
     })
     .catch ((err) => {
-        console.log(err.message);
+      console.log(err.message);
+    })
+    console.log(BASE_URL + `/api/hukum/tgr/jadwal/${id_jadwal}/${id_peserta}`);
+  }
+      
+  const getEvent = () => {
+    axios.get (BASE_URL + `/api/event`)
+    .then (res => {
+    setEvent (res.data.data)
+    })
+    .catch (err => {
+    console.log(err.response.data.message);
     })
   }
 
-  useEffect(() => {
-    return () => {
-      getHukum ()
+  const handle = useFullScreenHandle ()
+
+  const isLogged = () => {
+    if (localStorage.getItem ('token') === null || localStorage.getItem ('timerSeni') === null) {
+    router.push ('/seni/timer/login') 
     }
+  }
+
+  const ubah_data = () => socket.emit ('init_data')
+
+  useEffect(() => {
+    socket.emit ('init_data')
+    socket.on('getData', getHukum)
+    socket.on ('change_data', ubah_data)
+    getEvent ()
+    isLogged ()
   }, [])
-  
 
   return (
     <>
@@ -123,23 +119,70 @@ const timer = () => {
       <div className="w-full overflow-y-auto h-screen my-auto"> 
       
         {/* header */}
-        <div className="lg:block hidden">
-          <Navbar />
+        <div className="bg-[#2C2F48] sticky top-0 h-20 z-40 flex">
+          {event.map((item, index) => (
+            <div key={index + 1} className="flex justify-between w-full text-white px-10">
+              <div className="flex space-x-3">
+                <button onClick={handle.enter} className="flex justify-center items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-maximize">
+                  <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                  </svg>
+                </button> 
+                  <img className='py-3'src={BASE_URL + "/api/event/image/" + item.logo} alt="Kabupaten Trenggalek" />
+              </div>
+              <span className='text-xl font-semibold my-auto uppercase text-center'>{item.nama}</span>
+              <div className="flex space-x-3">
+                <img className='py-3' src={BASE_URL + "/api/event/image/" + item.icon1} alt="IPSI" />
+                <img className='py-3' src={BASE_URL + "/api/event/image/" + item.icon2} alt="IPSI2" />
+              </div>
+            </div>          
+          ))}
         </div>
         {/* akhir header */}
 
         {/* konten utama */}
-        <div className="bg-white text-white min-h-full m-auto">
+        <FullScreen handle={handle} className="bg-white text-white min-h-full m-auto overflow-y-auto">
           {/* wrapper keseluruhan */}
-          <div className="w-3/5 mx-auto lg:py-10 py-5 lg:space-y-10 space-y-5">
+          <div className="w-11/12 mx-auto lg:py-10 py-5 ">
+
             {/* wrapper sudut */}
-            <div className={jadwal.id_biru == peserta.id ? "items-center flex justify-between rounded-lg bg-blue-700 px-5" : "justify-center items-center flex rounded-lg bg-red-700"}>
+            <div className="items-center flex justify-between rounded-lg gap-x-3 mb-2 lg:mb-5">
               {/* button back */}
-              <Link href={'./landingPageputra'} className="bg-red-700 rounded-lg w-12 h-12 my-auto">
+              <button onClick={() => router.back()} className="bg-red-700 rounded-lg w-12 h-12 my-auto">
                 <img className='p-3' src="../../svg/back.svg" />
-              </Link>
-              <span className='lg:text-4xl text-xl font-bold text-white py-2.5'>{'PARTAI '+ (jadwal.partai + 1)} - {peserta.jk} - {peserta.kelas}</span>
+              </button>
+              <span className={jadwal.id_biru == peserta.id ? 'lg:text-4xl text-xl font-bold text-white py-2.5 bg-blue-600 w-full rounded-lg text-center' : 'lg:text-4xl text-xl font-bold text-white py-2.5 bg-red-600 w-full rounded-lg text-center'}>{'PARTAI '+ (jadwal.partai)} - {peserta.jk} - {peserta.kelas}</span>
               <div className=""></div>
+            </div>
+
+            {/* wrapper peserta */}
+            <div className="flex flex-col space-y-5 border-2 border-black py-2 rounded-lg mb-4 lg:mb-10 text-center">
+              <div className={jadwal.id_biru == peserta.id ? 'w-full flex flex-col justify-center items-center text-blue-600' : 'w-full flex flex-col justify-center items-center text-red-600'}>
+                {(() => {
+                  if (peserta.kategori == 'tunggal') {
+                    return (
+                        <h1 className='text-2xl font-bold'>{peserta.nama1}</h1>
+                      )
+                  } else if (peserta.kategori == 'ganda') {
+                    return (
+                      <>
+                        <h1 className='text-2xl font-bold'>{peserta.nama1} - {peserta.nama2}</h1>
+                      </>
+                    )
+                  } else if (peserta.kategori == 'regu') {
+                    return (
+                      <>
+                        <h1 className='text-2xl font-bold'>{peserta.nama1} - {peserta.nama2} - {peserta.nama3}</h1>
+                      </>
+                    )
+                  } else if (peserta.kategori == 'solo_kreatif') {
+                    return (
+                      <h1 className='text-xl font-semibold'>{peserta.nama1}</h1>
+                    )
+                  }
+                })()}
+                <h1 className='tracking-wider lg:text-xl'>{peserta.kontingen}</h1>
+              </div>
             </div>
 
             {/* wrapper timer and aktif button */}
@@ -148,41 +191,22 @@ const timer = () => {
                 {(() => {
                   if (aktif == 1) {
                     return (
-                      <button onClick={() => mulai()} className='lg:text-3xl text-lg font-semibold lg:py-4 py-2 w-full bg-green-500 hover:bg-green-600 rounded-lg'>Aktif</button>
+                      <button onClick={() => mulai()} className='lg:text-4xl text-lg font-semibold lg:py-4 py-2 w-full bg-green-500 hover:bg-green-600 rounded-lg'>Aktif</button>
                     )
                 } else if (aktif == 0) {
                     return (
-                      <button onClick={() => mulai()} className='lg:text-3xl text-lg font-semibold lg:py-4 py-2 w-full bg-red-600 hover:bg-red-700 rounded-lg'>Non Aktif</button>
+                      <button onClick={() => mulai()} className='lg:text-3xl text-lg font-semibold lg:py-4 py-2 w-full bg-gray-400 hover:bg-gray-500 rounded-lg'>Non Aktif</button>
                     )
                   }
                 })()}
               </div>
-              <div className="grid grid-cols-12">
-                <button onClick={() => selesai()} className="col-span-2 bg-green-500 hover:bg-green-600 rounded-l-lg flex justify-center items-center">
-                  <svg className='w-32' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g clipPath="url(#clip0_429_11249)">
-                      <path d="M20 7.00018L10 17.0002L5 12.0002" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </g>
-                    <defs>
-                      <clipPath id="clip0_429_11249">
-                        <rect width="24" height="24" fill="white"/>
-                      </clipPath>
-                    </defs>
-                  </svg>
-                </button>
-                <div className="col-span-8 flex justify-center items-center border-y-2 text-black border-black lg:text-7xl text-5xl">
-                  <Timer />
-                </div>
-                <button onClick={() => start()} className="col-span-2 bg-green-500 hover:bg-green-600 rounded-r-lg flex justify-center items-center">
-                  <svg className='lg:w-16 w-10 py-3' viewBox="0 0 21 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M2 2.08008L19 13.9013L2 25.7225V2.08008Z" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </button>
-              </div>
+              {jadwal.id ? <Timer id_jadwal={jadwal.id} id_peserta={peserta.id} socket={socket}/> : null}
             </div>
           </div>
+        </FullScreen>
+        <div className="hidden lg:block">
+          <Footer />
         </div>
-        <Footer />
       </div>
       {/* akhir konten utama */}
     </div>

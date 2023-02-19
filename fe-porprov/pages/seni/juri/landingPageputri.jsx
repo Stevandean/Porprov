@@ -7,14 +7,15 @@ import Footer from '../components/footer'
 import { useRouter } from 'next/router'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
+// socket io
+const socket = socketIo (BASE_URL)
+
 const landingPageputri = () => {
-
-  // socket io
-  const socket = socketIo (BASE_URL)
-
+  
+  const router = useRouter ()
   const location = useRouter()
   const {pathname} = location
-  const splitLoc = pathname.split ('/seni/juri/')
+  const splitLoc = pathname.split ('/seni/juri')
 
   const [dataTunggal, setDataTunggal] = useState ([])
   const [dataGanda, setDataGanda] = useState ([])
@@ -22,7 +23,7 @@ const landingPageputri = () => {
   const [dataRegu, setDataRegu] = useState ([])
 
   const getTunggal = () => {
-    axios.get (BASE_URL + `/api/tgr/get/kelas/tunggal`)
+    axios.get (BASE_URL + `/api/tgr/get/kelas/aktif/tunggal`)
     .then (res => {
       setDataTunggal (res.data.data)
     })
@@ -32,7 +33,7 @@ const landingPageputri = () => {
   }
 
   const getGanda = () => {
-    axios.get (BASE_URL + `/api/tgr/get/kelas/ganda`)
+    axios.get (BASE_URL + `/api/tgr/get/kelas/aktif/ganda`)
     .then (res => {
       setDataGanda (res.data.data)
     })
@@ -42,7 +43,7 @@ const landingPageputri = () => {
   }
 
   const getRegu = () => {
-    axios.get (BASE_URL + `/api/tgr/get/kelas/regu`)
+    axios.get (BASE_URL + `/api/tgr/get/kelas/aktif/regu`)
     .then (res => {
       setDataRegu (res.data.data)
     })
@@ -52,7 +53,7 @@ const landingPageputri = () => {
   }
   
   const getSoloKreatif = () => {
-    axios.get (BASE_URL + `/api/tgr/get/kelas/solo_kreatif`)
+    axios.get (BASE_URL + `/api/tgr/get/kelas/aktif/solo_kreatif`)
     .then (res => {
       setDataSoloKreatif (res.data.data)
     })
@@ -61,20 +62,22 @@ const landingPageputri = () => {
     })
   }
 
+  const isLogged = () => {
+    if (localStorage.getItem ('token') === null || localStorage.getItem ('juriSeni') === null) {
+     router.push ('/seni/juri/login') 
+    }
+  }
+
   const ubah_data = () => socket.emit ('init_data')
 
   useEffect (() => {
-    // socket.emit ('init_data')
-    // socket.on ('getData', getTunggal)
-    // socket.on ('getData', getGanda)
-    // socket.on ('getData', getRegu)
-    // socket.on ('change_data', ubah_data)
-    return () => {
-      getTunggal()
-      getGanda()
-      getRegu()
-      getSoloKreatif()
-    }
+    socket.emit ('init_data')
+    socket.on ('getData', getTunggal)
+    socket.on ('getData', getGanda)
+    socket.on ('getData', getRegu)
+    socket.on ('getData', getSoloKreatif)
+    socket.on ('change_data', ubah_data)
+    isLogged ()
   }, [])
 
   return (
@@ -95,10 +98,10 @@ const landingPageputri = () => {
 
               {/* button putra putri */}
               <div className="grid grid-cols-2 space-x-5">
-                <Link href={'./landingPageputra'} className={splitLoc[1] === 'landingPageputra' ? "bg-[#222954] rounded-lg text-center py-1" : "border-2 border-[#222954] rounded-lg text-center py-1 text-[#2C2F48]"}>
+                <Link href={'/seni/juri'} className={splitLoc[1] === '' ? "bg-[#222954] rounded-lg text-center py-1" : "border-2 border-[#222954] rounded-lg text-center py-1 text-[#2C2F48]"}>
                   <span className='lg:text-3xl text-xl font-semibold'>Putra</span>
                 </Link>
-                <Link href={'./landingPageputri'} className={splitLoc[1] === 'landingPageputri' ? "bg-[#222954] rounded-lg text-center py-1" : "border-2 border-[#222954] rounded-lg text-center py-1 text-[#2C2F48]"}>
+                <Link href={'/seni/juri/landingPageputri'} className={splitLoc[1] === '/landingPageputri' ? "bg-[#222954] rounded-lg text-center py-1" : "border-2 border-[#222954] rounded-lg text-center py-1 text-[#2C2F48]"}>
                   <span className='lg:text-3xl text-xl font-semibold'>Putri</span>
                 </Link>
               </div>
@@ -118,9 +121,9 @@ const landingPageputri = () => {
                     <img className='w-full -mt-6' src="../../svg/vshape.svg" />
                     {/* pool */}
                     <div className="flex flex-col px-5">
-                      {dataTunggal.filter(a => a.jk == 'PUTRI').filter(a => a.aktif == true).map (item => (
-                        <Link href={'./putri/tunggal/'  + item.kelas + "/" + item.babak} className="bg-[#222954] rounded-lg lg:py-3 py-1.5 mb-4">
-                          <span className='uppercase lg:text-xl text-base font-semibold'>{item.kelas} - {item.babak}</span>
+                      {dataTunggal.filter(a => a.jk == 'PUTRI').map ((item, index) => (
+                        <Link key={index + 1} href={'/seni/juri/putri/tunggal/'  + item.kelas} className="bg-[#222954] rounded-lg lg:py-3 py-1.5 mb-4">
+                          <span className='uppercase lg:text-xl text-base font-semibold'>{item.kelas}</span>
                         </Link>
                       ))}
                     </div>
@@ -139,30 +142,9 @@ const landingPageputri = () => {
                     <img className='w-full -mt-6' src="../../svg/vshape.svg" />
                     {/* pool */}
                     <div className="flex flex-col px-5">
-                      {dataGanda.filter(a => a.jk == 'PUTRI').filter(a => a.aktif == true).map (item => (
-                        <Link href={'./putri/ganda/' + item.kelas + "/" + item.babak} className="bg-[#222954] rounded-lg lg:py-3 lg-1.5 mb-4">
-                          <span className='uppercase lg:text-xl text-base font-semibold'>{item.kelas} - {item.babak}</span>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                {/* wrapper card solo kreatif */}
-                <div className="bg-[#222954] lg:min-h-[34rem] min-h-[23rem] flex flex-col text-center rounded-lg space-y-1">
-                  {/* Kategori */}
-                  <div className="flex flex-col py-3">
-                    <span className='lg:text-3xl text-xl'>Kategori</span>
-                    <span className='lg:text-4xl text-2xl font-bold'>Solo Kreatif</span>
-                  </div>
-                  {/* wrapper pool */}
-                  <div className="bg-white border-x-4 border-b-4 border-[#222954] h-full rounded-lg lg:space-y-6 space-y-3">
-                    {/* vshape */}
-                    <img className='w-full -mt-6' src="../../svg/vshape.svg" />
-                    {/* pool */}
-                    <div className="flex flex-col px-5">
-                      {dataSoloKreatif.filter(a => a.jk == 'PUTRI').filter(a => a.aktif == true).map (item => (
-                        <Link href={'./putri/solo_kreatif/' + item.kelas + "/" + item.babak} className="bg-[#222954] rounded-lg lg:py-3 py-1.5 mb-4">
-                          <span className='uppercase lg:text-xl text-base font-semibold'>{item.kelas} - {item.babak}</span>
+                      {dataGanda.filter(a => a.jk == 'PUTRI').map ((item, index) => (
+                        <Link key={index + 1} href={'/seni/juri/putri/ganda/' + item.kelas} className="bg-[#222954] rounded-lg lg:py-3 lg-1.5 mb-4">
+                          <span className='uppercase lg:text-xl text-base font-semibold'>{item.kelas}</span>
                         </Link>
                       ))}
                     </div>
@@ -181,14 +163,36 @@ const landingPageputri = () => {
                     <img className='w-full -mt-6' src="../../svg/vshape.svg" />
                     {/* pool */}
                     <div className="flex flex-col px-5">
-                      {dataRegu.filter(a => a.jk == 'PUTRI').filter(a => a.aktif == true).map (item => (
-                        <Link href={'./putri/regu/' + item.kelas + "/" + item.babak} className="bg-[#222954] rounded-lg lg:py-3 py-1.5 mb-4">
-                          <span className='uppercase lg:text-xl text-base font-semibold'>{item.kelas} - {item.babak}</span>
+                      {dataRegu.filter(a => a.jk == 'PUTRI').map ((item) => (
+                        <Link key={index + 1} href={'/seni/juri/putri/regu/' + item.kelas} className="bg-[#222954] rounded-lg lg:py-3 py-1.5 mb-4">
+                          <span className='uppercase lg:text-xl text-base font-semibold'>{item.kelas}</span>
                         </Link>
                       ))}
                     </div>
                   </div>
                 </div>
+                {/* wrapper card solo kreatif */}
+                <div className="bg-[#222954] lg:min-h-[34rem] min-h-[23rem] flex flex-col text-center rounded-lg space-y-1">
+                  {/* Kategori */}
+                  <div className="flex flex-col py-3">
+                    <span className='lg:text-3xl text-xl'>Kategori</span>
+                    <span className='lg:text-4xl text-2xl font-bold'>Solo Kreatif</span>
+                  </div>
+                  {/* wrapper pool */}
+                  <div className="bg-white border-x-4 border-b-4 border-[#222954] h-full rounded-lg lg:space-y-6 space-y-3">
+                    {/* vshape */}
+                    <img className='w-full -mt-6' src="../../svg/vshape.svg" />
+                    {/* pool */}
+                    <div className="flex flex-col px-5">
+                      {dataSoloKreatif.filter(a => a.jk == 'PUTRI').map ((item, index) => (
+                        <Link key={index + 1} href={'/seni/juri/putri/solo_kreatif/' + item.kelas} className="bg-[#222954] rounded-lg lg:py-3 py-1.5 mb-4">
+                          <span className='uppercase lg:text-xl text-base font-semibold'>{item.kelas}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                
               </div>
 
             </div>

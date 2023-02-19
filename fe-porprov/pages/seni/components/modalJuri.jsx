@@ -58,7 +58,7 @@ const modalJuri = () => {
                                 {/*header Modal*/}
                                 <div className="flex justify-center p-5 border-b border-solid border-slate-500 rounded-t">
                                     <h3 className="text-3xl font-semibold text-white">
-                                        Tambah Jadwal Tanding
+                                        Nama Juri
                                     </h3>
                                 </div>
 
@@ -76,8 +76,8 @@ const modalJuri = () => {
                                                 <div className='border-2 bg-[#212437] border-slate-200 rounded-lg px-2'>
                                                     <select className='w-full bg-[#212437] focus:outline-none' name={nama} onChange = {(e) => setNama (e.target.value)} required>
                                                         <option></option>
-                                                        {namaJuri.map (item => (
-                                                            <option value={item.nama}>{item.nama}</option>
+                                                        {namaJuri.map ((item, index) => (
+                                                            <option key={index + 1} value={item.nama}>{item.nama}</option>
                                                         ))}
                                                     </select>
                                                 </div>
