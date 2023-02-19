@@ -4,6 +4,8 @@ const Nilai = models.nilai_tanding
 const Poin = models.poin
 const Juri = models.juri
 const Logs1 = models.log_poin_juri1
+const Logs2 = models.log_poin_juri2
+const Logs3 = models.log_poin_juri3
 const {v4 : uuidv4} = require("uuid")
 const {
     getResponse,
@@ -354,7 +356,9 @@ module.exports = {
                     {
                         model: models.poin,
                         as: 'poin_merah',
-                        attributes: ['dis'],
+                        attributes: {
+                            exclude: ['createdAt', 'updatedAt']
+                        },
                         include:[
 
                             // //show log juri 1
@@ -419,7 +423,9 @@ module.exports = {
                     {
                         model: models.poin,
                         as: 'poin_biru',
-                        attributes: ['dis'],
+                        attributes: {
+                            exclude: ['createdAt', 'updatedAt']
+                        },
                         include:[
 
                             // //show log juri 1
@@ -1540,6 +1546,101 @@ module.exports = {
         }
     },
 
+    getLogJuri1: async (req,res) =>{
+        try {
+            const getNilai = await Nilai.findOne({
+                where: {
+                    id_jadwal: req.params.id_jadwal,
+                    babak: req.params.babak
+                }
+            })
+            if(req.params.sudut == 'biru'){
+                let result = await Logs1.findAll({
+                    where: {id_poin: getNilai.id_poin_biru},
+                    attributes: ['poin', 'createdAt'],
+                    order:[[
+                        'createdAt', 'ASC'
+                    ]]
+                })
+                return getResponse( req, res, result )
+            }else if (req.params.sudut == 'merah'){
+                let result = await Logs1.findAll({
+                    where: {id_poin: getNilai.id_poin_merah},
+                    attributes: ['poin', 'createdAt'],
+                    order:[[
+                        'createdAt', 'ASC'
+                    ]]
+                })
+                return getResponse( req, res, result )
+            }
+        } catch (error) {
+            return errorResponse( req, res, error.message )
+        }
+    },
+
+    getLogJuri2: async (req,res) =>{
+        try {
+            const getNilai = await Nilai.findOne({
+                where: {
+                    id_jadwal: req.params.id_jadwal,
+                    babak: req.params.babak
+                }
+            })
+            if(req.params.sudut == 'biru'){
+                let result = await Logs2.findAll({
+                    where: {id_poin: getNilai.id_poin_biru},
+                    attributes: ['poin', 'createdAt'],
+                    order:[[
+                        'createdAt', 'ASC'
+                    ]]
+                })
+                return getResponse( req, res, result )
+            }else if (req.params.sudut == 'merah'){
+                let result = await Logs2.findAll({
+                    where: {id_poin: getNilai.id_poin_merah},
+                    attributes: ['poin', 'createdAt'],
+                    order:[[
+                        'createdAt', 'ASC'
+                    ]]
+                })
+                return getResponse( req, res, result )
+            }
+        } catch (error) {
+            return errorResponse( req, res, error.message )
+        }
+    },
+
+    getLogJuri3: async (req,res) =>{
+        try {
+            const getNilai = await Nilai.findOne({
+                where: {
+                    id_jadwal: req.params.id_jadwal,
+                    babak: req.params.babak
+                }
+            })
+            if(req.params.sudut == 'biru'){
+                let result = await Logs3.findAll({
+                    where: {id_poin: getNilai.id_poin_biru},
+                    attributes: ['poin', 'createdAt'],
+                    order:[[
+                        'createdAt', 'ASC'
+                    ]]
+                })
+                return getResponse( req, res, result )
+            }else if (req.params.sudut == 'merah'){
+                let result = await Logs3.findAll({
+                    where: {id_poin: getNilai.id_poin_merah},
+                    attributes: ['poin', 'createdAt'],
+                    order:[[
+                        'createdAt', 'ASC'
+                    ]]
+                })
+                return getResponse( req, res, result )
+            }
+        } catch (error) {
+            return errorResponse( req, res, error.message )
+        }
+    },
     addBabak1: async (req,res) =>{
         try{
             //set id as uuid

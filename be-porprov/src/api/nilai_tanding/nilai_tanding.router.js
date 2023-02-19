@@ -14,8 +14,10 @@ const {
     getNilaiLayar,
     getJuribySudutbyBabak,
     getPoinMasukbysudut,
-    getPoin,
-    getLogs1
+    getLogs1,
+    getLogJuri1,
+    getLogJuri2,
+    getLogJuri3
 } = require('./nilai_tanding.controller')
 
 const {
@@ -62,6 +64,9 @@ router.get('/poinmasuk/:sudut/:id_jadwal/:babak', getPoinMasukbysudut)
 
 router.get('/juri/:sudut/:id_jadwal/:babak/:no_juri', getJuribySudutbyBabak)
 
+router.get("/log1/:sudut/:id_jadwal/:babak", getLogJuri1)
+router.get("/log2/:sudut/:id_jadwal/:babak", getLogJuri2)
+router.get("/log3/:sudut/:id_jadwal/:babak", getLogJuri3)
 
 router.get("/getpoin/poin/juri", getLogs1)
 router.get('/layar/:id_jadwal', getNilaiLayar),

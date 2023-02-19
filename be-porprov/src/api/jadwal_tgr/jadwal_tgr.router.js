@@ -30,12 +30,14 @@ const {
     getTimer,
     timerSelesai,
     getbyId,
+    getbyGelanggang,
 
 }= require("./jadwal_tgr.controller");
 
 //router
 router.get("/", getAllData);
 router.get("/:kategori", getAllTgr);
+router.get("/gel/:gelanggang", getbyGelanggang)
 router.get("/:id", getbyId);
 router.get("/tunggal/:id", getbyId);
 router.get("/ganda/:id", getbyId);
