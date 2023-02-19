@@ -1,14 +1,40 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { useRouter } from 'next/router'
+import Link from 'next/link';
+import axios from 'axios';
 import Sidebar from './components/sidebar';
 import Navbar from './components/navbar';
 import Footer from './components/footer';
-import { useRouter } from 'next/router'
+import { reactToPrint } from 'react-to-print'
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const nilaiTanding = () => {
 
-  const location = useRouter();
-  const {pathname} = location;
-  const splitLoc = pathname.split('/admin/nilai')
+  const router = useRouter ()
+
+  // ini state
+  const [dataJadwalTanding, setDataJadwalTanding] = useState ([])
+
+  const getJadwalTanding = () => {
+    axios.get (BASE_URL + `/api/tanding`)
+    .then (res => {
+      setDataJadwalTanding (res.data.data)
+    })
+    .catch (err => {
+      console.log(err.response.data.message);
+    })
+  }
+
+  const isLogged = () => {
+    if (localStorage.getItem ('token') === null || localStorage.getItem ('admin') === null) {
+      router.push ('/admin/login')
+    }
+  }
+
+  useEffect (() => {
+    getJadwalTanding ()
+    isLogged ()
+  }, [])
 
   return (
     <>
@@ -34,10 +60,7 @@ const nilaiTanding = () => {
             {/* Input Data */}
             <div className="bg-[#2C2F48] rounded-lg flex justify-between p-3">
               <div className="flex items-center px-2">
-                <span className='text-lg uppercase font-semibold'>Rekap {splitLoc}</span>
-              </div>
-              <div className="px-5 space-x-5">
-                <button className='bg-red-700 px-3 py-2 rounded-lg'>Cetak PDF</button>
+                <span className='text-lg uppercase font-semibold'>Rekap Tanding</span>
               </div>
             </div>
 
@@ -46,61 +69,54 @@ const nilaiTanding = () => {
               <table className='w-full table-fixed'>
                 <thead className='border-b-2'>
                   <tr>
-                    <th className='py-4'>No</th>
-                    <th>Gel</th>
-                    <th>Partai</th>
-                    <th className='w-[15%]'>Kelas</th>
-                    <th className='w-[25%]'>Pemenang</th>
+                    <th className='w-[5%] py-4'>No</th>
+                    <th className='w-[5%]'>Gel</th>
+                    <th className='w-[5%]'>Partai</th>
+                    <th className='w-[10%]'>Kelas</th>
+                    <th className='w-[20%]'>Pemenang</th>
                     <th>Sudut</th>
                     <th>Point</th>
                     <th className='w-[10%]'>Kemenangan</th>
                     <th>Babak</th>
-                    <th className='w-[10%]'>Aksi</th>
+                    <th className='w-[7%]'>Aksi</th>
                   </tr>
                 </thead>
                 <tbody className='text-center'>
-                  <tr className='even:bg-[#4C4F6D] odd:bg-[#2c2f48]'>
-                    <td className='py-5'>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>
-                    <div className="p-2 space-x-2">
-                      <button className='w-10 h-10 p-2 bg-green-600 rounded-xl'>
-                        <img src='../svg/pencil.svg'></img>
-                      </button>
-                      <button className='w-10 h-10 p-2 bg-blue-700 rounded-xl'>
-                        <img src='../svg/info.svg'></img>
-                      </button>
-                    </div>
-                    </td>
-                  </tr>
-                  <tr className='even:bg-[#4C4F6D] odd:bg-[#2c2f48]'>
-                    <td className='py-5'>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>
-                    <div className="p-2 space-x-2">
-                      <button className='w-10 h-10 p-2 bg-green-600 rounded-xl'>
-                        <img src='../svg/pencil.svg'></img>
-                      </button>
-                      <button className='w-10 h-10 p-2 bg-blue-700 rounded-xl'>
-                        <img src='../svg/info.svg'></img>
-                      </button>
-                    </div>
-                    </td>
-                  </tr>
+                  {dataJadwalTanding.filter(a => a.selesai == true).map((item, index) => (
+                    <tr key={index + 1} className='even:bg-[#4C4F6D] odd:bg-[#2c2f48]'>
+                      <td className='py-5'>{index + 1}</td>
+                      <td>{item.gelanggang}</td>
+                      <td>{item.partai}</td>
+                      <td>{item.kelas}</td>
+                      <td>{item.pemenang?.nama} - {item.pemenang?.kontingen}</td>
+                      {(() => {
+                        if (item.pemenang?.id == item.id_biru) {
+                          return (
+                            <>
+                              <td>Sudut Biru</td>
+                              <td>({item.total_biru}) - ({item.total_merah})</td>
+                            </>
+                          )
+                        } else if (item.pemenang?.id == item.id_merah) {
+                          return (
+                            <>
+                              <td>Sudut Merah</td>
+                              <td>({item.total_biru}) - ({item.total_merah})</td>
+                            </>
+                          )
+                        }
+                      })()}
+                      <td>{item.keterangan}</td>
+                      <td>{item.babak}</td>
+                      <td>
+                        <Link href={'./' + item.id} className="p-2 space-x-2 flex justify-center items-center">
+                          <div className='w-10 h-10 p-2 bg-blue-700 rounded-xl'>
+                            <img src='../svg/info.svg'></img>
+                          </div>
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

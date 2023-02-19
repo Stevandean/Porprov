@@ -31,9 +31,16 @@ const detail = () => {
         router.push ('./timer')
     }
 
+    const isLogged = () => {
+        if (localStorage.getItem ('token') === null || localStorage.getItem ('timerTanding') === null) {
+            router.push ('/tanding/timer/login')
+        }
+    }
+
     useEffect (() => {
         if (!router.isReady) return;
         getData () 
+        isLogged ()
     }, [router.query.gelanggang, router.isReady])
 
     return (
@@ -50,14 +57,14 @@ const detail = () => {
                 {/* konten utama */}
                 <div className="bg-white text-white min-h-full">
                     {/* wrapper keseluruhan */}
-                    <div className="w-9/12 mx-auto py-10 space-y-8">
+                    <div className="w-11/12 mx-auto py-10 space-y-8">
 
                         {/* text daftar gelanggang and back button */}
                         <div className="grid grid-cols-12 gap-x-5">
                             {/* button back */}
-                            <Link href={'./landingPage'} className='bg-red-500 rounded-xl col-span-1 flex justify-center'>
+                            <button onClick={() => router.back ()} className='bg-red-500 rounded-xl col-span-1 flex items-center justify-center'>
                                 <img className='w-10' src="/svg/back.svg" alt="" />
-                            </Link>
+                            </button>
                             <h1 className='col-span-11 text-3xl bg-[#222954] py-3 rounded-xl font-semibold text-center'>Daftar Gelanggang</h1>
                         </div>
 
@@ -68,13 +75,13 @@ const detail = () => {
                                     <th className='py-3 w-[8%]'>Partai</th>
                                     <th>Kelas</th>
                                     <th>Kategori</th>
-                                    <th className='w-[25%]'>Sudut biru</th>
-                                    <th className='w-[25%]'>Sudut merah</th>
+                                    <th className='w-[25%] bg-blue-600'>Sudut Biru</th>
+                                    <th className='w-[25%] bg-red-600'>Sudut Merah</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {data.map (item => (
+                                {data.filter (a => a.selesai == false).map (item => (
                                     <tr className='text-center text-[#222954]'>
                                         <td className='border-2 border-[#222954] py-3'>{item.partai}</td>
                                         <td className='border-2 border-[#222954]'>{item.kelas} {item.jk}</td>

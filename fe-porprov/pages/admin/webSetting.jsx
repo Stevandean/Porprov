@@ -6,16 +6,18 @@ import Footer from './components/footer'
 import ModalEvent from './components/modalEvent'
 import ModalDelete from './components/modalDelete'
 import { globalState } from '../../context/context'
+import { useRouter } from 'next/router'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const webSetting = () => {
+
+    const router = useRouter ()
 
     // ini state
     const [event, setEvent] = useState ([])
     const [action, setAction] = useState ('')
     const [nama, setNama] = useState ('')
     const [id, setId] = useState ('')
-
 
     // state modal
     const [showModalEvent, setShowModalEvent] = useState (false)
@@ -38,8 +40,15 @@ const webSetting = () => {
         })
     }
 
+    const isLogged = () => {
+        if (localStorage.getItem ('token') === null || localStorage.getItem ('admin') === null) {
+            router.push ('/admin/login')
+        }
+    }
+
     useEffect (() => {
         getEvent ()
+        isLogged ()
     }, [])
 
     return (

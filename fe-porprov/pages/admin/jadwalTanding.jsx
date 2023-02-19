@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { useRouter } from 'next/router'
 import Navbar from './components/navbar'
 import Sidebar from './components/sidebar'
 import Footer from './components/footer'
@@ -10,6 +11,8 @@ import { globalState } from '../../context/context'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const jadwalTanding = () => {
+
+    const router = useRouter ()
 
     // state modal
     const [showModalJadwalTanding, setShowModalJadwalTanding] = useState (false)
@@ -81,8 +84,15 @@ const jadwalTanding = () => {
         setIdJadwal (selectedId)
     }
 
+    const isLogged = () => {
+        if (localStorage.getItem ('token') === localStorage.getItem ('admin') === null) {
+            router.push ('/admin/login')
+        }
+    }
+
     useEffect (() => {
         getJadwalTanding ()
+        isLogged ()
     }, [])
 
     return (
@@ -109,7 +119,7 @@ const jadwalTanding = () => {
                         {/* Input Data */}
                         <div className="bg-[#2C2F48] rounded-lg flex justify-between p-3">
                             <div className="flex items-center px-2">
-                                <span className='text-lg uppercase font-semibold'>Jadwal tunggal</span>
+                                <span className='text-lg uppercase font-semibold'>Jadwal Tanding</span>
                             </div>
                             <div className="flex px-5 space-x-5">
                                 {/* wrapper button dropdown input */}
@@ -168,7 +178,6 @@ const jadwalTanding = () => {
                                         <th className='w-[15%]'>Sudut Biru</th>
                                         <th className='w-[15%]'>Sudut Merah</th>
                                         <th>Babak</th>
-                                        <th>Aktif</th>
                                         <th className='w-[10%]'>Aksi</th>
                                     </tr>
                                 </thead>
@@ -184,7 +193,6 @@ const jadwalTanding = () => {
                                             <td>{item.biru.nama} - {item.biru.kontingen}</td>
                                             <td>{item.merah.nama} - {item.merah.kontingen}</td>
                                             <td>{item.babak}</td>
-                                            <td>{item.aktif}</td>
                                             <td>
                                             <div className="p-2 space-x-2">
                                                 <button onClick={() => editModal(item)} className='w-10 h-10 p-2 bg-green-600 rounded-xl'>

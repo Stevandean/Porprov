@@ -23,6 +23,7 @@ const modalJadwal = () => {
     const {dataJadwalRegu, setDataJadwalRegu} = useContext (globalState)
     const {dataJadwalSoloKreatif, setDataJadwalSoloKreatif} = useContext (globalState)
     const {idJadwal, setIdJadwal} = useContext (globalState)
+    const {partai, setPartai} = useContext (globalState)
     const {idMerah, setIdMerah} = useContext (globalState)
     const {idBiru, setIdBiru} = useContext (globalState)
     const {babak, setBabak} = useContext (globalState)
@@ -112,6 +113,7 @@ const modalJadwal = () => {
     const handleSave = (e) =>{
         e.preventDefault()
         let form = {
+            partai : partai,
             id_biru: idBiru,
             id_merah: idMerah,
             babak: babak,
@@ -129,8 +131,8 @@ const modalJadwal = () => {
             } else if (splitLoc.toString() === (',Ganda')) {
                 axios.post (BASE_URL + `/api/tgr/ganda`, form)
                 .then (res => {
-                    getJadwalGanda ()
-                    setShowModalJadwal (false)
+                    getJadwalTunggal ()
+                    // setShowModalJadwal (false)
                 })
                 .catch (err => {
                     console.log(err.message);
@@ -231,7 +233,7 @@ const modalJadwal = () => {
                                             return (
                                                 <>    
                                                     <h3 className="text-3xl font-semibold text-white">
-                                                        Tambah Jadwal Tanding
+                                                        Tambah Jadwal {splitLoc} {jk}
                                                     </h3>
                                                 </>
                                             )
@@ -239,7 +241,7 @@ const modalJadwal = () => {
                                             return (
                                                 <>    
                                                     <h3 className="text-3xl font-semibold text-white">
-                                                        Edit Jadwal Tanding
+                                                        Edit Jadwal {splitLoc} {jk}
                                                     </h3>
                                                 </>
                                             )
@@ -251,6 +253,21 @@ const modalJadwal = () => {
                                 <div className="relative p-6 flex flex-col space-y-5 text-white text-lg">
 
                                     {/* Input */}
+                                    <div className="flex flex-row space-x-3 w-full">
+                                        <div className="w-2/6 flex justify-between">
+                                            <span>Partai</span>
+                                            <span>:</span>
+                                        </div>
+                                        <div className="w-4/6">
+                                            <input className='w-full bg-[#212437] rounded-md focus:outline-none border-2 border-slate-200'
+                                            type="number"
+                                            value={partai}
+                                            onChange={(e) => setPartai((e.target.value).toUpperCase ())}
+                                            required
+                                            >        
+                                            </input>
+                                        </div>
+                                    </div>
                                     <div className="flex flex-row space-x-3 w-full">
                                         <div className="w-2/6 flex justify-between">
                                             <span>Sudut Biru</span>
@@ -281,8 +298,8 @@ const modalJadwal = () => {
                                                             } else if (splitLoc.toString () === (',SoloKreatif')) {
                                                                 return (
                                                                     <>
-                                                                        {dataSoloKreatif.filter(a => a.jk == jk).map (item => (
-                                                                            <option value={item.id}>{item.nama1}</option>
+                                                                        {dataPesertaSoloKreatif.filter(a => a.jk == jk).map (item => (
+                                                                            <option value={item.id}>{item.nama1} ({item.kontingen})</option>
                                                                         ))}
                                                                     </>
                                                                 )
@@ -294,8 +311,6 @@ const modalJadwal = () => {
                                                                         ))}
                                                                     </>
                                                                 )
-                                                            } else {
-                                                                <option>test</option>
                                                             }
                                                         })()}
                                                     </select>
@@ -334,7 +349,7 @@ const modalJadwal = () => {
                                                                 return (
                                                                     <>
                                                                         {dataPesertaSoloKreatif.filter(a => a.jk == jk).map (item => (
-                                                                            <option value={item.id}>{item.nama1}</option>
+                                                                            <option value={item.id}>{item.nama1} ({item.kontingen})</option>
                                                                         ))}
                                                                     </>
                                                                 )
@@ -346,8 +361,6 @@ const modalJadwal = () => {
                                                                         ))}
                                                                     </>
                                                                 )
-                                                            } else {
-                                                                <option>test</option>
                                                             }
                                                         })()}
                                                     </select>

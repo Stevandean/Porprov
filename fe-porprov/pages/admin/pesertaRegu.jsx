@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import Navbar from './components/navbar';
 import Sidebar from './components/sidebar';
 import Footer from './components/footer';
@@ -10,6 +11,8 @@ import { globalState } from '../../context/context';
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const pesertaRegu = () => {
+  
+  const router = useRouter ()
     
   // state modal
   const [showModalPeserta, setShowModalPeserta] = useState (false)
@@ -57,14 +60,21 @@ const pesertaRegu = () => {
   }
 
   const getPesertaRegu = () => {
-      axios.get (BASE_URL + `/api/peserta/seni/regu`)
-      .then (res => {
-          setDataRegu (res.data.data)
-      })
+    axios.get (BASE_URL + `/api/peserta/seni/regu`)
+    .then (res => {
+      setDataPesertaRegu (res.data.data)
+    })
+  }
+
+  const isLogged = () => {
+    if (localStorage.getItem ('token') === null || localStorage.getItem ('admin') === null) {
+      router.push ('/admin/login')
+    }
   }
 
   useEffect (() => {
     getPesertaRegu ()
+    isLogged ()
   }, [])
 
   return (
@@ -105,14 +115,13 @@ const pesertaRegu = () => {
                   <thead className='border-b-2'>
                       <tr>
                         <th className='py-4'>No</th>
-                        <th className='w-[10%]'>Kelas</th>
+                        <th className='w-[10%]'>Golongan</th>
                         <th>Jenis Kelamin</th>
                         <th className='w-[25%]'>Nama</th>
                         <th className='w-[25%]'>Kontingen</th>
-                        <th>Aktif</th>
                         <th className='w-[10%]'>Aksi</th>
                       </tr>
-                    </thead>
+                  </thead>
                   <tbody className='text-center'>
                     {dataPesertaRegu.map((item, index) => (
                       <tr className='even:bg-[#4C4F6D] odd:bg-[#2c2f48]'>
@@ -121,7 +130,6 @@ const pesertaRegu = () => {
                         <td>{item.jk}</td>
                         <td>{item.nama1} <br></br> {item.nama2} <br></br> {item.nama3} </td>
                         <td>{item.kontingen}</td>
-                        <td>{item.aktif}</td>
                         <td>
                         <div className="p-2 space-x-2">
                           <button onClick={() => editModal(item)} className='w-10 h-10 p-2 bg-green-600 rounded-xl'>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { useRouter } from 'next/router'
 import Navbar from './components/navbar'
 import Sidebar from './components/sidebar'
 import Footer from './components/footer'
@@ -10,6 +11,8 @@ import { globalState } from '../../context/context'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const pesertaTanding = () => {
+
+    const router = useRouter ()
 
     // state modal
     const [showModalPesertaTanding, setShowModalPesertaTanding] = useState (false)
@@ -62,8 +65,15 @@ const pesertaTanding = () => {
         })
     }
 
+    const isLogged = () => {
+        if (localStorage.getItem ('token') === null || localStorage.getItem ('admin') === null) {
+            router.push ('/admin/login')
+        }
+    }
+
     useEffect (() => {
         getPesertaTanding ()
+        isLogged ()
     }, [])
 
     return (
@@ -90,7 +100,7 @@ const pesertaTanding = () => {
                         {/* Input Data */}
                         <div className="bg-[#2C2F48] rounded-lg flex justify-between p-3">
                             <div className="flex items-center px-2">
-                                <span className='text-lg uppercase font-semibold'>Jadwal Tanding</span>
+                                <span className='text-lg uppercase font-semibold'>Peserta Tanding</span>
                             </div>
                             <div className="px-5 space-x-5">
                                 <button className='bg-blue-700 px-3 py-2 rounded-lg' onClick={() => addModal()}>Input Data</button>
@@ -105,11 +115,10 @@ const pesertaTanding = () => {
                                     <tr>
                                         <th className='py-4'>No</th>
                                         <th>Kelas</th>
-                                        <th>Jenis Kelamin</th>
-                                        <th className='w-[20%]'>Nama</th>
-                                        <th className='w-[15%]'>Kontingen</th>
+                                        <th className='w-[10%]'>Jenis Kelamin</th>
+                                        <th className='w-[25%]'>Nama</th>
+                                        <th className='w-[20%]'>Kontingen</th>
                                         <th>Golongan</th>
-                                        <th>Aktif</th>
                                         <th className='w-[10%]'>Aksi</th>
                                     </tr>
                                 </thead>
@@ -121,8 +130,7 @@ const pesertaTanding = () => {
                                             <td>{item.jk}</td>
                                             <td>{item.nama}</td>
                                             <td>{item.kontingen}</td>
-                                            <td>{item.golongan}</td> 
-                                            <td>{item.aktif}</td>
+                                            <td>{item.golongan}</td>
                                             <td>
                                                 <div className="p-2 space-x-2">
                                                     <button onClick={()=>editModal(item)} className='w-10 h-10 p-2 bg-green-600 rounded-xl'>

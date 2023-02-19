@@ -99,7 +99,7 @@ const modalJadwalTanding = () => {
                                         return (
                                             <>    
                                                 <h3 className="text-3xl font-semibold text-white">
-                                                    Tambah Jadwal Tanding
+                                                    Tambah Jadwal Tanding {jk}
                                                 </h3>
                                             </>
                                         )
@@ -107,7 +107,7 @@ const modalJadwalTanding = () => {
                                         return (
                                             <>    
                                                 <h3 className="text-3xl font-semibold text-white">
-                                                    Edit Jadwal Tanding
+                                                    Edit Jadwal Tanding {jk}
                                                 </h3>
                                             </>
                                         )
@@ -236,7 +236,7 @@ const modalJadwalTanding = () => {
                                         <input className='w-full bg-[#212437] rounded-md focus:outline-none border-2 border-slate-200'
                                         type="text"
                                         value={babak}
-                                        onChange={(e) => setBabak(e.target.value)}
+                                        onChange={(e) => setBabak((e.target.value).toUpperCase())}
                                         required
                                         >        
                                         </input>
