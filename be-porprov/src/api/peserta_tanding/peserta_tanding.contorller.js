@@ -17,7 +17,14 @@ const {v4 : uuidv4} = require("uuid")
 module.exports = {
     getAll: async (req,res) =>{
         try{
-            const result = await Peserta.findAll()
+            const result = await Peserta.findAll({
+                order:[
+                    ['golongan', 'ASC'],
+                    ['kelas', 'ASC'],
+                    ['jk', 'ASC'],
+                    ['nama', 'ASC']
+                ]
+            })
             return getResponse( req, res, result )
         } catch (error) {
             return errorResponse( req, res, error.message )

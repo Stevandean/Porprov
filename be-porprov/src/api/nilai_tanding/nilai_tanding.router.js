@@ -68,7 +68,6 @@ router.get("/log1/:sudut/:id_jadwal/:babak", getLogJuri1)
 router.get("/log2/:sudut/:id_jadwal/:babak", getLogJuri2)
 router.get("/log3/:sudut/:id_jadwal/:babak", getLogJuri3)
 
-
 router.get("/getpoin/poin/juri", getLogs1)
 router.get('/layar/:id_jadwal', getNilaiLayar),
 router.get('/babak/', getPoinbyBabak),

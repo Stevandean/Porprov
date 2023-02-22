@@ -6,7 +6,11 @@ const {v4 : uuidv4} = require('uuid')
 module.exports = {
     getAll: async (req,res) => {
         try{
-            const nama = await Nama.findAll()
+            const nama = await Nama.findAll({
+                order:[
+                    ['nama', 'ASC']
+                ]
+            })
             return getResponse( req, res, nama )
         } catch (error) {
             return errorResponse( req, res, error.message )

@@ -26,11 +26,16 @@ module.exports = {
     getAllData: async (req,res) =>{
         try{
             const tgr = await Tgr.findAll({
-                attributes:{
-                    exclude:['createAt','updateAt']
-                },
+                include:[
+                    "biru",
+                    "merah",
+                    "pemenang",
+                    "skor_merah",
+                    "skor_biru"
+                ],
                 order: [
-                    // ['no_undian', 'ASC'],
+                    ['gelanggang', 'ASC'],
+                    ['partai', 'ASC'],
                 ],
             })
             return getResponse( req, res, tgr)
@@ -45,7 +50,7 @@ module.exports = {
             const tgr = await Tgr.findAll({
                 where:kategori,
                 attributes:{
-                    exclude:['createAt','updateAt']
+                    exclude:['createdAt','updatedAt']
                 },
                 include:[
                     "biru",
@@ -55,7 +60,8 @@ module.exports = {
                     "skor_biru"
                 ],
                 order: [
-                    // ['no_undian', 'ASC'],
+                    ['gelanggang', 'ASC'],
+                    ['partai', 'ASC'],
                 ],
             })
             return getResponse( req, res, tgr)
@@ -193,6 +199,8 @@ module.exports = {
                     "biru",
                     "merah",
                     "pemenang",
+                    "skor_merah",
+                    "skor_biru"
                 ],
                 order:[
                     ['gelanggang', 'ASC'],

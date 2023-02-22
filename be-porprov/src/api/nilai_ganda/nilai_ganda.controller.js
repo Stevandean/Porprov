@@ -21,7 +21,7 @@ module.exports = {
                 include: [
                     "jadwal",
                     "peserta",
-                    "juri"
+                    // "juri"
                 ],
                 order: [
                     [{model: models.juri, as: "juri"}, "no", "asc"]
@@ -42,8 +42,8 @@ module.exports = {
             const tunggal = await Ganda.findAll({
                 where: id,
                 include: [
-                    "jadwal",
-                    "peserta",
+                    // "jadwal",
+                    // "peserta",
                     "juri"
                 ],
                 order: [
@@ -415,7 +415,10 @@ module.exports = {
             let result = await Ganda.update(data, {where:id})
 
             // hitung total dan total skor
-            let nilai = await Ganda.findOne({where:id})
+            let nilai = await Ganda.findOne({
+                where:id,
+                attrbutes:['technique','firmness','soulfulness']
+            })
             let total = {
                 total: (
                     nilai.technique+
