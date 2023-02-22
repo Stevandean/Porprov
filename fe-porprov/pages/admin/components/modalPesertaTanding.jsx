@@ -137,7 +137,7 @@ const modalPesertaTanding = () => {
                                             <input className='w-full bg-[#212437] rounded-md focus:outline-none border-2 border-slate-200'
                                             type="text"
                                             value={nama}
-                                            onChange={(e) => setNama(e.target.value)}
+                                            onChange={(e) => setNama((e.target.value).toUpperCase())}
                                             required
                                             >        
                                             </input>

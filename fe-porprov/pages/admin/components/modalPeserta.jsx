@@ -239,7 +239,7 @@ const modalPeserta = () => {
                                                     <input className='w-full bg-[#212437] rounded-md focus:outline-none border-2 border-slate-200'
                                                     type="text"
                                                     value={nama1}
-                                                    onChange={(e) => setNama1(e.target.value)}
+                                                    onChange={(e) => setNama1((e.target.value).toUpperCase())}
                                                     required
                                                     >        
                                                     </input>
@@ -258,7 +258,7 @@ const modalPeserta = () => {
                                                         <input className='w-full bg-[#212437] rounded-md focus:outline-none border-2 border-slate-200'
                                                         type="text"
                                                         value={nama1}
-                                                        onChange={(e) => setNama1(e.target.value)}
+                                                        onChange={(e) => setNama1((e.target.value).toUpperCase())}
                                                         required
                                                         >        
                                                         </input>
@@ -273,7 +273,7 @@ const modalPeserta = () => {
                                                         <input className='w-full bg-[#212437] rounded-md focus:outline-none border-2 border-slate-200'
                                                         type="text"
                                                         value={nama2}
-                                                        onChange={(e) => setNama2(e.target.value)}
+                                                        onChange={(e) => setNama2((e.target.value).toUpperCase())}
                                                         required
                                                         >        
                                                         </input>
@@ -292,7 +292,7 @@ const modalPeserta = () => {
                                                     <input className='w-full bg-[#212437] rounded-md focus:outline-none border-2 border-slate-200'
                                                     type="text"
                                                     value={nama1}
-                                                    onChange={(e) => setNama1(e.target.value)}
+                                                    onChange={(e) => setNama1((e.target.value).toUpperCase())}
                                                     required
                                                     >        
                                                     </input>
@@ -311,7 +311,7 @@ const modalPeserta = () => {
                                                         <input className='w-full bg-[#212437] rounded-md focus:outline-none border-2 border-slate-200'
                                                         type="text"
                                                         value={nama1}
-                                                        onChange={(e) => setNama1(e.target.value)}
+                                                        onChange={(e) => setNama1((e.target.value).toUpperCase())}
                                                         required
                                                         >        
                                                         </input>
@@ -326,7 +326,7 @@ const modalPeserta = () => {
                                                         <input className='w-full bg-[#212437] rounded-md focus:outline-none border-2 border-slate-200'
                                                         type="text"
                                                         value={nama2}
-                                                        onChange={(e) => setNama2(e.target.value)}
+                                                        onChange={(e) => setNama2((e.target.value).toUpperCase())}
                                                         required
                                                         >        
                                                         </input>
@@ -341,7 +341,7 @@ const modalPeserta = () => {
                                                         <input className='w-full bg-[#212437] rounded-md focus:outline-none border-2 border-slate-200'
                                                         type="text"
                                                         value={nama3}
-                                                        onChange={(e) => setNama3(e.target.value)}
+                                                        onChange={(e) => setNama3((e.target.value).toUpperCase())}
                                                         required
                                                         >        
                                                         </input>

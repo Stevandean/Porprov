@@ -133,7 +133,7 @@ const modalJadwal = () => {
             } else if (splitLoc.toString() === (',Ganda')) {
                 axios.post (BASE_URL + `/api/tgr/ganda`, form)
                 .then (res => {
-                    getJadwalTunggal ()
+                    getJadwalGanda ()
                     setShowModalJadwal (false)
                 })
                 .catch (err => {
