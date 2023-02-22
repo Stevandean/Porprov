@@ -360,28 +360,6 @@ module.exports = {
                             exclude: ['createdAt', 'updatedAt']
                         },
                         include:[
-
-                            // //show log juri 1
-                            // {
-                            //     model: models.log_poin_juri1,
-                            //     as: "log_juri1",
-                            //     attributes:["poin"],
-                            // },
-
-                            // //show log juri 2
-                            // {
-                            //     model: models.log_poin_juri2,
-                            //     as: "log_juri2",
-                            //     attributes:["poin"],
-                            // },
-
-                            // //show log juri 3
-                            // {
-                            //     model: models.log_poin_juri3,
-                            //     as: "log_juri3",
-                            //     attributes:["poin"],
-                            // },
-
                             //show log poin masuk
                             {
                                 model: models.log_poin_masuk,
@@ -407,13 +385,6 @@ module.exports = {
                             {
                                 model: models.log_teguran,
                                 as: "log_teguran",
-                                attributes:["poin"],
-                            },
-
-                            //show log peringatan
-                            {
-                                model: models.log_peringatan,
-                                as: "log_peringatan",
                                 attributes:["poin"],
                             },
                         ]
@@ -427,28 +398,6 @@ module.exports = {
                             exclude: ['createdAt', 'updatedAt']
                         },
                         include:[
-
-                            // //show log juri 1
-                            // {
-                            //     model: models.log_poin_juri1,
-                            //     as: "log_juri1",
-                            //     attributes:["poin"],
-                            // },
-
-                            // //show log juri 2
-                            // {
-                            //     model: models.log_poin_juri2,
-                            //     as: "log_juri2",
-                            //     attributes:["poin"],
-                            // },
-
-                            // //show log juri 3
-                            // {
-                            //     model: models.log_poin_juri3,
-                            //     as: "log_juri3",
-                            //     attributes:["poin"],
-                            // },
-
                             //show log poin masuk
                             {
                                 model: models.log_poin_masuk,
@@ -476,24 +425,17 @@ module.exports = {
                                 as: "log_teguran",
                                 attributes:["poin"],
                             },
-
-                            //show log peringatan
-                            {
-                                model: models.log_peringatan,
-                                as: "log_peringatan",
-                                attributes:["poin"],
-                            },
                         ]
                     },
                 ],
                 order: [
                     ['babak', 'ASC'],
 
-                //     // order poin biru
+                //     // order poin merah
                 //     [
-                //     {model: models.poin, as: "poin_merah"}, 
-                //     {model: models.log_poin_juri1,
-                //     as: "log_juri1"},  'createdAt', 'ASC'
+                        // {model: models.poin, as: "poin_merah"}, 
+                        // {model: models.log_poin_juri1,
+                        // as: "log_juri1"},  'createdAt', 'ASC'
                 //     ],
                 //     [
                 //         {model: models.poin, as: "poin_merah"}, 
@@ -505,31 +447,26 @@ module.exports = {
                 //         {model: models.log_poin_juri3,
                 //         as: "log_juri3"},  'createdAt', 'ASC'
                 //     ],
-                //     [
-                //         {model: models.poin, as: "poin_merah"}, 
-                //         {model: models.log_poin_masuk,
-                //         as: "log_poin_masuk"},  'createdAt', 'ASC'
-                //     ],
-                //     [
-                //         {model: models.poin, as: "poin_merah"}, 
-                //         {model: models.log_jatuhan,
-                //         as: "log_jatuhan"},  'createdAt', 'ASC'
-                //     ],
-                //     [
-                //         {model: models.poin, as: "poin_merah"}, 
-                //         {model: models.log_binaan,
-                //         as: "log_binaan"},  'createdAt', 'ASC'
-                //     ],
-                //     [
-                //         {model: models.poin, as: "poin_merah"}, 
-                //         {model: models.log_teguran,as: "log_teguran"},
-                //         'poin', 'DESC'
-                //     ],
-                //     [
-                //         {model: models.poin, as: "poin_merah"}, 
-                //         {model: models.log_peringatan, as: "log_peringatan"},
-                //         'poin', 'DESC'
-                //     ],
+                    [
+                        {model: models.poin, as: "poin_merah"}, 
+                        {model: models.log_poin_masuk,
+                        as: "log_poin_masuk"},  'createdAt', 'ASC'
+                    ],
+                    [
+                        {model: models.poin, as: "poin_merah"}, 
+                        {model: models.log_jatuhan,
+                        as: "log_jatuhan"},  'createdAt', 'ASC'
+                    ],
+                    [
+                        {model: models.poin, as: "poin_merah"}, 
+                        {model: models.log_binaan,
+                        as: "log_binaan"},  'createdAt', 'ASC'
+                    ],
+                    [
+                        {model: models.poin, as: "poin_merah"}, 
+                        {model: models.log_teguran,as: "log_teguran"},
+                        'poin', 'DESC'
+                    ],
 
                 //     //order poin biru
                 //     [
@@ -547,31 +484,26 @@ module.exports = {
                 //         {model: models.log_poin_juri3,
                 //         as: "log_juri3"},  'createdAt', 'ASC'
                 //     ],
-                //     [
-                //         {model: models.poin, as: "poin_biru"}, 
-                //         {model: models.log_poin_masuk,
-                //         as: "log_poin_masuk"},  'createdAt', 'ASC'
-                //     ],
-                //     [
-                //         {model: models.poin, as: "poin_biru"}, 
-                //         {model: models.log_jatuhan,
-                //         as: "log_jatuhan"},  'createdAt', 'ASC'
-                //     ],
-                //     [
-                //         {model: models.poin, as: "poin_biru"}, 
-                //         {model: models.log_binaan,
-                //         as: "log_binaan"},  'createdAt', 'DESC'
-                //     ],
-                //     [
-                //         {model: models.poin, as: "poin_biru"}, 
-                //         {model: models.log_teguran,
-                //         as: "log_teguran"},  'poin', 'DESC'
-                //     ],
-                //     [
-                //         {model: models.poin, as: "poin_biru"}, 
-                //         {model: models.log_peringatan,
-                //         as: "log_peringatan"},  'poin', 'DESC'
-                //     ],
+                    [
+                        {model: models.poin, as: "poin_biru"}, 
+                        {model: models.log_poin_masuk,
+                        as: "log_poin_masuk"},  'createdAt', 'ASC'
+                    ],
+                    [
+                        {model: models.poin, as: "poin_biru"}, 
+                        {model: models.log_jatuhan,
+                        as: "log_jatuhan"},  'createdAt', 'ASC'
+                    ],
+                    [
+                        {model: models.poin, as: "poin_biru"}, 
+                        {model: models.log_binaan,
+                        as: "log_binaan"},  'createdAt', 'DESC'
+                    ],
+                    [
+                        {model: models.poin, as: "poin_biru"}, 
+                        {model: models.log_teguran,
+                        as: "log_teguran"},  'poin', 'DESC'
+                    ],
                     
                 ],
             })
@@ -1706,23 +1638,24 @@ module.exports = {
                 where: {id: req.body.id_jadwal}
             })
 
-            const getBabak1 = await Nilai.findOne({
-                where: {id_jadwal: req.body.id_jadwal, babak:"I"}
-            })
-
-
+            
             const getNilai = await Nilai.findOne({
                 where: {id_jadwal: req.body.id_jadwal, babak:"Ii"}
             })
             // console.log(getJadwal);
-
+            
             if (getNilai) {
                 return res.json({
                     message: "babak II sudah ada"
                 })
             }
-
+            
             console.log("create babak II");
+            const getBabak1 = await Nilai.findOne({
+                where: {id_jadwal: req.body.id_jadwal, babak:"I"}
+            })
+
+            console.log(getBabak1);
 
             //set poin for red
             let merah = {

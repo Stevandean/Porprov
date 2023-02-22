@@ -43,9 +43,11 @@ module.exports = {
                 attributes:{
                     exclude:['createAt','updateAt']
                 },
-                order: [
-                    // ['no_undian', 'ASC'],
-                ],
+                order:[
+                    ['kelas', 'ASC'],
+                    ['jk', 'ASC'],
+                    ['nama1', 'ASC'],
+                ]
             })
             return getResponse( req, res, tgr)
         } catch (error) {

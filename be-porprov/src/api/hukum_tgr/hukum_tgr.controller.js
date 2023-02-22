@@ -27,8 +27,8 @@ module.exports = {
             const result = await Hukum.findOne({
                 where:id,
                 include: [
-                    "jadwal",
-                    "peserta"
+                    // "jadwal",
+                    // "peserta"
                 ],
             })
             return getResponse( req, res, result )
