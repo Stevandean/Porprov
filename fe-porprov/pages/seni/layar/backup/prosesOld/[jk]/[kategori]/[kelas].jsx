@@ -1,58 +1,62 @@
-import React, { useState, useEffect } from 'react'
-import Link from 'next/link'
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 import axios from 'axios'
-import { useRouter } from 'next/router'
-import Navbar from '../../../components/navbar'
-import Footer from '../../../components/footer'
+import Navbar from '../../../../components/navbar';
+import Footer from '../../../../components/footer';
+import socketIo from 'socket.io-client'
+
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+// socket io
+const socket = socketIo (BASE_URL)
 
 const detail = () => {
 
   // ini state
   const [data, setData] = useState ([])
+  const [status, setStatus] = useState('proses')
 
-  const toTimerBiru = (item) => {
-    // untuk dikirim ke halaman timer melalui local storage
-    localStorage.setItem ('jadwalSeni', JSON.stringify(item))
-    localStorage.setItem ('pesertaSeni', JSON.stringify(item.biru))
+  // untuk ke details selesai
+  const toDetailSelesaiBiru = async (item) => {
+    // untuk di kirim ke halaman detail selesai melalui local storage
+    localStorage.setItem ('id_jadwal', (item.id))
+    localStorage.setItem ('pesertaSeni', JSON.stringify (item.biru))
+    localStorage.setItem ('babak', JSON.stringify (item))
 
     let form = {
       id_jadwal : item.id,
-      id_peserta : item.biru.id 
+      id_peserta : item.merah.id
     }
 
-    if (kategori.toLowerCase() === 'tunggal') {   
-      axios.post (BASE_URL + "/api/tunggal/dewan", form)
-      .then ((res) => {
-        router.push ('/seni/timer/timer')
-        console.log(res.data.message);    
+    if (kategori == 'tunggal') {
+      axios.post (BASE_URL + `/api/tunggal/dewan`, form)
+      .then (res => {
+        router.push ('/seni/layar/timer')
       })
-      .catch ((err) => {
+      .catch (err => {
         console.log(err.response.data.message);
       })
-    } else if (kategori.toLowerCase() === 'ganda') {
+    } else if (kategori == 'ganda') {
       axios.post (BASE_URL + `/api/ganda/dewan`, form)
       .then (res => {
-        router.push ('/seni/timer/timer')
-        console.log(res.data.message);
+        router.push ('/seni/layar/timer')
       })
       .catch (err => {
         console.log(err.response.data.message);
       })
-    } else if (kategori.toLowerCase() === 'regu') {
+    } else if (kategori == 'regu') {
       axios.post (BASE_URL + `/api/regu/dewan`, form)
       .then (res => {
-        router.push ('/seni/timer/timer')
-        console.log(res.data.message);
+        router.push ('/seni/layar/timer')
       })
       .catch (err => {
         console.log(err.response.data.message);
       })
-    } else if (kategori.toLowerCase() === 'solo_kreatif') {
+    } else if (kategori == 'solo_kreatif') {
       axios.post (BASE_URL + `/api/solo_kreatif/dewan`, form)
       .then (res => {
-        router.push ('/seni/timer/timer')
-        console.log('berhasil');
+        router.push ('/seni/layar/timer')
       })
       .catch (err => {
         console.log(err.response.data.message);
@@ -61,76 +65,84 @@ const detail = () => {
       console.log('gagal');
     }
   }
-
-  const toTimerMerah = (item) => {
-    // untuk dikirim ke halaman timer melalui local storage
-    localStorage.setItem ('jadwalSeni',JSON.stringify (item))
-    localStorage.setItem ('pesertaSeni', JSON.stringify(item.merah))
+  
+  const toDetailSelesaiMerah = async (item) => {
+    // untuk di kirim ke halaman detail selesai melalui local storage
+    localStorage.setItem ('id_jadwal', (item.id))
+    localStorage.setItem ('pesertaSeni', JSON.stringify (item.merah))
+    localStorage.setItem ('babak', JSON.stringify (item))
 
     let form = {
       id_jadwal : item.id,
-      id_peserta : item.merah.id 
+      id_peserta : item.merah.id
     }
 
-    if (kategori.toLowerCase() === 'tunggal') {   
-      axios.post (BASE_URL + "/api/tunggal/dewan", form)
-      .then ((res) => {
-        router.push ('/seni/timer/timer')
-        console.log(res.data.message);    
+    if (kategori == 'tunggal') {
+      axios.post (BASE_URL + `/api/tunggal/dewan`, form)
+      .then (res => {
+        router.push ('/seni/layar/timer')
       })
-      .catch ((err) => {
+      .catch (err => {
         console.log(err.response.data.message);
       })
-    } else if (kategori.toLowerCase() === 'ganda') {
+    } else if (kategori == 'ganda') {
       axios.post (BASE_URL + `/api/ganda/dewan`, form)
       .then (res => {
-        router.push ('/seni/timer/timer')
-        console.log(res.data.message);
+        router.push ('/seni/layar/timer')
       })
       .catch (err => {
         console.log(err.response.data.message);
       })
-    } else if (kategori.toLowerCase() === 'regu') {
+    } else if (kategori == 'regu') {
       axios.post (BASE_URL + `/api/regu/dewan`, form)
       .then (res => {
-        router.push ('/seni/timer/timer')
-        console.log(res.data.message);
+        router.push ('/seni/layar/timer')
       })
       .catch (err => {
         console.log(err.response.data.message);
       })
-    } else if (kategori.toLowerCase() === 'solo_kreatif') {
+    } else if (kategori == 'solo_kreatif') {
       axios.post (BASE_URL + `/api/solo_kreatif/dewan`, form)
       .then (res => {
-        router.push ('/seni/timer/timer')
-        console.log('berhasil');
+        router.push ('/seni/layar/timer')
       })
       .catch (err => {
         console.log(err.response.data.message);
-      })
-    } else {
+      }) 
+    }else {
       console.log('gagal');
     }
   }
 
   // state kematian
-  const router = useRouter ()
-  const { jk } = router.query
+  const router = useRouter()
+  const { proses } = router.query
   const { kategori } = router.query
   const { kelas } = router.query
+  const { jk } = router.query
+
   const getData = () => {
-    axios.get (BASE_URL + `/api/tgr/bykelas/` + kategori + "/" + jk + "/" + kelas )
-    .then (res => {
+    axios.get (BASE_URL+ "/api/tgr/bykelas/" + kategori + "/" + jk + "/" + kelas)
+    .then ((res) => {
       setData (res.data.data)
     })
-    .catch (err => {
-      console.log(err.response.data.message);
+    .catch((err) => {
+      console.log(err.message);
+
+      setMsg (err.response.data.message)
     })
   }
 
+  console.log(proses);
+
+  // untuk refresh
+  const ubah_data = () => socket.emit ('init_data')
+
   useEffect (() => {
     if (!router.isReady) return;
-    getData ()
+    socket.emit ('init_data')
+    socket.on ('getData', getData)
+    socket.on ('change_data', ubah_data)
   }, [router.query.kategori, router.isReady])
 
   return (
@@ -155,13 +167,13 @@ const detail = () => {
                 {(() => {
                   if (jk == 'putra') {
                     return (
-                      <Link href={'/seni/timer'} className="bg-red-700 rounded-lg w-12 h-12 my-auto">
+                      <Link href={'/seni/layar/'} className="bg-red-700 rounded-lg w-12 h-12 my-auto">
                         <img className='p-3' src="../../../../../../svg/back.svg" />
                       </Link>
                     )
                   } else if (jk == 'putri') {
                     return (
-                      <Link href={'/seni/timer/landingPageputri'} className="bg-red-700 rounded-lg w-12 h-12 my-auto">
+                      <Link href={'/seni/layar/landingPageputri'} className="bg-red-700 rounded-lg w-12 h-12 my-auto">
                         <img className='p-3' src="../../../../../../svg/back.svg" />
                       </Link>
                     )
@@ -173,29 +185,37 @@ const detail = () => {
                     if (kategori == 'solo_kreatif') {
                       return (
                         <span className='text-4xl text-[#2C2F48] font-bold first-letter:uppercase'>Solo Kreatif</span>
-                      )
-                    } else {
-                      return (
+                        )
+                      } else {
                         <span className='text-4xl text-[#2C2F48] font-bold first-letter:uppercase'>{kategori}</span>
-                      )
-                    }
+                      }
                   })()}
-                  <span className='bg-[#51607A] rounded-lg py-3 px-5 text-xl tracking-widest	'>{kelas}</span>
+                    <span className='bg-[#51607A] rounded-lg py-3 px-5 text-xl tracking-widest	'>{kelas}</span>
                 </div>
               </div>
 
+              {/* button proses & selesai */}
+              <div className="grid grid-cols-2 gap-x-7">
+                <Link href={'/seni/layar/proses/' + jk + "/" + kategori + "/" + kelas} className={status === 'proses' ? "bg-[#2C2F48] rounded-lg text-center py-1" : "bg-[#A8A9B3] rounded-lg text-center py-1"}>
+                  <span className='text-2xl font-semibold uppercase'>proses</span>
+                </Link>
+                <Link href={'/seni/layar/selesai/' + jk + "/" + kategori + "/" + kelas} className={status === 'selesai' ? "bg-[#2C2F48] rounded-lg text-center py-1": "bg-[#A8A9B3] rounded-lg text-center py-1"}>
+                  <span className='text-2xl font-semibold uppercase'>selesai</span>
+                </Link>
+              </div>
+
               <div className="border-2 border-[#222954] p-5 space-y-4 rounded-lg">
-                {/* wrapper */}
+                {/* // wrapper */}
                 <>
-                  {data.filter(a => a.selesai == false).map ((item, index) => (
-                    <div key={index + 1} className="text-center rounded-lg shadow-lg">
+                  {data.filter(a => a.selesai == false).map (item => (
+                    <div className="text-center rounded-lg shadow-lg">
                       <div className="bg-[#2C2F48] py-2 rounded-t-lg">
                         <span className='text-xl font-semibold'>Partai {item.partai} - {item.kelas} - {item.babak}</span>
                       </div>
                       {/* wrapper card */}
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-7 p-3">
+                      <div className="grid grid-cols-2 gap-x-7 p-3">
                         {/* card pesilat biru */}
-                        <div className="flex flex-col gap-y-2 border-2 border-[#2C2F48] rounded-lg mb-4 lg:mb-0">
+                        <div className="flex flex-col gap-y-2 border-2 border-[#2C2F48] rounded-lg">
                           {/* nama pesilat biru */}
                           <div className="bg-blue-700 rounded-t-lg py-1">
                             {(() => {
@@ -210,7 +230,7 @@ const detail = () => {
                               } else if (kategori.toLowerCase() == 'regu') {
                                 return (
                                   <span className='text-xl font-medium'>{item.biru.nama1} - {item.biru.nama2} - {item.biru.nama3}</span>
-                                  )
+                                )
                               } else if (kategori.toLowerCase() == 'solo_kreatif') {
                                 return (
                                   <span className='text-xl font-medium'>{item.biru.nama1}</span>
@@ -224,7 +244,7 @@ const detail = () => {
                           <span className='font-medium texy-lg text-[#2C2F48]'>{item.biru.kontingen}</span>
                           {/* action button */}
                           <div className="px-7 pb-3">
-                            <button className='bg-[#39ac39] hover:bg-[#2f912f] py-2 rounded-lg w-full' onClick={() => toTimerBiru(item)}>Timer</button>
+                            <button className='bg-[#39ac39] hover:bg-[#2f912f] py-2 rounded-lg w-full' onClick={() => toDetailSelesaiBiru(item)}>Layar</button>
                           </div>
                         </div>
                         {/* card pesilat merah */}
@@ -243,13 +263,11 @@ const detail = () => {
                               } else if (kategori.toLowerCase() == 'regu') {
                                 return (
                                   <span className='text-xl font-medium'>{item.merah.nama1} - {item.merah.nama2} - {item.merah.nama3}</span>
-                                  )
+                                )
                               } else if (kategori.toLowerCase() == 'solo_kreatif') {
                                 return (
-                                  <span className='text-xl font-medium'>{item.merah.nama1}</span>
+                                  <span className='text-xl font-medium'>{item.merah?.nama1}</span>
                                 )
-                              } else {
-                                console.log('gagal');
                               }
                             })()}
                           </div>
@@ -257,7 +275,7 @@ const detail = () => {
                           <span className='font-medium texy-lg text-[#2C2F48]'>{item.merah.kontingen}</span>
                           {/* action button */}
                           <div className="px-7 pb-3">
-                            <button className='bg-[#39ac39] hover:bg-[#2f912f]bg-[#2C2F48] py-2 rounded-lg w-full' onClick={() => toTimerMerah(item)}>Timer</button>
+                            <button className='bg-[#39ac39] hover:bg-[#2f912f] py-2 rounded-lg w-full' onClick={() => toDetailSelesaiMerah(item)}>Layar</button>
                           </div>
                         </div>   
                       </div>
@@ -273,6 +291,7 @@ const detail = () => {
       </div>
 
     </>
+
   )
 }
 

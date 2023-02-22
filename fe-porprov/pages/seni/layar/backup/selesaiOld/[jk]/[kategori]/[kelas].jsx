@@ -21,7 +21,7 @@ const detail = () => {
   const toDetailSelesaiBiru = async (item) => {
     // untuk di kirim ke halaman detail selesai melalui local storage
     localStorage.setItem ('id_jadwal', (item.id))
-    localStorage.setItem ('peserta', JSON.stringify (item.biru))
+    localStorage.setItem ('pesertaSeni', JSON.stringify (item.biru))
     localStorage.setItem ('babak', JSON.stringify (item))
 
     let form = {
@@ -69,7 +69,7 @@ const detail = () => {
   const toDetailSelesaiMerah = async (item) => {
     // untuk di kirim ke halaman detail selesai melalui local storage
     localStorage.setItem ('id_jadwal', (item.id))
-    localStorage.setItem ('peserta', JSON.stringify (item.merah))
+    localStorage.setItem ('pesertaSeni', JSON.stringify (item.merah))
     localStorage.setItem ('babak', JSON.stringify (item))
 
     let form = {
@@ -210,7 +210,7 @@ const detail = () => {
                   {data.filter(a => a.selesai == true).map (item => (
                     <div className="text-center rounded-lg shadow-lg">
                       <div className="bg-[#2C2F48] py-2 rounded-t-lg">
-                        <span className='text-xl font-semibold'>Partai {item.partai + 1} - {item.kelas} - {item.babak}</span>
+                        <span className='text-xl font-semibold'>Partai {item.partai} - {item.kelas} - {item.babak}</span>
                       </div>
                       {/* wrapper card */}
                       <div className="grid grid-cols-2 gap-x-7 p-3">
@@ -244,7 +244,27 @@ const detail = () => {
                           <span className='font-medium texy-lg text-[#2C2F48]'>{item.biru.kontingen}</span>
                           {/* action button */}
                           <div className="px-7 pb-3">
-                            <button className='bg-[#39ac39] hover:bg-[#2f912f] py-2 rounded-lg w-full' onClick={() => toDetailSelesaiBiru(item)}>Layar</button>
+                            <div className="grid grid-rows-2 mt-2 gap-x-7 gap-y-0.5 mb-5">
+                              <div className="grid grid-cols-2">
+                                <span className='bg-[#2C2F48] rounded-l-lg font-semibold py-1'>Hukuman</span>
+                                <span className='text-[#2C2F48] border-2 border-[#2C2F48] rounded-r-lg font-bold'>{item.skor_biru?.total_hukum?.toFixed(2)}</span>
+                              </div>
+                              <div className="grid grid-cols-2">
+                                <span className='bg-[#2C2F48] rounded-l-lg font-semibold py-1'>Waktu</span>
+                                <span className='text-[#2C2F48] border-2 border-[#2C2F48] rounded-r-lg font-bold'>{item.skor_biru?.waktu}</span>
+                              </div>
+                              <div className="grid grid-cols-2">
+                                <span className='bg-[#2C2F48] rounded-l-lg font-semibold py-1'>Standart Deviasi</span>
+                                <span className='text-[#2C2F48] border-2 border-[#2C2F48] rounded-r-lg font-bold'>{item.skor_biru?.deviasi}</span>
+                              </div>
+                              <div className="grid grid-cols-2">
+                                <span className='bg-[#2C2F48] rounded-l-lg font-semibold py-1 text-xl'>Skor Akhir</span>
+                                <span className='text-[#2C2F48] border-2 border-[#2C2F48] rounded-r-lg text-xl font-bold'>{item.skor_biru?.skor_akhir.toFixed(2)}</span>
+                              </div>
+                            </div>
+                            {/* detail nilai button */}
+                            <button className='bg-[#39ac39] hover:bg-[#2f912f] px-7 w-full rounded-lg py-2 font-lg font-semibold mb-1.5' onClick={() => toDetailSelesaiBiru(item)}>Layar</button>
+                            {/* detail jurus button */}
                           </div>
                         </div>
                         {/* card pesilat merah */}
@@ -275,7 +295,27 @@ const detail = () => {
                           <span className='font-medium texy-lg text-[#2C2F48]'>{item.merah.kontingen}</span>
                           {/* action button */}
                           <div className="px-7 pb-3">
-                            <button className='bg-[#39ac39] hover:bg-[#2f912f] py-2 rounded-lg w-full' onClick={() => toDetailSelesaiMerah(item)}>Layar</button>
+                            <div className="grid grid-rows-2 mt-2 gap-x-7 gap-y-0.5 mb-5">
+                              <div className="grid grid-cols-2">
+                                <span className='bg-[#2C2F48] rounded-l-lg font-semibold py-1'>Hukuman</span>
+                                <span className='text-[#2C2F48] border-2 border-[#2C2F48] rounded-r-lg font-bold'>{item.skor_biru?.total_hukum?.toFixed(2)}</span>
+                              </div>
+                              <div className="grid grid-cols-2">
+                                <span className='bg-[#2C2F48] rounded-l-lg font-semibold py-1'>Waktu</span>
+                                <span className='text-[#2C2F48] border-2 border-[#2C2F48] rounded-r-lg font-bold'>{item.skor_biru?.waktu}</span>
+                              </div>
+                              <div className="grid grid-cols-2">
+                                <span className='bg-[#2C2F48] rounded-l-lg font-semibold py-1'>Standart Deviasi</span>
+                                <span className='text-[#2C2F48] border-2 border-[#2C2F48] rounded-r-lg font-bold'>{item.skor_biru?.deviasi}</span>
+                              </div>
+                              <div className="grid grid-cols-2">
+                                <span className='bg-[#2C2F48] rounded-l-lg font-semibold py-1 text-xl'>Skor Akhir</span>
+                                <span className='text-[#2C2F48] border-2 border-[#2C2F48] rounded-r-lg text-xl font-bold'>{item.skor_biru?.skor_akhir.toFixed(2)}</span>
+                              </div>
+                            </div>
+                            {/* detail nilai button */}
+                            <button className='bg-[#39ac39] hover:bg-[#2f912f] px-7 w-full rounded-lg py-2 font-lg font-semibold mb-1.5' onClick={() => toDetailSelesaiMerah(item)}>Layar</button>
+                            {/* detail jurus button */}
                           </div>
                         </div>   
                       </div>

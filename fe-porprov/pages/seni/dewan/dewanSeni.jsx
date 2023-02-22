@@ -35,7 +35,7 @@ const dewanSeni = () => {
         const peserta = JSON.parse (localStorage.getItem ('pesertaSeni'))
         const jadwal = JSON.parse(localStorage.getItem ('jadwalSeni'))
         setJadwal(jadwal)
-        setKategori (jadwal.kategori)
+        setKategori (jadwal.kategori.toLowerCase())
 
         let id_peserta = peserta.id
         let id_jadwal = jadwal.id
@@ -43,7 +43,7 @@ const dewanSeni = () => {
         let hukum = []
 
         //nilai berdasarkan besar nilai
-        if (peserta.kategori == 'tunggal') {
+        if (peserta.kategori.toLowerCase() == 'tunggal') {
             await axios.get (BASE_URL + `/api/tunggal/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilaiSort (res.data.data)
@@ -52,7 +52,7 @@ const dewanSeni = () => {
             .catch (err => {
                 console.log(err.message);
             })
-        } else if (peserta.kategori == 'ganda') {
+        } else if (peserta.kategori.toLowerCase() == 'ganda') {
             await axios.get (BASE_URL + `/api/ganda/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilaiSort (res.data.data)
@@ -61,17 +61,17 @@ const dewanSeni = () => {
             .catch (err => {
                 console.log(err.response.data.message);
             })
-        } else if (peserta.kategori == 'regu') {
+        } else if (peserta.kategori.toLowerCase() == 'regu') {
             await axios.get (BASE_URL + `/api/regu/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilaiSort (res.data.data)
-                nilai = res.data.data
+                nilai = (res.data.data)
                 
             })
             .catch (err => {
                 console.log(err.response.data.message);
             })
-        } else if (peserta.kategori == 'solo_kreatif') {
+        } else if (peserta.kategori.toLowerCase() == 'solo_kreatif') {
             await axios.get (BASE_URL + `/api/solo_kreatif/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilaiSort (res.data.data)
@@ -85,7 +85,7 @@ const dewanSeni = () => {
         }
 
         //nilai berdasarkan juri
-        if (peserta.kategori == 'tunggal') {
+        if (peserta.kategori.toLowerCase() == 'tunggal') {
             await axios.get (BASE_URL + `/api/tunggal/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilai (res.data.data)
@@ -93,7 +93,7 @@ const dewanSeni = () => {
             .catch (err => {
                 console.log(err.message);
             })
-        } else if (peserta.kategori == 'ganda') {
+        } else if (peserta.kategori.toLowerCase() == 'ganda') {
             await axios.get (BASE_URL + `/api/ganda/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilai (res.data.data)
@@ -101,7 +101,7 @@ const dewanSeni = () => {
             .catch (err => {
                 console.log(err.response.data.message);
             })
-        } else if (peserta.kategori == 'regu') {
+        } else if (peserta.kategori.toLowerCase() == 'regu') {
             await axios.get (BASE_URL + `/api/regu/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilai (res.data.data)
@@ -109,7 +109,7 @@ const dewanSeni = () => {
             .catch (err => {
                 console.log(err.response.data.message);
             })
-        } else if (peserta.kategori == 'solo_kreatif') {
+        } else if (peserta.kategori.toLowerCase() == 'solo_kreatif') {
             await axios.get (BASE_URL + `/api/solo_kreatif/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilai (res.data.data)
@@ -439,7 +439,7 @@ const dewanSeni = () => {
         socket.on('getData', getNilai)
         socket.on ('change_data', ubah_data)
         isLogged ()
-        // getNilai()
+        getNilai()
         // sortNilai()
     }, [])
 
@@ -458,7 +458,14 @@ const dewanSeni = () => {
                     <div className="bg-white text-white min-h-full">
                         
                         {/* wrapper keseluruhan */}
-                        <div className="w-4/5 mx-auto py-10 space-y-5">
+                        <div className="w-11/12 mx-auto py-10 space-y-5">
+
+                            <div className="grid grid-cols-6 gap-x-3 text-center text-xl font-semibold">
+                                <div className="bg-[#2C2F48] py-1.5 rounded-lg">Partai {jadwal.partai}</div>
+                                <div className="bg-[#2C2F48] py-1.5 rounded-lg col-span-2">{jadwal.kelas} {jadwal.jk}</div>
+                                <div className="bg-[#2C2F48] py-1.5 rounded-lg col-span-2">{jadwal.kategori}</div>
+                                <div className="bg-[#2C2F48] py-1.5 rounded-lg">{jadwal.babak}</div>
+                            </div>
 
                             {/* wrapper info pesilat & timer */}
                             <div className="flex justify-between">
@@ -500,23 +507,6 @@ const dewanSeni = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="flex justify-center items-center">
-                                    {(() => {
-                                        if (aktif == true) {
-                                            return (
-                                                <button onClick={() => mulai()} className="bg-[#54B435] hover:bg-[#379237] py-2 px-8 rounded-lg">
-                                                    <span className='text-lg font-semibold'>Sudah Aktif</span>
-                                                </button>
-                                            )
-                                        } else if (aktif == false) {
-                                            return (
-                                                <button onClick={() => mulai()} className="bg-gray-400 hover:bg-gray-500 py-2 px-8 rounded-lg">
-                                                    <span className='text-lg font-semibold'>Belum Aktif</span>
-                                                </button>
-                                            )
-                                        }
-                                    })()}
-                                </div>
                                 
                             </div>
 
@@ -550,7 +540,7 @@ const dewanSeni = () => {
                                                                 <td colSpan={2} className="text-lg font-semibold border-2 border-[#2C2F48]">Teknik</td>
                                                                 {nilai.map ((item, index) => (
                                                                     <td key={index + 1} className='border-2 border-[#2C2F48] text-[#2C2F48]'>
-                                                                        <span>{item.technique}</span>
+                                                                        <span>{item.technique.toFixed(2)}</span>
                                                                     </td>
                                                                 ))}
                                                             </>
@@ -560,7 +550,7 @@ const dewanSeni = () => {
                                                             <td colSpan={2} className="text-lg font-semibold border-2 border-[#2C2F48]">Kemantapan</td>
                                                             {nilai.map ((item, index) => (
                                                                 <td key={index + 1} className='border-2 border-[#2C2F48] text-black'>
-                                                                    <span>{item.firmness}</span>
+                                                                    <span>{item.firmness.toFixed(2)}</span>
                                                                 </td>
                                                             ))}
                                                         </tr>
@@ -569,7 +559,7 @@ const dewanSeni = () => {
                                                             <td colSpan={2} className="text-lg font-semibold border-2 border-[#2C2F48]">Ekspresi</td>
                                                             {nilai.map ((item, index) => (
                                                                 <td key={index + 1} className='border-2 border-[#2C2F48] text-black'>
-                                                                    <span>{item.soulfulness}</span>
+                                                                    <span>{item.soulfulness.toFixed(2)}</span>
                                                                 </td>
                                                             ))}
                                                         </tr>
@@ -662,7 +652,7 @@ const dewanSeni = () => {
                                                         </tr>
                                                         {/* Skor B */}
                                                         <tr>
-                                                            <td colSpan={2} className="text-lg font-semibold border-2 border-[#2C2F48]">Skor B</td>
+                                                            <td colSpan={2} className="text-lg font-semibold border-2 border-[#2C2F48]">Kemantapan</td>
                                                             {nilai.map ((item, index) => (
                                                                 <td key={index + 1} className='border-2 border-[#2C2F48]'>
                                                                     <span>

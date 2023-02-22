@@ -24,13 +24,19 @@ const detailJurus = () => {
     const [dataRegu, setDataRegu] = useState ([])
     const [peserta, setPeserta] = useState ([])
     const [jadwal, setJadwal] = useState ([])
+    const [kebenaran, setKebenaran] = useState(0)
+    const [kesalahan, setKesalahan] = useState(0)
+    const [total, setTotal] = useState(0)
 
     const getNilai = () => {
-        const peserta = JSON.parse (localStorage.getItem ('peserta'))
-        const jadwal = JSON.parse (localStorage.getItem ('jadwal'))
+        const peserta = JSON.parse (localStorage.getItem ('pesertaSeni'))
+        const jadwal = JSON.parse (localStorage.getItem ('jadwalSeni'))
 
         setPeserta (peserta)
         setJadwal (jadwal)
+        let data = []
+        let total = []
+        let jumlahtotal = 0
 
         let id_peserta = peserta.id
         let id_jadwal = jadwal.id
@@ -39,6 +45,17 @@ const detailJurus = () => {
             axios.get (BASE_URL + `/api/tunggal/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setData (res.data.data)
+                data = (res.data.data)
+                data.map(item =>{
+                    setTotal(Math.round(((item.jurus1) + (item.jurus2) + (item.jurus3) + (item.jurus4) + (item.jurus5) + (item.jurus6) + (item.jurus7) + (item.jurus8) + (item.jurus9) + (item.jurus10) + (item.jurus11) + (item.jurus12) + (item.jurus13) + (item.jurus14)) * (-100)))
+                    total.push (Math.round(((item.jurus1) + (item.jurus2) + (item.jurus3) + (item.jurus4) + (item.jurus5) + (item.jurus6) + (item.jurus7) + (item.jurus8) + (item.jurus9) + (item.jurus10) + (item.jurus11) + (item.jurus12) + (item.jurus13) + (item.jurus14)) * (-100)))
+                })
+                for(let i =0; i < total.length; i++){
+                    jumlahtotal += total[i]
+                }
+                setKesalahan(jumlahtotal)
+                setKebenaran(1000 - jumlahtotal)
+                console.log(1000 - jumlahtotal);
             })
             .catch (err => {
                 console.log(err.message);
@@ -47,11 +64,26 @@ const detailJurus = () => {
             axios.get (BASE_URL + `/api/regu/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setDataRegu (res.data.data)
+                data = (res.data.data)
+                data.map(item =>{
+                    setTotal(Math.round(((item.jurus1) + (item.jurus2) + (item.jurus3) + (item.jurus4) + (item.jurus5) + (item.jurus6) + (item.jurus7) + (item.jurus8) + (item.jurus9) + (item.jurus10) + (item.jurus11) + (item.jurus12)) * (-100)))
+                    total.push (Math.round(((item.jurus1) + (item.jurus2) + (item.jurus3) + (item.jurus4) + (item.jurus5) + (item.jurus6) + (item.jurus7) + (item.jurus8) + (item.jurus9) + (item.jurus10) + (item.jurus11) + (item.jurus12)) * (-100)))
+                })
+                for(let i =0; i < total.length; i++){
+                    jumlahtotal += total[i]
+                }
+                setKesalahan(jumlahtotal)
+                setKebenaran(1000 - jumlahtotal)
+                console.log(1000 - jumlahtotal);
             })
             .catch (err => {
                 console.log(err.message);
             })
         }
+    }
+
+    const getJumlah = () => {
+        console.log(data);
     }
 
     const isLogged = () => {
@@ -62,6 +94,7 @@ const detailJurus = () => {
 
     useEffect (() => {
         getNilai ()
+        getJumlah()
         isLogged ()
     }, [])
 
@@ -113,6 +146,7 @@ const detailJurus = () => {
                         {(() => {
                             if (peserta.kategori == 'tunggal') {
                                 return (
+                                    <>
                                     <table className='w-full table-fixed'>
                                         <thead>
                                             <tr className='bg-[#222954] border-2 border-[#c9c9c9]'>
@@ -131,33 +165,50 @@ const detailJurus = () => {
                                                 <th className='border-2 border-[#c9c9c9]'>12</th>
                                                 <th className='border-2 border-[#c9c9c9]'>13</th>
                                                 <th className='border-2 border-[#c9c9c9]'>14</th>
+                                                <th className='border-2 border-[#c9c9c9]'>JUMLAH</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {data.map ((item, index) => (
                                                 <tr key={index + 1} className='text-[#222954] text-center text-lg font-semibold'>
                                                     <td className='border-2 border-[#c9c9c9] bg-[#222954] text-white'>{item.juri.no}</td>
-                                                    <td className='border-2 border-[#c9c9c9]'>{(item.jurus1) / (-0.01)}</td>
-                                                    <td className='border-2 border-[#c9c9c9]'>{(item.jurus2) / (-0.01)}</td>
-                                                    <td className='border-2 border-[#c9c9c9]'>{(item.jurus3) / (-0.01)}</td>
-                                                    <td className='border-2 border-[#c9c9c9]'>{(item.jurus4) / (-0.01)}</td>
-                                                    <td className='border-2 border-[#c9c9c9]'>{(item.jurus5) / (-0.01)}</td>
-                                                    <td className='border-2 border-[#c9c9c9]'>{(item.jurus6) / (-0.01)}</td>
-                                                    <td className='border-2 border-[#c9c9c9]'>{(item.jurus7) / (-0.01)}</td>
-                                                    <td className='border-2 border-[#c9c9c9]'>{(item.jurus8) / (-0.01)}</td>
-                                                    <td className='border-2 border-[#c9c9c9]'>{(item.jurus9) / (-0.01)}</td>
-                                                    <td className='border-2 border-[#c9c9c9]'>{(item.jurus10) / (-0.01)}</td>
-                                                    <td className='border-2 border-[#c9c9c9]'>{(item.jurus11) / (-0.01)}</td>
-                                                    <td className='border-2 border-[#c9c9c9]'>{(item.jurus12) / (-0.01)}</td>
-                                                    <td className='border-2 border-[#c9c9c9]'>{(item.jurus13) / (-0.01)}</td>
-                                                    <td className='border-2 border-[#c9c9c9]'>{(item.jurus14) / (-0.01)}</td>
+                                                    <td className='border-2 border-[#c9c9c9]'>{Math.round((item.jurus1) * (-100))}</td>
+                                                    <td className='border-2 border-[#c9c9c9]'>{Math.round((item.jurus2) * (-100))}</td>
+                                                    <td className='border-2 border-[#c9c9c9]'>{Math.round((item.jurus3) * (-100))}</td>
+                                                    <td className='border-2 border-[#c9c9c9]'>{Math.round((item.jurus4) * (-100))}</td>
+                                                    <td className='border-2 border-[#c9c9c9]'>{Math.round((item.jurus5) * (-100))}</td>
+                                                    <td className='border-2 border-[#c9c9c9]'>{Math.round((item.jurus6) * (-100))}</td>
+                                                    <td className='border-2 border-[#c9c9c9]'>{Math.round((item.jurus7) * (-100))}</td>
+                                                    <td className='border-2 border-[#c9c9c9]'>{Math.round((item.jurus8) * (-100))}</td>
+                                                    <td className='border-2 border-[#c9c9c9]'>{Math.round((item.jurus9) * (-100))}</td>
+                                                    <td className='border-2 border-[#c9c9c9]'>{Math.round((item.jurus10) * (-100))}</td>
+                                                    <td className='border-2 border-[#c9c9c9]'>{Math.round((item.jurus11) * (-100))}</td>
+                                                    <td className='border-2 border-[#c9c9c9]'>{Math.round((item.jurus12) * (-100))}</td>
+                                                    <td className='border-2 border-[#c9c9c9]'>{Math.round((item.jurus13) * (-100))}</td>
+                                                    <td className='border-2 border-[#c9c9c9]'>{Math.round((item.jurus14) * (-100))}</td>
+                                                    <td className='border-2 border-[#c9c9c9] bg-[#faff00]'>{Math.round(((item.jurus1) + (item.jurus2) + (item.jurus3) + (item.jurus4) + (item.jurus5) + (item.jurus6) + (item.jurus7) + (item.jurus8) + (item.jurus9) + (item.jurus10) + (item.jurus11) + (item.jurus12) + (item.jurus13) + (item.jurus14)) * (-100))}</td>
+                                                    {/* <td className='border-2 border-[#c9c9c9]'>{total}</td> */}
                                                 </tr>
                                             ))}
                                         </tbody>
                                     </table>
+                                    <table className='w-full'>
+                                        <tbody>
+                                            <tr className='bg-black'>
+                                                <td>Kesalahan</td>
+                                                <td>{kesalahan} </td>
+                                            </tr>
+                                            <tr className='bg-black'>
+                                            <td>Kebenaran</td>
+                                                <td>{kebenaran} </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </>
                                 )
                             } else if (peserta.kategori == 'regu') {
                                 return (
+                                    <>
                                     <table className='w-full table-fixed'>
                                         <thead>
                                             <tr className='bg-[#222954] border-2 border-[#c9c9c9]'>
@@ -174,28 +225,43 @@ const detailJurus = () => {
                                                 <th className='border-2 border-[#c9c9c9]'>10</th>
                                                 <th className='border-2 border-[#c9c9c9]'>11</th>
                                                 <th className='border-2 border-[#c9c9c9]'>12</th>
+                                                <th className='border-2 border-[#c9c9c9]'>JUMLAH</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {dataRegu.map ((item, index) => (
                                                 <tr key={index + 1} className='text-[#222954] text-center text-lg font-semibold'>
                                                     <td className='border-2 border-[#c9c9c9] bg-[#222954] text-white'>{item.juri.no}</td>
-                                                    <td className='border-2 border-[#c9c9c9]'>{(item.jurus1) / (-0.01)}</td>
-                                                    <td className='border-2 border-[#c9c9c9]'>{(item.jurus2) / (-0.01)}</td>
-                                                    <td className='border-2 border-[#c9c9c9]'>{(item.jurus3) / (-0.01)}</td>
-                                                    <td className='border-2 border-[#c9c9c9]'>{(item.jurus4) / (-0.01)}</td>
-                                                    <td className='border-2 border-[#c9c9c9]'>{(item.jurus5) / (-0.01)}</td>
-                                                    <td className='border-2 border-[#c9c9c9]'>{(item.jurus6) / (-0.01)}</td>
-                                                    <td className='border-2 border-[#c9c9c9]'>{(item.jurus7) / (-0.01)}</td>
-                                                    <td className='border-2 border-[#c9c9c9]'>{(item.jurus8) / (-0.01)}</td>
-                                                    <td className='border-2 border-[#c9c9c9]'>{(item.jurus9) / (-0.01)}</td>
-                                                    <td className='border-2 border-[#c9c9c9]'>{(item.jurus10) / (-0.01)}</td>
-                                                    <td className='border-2 border-[#c9c9c9]'>{(item.jurus11) / (-0.01)}</td>
-                                                    <td className='border-2 border-[#c9c9c9]'>{(item.jurus12) / (-0.01)}</td>
+                                                    <td className='border-2 border-[#c9c9c9]'>{Math.round((item.jurus1) * (-100))}</td>
+                                                    <td className='border-2 border-[#c9c9c9]'>{Math.round((item.jurus2) * (-100))}</td>
+                                                    <td className='border-2 border-[#c9c9c9]'>{Math.round((item.jurus3) * (-100))}</td>
+                                                    <td className='border-2 border-[#c9c9c9]'>{Math.round((item.jurus4) * (-100))}</td>
+                                                    <td className='border-2 border-[#c9c9c9]'>{Math.round((item.jurus5) * (-100))}</td>
+                                                    <td className='border-2 border-[#c9c9c9]'>{Math.round((item.jurus6) * (-100))}</td>
+                                                    <td className='border-2 border-[#c9c9c9]'>{Math.round((item.jurus7) * (-100))}</td>
+                                                    <td className='border-2 border-[#c9c9c9]'>{Math.round((item.jurus8) * (-100))}</td>
+                                                    <td className='border-2 border-[#c9c9c9]'>{Math.round((item.jurus9) * (-100))}</td>
+                                                    <td className='border-2 border-[#c9c9c9]'>{Math.round((item.jurus10) * (-100))}</td>
+                                                    <td className='border-2 border-[#c9c9c9]'>{Math.round((item.jurus11) * (-100))}</td>
+                                                    <td className='border-2 border-[#c9c9c9]'>{Math.round((item.jurus12) * (-100))}</td>
+                                                    <td className='border-2 border-[#c9c9c9] bg-[#faff00]'>{Math.round(((item.jurus1) + (item.jurus2) + (item.jurus3) + (item.jurus4) + (item.jurus5) + (item.jurus6) + (item.jurus7) + (item.jurus8) + (item.jurus9) + (item.jurus10) + (item.jurus11) + (item.jurus12)) * (-100))}</td>
                                                 </tr>
                                             ))}
                                         </tbody>
                                     </table>
+                                    <table className='w-full'>
+                                    <tbody>
+                                        <tr className='bg-black'>
+                                            <td>Kesalahan</td>
+                                            <td>{kesalahan} </td>
+                                        </tr>
+                                        <tr className='bg-black'>
+                                        <td>Kebenaran</td>
+                                            <td>{kebenaran} </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                </> 
                                 )
                             }
                         })()}

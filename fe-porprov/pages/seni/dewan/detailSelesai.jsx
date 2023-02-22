@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import socketIo from 'socket.io-client'
 import Navbar from '../components/navbar'
 import Footer from '../components/footer'
+import TimerLayar from '../components/timerLayar';
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 // socket io
 const socket = socketIo (BASE_URL)
@@ -74,6 +75,8 @@ const detailSelesai = () => {
             console.log('gagal');
         }
 
+        console.log (BASE_URL + `/api/tunggal/jadwal/${id_jadwal}/${id_peserta}`);
+
         await axios.get (BASE_URL + `/api/hukum/tgr/jadwal/${id_jadwal}/${id_peserta}`)
         .then (res => {
             setHukum (res.data.data)
@@ -120,7 +123,7 @@ const detailSelesai = () => {
         }
 
         // hitung median
-        let sort = nilai.sort ((a, b) => a.skor_a - b.skor_a)
+        let sort = nilai.sort ((a, b) => a.total_skor - b.total_skor)
         let n1 = sort [4]
         let n2 = sort [5]
         let x1 = n1.total_skor
@@ -137,7 +140,7 @@ const detailSelesai = () => {
         let sum = 0
         for (let i = 0; i < nilai.length; i++) {
             let skorA = nilai [1]
-            arrayNilai.push (skorA.skor_a)
+            arrayNilai.push (skorA.total_skor)
             sum += (arrayNilai[i])
         }
         let deviasi = Math.sqrt (sum/arrayNilai.length)
@@ -153,13 +156,12 @@ const detailSelesai = () => {
     const ubah_data = () => socket.emit ('init_data')
 
     useEffect (() => {
-        return ()  => {
-            setPeserta (JSON.parse (localStorage.getItem ('peserta')))
-            socket.emit ('init_data')
-            socket.on ('getData', getNilai)
-            socket.on ('change_data', ubah_data)
-            isLogged ()
-        }
+        setPeserta (JSON.parse (localStorage.getItem ('pesertaSeni')))
+        socket.emit ('init_data')
+        socket.on ('getData', getNilai)
+        socket.on ('change_data', ubah_data)
+        getNilai ()
+        isLogged ()
     }, [])
 
     return (
@@ -226,7 +228,7 @@ const detailSelesai = () => {
                 <div className="border-2 border-[#222954] p-5 space-y-4 rounded-lg">
                     {/* table skor juri */}
                     {(() => {
-                        if (kategori == 'tunggal' || kategori == 'regu') {
+                        if (peserta.kategori == 'tunggal' || peserta.kategori == 'regu') {
                             return (
                                 <table className='w-full table-fixed border-separate border-spacing-x-2'>
                                     <thead className='bg-[#2C2F48]'>
@@ -258,7 +260,7 @@ const detailSelesai = () => {
                                         </tr>
                                         {/* Skor B */}
                                         <tr>
-                                            <td colSpan={2} className="text-lg font-semibold border-2 border-[#2C2F48]">Skor B</td>
+                                            <td colSpan={2} className="text-lg font-semibold border-2 border-[#2C2F48]">Kemantapan</td>
                                             {nilai.map ((item, index) => (
                                                 <td key={index + 1} className='border-2 border-[#2C2F48]'>
                                                     <span>
@@ -281,7 +283,7 @@ const detailSelesai = () => {
                                     </tbody>
                                 </table>
                             )
-                        } else if (kategori == 'ganda' || kategori == 'solo_kreatif') {
+                        } else if (peserta.kategori == 'ganda' || peserta.kategori == 'solo_kreatif') {
                             return (
                                 <table className='w-full table-fixed border-separate border-spacing-x-2'>
                                     <thead className='bg-[#2C2F48]'>
@@ -300,24 +302,35 @@ const detailSelesai = () => {
                                         </tr>
                                     </thead> 
                                     <tbody className='text-center text-[#2C2F48] font-medium'>
-                                        {/* Skor A */}
+                                        {/* technique */}
                                         <tr>
-                                            <td colSpan={2} className="text-lg font-semibold border-2 border-[#2C2F48]">Skor A</td>
+                                            <td colSpan={2} className="text-lg font-semibold border-2 border-[#2C2F48]">TEKNIK</td>
                                             {nilai.map ((item, index) => (
                                                 <td key={index + 1} className='border-2 border-[#2C2F48]'>
                                                     <span>
-                                                        {item.skor_a?.toFixed(2)}
+                                                        {item.technique?.toFixed(2)}
                                                     </span>
                                                 </td>
                                             ))}
                                         </tr>
-                                        {/* Skor B */}
+                                        {/* firmness */}
                                         <tr>
-                                            <td colSpan={2} className="text-lg font-semibold border-2 border-[#2C2F48]">Skor B</td>
+                                            <td colSpan={2} className="text-lg font-semibold border-2 border-[#2C2F48]">KEMANTAPAN</td>
                                             {nilai.map ((item, index) => (
                                                 <td key={index + 1} className='border-2 border-[#2C2F48]'>
                                                     <span>
-                                                        {item.skor_b?.toFixed(2)}
+                                                        {item.firmness?.toFixed(2)}
+                                                    </span>
+                                                </td>
+                                            ))}
+                                        </tr>
+                                        {/* soulfulness */}
+                                        <tr>
+                                            <td colSpan={2} className="text-lg font-semibold border-2 border-[#2C2F48]">EKSPRESI</td>
+                                            {nilai.map ((item, index) => (
+                                                <td key={index + 1} className='border-2 border-[#2C2F48]'>
+                                                    <span>
+                                                        {item.soulfulness?.toFixed(2)}
                                                     </span>
                                                 </td>
                                             ))}
@@ -336,6 +349,8 @@ const detailSelesai = () => {
                                     </tbody>
                                 </table>
                             )
+                        } else {
+                            console.log(peserta.kategori);
                         }
                     })()}
 
@@ -344,15 +359,15 @@ const detailSelesai = () => {
                         <tbody className='text-center'>
                             <tr className='bg-[#2C2F48]'>
                                 <th colSpan={2} rowSpan={2} className="text-lg border-2 border-[#2C2F48] ">urutan juri</th>
-                                {nilai.sort ((a,b) => a.skor_a - b.skor_a).map ((item )=> (
-                                    <th className='border-2 border-[#2C2F48]'>
+                                {nilai.sort ((a,b) => a.skor_a - b.skor_a).map ((item, index)=> (
+                                    <th key={index + 1} className='border-2 border-[#2C2F48]'>
                                         {item.juri.no}
                                     </th>
                                 ))}
                             </tr>
                             <tr className='text-[#2C2F48]'>
-                                {nilai.sort ((a,b) => a.skor_a - b.skor_b).map (item => (
-                                    <th className='border-2 border-[#2C2F48]'>{item.total_skor?.toFixed(2)}</th>
+                                {nilai.sort ((a,b) => a.skor_a - b.skor_b).map ((item, index) => (
+                                    <th key={index + 1} className='border-2 border-[#2C2F48]'>{item.total_skor?.toFixed(2)}</th>
                                 ))}
                             </tr>
                         </tbody>
@@ -367,8 +382,8 @@ const detailSelesai = () => {
                                 <div className="bg-[#2C2F48] py-1 px-4 w-full flex justify-center">
                                     <span className='text-2xl font-semibold'>Waktu</span>
                                 </div>
-                                <div className="text-[#2C2F48] py-1 px-4 w-full flex justify-center border-2 border-[#2C2F48]">
-                                    <span className='text-4xl font-bold'>03.00</span>
+                                <div className="text-[#2C2F48] py-1 px-4 w-full flex justify-center border-2 border-[#2C2F48] text-3xl font-semibold">
+                                    {jadwal.id ? <TimerLayar id_peserta={peserta.id}/> : null}
                                 </div>
                             </div>
                             {/* Median */}
@@ -531,6 +546,10 @@ const detailSelesai = () => {
 
                     {/* Skor */}
                     <div className="grid grid-rows-2 text-center gap-y-2 px-2">
+                        <div className="grid grid-cols-2 gap-x-4">
+                            <span className='text-xl font-semibold rounded-lg bg-[#2C2F48]'>Total Kebenaran</span>
+                            <span className='text-xl font-semibold rounded-lg bg-white text-black border-2 border-[#2C2F48]'>{total.toFixed(2)}</span>
+                        </div>
                         <div className="grid grid-cols-2 gap-x-4">
                             <span className='text-xl font-semibold rounded-lg bg-[#2C2F48]'>Skor Akhir</span>
                             <span className='text-xl font-semibold rounded-lg bg-white text-black border-2 border-[#2C2F48]'>{total.toFixed(2)}</span>

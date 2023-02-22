@@ -22,7 +22,7 @@ const nilaiSeniRegu = () => {
 
     // ini state
     const [nilai,setNilai] = useState ([])
-    const [count, setCount] = useState (1)
+    const [count, setCount] = useState (0)
     const [jurus, setJurus] = useState (`${count}`)
     const [active, setActive] = useState (0)
 
@@ -34,6 +34,7 @@ const nilaiSeniRegu = () => {
         setJadwal (jadwal)
         setDataJuri (juri)
         setPeserta (peserta)
+        console.log(peserta);
         let id_peserta = peserta.id
         let id_jadwal = jadwal.id
         let id_juri = juri.id
@@ -43,7 +44,7 @@ const nilaiSeniRegu = () => {
             setNilai (res.data.data)
         })
         .catch (err => {
-            console.log(err.response.data.message);
+            console.log(err.message);
         })
     }
 
@@ -73,7 +74,8 @@ const nilaiSeniRegu = () => {
             axios.put (BASE_URL + `/api/regu/skor/${id_jadwal}/${id_peserta}/${id_juri}`, form)
             .then (res => {
                 console.log(res.data.message);
-                socket.emit ('editData')
+                                socket.emit ('juriToDewan')
+                getNilai()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -89,7 +91,8 @@ const nilaiSeniRegu = () => {
             axios.put (BASE_URL + `/api/regu/skor/${id_jadwal}/${id_peserta}/${id_juri}`, form)
             .then (res => {
                 console.log(res.data.message);
-                socket.emit ('editData')
+                                socket.emit ('juriToDewan')
+                getNilai()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -105,7 +108,8 @@ const nilaiSeniRegu = () => {
             axios.put (BASE_URL + `/api/regu/skor/${id_jadwal}/${id_peserta}/${id_juri}`, form)
             .then (res => {
                 console.log(res.data.message);
-                socket.emit ('editData')
+                                socket.emit ('juriToDewan')
+                getNilai()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -121,7 +125,8 @@ const nilaiSeniRegu = () => {
             axios.put (BASE_URL + `/api/regu/skor/${id_jadwal}/${id_peserta}/${id_juri}`, form)
             .then (res => {
                 console.log(res.data.message);
-                socket.emit ('editData')
+                                socket.emit ('juriToDewan')
+                getNilai()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -137,7 +142,8 @@ const nilaiSeniRegu = () => {
             axios.put (BASE_URL + `/api/regu/skor/${id_jadwal}/${id_peserta}/${id_juri}`, form)
             .then (res => {
                 console.log(res.data.message);
-                socket.emit ('editData')
+                                socket.emit ('juriToDewan')
+                getNilai()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -153,7 +159,8 @@ const nilaiSeniRegu = () => {
             axios.put (BASE_URL + `/api/regu/skor/${id_jadwal}/${id_peserta}/${id_juri}`, form)
             .then (res => {
                 console.log(res.data.message);
-                socket.emit ('editData')
+                                socket.emit ('juriToDewan')
+                getNilai()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -169,7 +176,8 @@ const nilaiSeniRegu = () => {
             axios.put (BASE_URL + `/api/regu/skor/${id_jadwal}/${id_peserta}/${id_juri}`, form)
             .then (res => {
                 console.log(res.data.message);
-                socket.emit ('editData')
+                                socket.emit ('juriToDewan')
+                getNilai()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -185,7 +193,8 @@ const nilaiSeniRegu = () => {
             axios.put (BASE_URL + `/api/regu/skor/${id_jadwal}/${id_peserta}/${id_juri}`, form)
             .then (res => {
                 console.log(res.data.message);
-                socket.emit ('editData')
+                                socket.emit ('juriToDewan')
+                getNilai()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -201,7 +210,8 @@ const nilaiSeniRegu = () => {
             axios.put (BASE_URL + `/api/regu/skor/${id_jadwal}/${id_peserta}/${id_juri}`, form)
             .then (res => {
                 console.log(res.data.message);
-                socket.emit ('editData')
+                                socket.emit ('juriToDewan')
+                getNilai()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -217,7 +227,8 @@ const nilaiSeniRegu = () => {
             axios.put (BASE_URL + `/api/regu/skor/${id_jadwal}/${id_peserta}/${id_juri}`, form)
             .then (res => {
                 console.log(res.data.message);
-                socket.emit ('editData')
+                                socket.emit ('juriToDewan')
+                getNilai()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -233,7 +244,8 @@ const nilaiSeniRegu = () => {
             axios.put (BASE_URL + `/api/regu/skor/${id_jadwal}/${id_peserta}/${id_juri}`, form)
             .then (res => {
                 console.log(res.data.message);
-                socket.emit ('editData')
+                                socket.emit ('juriToDewan')
+                getNilai()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -249,7 +261,8 @@ const nilaiSeniRegu = () => {
             axios.put (BASE_URL + `/api/regu/skor/${id_jadwal}/${id_peserta}/${id_juri}`, form)
             .then (res => {
                 console.log(res.data.message);
-                socket.emit ('editData')
+                                socket.emit ('juriToDewan')
+                getNilai()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -274,9 +287,10 @@ const nilaiSeniRegu = () => {
         }
 
         axios.put (BASE_URL + `/api/regu/juri/${id_jadwal}/${id_peserta}/${id_juri}`, form)
-        .then (
-            socket.emit ('editData')
-        )
+        .then (res => {
+            socket.emit ('juriToDewan')
+            getNilai()
+        })
         .catch (err => {
             console.log(err.response.data.message);
         })
@@ -325,7 +339,10 @@ const nilaiSeniRegu = () => {
     const cekJurus = () =>{
         if (localStorage.getItem('jurus')) {
             setCount (localStorage.getItem ('jurus'))
-            naikJurus()
+            // console.log(localStorage.getItem ('jurus'));
+            // localStorage.setItem ('jurus', (count + 1))
+            setCount (count + 1)
+            setJurus (localStorage.getItem ('jurus'))
         }else {
             console.log("jurus kosong");                
         }
@@ -342,13 +359,14 @@ const nilaiSeniRegu = () => {
     const ubah_data = () => socket.emit ('init_data')
 
     useEffect (() => {
-        setPeserta (JSON.parse (localStorage.getItem ('peserta')))   
+        setPeserta (JSON.parse (localStorage.getItem ('pesertaSeni')))   
         // localStorage.setIte  m ('jurus', (count))
         const socket = socketIo (BASE_URL)
         socket.connect();
-        socket.emit ('init_data')
-        socket.on ('getData', getNilai)
-        socket.on ('change_data', ubah_data)
+        // socket.emit ('init_data')
+        // socket.on ('getData', getNilai)
+        // socket.on ('change_data', ubah_data)
+        getNilai()
         getEvent ()
         isLogged ()
         cekJurus()
@@ -478,7 +496,7 @@ const nilaiSeniRegu = () => {
                                             {/* pengurangan nilai */}
                                             <div className="col-span-2 border-r-2 border-[#2C2F48] p-2 flex justify-center items-center">
                                                 <button onClick={() => kurangNilai()} className="bg-[#39ac39] hover:bg-[#2f912f] rounded-lg py-5 h-full w-full flex justify-center items-center">
-                                                    <span className='text-5xl font-bold'>- 0,1</span>
+                                                    <span className='text-5xl font-bold'>- 0,01</span>
                                                 </button>
                                             </div>
                                             {/* deskripsi jurus */}
@@ -526,7 +544,7 @@ const nilaiSeniRegu = () => {
                                         <div className="grid grid-cols-12 gap-x-2">
                                             <div className="col-span-10 grid grid-rows-2 rounded-lg text-center border-2 border-[#2C2F48]">
                                                 <div className="bg-[#2C2F48] flex justify-center items-center">
-                                                    <span className='text-xl font-bold'>Skor B</span>
+                                                    <span className='text-xl font-bold'>Stamina dan Kemantapan</span>
                                                 </div>
                                                 {/* button nilai */}
                                                 <div className="grid grid-cols-10 gap-x-2 p-2">

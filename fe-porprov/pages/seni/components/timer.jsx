@@ -58,6 +58,7 @@ const timer = props => {
     await axios.post(BASE_URL + "/api/tgr/timer/start", data)
     .then(res => {
       console.log(res.data.message);
+      getData()
       socket.emit ("update_time_seni")
     }).catch(err =>{
       console.log(err.response.data.message);
@@ -92,11 +93,9 @@ const timer = props => {
   const ubah_data = () => socket.emit ('init_time_seni')
 
   useEffect(() => {
-    return () =>{
       socket.emit('init_time_seni')
       socket.on ('get_time_seni', getData)
       socket.on ('change_time_seni', ubah_data)
-    }
   },[])
 
   useEffect(() => {

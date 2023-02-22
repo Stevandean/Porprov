@@ -14,17 +14,18 @@ const modalJuri = () => {
     const { kategori } = router.query
 
     const handleSave = (e) => {
+        const peserta = JSON.parse (localStorage.getItem ('pesertaSeni'))
         localStorage.setItem ('nama', nama)
         setShowModalJuri (false)
         getJuri ()
 
-        if (kategori.toLowerCase() == 'tunggal') {
+        if (peserta.kategori.toLowerCase() == 'tunggal') {
             Router.push ('/seni/juri/nilaiSeniTunggal')
-        } else if (kategori.toLowerCase() == 'ganda') {
+        } else if (peserta.kategori.toLowerCase() == 'ganda') {
             Router.push ('/seni/juri/nilaiSeniGanda')
-        } else if (kategori.toLowerCase() == 'solo_kreatif') {
+        } else if (peserta.kategori.toLowerCase() == 'solo_kreatif') {
             Router.push ('/seni/juri/nilaiSeniSoloKreatif')
-        } else if (kategori.toLowerCase() == 'regu') {
+        } else if (peserta.kategori.toLowerCase() == 'regu') {
             Router.push ('/seni/juri/nilaiSeniRegu')
         } else {
             console.log('gagal');
@@ -98,7 +99,7 @@ const modalJuri = () => {
                                     <button
                                     className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                     type="submit">
-                                        Tambah Jadwal Tanding
+                                        NILAI
                                     </button>
                                 </div>
                             </form>

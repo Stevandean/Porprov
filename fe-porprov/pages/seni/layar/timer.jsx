@@ -15,20 +15,13 @@ const timer = () => {
     const [peserta, setPeserta] = useState ([])
 
     const getPeserta = () => {
-        const peserta = JSON.parse (localStorage.getItem ('peserta'))
+        const peserta = JSON.parse (localStorage.getItem ('pesertaSeni'))
         setPeserta (peserta)
     }
 
     const getJadwal = () => {
-        const id_jadwal = localStorage.getItem ('id_jadwal')
-        axios.get (BASE_URL + `/api/tgr/tunggal/` + id_jadwal)
-        .then (res => {
-            setJadwal (res.data.data)
-        })
-        .catch (err => {
-            console.log(err.response.data.message);
-        })
-        console.log(BASE_URL + `/api/tgr/tunggal/` + id_jadwal);
+        const jadwal = JSON.parse (localStorage.getItem ('jadwalSeni'))
+        setJadwal (jadwal)
     }
 
     useEffect (() => {

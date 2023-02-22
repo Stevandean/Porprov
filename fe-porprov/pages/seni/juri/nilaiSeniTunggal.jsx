@@ -21,14 +21,14 @@ const nilaiSeniTunggal = () => {
     const [jadwal, setJadwal] = useState ([])
     const [dataJuri, setDataJuri] = useState ([])
 
-    const [count, setCount] = useState (1)
+    const [count, setCount] = useState (0)
     const [jurus, setJurus] = useState (`${count}`)
     const [nilai, setNilai] = useState ([])
     const [active, setActive] = useState(0)
-
+    
     const getNilai = () => {
         const peserta = JSON.parse (localStorage.getItem ('pesertaSeni'))
-        const jadwal = JSON.parse(localStorage.getItem ('jadwalSeni'))
+        const jadwal = JSON.parse (localStorage.getItem ('jadwalSeni'))
         const juri = JSON.parse (localStorage.getItem ('juriSeni'))
 
         setJadwal (jadwal)
@@ -62,9 +62,8 @@ const nilaiSeniTunggal = () => {
 
         axios.put (BASE_URL + `/api/tunggal/juri/${id_jadwal}/${id_peserta}/${id_juri}`, form)
         .then (res => {
-            socket.emit ('editData')
+            socket.emit ('juriToDewan')
             getNilai()
-            socket.disconnect(true)
         })
         .catch (err => {
             console.log(err.response.data.message);
@@ -92,7 +91,7 @@ const nilaiSeniTunggal = () => {
            axios.put (BASE_URL + `/api/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
             .then (res => {
                 console.log(res.data.message);
-                socket.emit ('editData')
+                socket.emit ('juriToDewan')
                 getNilai()
             })
             .catch (err => {
@@ -109,8 +108,8 @@ const nilaiSeniTunggal = () => {
             axios.put (BASE_URL + `/api/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
             .then (res => {
                 console.log(res.data.message);
-                socket.emit ('editData')
-                // getNilai ()
+                socket.emit ('juriToDewan')
+                getNilai()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -126,7 +125,8 @@ const nilaiSeniTunggal = () => {
             axios.put (BASE_URL + `/api/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
             .then (res => {
                 console.log(res.data.message);
-                socket.emit ('editData')
+                                socket.emit ('juriToDewan')
+                getNilai()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -142,7 +142,8 @@ const nilaiSeniTunggal = () => {
             axios.put (BASE_URL + `/api/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
             .then (res => {
                 console.log(res.data.message);
-                socket.emit ('editData')
+                                socket.emit ('juriToDewan')
+                getNilai()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -158,7 +159,8 @@ const nilaiSeniTunggal = () => {
             axios.put (BASE_URL + `/api/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
             .then (res => {
                 console.log(res.data.message);
-                socket.emit ('editData')
+                                socket.emit ('juriToDewan')
+                getNilai()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -174,7 +176,8 @@ const nilaiSeniTunggal = () => {
             axios.put (BASE_URL + `/api/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
             .then (res => {
                 console.log(res.data.message);
-                socket.emit ('editData')
+                                socket.emit ('juriToDewan')
+                getNilai()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -190,7 +193,8 @@ const nilaiSeniTunggal = () => {
             axios.put (BASE_URL + `/api/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
             .then (res => {
                 console.log(res.data.message);
-                socket.emit ('editData')
+                                socket.emit ('juriToDewan')
+                getNilai()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -206,7 +210,8 @@ const nilaiSeniTunggal = () => {
             axios.put (BASE_URL + `/api/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
                 .then (res => {
                 console.log(res.data.message);
-                socket.emit ('editData')
+                                socket.emit ('juriToDewan')
+                getNilai()
                 })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -222,7 +227,8 @@ const nilaiSeniTunggal = () => {
             axios.put (BASE_URL + `/api/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
             .then (res => {
                 console.log(res.data.message);
-                socket.emit ('editData')
+                                socket.emit ('juriToDewan')
+                getNilai()
             })
            .catch (err => {
             console.log(err.response.data.message);
@@ -238,7 +244,8 @@ const nilaiSeniTunggal = () => {
             axios.put (BASE_URL + `/api/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
             .then (res => {
                 console.log(res.data.message);
-                socket.emit ('editData')
+                                socket.emit ('juriToDewan')
+                getNilai()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -254,7 +261,8 @@ const nilaiSeniTunggal = () => {
             axios.put (BASE_URL + `/api/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
             .then (res => {
                 console.log(res.data.message);
-                socket.emit ('editData')
+                                socket.emit ('juriToDewan')
+                getNilai()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -270,7 +278,8 @@ const nilaiSeniTunggal = () => {
            axios.put (BASE_URL + `/api/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
             .then (res => {
                 console.log(res.data.message);
-                socket.emit ('editData')
+                                socket.emit ('juriToDewan')
+                getNilai()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -286,7 +295,8 @@ const nilaiSeniTunggal = () => {
             axios.put (BASE_URL + `/api/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
             .then (res => {
                 console.log(res.data.message);
-                socket.emit ('editData')
+                                socket.emit ('juriToDewan')
+                getNilai()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -302,7 +312,8 @@ const nilaiSeniTunggal = () => {
             axios.put (BASE_URL + `/api/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
             .then (res => {
                 console.log(res.data.message);
-                socket.emit ('editData')
+                                socket.emit ('juriToDewan')
+                getNilai()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -313,8 +324,8 @@ const nilaiSeniTunggal = () => {
     }
 
     const naikJurus = () => {
-        localStorage.setItem ('jurus', (count + 1))
         setCount (count + 1)
+        localStorage.setItem ('jurus', (count + 1))
         setJurus (localStorage.getItem ('jurus'))
     }
 
@@ -328,8 +339,6 @@ const nilaiSeniTunggal = () => {
         let id_jadwal = jadwal.id
         let id_juri = juri.id
         let nama_juri = nama
-
-        localStorage.removeItem("jurus");
 
         let form = {
             nama_juri : nama_juri
@@ -353,8 +362,10 @@ const nilaiSeniTunggal = () => {
     const cekJurus = () =>{
         if (localStorage.getItem('jurus')) {
             setCount (localStorage.getItem ('jurus'))
-            console.log(localStorage.getItem ('jurus'));
-            naikJurus()
+            // console.log(localStorage.getItem ('jurus'));
+            // localStorage.setItem ('jurus', (count + 1))
+            setCount (count + 1)
+            setJurus (localStorage.getItem ('jurus'))
         }else {
             console.log("jurus kosong");                
         }
@@ -381,12 +392,12 @@ const nilaiSeniTunggal = () => {
     const ubah_data = () => socket.emit ('init_data')
 
     useEffect(() =>{
-            setPeserta (JSON.parse (localStorage.getItem ('peserta')))   
+            setPeserta (JSON.parse (localStorage.getItem ('pesertaSeni')))   
             cekJurus()
-            socket.emit ('init_data')
-            socket.on ('getData', getNilai)
-            socket.on ('change_data', ubah_data)
-            // getNilai()
+            // socket.emit ('init_data')
+            // socket.on ('getData', getNilai)
+            // socket.on ('change_data', ubah_data)
+            getNilai()
             getEvent ()
             isLogged ()
     },[])
@@ -477,6 +488,8 @@ const nilaiSeniTunggal = () => {
                                             return (
                                                 <h1 className='text-xl font-semibold py-1.5'>JURI 10</h1>
                                             )
+                                        } else {
+                                            console.log('gagal');
                                         }
                                     })()}
                                 </div>

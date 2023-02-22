@@ -23,8 +23,8 @@ const timer = () => {
   const [jadwal, setJadwal] = useState ([])
 
   const mulai = () => {
-    const peserta = JSON.parse(localStorage.getItem('peserta'))
-    const jadwal = JSON.parse(localStorage.getItem('jadwal'))
+    const peserta = JSON.parse(localStorage.getItem('pesertaSeni'))
+    const jadwal = JSON.parse(localStorage.getItem('jadwalSeni'))
 
     let id_jadwal = jadwal.id
     let id_peserta = peserta.id
@@ -39,6 +39,7 @@ const timer = () => {
         axios.put (BASE_URL + `/api/tgr/${id_jadwal}`, form)
         .then (res => {
           console.log(res.data.message);
+          console.log('berhasil');
           socket.emit ('editData')
         })
         .catch (err => {
@@ -67,8 +68,10 @@ const timer = () => {
     const peserta = JSON.parse(localStorage.getItem('pesertaSeni'))
     const jadwal = JSON.parse(localStorage.getItem ('jadwalSeni'))
 
-    setPeserta (JSON.parse(localStorage.getItem('pesertaSeni'))) 
-    setJadwal (JSON.parse(localStorage.getItem('jadwalSeni')))
+    setPeserta (peserta)
+    setJadwal (jadwal)
+    // setPeserta (JSON.parse(localStorage.getItem('pesertaSeni'))) 
+    // setJadwal (JSON.parse(localStorage.getItem('jadwalSeni')))
 
     let id_jadwal = jadwal.id
     let id_peserta = peserta.id
@@ -108,6 +111,7 @@ const timer = () => {
     socket.on('getData', getHukum)
     socket.on ('change_data', ubah_data)
     getEvent ()
+    getHukum ()
     isLogged ()
   }, [])
 
@@ -156,8 +160,7 @@ const timer = () => {
             </div>
 
             {/* wrapper peserta */}
-            <div className="flex flex-col space-y-5 border-2 border-black py-2 rounded-lg mb-4 lg:mb-10 text-center">
-              <div className={jadwal.id_biru == peserta.id ? 'w-full flex flex-col justify-center items-center text-blue-600' : 'w-full flex flex-col justify-center items-center text-red-600'}>
+              <div className={jadwal.id_biru == peserta.id ? 'w-full flex flex-col justify-center items-center bg-blue-600 rounded-lg mb-7 py-3' : 'w-full flex flex-col justify-center items-center text-red-600 rounded-lg mb-7 py-3'}>
                 {(() => {
                   if (peserta.kategori == 'tunggal') {
                     return (
@@ -183,25 +186,11 @@ const timer = () => {
                 })()}
                 <h1 className='tracking-wider lg:text-xl'>{peserta.kontingen}</h1>
               </div>
-            </div>
+            {/* <div className="flex flex-col space-y-5 border-2 border-black py-2 rounded-lg mb-4 lg:mb-10 text-center">
+            </div> */}
 
             {/* wrapper timer and aktif button */}
-            <div className="flex flex-col space-y-5 border-2 border-black p-5 rounded-lg">
-              <div className="flex justify-center items-center rounded-lg w-full">
-                {(() => {
-                  if (aktif == 1) {
-                    return (
-                      <button onClick={() => mulai()} className='lg:text-4xl text-lg font-semibold lg:py-4 py-2 w-full bg-green-500 hover:bg-green-600 rounded-lg'>Aktif</button>
-                    )
-                } else if (aktif == 0) {
-                    return (
-                      <button onClick={() => mulai()} className='lg:text-3xl text-lg font-semibold lg:py-4 py-2 w-full bg-gray-400 hover:bg-gray-500 rounded-lg'>Non Aktif</button>
-                    )
-                  }
-                })()}
-              </div>
               {jadwal.id ? <Timer id_jadwal={jadwal.id} id_peserta={peserta.id} socket={socket}/> : null}
-            </div>
           </div>
         </FullScreen>
         <div className="hidden lg:block">

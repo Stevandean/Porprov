@@ -63,9 +63,10 @@ const nilaiSeniSoloKreatif = () => {
         }
 
         axios.put (BASE_URL + `/api/solo_kreatif/juri/${id_jadwal}/${id_peserta}/${id_juri}`, form)
-        .then (
-            socket.emit('editData')
-        )
+        .then (res => {
+            socket.emit ('juriToDewan')
+            getNilai()
+        })
         .catch (err => {
             console.log(err.response.data.message);
         })
@@ -86,9 +87,10 @@ const nilaiSeniSoloKreatif = () => {
         }
 
         axios.put (BASE_URL + `/api/solo_kreatif/juri/${id_jadwal}/${id_peserta}/${id_juri}`, form)
-        .then (
-            socket.emit ('editData')
-        )
+        .then (res => {
+            socket.emit ('juriToDewan')
+            getNilai()
+        })
         .catch (err => {
             console.log(err.response.data.message);
         })
@@ -109,9 +111,10 @@ const nilaiSeniSoloKreatif = () => {
         }
 
         axios.put (BASE_URL + `/api/solo_kreatif/juri/${id_jadwal}/${id_peserta}/${id_juri}`, form)
-        .then (
-            socket.emit ('editData')
-        )
+        .then (res => {
+            socket.emit ('juriToDewan')
+            getNilai()
+        })
         .catch (err => {
             console.log(err.response.data.response);
         })

@@ -18,7 +18,7 @@ const timerLayar = props => {
   const getData = async () => {
     let waktu = []
     //get waktu peserta
-    await axios.get(BASE_URL + `/api/tgr/get/timer/${id_jadwal}/${id_peserta}`)
+    await axios.get (BASE_URL + `/api/tgr/get/timer/${id_jadwal}/${id_peserta}`)
     .then(res => {
       setData(res.data.data)
       waktu = res.data.data
@@ -83,11 +83,9 @@ const timerLayar = props => {
   const ubah_data = () => socket.emit ('init_time_seni')
 
   useEffect(() => {
-    return () =>{
       socket.emit('init_time_seni')
       socket.on ('get_time_seni', getData)
       socket.on ('change_time_seni', ubah_data)
-    }
   },[])
 
   useEffect(() => {

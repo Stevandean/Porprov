@@ -61,9 +61,10 @@ const nilaiSeniGanda = () => {
         }
 
         axios.put (BASE_URL + `/api/ganda/juri/${id_jadwal}/${id_peserta}/${id_juri}`, form)
-        .then (
-            socket.emit('editData')
-        )
+        .then (res =>{
+            socket.emit ('juriToDewan')
+            getNilai()
+        })
         .catch (err => {
             console.log(err.response.data.message);
         })
@@ -84,9 +85,10 @@ const nilaiSeniGanda = () => {
         }
 
         axios.put (BASE_URL + `/api/ganda/juri/${id_jadwal}/${id_peserta}/${id_juri}`, form)
-        .then (
-            socket.emit ('editData')
-        )
+        .then (res => {
+            socket.emit ('juriToDewan')
+            getNilai()
+        })
         .catch (err => {
             console.log(err.response.data.message);
         })
@@ -107,9 +109,10 @@ const nilaiSeniGanda = () => {
         }
 
         axios.put (BASE_URL + `/api/ganda/juri/${id_jadwal}/${id_peserta}/${id_juri}`, form)
-        .then (
-            socket.emit ('editData')
-        )
+        .then (res =>{
+            socket.emit ('juriToDewan')
+            getNilai()
+        })
         .catch (err => {
             console.log(err.response.data.response);
         })
@@ -165,12 +168,13 @@ const nilaiSeniGanda = () => {
     const ubah_data = () => socket.emit ('init_data')
 
     useEffect (() => {
-        setPeserta (JSON.parse (localStorage.getItem ('peserta')))   
+        setPeserta (JSON.parse (localStorage.getItem ('pesertaSeni')))   
         const socket = socketIo (BASE_URL)
         socket.connect();
-        socket.emit ('init_data')
-        socket.on ('getData', getNilai)
-        socket.on ('change_data', ubah_data)
+        // socket.emit ('init_data')
+        // socket.on ('getData', getNilai)
+        // socket.on ('change_data', ubah_data)
+        getNilai()
         getEvent ()
         isLogged ()
 
