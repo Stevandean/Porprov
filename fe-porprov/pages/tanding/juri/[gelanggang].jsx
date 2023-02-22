@@ -49,7 +49,7 @@ const detail = () => {
 
     return (
         <>
-        <div className="flex ">
+        <div className="flex uppercase">
 
             {/* awal konten utama */}
             <div className="w-full overflow-y-auto h-screen"> 

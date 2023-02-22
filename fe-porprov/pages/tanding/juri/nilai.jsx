@@ -642,7 +642,8 @@ const nilai = () => {
         .then (res => {
             setDataVerif(res.data.data)
             info = res.data.data
-            console.log(info.show);
+            setInfoVerif(info.poin)
+            // console.log(info.show);
             if(info == null){
                 console.log('verif null');
             } else if (info != null){
@@ -700,7 +701,7 @@ const nilai = () => {
             <div className="w-full overflow-y-auto h-screen"> 
             
                 {/* header */}
-                <div className="">
+                <div className="hidden lg:block">
                     <div className="bg-[#2C2F48] sticky top-0 h-20 z-40 flex">
                         {event.map((item, index) => (
                             <div key={index + 1} className="flex justify-between w-full text-white px-10">
@@ -726,7 +727,7 @@ const nilai = () => {
                 {/* konten utama */}
                 <div className="bg-white text-white min-h-full overflow-y-auto">
                     {/* wrapper keseluruhan */}
-                    <div className="w-11/12 mx-auto py-10">
+                    <div className="w-11/12 mx-auto py-5">
                         {/* wrapper tanding information */}
                         <div className="grid grid-cols-6 gap-x-2 text-center mb-3 lg:mb-5">
                             <div className="bg-[#222954] rounded-lg">
@@ -1229,11 +1230,11 @@ const nilai = () => {
                                             <div className="col-span-3 grid grid-cols-4 gap-x-5">
                                                 <div className="col-span-3 grid grid-rows-2 gap-y-2">
                                                     {/* button pukulan */}
-                                                    <button onClick={() => tambahPukulan ('tambahPukulanBiru1')} className="bg-blue-600 hover:bg-blue-700 rounded-lg py-4 text-center">
+                                                    <button onClick={() => tambahPukulan ('tambahPukulanBiru1')} className="bg-blue-600 hover:bg-blue-700 rounded-lg py-10 text-center">
                                                         <h1 className='text-xl font-semibold tracking-wider'>Pukulan</h1>
                                                     </button>
                                                     {/* button tendangan */}
-                                                    <button onClick={() => tambahTendangan ('tambahTendanganBiru1')} className="bg-blue-600 hover:bg-blue-700 rounded-lg py-4 text-center">
+                                                    <button onClick={() => tambahTendangan ('tambahTendanganBiru1')} className="bg-blue-600 hover:bg-blue-700 rounded-lg py-10 text-center">
                                                         <h1 className='text-xl font-semibold tracking-wider'>Tendangan</h1>
                                                     </button>
                                                 </div>
@@ -1251,11 +1252,11 @@ const nilai = () => {
                                                 </button>
                                                 <div className="col-span-3 grid grid-rows-2 gap-y-2">
                                                     {/* button pukulan */}
-                                                    <button onClick={() => tambahPukulan ('tambahPukulanMerah1')} className="bg-red-600 hover:bg-red-700 rounded-lg py-2 text-center">
+                                                    <button onClick={() => tambahPukulan ('tambahPukulanMerah1')} className="bg-red-600 hover:bg-red-700 rounded-lg py-10 text-center">
                                                         <h1 className='text-xl font-semibold tracking-wider'>Pukulan</h1>
                                                     </button>
                                                     {/* button tendangan */}
-                                                    <button onClick={() => tambahTendangan ('tambahTendanganMerah1')} className="bg-red-600 hover:bg-red-700 rounded-lg py-2 text-center">
+                                                    <button onClick={() => tambahTendangan ('tambahTendanganMerah1')} className="bg-red-600 hover:bg-red-700 rounded-lg py-10 text-center">
                                                         <h1 className='text-xl font-semibold tracking-wider'>Tendangan</h1>
                                                     </button>
                                                 </div>
@@ -1269,11 +1270,11 @@ const nilai = () => {
                                             <div className="col-span-3 grid grid-cols-4 gap-x-5">
                                                 <div className="col-span-3 grid grid-rows-2 gap-y-2">
                                                     {/* button pukulan */}
-                                                    <button onClick={() => tambahPukulan ('tambahPukulanBiru2')} className="bg-blue-600 hover:bg-blue-700 rounded-lg py-2 text-center">
+                                                    <button onClick={() => tambahPukulan ('tambahPukulanBiru2')} className="bg-blue-600 hover:bg-blue-700 rounded-lg py-10 text-center">
                                                         <h1 className='text-xl font-semibold tracking-wider'>Pukulan</h1>
                                                     </button>
                                                     {/* button tendangan */}
-                                                    <button onClick={() => tambahTendangan ('tambahTendanganBiru2')} className="bg-blue-600 hover:bg-blue-700 rounded-lg py-2 text-center">
+                                                    <button onClick={() => tambahTendangan ('tambahTendanganBiru2')} className="bg-blue-600 hover:bg-blue-700 rounded-lg py-10 text-center">
                                                         <h1 className='text-xl font-semibold tracking-wider'>Tendangan</h1>
                                                     </button>
                                                 </div>
@@ -1291,11 +1292,11 @@ const nilai = () => {
                                                 </button>
                                                 <div className="col-span-3 grid grid-rows-2 gap-y-2">
                                                     {/* button pukulan */}
-                                                    <button onClick={() => tambahPukulan ('tambahPukulanMerah2')} className="bg-red-600 hover:bg-red-700 rounded-lg py-2 text-center">
+                                                    <button onClick={() => tambahPukulan ('tambahPukulanMerah2')} className="bg-red-600 hover:bg-red-700 rounded-lg py-10 text-center">
                                                         <h1 className='text-xl font-semibold tracking-wider'>Pukulan</h1>
                                                     </button>
                                                     {/* button tendangan */}
-                                                    <button onClick={() => tambahTendangan ('tambahTendanganMerah2')} className="bg-red-600 hover:bg-red-700 rounded-lg py-2 text-center">
+                                                    <button onClick={() => tambahTendangan ('tambahTendanganMerah2')} className="bg-red-600 hover:bg-red-700 rounded-lg py-10 text-center">
                                                         <h1 className='text-xl font-semibold tracking-wider'>Tendangan</h1>
                                                     </button>
                                                 </div>
@@ -1309,11 +1310,11 @@ const nilai = () => {
                                             <div className="col-span-3 grid grid-cols-4 gap-x-5">
                                                 <div className="col-span-3 grid grid-rows-2 gap-y-2">
                                                     {/* button pukulan */}
-                                                    <button onClick={() => tambahPukulan ('tambahPukulanBiru3')} className="bg-blue-600 hover:bg-blue-700 rounded-lg py-2 text-center">
+                                                    <button onClick={() => tambahPukulan ('tambahPukulanBiru3')} className="bg-blue-600 hover:bg-blue-700 rounded-lg py-10 text-center">
                                                         <h1 className='text-xl font-semibold tracking-wider'>Pukulan</h1>
                                                     </button>
                                                     {/* button tendangan */}
-                                                    <button onClick={() => tambahTendangan ('tambahTendanganBiru3')} className="bg-blue-600 hover:bg-blue-700 rounded-lg py-2 text-center">
+                                                    <button onClick={() => tambahTendangan ('tambahTendanganBiru3')} className="bg-blue-600 hover:bg-blue-700 rounded-lg py-10 text-center">
                                                         <h1 className='text-xl font-semibold tracking-wider'>Tendangan</h1>
                                                     </button>
                                                 </div>
@@ -1331,11 +1332,11 @@ const nilai = () => {
                                                 </button>
                                                 <div className="col-span-3 grid grid-rows-2 gap-y-2">
                                                     {/* button pukulan */}
-                                                    <button onClick={() => tambahPukulan ('tambahPukulanMerah3')} className="bg-red-600 hover:bg-red-700 rounded-lg py-2 text-center">
+                                                    <button onClick={() => tambahPukulan ('tambahPukulanMerah3')} className="bg-red-600 hover:bg-red-700 rounded-lg py-10 text-center">
                                                         <h1 className='text-xl font-semibold tracking-wider'>Pukulan</h1>
                                                     </button>
                                                     {/* button tendangan */}
-                                                    <button onClick={() => tambahTendangan ('tambahTendanganMerah3')} className="bg-red-600 hover:bg-red-700 rounded-lg py-2 text-center">
+                                                    <button onClick={() => tambahTendangan ('tambahTendanganMerah3')} className="bg-red-600 hover:bg-red-700 rounded-lg py-10 text-center">
                                                         <h1 className='text-xl font-semibold tracking-wider'>Tendangan</h1>
                                                     </button>
                                                 </div>

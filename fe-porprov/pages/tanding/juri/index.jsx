@@ -14,7 +14,7 @@ const landingPage = () => {
     const [gelanggang, setGelanggang] = useState ([])
 
     const getGelanggang = () => {
-        axios.get (BASE_URL + `/api/gelanggang/tanding`)
+        axios.get (BASE_URL + `/api/gelanggang/`)
         .then (res => {
             setGelanggang (res.data.data)
         })
@@ -36,7 +36,7 @@ const landingPage = () => {
 
     return (
         <>
-            <div className="flex ">
+            <div className="flex uppercase">
                 {/* awal konten utama */}
                 <div className="w-full overflow-y-auto h-screen"> 
                 

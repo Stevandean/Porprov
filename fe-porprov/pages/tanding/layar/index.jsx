@@ -11,7 +11,7 @@ const landingPage = () => {
     const [gelanggang, setGelanggang] = useState ([])
 
     const getGelanggang = () => {
-        axios.get (BASE_URL + `/api/gelanggang/tanding`)
+        axios.get (BASE_URL + `/api/gelanggang`)
         .then (res => {
             setGelanggang (res.data.data)
         })

@@ -31,11 +31,10 @@ const timerLayar = (props) => {
     },[round])
 
     useEffect(() => {
-        return () =>{
           socket.emit('init_time_tanding')
           socket.on ('get_time_tanding', getData)
           socket.on ('change_time_tanding', ubah_data)
-        }
+        
       },[])
 
     const getData = async () => {

@@ -203,17 +203,12 @@ const timer = (props) => {
             <span>{("0" + Math.floor((timer / 1000) % 60)).slice(-2)}</span>
         </div>
         {/* button start */}
-        {running === false ?
-            data?.selesai === false ?
+            {data?.selesai === false ?
             <button onClick={() => start()} className="bg-green-600 hover:bg-green-700 rounded-lg py-8 px-5 text-center">
                 <h1 className='text-4xl font-semibold'>START</h1>
             </button>
             :
-            <button disabled onClick={() => start()} className="bg-green-800 rounded-lg py-8 px-5 text-center">
-                <h1 className='text-4xl font-semibold'>START</h1>
-            </button>
-        :
-        <button disabled onClick={() => start()} className="bg-green-800 rounded-lg py-8 px-5 text-center">
+        <button onClick={() => start()} className="bg-green-800 rounded-lg py-8 px-5 text-center">
             <h1 className='text-4xl font-semibold'>START</h1>
         </button>}
     </div>

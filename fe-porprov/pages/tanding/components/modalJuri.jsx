@@ -11,8 +11,10 @@ const modalJuri = (props) => {
     const {infoVerif, setInfoVerif} = useContext (globalState)
     const [data, setData] = useState([])
     const [dataJuri, setDataJuri] = useState ([])
+    const [clickedBlue,setClickedBlue] = useState(true)
+    const [clickedRed,setClickedRed] = useState(true)
+    const [clickedYellow,setClickedYellow] = useState(true)
     // const jadwal = props.id_jadwal
-    const verif = props.verif
 
     const getJuri = () => {
         const juri = JSON.parse (localStorage.getItem ('juriTanding'))
@@ -56,6 +58,8 @@ const modalJuri = (props) => {
         await axios.put(BASE_URL + `/api/verif/tanding/jatuhan/juri/biru`, form)
         .then(res => {
             console.log(res.data.message);
+            setClickedRed (false)
+            setClickedYellow (false)
             console.log("nilai masuk");
             socket.emit('editVerif')
             // setShowModalJuri(false)
@@ -77,6 +81,8 @@ const modalJuri = (props) => {
         }
         await axios.put(BASE_URL + `/api/verif/tanding/jatuhan/juri/merah`, form)
         .then(res => {
+            setClickedBlue (false)
+            setClickedYellow (false)
             console.log(res.data.message);
             console.log("nilai masuk");
             socket.emit('editVerif')
@@ -99,6 +105,8 @@ const modalJuri = (props) => {
         }
         await axios.put(BASE_URL + `/api/verif/tanding/jatuhan/juri/kuning`, form)
         .then(res => {
+            setClickedBlue (false)
+            setClickedRed (false)
             console.log(res.data.message);
             console.log("nilai masuk");
             socket.emit('editVerif')
@@ -109,7 +117,7 @@ const modalJuri = (props) => {
     }
     
     useEffect(() => {
-    //   cekVerif()
+      cekVerif()
       getJuri()
     }, [])
     
@@ -139,19 +147,62 @@ const modalJuri = (props) => {
                                 <div className="relative flex flex-col text-white text-lg text-center px-6 pb-6">
                                     {/* wrapper body */}
                                     <div className="border-4 border-[#222954] rounded-lg p-4 space-y-3">
-                                        <h1 className="text-3xl font-bold text-[#222954] tracking-wider">Verifikasi {verif}</h1>
-                                        <h1 className="bg-[#222954] py-3 text-3xl font-bold">{dataJuri.username}</h1>
+                                        <h1 className="text-3xl font-bold text-[#222954] tracking-wider">Verifikasi {infoVerif}</h1>
+                                        {(() => {
+                                            if (dataJuri.username === 'juri1') {
+                                                return(
+                                                    <h1 className="bg-[#222954] py-3 text-3xl font-bold">
+                                                        Juri 1
+                                                    </h1>
+                                                ) 
+                                            } else if (dataJuri.username === 'juri2') {
+                                                return(
+                                                    <h1 className="bg-[#222954] py-3 text-3xl font-bold">
+                                                        Juri 2
+                                                    </h1>
+                                                ) 
+                                            } else if (dataJuri.username === 'juri3') {
+                                                return(
+                                                    <h1 className="bg-[#222954] py-3 text-3xl font-bold">
+                                                        Juri 3
+                                                    </h1>
+                                                ) 
+                                            }
+                                        }
+                                        )()}
+                                            
                                         {/* wraper button */}
                                         <div className="grid grid-cols-3 gap-x-3">
-                                            <button type='button' onClick={() => selectBiru()} className="bg-blue-600 rounded-lg py-4 text-2xl font-semibold">
-                                                Sudut Biru
-                                            </button>
-                                            <button type='button' onClick={() => selectMerah()} className="bg-red-600 rounded-lg py-4 text-2xl font-semibold">
-                                                Sudut Merah
-                                            </button>
-                                            <button type='button' onClick={() => selectKuning()} className="bg-yellow-300 text-[#222954] rounded-lg py-4 text-2xl font-semibold">
-                                                Tidak Sah
-                                            </button>
+                                            {clickedBlue ?
+                                                <button type='button' onClick={() => selectBiru()} className="bg-blue-600 rounded-lg py-4 text-2xl font-semibold">
+                                                    Sudut Biru
+                                                </button> 
+                                                :
+                                                <button disabled type='button' onClick={() => selectBiru()} className="bg-gray-400 rounded-lg py-4 text-2xl font-semibold">
+                                                    Sudut Biru
+                                                </button> 
+                                            }
+
+                                            {clickedRed ? 
+                                                <button type='button' onClick={() => selectMerah()} className="bg-red-600 rounded-lg py-4 text-2xl font-semibold">
+                                                    Sudut Merah
+                                                </button>
+                                                :
+                                                <button disabled type='button' onClick={() => selectMerah()} className="bg-gray-400 rounded-lg py-4 text-2xl font-semibold">
+                                                    Sudut Merah
+                                                </button>
+                                            
+                                            }
+
+                                            {clickedYellow ?
+                                                <button type='button' onClick={() => selectKuning()} className="bg-yellow-300 text-[#222954] rounded-lg py-4 text-2xl font-semibold">
+                                                    Tidak Sah
+                                                </button>
+                                                :
+                                                <button disabled type='button' onClick={() => selectKuning()} className="bg-gray-400 rounded-lg py-4 text-2xl font-semibold">
+                                                    Tidak Sah
+                                                </button>
+                                            }
                                         </div>
                                     </div>
                                 </div>
