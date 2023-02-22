@@ -34,15 +34,19 @@ io.on('connection', socket => {
     // socket.disconnect() 
     // socket.disconnect(0) 
 
-
-    //socket penilaian 
-    socket.on("init_data", () => {
-        io.emit("getData")
+    //socket juri to dewan seni
+    socket.on('juriToDewan', () =>{
+      io.emit('refreshDewan')
     })
 
-    socket.on("editData", () =>{
-      io.emit("change_data")
-    })
+    // //socket penilaian 
+    // socket.on("init_data", () => {
+    //     io.emit("getData")
+    // })
+
+    // socket.on("editData", () =>{
+    //   io.emit("change_data")
+    // })
     
     //socket penilaian 
     socket.on("init_nilai_tanding", () => {
@@ -189,13 +193,16 @@ const eventRouter = require('./src/api/event/event.router')
 app.use("/api/event/", eventRouter)
 
 const GelanggangRouter = require("./src/api/gelanggang/gelanggang.router")
-app.use("/api/gelanggang/tanding", GelanggangRouter)
+app.use("/api/gelanggang/", GelanggangRouter)
 
 const NilaiTandingRouter = require('./src/api/nilai_tanding/nilai_tanding.router')
 app.use('/api/nilai/tanding', NilaiTandingRouter)
 
 const verifRouter = require('./src/api/verif_tanding/verif_tanding.router')
 app.use('/api/verif/tanding', verifRouter)
+
+const peringatanRouter = require('./src/api/peringatan/peringatan.router')
+app.use('/api/peringatan', peringatanRouter)
 
 server.listen(PORT,() =>{
     console.log('server run on port ' + PORT)

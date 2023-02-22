@@ -327,8 +327,7 @@ module.exports = {
         } catch (error) {
             return errorResponse( req, res, error.message )
         }
-    },
-    
+    },  
     editbyJuri: async (req,res) =>{
         try{
             let id = {
