@@ -23,6 +23,7 @@ const modalJadwal = () => {
     const {dataJadwalRegu, setDataJadwalRegu} = useContext (globalState)
     const {dataJadwalSoloKreatif, setDataJadwalSoloKreatif} = useContext (globalState)
     const {idJadwal, setIdJadwal} = useContext (globalState)
+    const {gelanggang, setGelanggang} = useContext (globalState)
     const {partai, setPartai} = useContext (globalState)
     const {idMerah, setIdMerah} = useContext (globalState)
     const {idBiru, setIdBiru} = useContext (globalState)
@@ -113,6 +114,7 @@ const modalJadwal = () => {
     const handleSave = (e) =>{
         e.preventDefault()
         let form = {
+            gelanggang : gelanggang,
             partai : partai,
             id_biru: idBiru,
             id_merah: idMerah,
@@ -132,7 +134,7 @@ const modalJadwal = () => {
                 axios.post (BASE_URL + `/api/tgr/ganda`, form)
                 .then (res => {
                     getJadwalTunggal ()
-                    // setShowModalJadwal (false)
+                    setShowModalJadwal (false)
                 })
                 .catch (err => {
                     console.log(err.message);
@@ -253,6 +255,21 @@ const modalJadwal = () => {
                                 <div className="relative p-6 flex flex-col space-y-5 text-white text-lg">
 
                                     {/* Input */}
+                                    <div className="flex flex-row space-x-3 w-full">
+                                        <div className="w-2/6 flex justify-between">
+                                            <span>Gelanggang</span>
+                                            <span>:</span>
+                                        </div>
+                                        <div className="w-4/6">
+                                            <input className='w-full bg-[#212437] rounded-md focus:outline-none border-2 border-slate-200'
+                                            type="number"
+                                            value={gelanggang}
+                                            onChange={(e) => setGelanggang((e.target.value).toUpperCase ())}
+                                            required
+                                            >        
+                                            </input>
+                                        </div>
+                                    </div>
                                     <div className="flex flex-row space-x-3 w-full">
                                         <div className="w-2/6 flex justify-between">
                                             <span>Partai</span>

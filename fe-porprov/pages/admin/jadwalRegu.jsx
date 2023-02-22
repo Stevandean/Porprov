@@ -29,12 +29,14 @@ const jadwalRegu = () => {
     const [idJadwal, setIdJadwal] = useState ('')
     const [jk, setJk] = useState ('')
     const [partai, setPartai] = useState ('')
+    const [gelanggang, setGelanggang] =  useState ('')
     const [aktif, setAktif] = useState ('')
 
     const addModalPutra = () => {
         setShowModalJadwal (true)
         setAction ('insert')
         setJk ('PUTRA')
+        setGelanggang ('')
         setPartai ('')
         setIdBiru ('')
         setIdMerah ('')
@@ -44,6 +46,7 @@ const jadwalRegu = () => {
         setShowModalJadwal (true)
         setAction ('insert')
         setJk ('PUTRI')
+        setGelanggang ('')
         setPartai ('')
         setIdBiru ('')
         setIdMerah ('')
@@ -52,6 +55,7 @@ const jadwalRegu = () => {
     const editModal = (selectedItem) => {
         setShowModalJadwal (true)
         setAction ('update')
+        setGelanggang (selectedItem.gelanggang)
         setPartai (selectedItem.partai)
         setIdBiru (selectedItem.id_biru)
         setIdMerah (selectedItem.id_merah)
@@ -159,7 +163,8 @@ const jadwalRegu = () => {
                                 <table className='w-full table-fixed'>
                                     <thead className='border-b-2'>
                                         <tr>
-                                            <th className='py-4'>Partai</th>
+                                            <th className='py-4'>Gel</th>
+                                            <th>Partai</th>
                                             <th className='w-[10%]'>Kelas</th>
                                             <th>Jenis Kelamin</th>
                                             <th>Babak</th>
@@ -171,7 +176,8 @@ const jadwalRegu = () => {
                                     <tbody className='text-center'>
                                     {dataJadwalRegu.map((item, index) => (
                                         <tr key={index + 1} className='even:bg-[#4C4F6D] odd:bg-[#2c2f48]'>
-                                            <td className='py-5'>{item.partai}</td>
+                                            <td className='py-5'>{item.gelanggang}</td>
+                                            <td>{item.partai}</td>
                                             <td>{item.kelas}</td>
                                             <td>{item.jk}</td>
                                             <td>{item.babak}</td>
@@ -199,7 +205,7 @@ const jadwalRegu = () => {
                 {/* akhir konten utama */}
             </div>
 
-            <globalState.Provider value={{ showModalJadwal, setShowModalJadwal, action, setAction, dataJadwalRegu, setDataJadwalRegu, partai, setPartai, idBiru, setIdBiru, idMerah, setIdMerah, idJadwal, setIdJadwal, jk, setJk, babak, setBabak}}>
+            <globalState.Provider value={{ showModalJadwal, setShowModalJadwal, action, setAction, dataJadwalRegu, setDataJadwalRegu, gelanggang, setGelanggang, partai, setPartai, idBiru, setIdBiru, idMerah, setIdMerah, idJadwal, setIdJadwal, jk, setJk, babak, setBabak}}>
                 <ModalJadwal />
             </globalState.Provider>
 

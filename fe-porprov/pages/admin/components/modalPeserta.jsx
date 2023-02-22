@@ -167,7 +167,7 @@ const modalPeserta = () => {
                                         return (
                                             <>    
                                                 <h3 className="text-3xl font-semibold text-white">
-                                                    Tambah Jadwal {splitLoc}
+                                                    Tambah Peserta {splitLoc}
                                                 </h3>
                                             </>
                                         )
@@ -175,7 +175,7 @@ const modalPeserta = () => {
                                         return (
                                             <>    
                                                 <h3 className="text-3xl font-semibold text-white">
-                                                    Edit Jadwal {splitLoc}
+                                                    Edit Peserta {splitLoc}
                                                 </h3>
                                             </>
                                         )
