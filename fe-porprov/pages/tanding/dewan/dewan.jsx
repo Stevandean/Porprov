@@ -1275,14 +1275,6 @@ const dewan = () => {
         }
     }
 
-    const disWinner = () => {
-        if (data.poin_biru?.dis == true) {
-            setKeterangan ('disMerah')
-        } else if (data.poin_merah?.dis == true) {
-            setKeterangan ('disBiru')
-        } else console.log('gagal');
-    }
-
     const isLogged = () => {
         if (localStorage.getItem ('token') === null || localStorage.getItem ('dewanTanding') === null) {
          router.push ('/tanding/dewan/login') 
@@ -1863,7 +1855,7 @@ const dewan = () => {
                                         </div>
                                         
                                         {/* wrapper button hapus nilai */}
-                                        <div className="grid grid-cols-7">
+                                        <div className="grid grid-cols-7 mb-3">
                                             {/* wrapper button delete nilai biru */}
                                             <div className="col-span-3 text-[#222954]">
                                                 <div className="grid grid-cols-4 gap-x-3">
@@ -1881,6 +1873,25 @@ const dewan = () => {
                                                     <button onClick={() => deleteBinaan ('hapusBinaanMerah1')} className='bg-yellow-300 hover:bg-yellow-400     text-lg font-semibold py-2.5 rounded-lg'>Hapus Binaan</button>
                                                     <button onClick={() => deleteTeguran ('hapusTeguranMerah1')} className='bg-yellow-300 hover:bg-yellow-400     text-lg font-semibold py-2.5 rounded-lg'>Hapus Teguran</button>
                                                     <button onClick={() => deletePeringatan ('hapusPeringatanMerah1')} className='bg-yellow-300 hover:bg-yellow-400     text-lg font-semibold py-2.5 rounded-lg'>Hapus Peringatan</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        {/* wrapper button kartu kuning */}
+                                        <div className="grid grid-cols-7">
+                                            {/* wrapper button delete nilai biru */}
+                                            <div className="col-span-3">
+                                                <div className="grid grid-cols-2 gap-x-3">
+                                                    <button onClick={() => deleteTeguran ('hapusTeguranBiru1')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold text-[#222954] py-2.5 rounded-lg'>Hapus Kartu Kuning</button>
+                                                    <button onClick={() => deletePeringatan ('hapusPeringatanBiru1')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Kartu Kuning</button>
+                                                </div>
+                                            </div>
+                                            <div></div>
+                                            {/* wrapper button delete nilai merah */}
+                                            <div className="col-span-3">
+                                                <div className="grid grid-cols-2 gap-x-3">
+                                                    <button onClick={() => deleteJatuhan ('hapusJatuhanMerah1')} className='bg-red-600 hover:bg-red-700 text-lg font-semibold py-2.5 rounded-lg'>Kartu Kuning</button>
+                                                    <button onClick={() => deleteBinaan ('hapusBinaanMerah1')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold text-[#222954] py-2.5 rounded-lg'>Hapus Kartu Kuning</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1934,6 +1945,25 @@ const dewan = () => {
                                                 </div>
                                             </div>
                                         </div>
+
+                                        {/* wrapper button kartu kuning */}
+                                        <div className="grid grid-cols-7">
+                                            {/* wrapper button delete nilai biru */}
+                                            <div className="col-span-3">
+                                                <div className="grid grid-cols-2 gap-x-3">
+                                                    <button onClick={() => deleteTeguran ('hapusTeguranBiru1')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold text-[#222954] py-2.5 rounded-lg'>Hapus Kartu Kuning</button>
+                                                    <button onClick={() => deletePeringatan ('hapusPeringatanBiru1')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Kartu Kuning</button>
+                                                </div>
+                                            </div>
+                                            <div></div>
+                                            {/* wrapper button delete nilai merah */}
+                                            <div className="col-span-3">
+                                                <div className="grid grid-cols-2 gap-x-3">
+                                                    <button onClick={() => deleteJatuhan ('hapusJatuhanMerah1')} className='bg-red-600 hover:bg-red-700 text-lg font-semibold py-2.5 rounded-lg'>Kartu Kuning</button>
+                                                    <button onClick={() => deleteBinaan ('hapusBinaanMerah1')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold text-[#222954] py-2.5 rounded-lg'>Hapus Kartu Kuning</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 )
                             } else if (data.length == 3) {
@@ -1981,6 +2011,25 @@ const dewan = () => {
                                                     <button onClick={() => deleteBinaan ('hapusBinaanMerah3')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold py-2.5 rounded-lg'>Hapus Binaan</button>
                                                     <button onClick={() => deleteTeguran ('hapusTeguranMerah3')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold py-2.5 rounded-lg'>Hapus Teguran</button>
                                                     <button onClick={() => deletePeringatan ('hapusPeringatanMerah3')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold py-2.5 rounded-lg'>Hapus Peringatan</button>
+                                                </div>
+                                            </div>
+
+                                            {/* wrapper button kartu kuning */}
+                                            <div className="grid grid-cols-7">
+                                                {/* wrapper button delete nilai biru */}
+                                                <div className="col-span-3">
+                                                    <div className="grid grid-cols-2 gap-x-3">
+                                                        <button onClick={() => deleteTeguran ('hapusTeguranBiru1')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold text-[#222954] py-2.5 rounded-lg'>Hapus Kartu Kuning</button>
+                                                        <button onClick={() => deletePeringatan ('hapusPeringatanBiru1')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Kartu Kuning</button>
+                                                    </div>
+                                                </div>
+                                                <div></div>
+                                                {/* wrapper button delete nilai merah */}
+                                                <div className="col-span-3">
+                                                    <div className="grid grid-cols-2 gap-x-3">
+                                                        <button onClick={() => deleteJatuhan ('hapusJatuhanMerah1')} className='bg-red-600 hover:bg-red-700 text-lg font-semibold py-2.5 rounded-lg'>Kartu Kuning</button>
+                                                        <button onClick={() => deleteBinaan ('hapusBinaanMerah1')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold text-[#222954] py-2.5 rounded-lg'>Hapus Kartu Kuning</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
