@@ -192,18 +192,24 @@ const detailJurus = () => {
                                             ))}
                                         </tbody>
                                     </table>
-                                    <table className='w-full'>
-                                        <tbody>
-                                            <tr className='bg-black'>
-                                                <td>Kesalahan</td>
-                                                <td>{kesalahan} </td>
-                                            </tr>
-                                            <tr className='bg-black'>
-                                            <td>Kebenaran</td>
-                                                <td>{kebenaran} </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <div className="grid grid-cols-2 gap-x-10">
+                                        <div className="grid grid-cols-2 h-20">
+                                            <div className="bg-[#2C2F48] flex justify-center items-center">
+                                                <span className='text-2xl font-semibold'>Kesalahan</span>
+                                            </div>
+                                            <div className="border-2 border-[#2C2F48] flex justify-center items-center">
+                                                <span className='text-[#2C2F48] text-3xl font-bold'>{kesalahan}</span>
+                                            </div>
+                                        </div>
+                                        <div className="grid grid-cols-2 h-20">
+                                            <div className="bg-[#2C2F48] flex justify-center items-center">
+                                                <span className='text-2xl font-semibold'>Kebenaran</span>
+                                            </div>
+                                            <div className="border-2 border-[#2C2F48] flex justify-center items-center">
+                                                <span className='text-[#2C2F48] text-3xl font-bold'>{kebenaran}</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </>
                                 )
                             } else if (peserta.kategori == 'regu') {
