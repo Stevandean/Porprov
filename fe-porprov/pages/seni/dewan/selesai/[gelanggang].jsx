@@ -196,7 +196,6 @@ const detail = () => {
                 </div>
               </div>
 
-              <div className="border-2 border-[#222954] p-5 space-y-4 rounded-lg">
                 {/* button proses & selesai */}
                 <div className="grid grid-cols-2 gap-x-7">
                     <Link href={'/seni/dewan/proses/' + gelanggang} className={proses ===  'proses' ? "bg-[#2C2F48] rounded-lg text-center py-1" : "bg-[#A8A9B3] rounded-lg text-center py-1"}>
@@ -368,8 +367,6 @@ const detail = () => {
                     </div>
                   </div>
                 ))}
-
-              </div>
             </div>
           </div>
           <Footer />

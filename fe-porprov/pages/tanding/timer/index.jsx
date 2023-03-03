@@ -52,7 +52,7 @@ const landingPage = () => {
 
                         {/* text daftar gelanggang */}
                         <div className="bg-[#222954] py-3 rounded-xl mb-8">
-                            <h1 className='text-3xl font-semibold text-center'>Daftar Gelanggang</h1>
+                            <h1 className='text-3xl font-semibold text-center'>DAFTAR GELANGGANG</h1>
                         </div>
 
                         {/* wrapper gelanggang card */}
@@ -60,7 +60,7 @@ const landingPage = () => {
                             {/* card gelanggang */}
                             {gelanggang.map (item => (
                                 <div className="flex flex-col justify-center items-center border-2 border-[#222954] py-4 rounded-xl space-y-4 mb-3">
-                                    <h1 className='text-2xl font-bold text-[#222954]'>Gelanggang {item.gelanggang}</h1>
+                                    <h1 className='text-2xl font-bold text-[#222954]'>GELANGGANG {item.gelanggang}</h1>
                                     <Link href={'/tanding/timer/' + item.gelanggang} className='font-medium bg-[#39ac39] hover:bg-[#2f912f] w-40 rounded-xl py-2 text-center'>Detail</Link>
                                 </div>
                             ))}

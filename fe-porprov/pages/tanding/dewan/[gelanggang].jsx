@@ -63,7 +63,7 @@ const detail = () => {
                 {/* konten utama */}
                 <div className="bg-white text-white min-h-full">
                     {/* wrapper keseluruhan */}
-                    <div className="w-9/12 mx-auto py-10 space-y-8">
+                    <div className="w-11/12 mx-auto py-10 space-y-8">
 
                         {/* text daftar gelanggang and back button */}
                         <div className="grid grid-cols-12 gap-x-5">

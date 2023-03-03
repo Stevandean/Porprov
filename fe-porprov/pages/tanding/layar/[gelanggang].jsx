@@ -7,11 +7,7 @@ import Footer from '../components/footer'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const detail = () => {
-    
-    const location = useRouter ()
-    const { pathname } = location
-    const splitLoc = pathname.split ('/tanding/layar/')
-    
+
     // state kematian
     const router = useRouter ()
     const { gelanggang } = router.query
@@ -28,7 +24,6 @@ const detail = () => {
         .catch (err => {
             console.log(err.response.data.message);
         })
-        console.log(BASE_URL + `/api/tanding/gel/` + gelanggang);
     }
 
     // to layar
@@ -56,7 +51,7 @@ const detail = () => {
                 {/* konten utama */}
                 <div className="bg-white text-white min-h-full">
                     {/* wrapper keseluruhan */}
-                    <div className="w-9/12 mx-auto py-10 space-y-8">
+                    <div className="w-11/12 mx-auto py-10 space-y-8">
 
                         {/* text daftar gelanggang and back button */}
                         <div className="grid grid-cols-12 gap-x-5">
