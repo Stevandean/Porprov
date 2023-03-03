@@ -11,9 +11,9 @@ const modalJuri = (props) => {
     const {infoVerif, setInfoVerif} = useContext (globalState)
     const [data, setData] = useState([])
     const [dataJuri, setDataJuri] = useState ([])
-    const [clickedBlue,setClickedBlue] = useState(true)
-    const [clickedRed,setClickedRed] = useState(true)
-    const [clickedYellow,setClickedYellow] = useState(true)
+    const {clickedBlue,setClickedBlue} = useContext (globalState)
+    const {clickedRed,setClickedRed} = useContext (globalState)
+    const {clickedYellow,setClickedYellow} = useContext (globalState)
     // const jadwal = props.id_jadwal
 
     const getJuri = () => {
@@ -40,7 +40,7 @@ const modalJuri = (props) => {
                 }
             }
         }).catch(err => {
-            console.log(err.message);
+            // console.log(err.message);
         })
     }
 
@@ -191,7 +191,6 @@ const modalJuri = (props) => {
                                                 <button disabled type='button' onClick={() => selectMerah()} className="bg-gray-400 rounded-lg py-4 text-2xl font-semibold">
                                                     Sudut Merah
                                                 </button>
-                                            
                                             }
 
                                             {clickedYellow ?

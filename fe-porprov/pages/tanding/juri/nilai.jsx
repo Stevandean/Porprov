@@ -24,6 +24,9 @@ const nilai = () => {
     const [dataJuri, setDataJuri] = useState ([])
     const {showModalJuri, setShowModalJuri} = useContext (globalState)
     const {infoVerif, setInfoVerif} = useContext (globalState)
+    const {clickedBlue,setClickedBlue} = useContext (globalState)
+    const {clickedRed,setClickedRed} = useContext (globalState)
+    const {clickedYellow,setClickedYellow} = useContext (globalState)
 
     // state get juri by babak and sudut
     const [biru1, setBiru1] = useState ([])
@@ -635,6 +638,9 @@ const nilai = () => {
     }
 
     const cekVerif = async () => {
+        setClickedBlue (true)
+        setClickedRed (true)
+        setClickedYellow (true)
         let info = []
         const jadwal = localStorage.getItem ('jadwal')
         let id_jadwal = jadwal

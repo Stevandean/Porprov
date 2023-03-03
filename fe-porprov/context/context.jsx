@@ -10,6 +10,9 @@ function Context({ children }) {
     const [showModalJuri, setShowModalJuri] = useState(false)
     const [showModalLayar, setShowModalLayar] = useState(false)
     const [infoVerif, setInfoVerif] = useState('')
+    const [clickedBlue,setClickedBlue] = useState(true)
+    const [clickedRed,setClickedRed] = useState(true)
+    const [clickedYellow,setClickedYellow] = useState(true)
 
     return (
       <globalState.Provider value={{ 
@@ -20,7 +23,10 @@ function Context({ children }) {
         showModalDewan, setShowModalDewan,
         showModalJuri, setShowModalJuri,
         showModalLayar, setShowModalLayar,
-        infoVerif, setInfoVerif
+        infoVerif, setInfoVerif,
+        clickedBlue, setClickedBlue,
+        clickedRed, setClickedRed,
+        clickedYellow, setClickedYellow
         }}>
         {children}
       </globalState.Provider>
