@@ -58,17 +58,17 @@ const timerLayar = (props) => {
                 //jika pertandingan selesai tampilkan waktu selesai
                 if(waktu.selesai === true){
                     if(golongan === 'SINGA' || golongan === 'MACAN' || golongan === 'USIA DINI' || golongan === 'MASTER A'){
-                        if((new Date().getTime() - (waktuStart)) > 90000){
+                        if((new Date(waktu.finish).getTime() - (new Date(waktu.start).getTime())) > 90000){
                             setTimer(90000)
                             setRunning(false)
                         }   
                     }else if (golongan === 'PRA REMAJA' || golongan === 'REMAJA' || golongan === 'DEWASA'){
-                        if((new Date().getTime() - (waktuStart)) > 120000){
+                        if((new Date(waktu.finish).getTime() - (new Date(waktu.start).getTime())) >= 120000){
                             setTimer(120000)
                             setRunning(false)
                         }   
                     }else if (golongan === 'MASTER B'){
-                        if((new Date().getTime() - (waktuStart)) > 60000){
+                        if((new Date(waktu.finish).getTime() - (new Date(waktu.start).getTime())) > 60000){
                             setTimer(60000)
                             setRunning(false)
                         }   
@@ -77,7 +77,7 @@ const timerLayar = (props) => {
                 //jika pertandingan belum selesai tampilkan waktu berjalan  
                 } else if (waktu.selesai === false){
                     if(waktu.running === true){
-                        setWaktuStart (new Date(waktu.start).getTime() + waktu.total_pause)
+                        setWaktuStart (new Date(waktu.start).getTime() + waktu.total_pause + 1000)
                         setRunning(true)
                         setPause(false)
                     } else if (waktu.running === false) {
@@ -107,23 +107,6 @@ const timerLayar = (props) => {
             setPause(true) 
         })
         .catch(err => {
-            console.log(err.response.data.message);
-        })
-    }
-
-    const start = async () => {
-        let data = {
-            pause: waktuPause,
-            id_jadwal: id_jadwal,
-            babak: round
-        }
-        await axios.post(BASE_URL + "/api/tanding/timer/start", data)
-        .then(res => {
-            console.log(res.data.message);
-            socket.emit ("update_time_seni")
-            getData()
-
-        }).catch(err =>{
             console.log(err.response.data.message);
         })
     }
@@ -160,7 +143,6 @@ const timerLayar = (props) => {
         if (running) {
             interval = setInterval(() => {
                 setTimer(new Date().getTime() - (waktuStart));
-                console.log(new Date().getTime() - (waktuStart));
                 if(golongan === 'SINGA' || golongan === 'MACAN' || golongan === 'USIA DINI' || golongan === 'MASTER A'){
                     if((new Date().getTime() - (waktuStart)) > 90000){
                         clearInterval(interval);

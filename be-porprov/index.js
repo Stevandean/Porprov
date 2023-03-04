@@ -46,8 +46,25 @@ io.on('connection', socket => {
 
     // socket.on("editData", () =>{
     //   io.emit("change_data")
-    // })
+    // })\
+
+    socket.on('naikBabak', () =>{
+      io.emit('naikBabak')
+    })
     
+    socket.on('init_juri_tanding', () =>{
+      io.emit('getJuri')
+    })
+
+    socket.on('edit_juri_tanding', () =>{
+      io.emit('change_nilai_juri')
+    })
+
+    //socket juri to dewan seni
+    socket.on('dewanToLayar', () =>{
+      io.emit('refreshLayar')
+    })
+
     //socket penilaian 
     socket.on("init_nilai_tanding", () => {
         io.emit("getNilaiTanding")

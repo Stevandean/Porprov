@@ -30,6 +30,14 @@ const dewanSelesai = () => {
     const [juri2Merah3, setJuri2Merah3] = useState([])
     const [juri3Merah3, setJuri3Merah3] = useState([])
 
+    const [peringatan1merah, setPeringatan1merah] = useState([])
+    const [peringatan2merah, setPeringatan2merah] = useState([])
+    const [peringatan3merah, setPeringatan3merah] = useState([])
+
+    const [peringatan1biru, setPeringatan1biru] = useState([])
+    const [peringatan2biru, setPeringatan2biru] = useState([])
+    const [peringatan3biru, setPeringatan3biru] = useState([])
+
     const getJuriBiru1 = () =>{
         const jadwal = localStorage.getItem ('jadwal')
         let id_jadwal = jadwal
@@ -240,6 +248,124 @@ const dewanSelesai = () => {
         console.log(BASE_URL + `/api/nilai/tanding/jadwal/` + jadwal.id);
     }
 
+    const getPeringatan  = async () =>{
+        const jadwal = localStorage.getItem ('jadwal')
+        let id_jadwal = jadwal
+        
+        let babak = []
+        await axios.get(BASE_URL + `/api/nilai/tanding/babakbyjadwal/${id_jadwal}`)
+        .then (res => {
+            babak = res.data.data
+        })
+        .catch (err => {
+            console.log(err.message);
+        })
+
+        if (babak.length === 1) {
+            //get juri 1 merah
+            await axios.get (BASE_URL +`/api/peringatan/merah/${id_jadwal}/i`)
+            .then (res => {
+                setPeringatan1merah (res.data.data)
+            })
+            .catch (err => {
+                console.log(err.message);
+            })
+
+            //get juri 1 merah
+            await axios.get (BASE_URL +`/api/peringatan/biru/${id_jadwal}/i`)
+            .then (res => {
+                setPeringatan1biru (res.data.data)
+            })
+            .catch (err => {
+                console.log(err.message);
+            })
+        } else if(babak.length === 2){
+            //get juri 1 merah
+            await axios.get (BASE_URL +`/api/peringatan/merah/${id_jadwal}/i`)
+            .then (res => {
+                setPeringatan1merah (res.data.data)
+            })
+            .catch (err => {
+                console.log(err.message);
+            })
+            //get juri 2 merah
+            await axios.get (BASE_URL +`/api/peringatan/merah/${id_jadwal}/ii`)
+            .then (res => {
+                setPeringatan2merah (res.data.data)
+            })
+            .catch (err => {
+                console.log(err.message);
+            })
+
+            //get juri 1 biru
+            await axios.get (BASE_URL +`/api/peringatan/biru/${id_jadwal}/i`)
+            .then (res => {
+                setPeringatan1biru (res.data.data)
+            })
+            .catch (err => {
+                console.log(err.message);
+            })
+            //get juri 2 biru
+            await axios.get (BASE_URL +`/api/peringatan/biru/${id_jadwal}/ii`)
+            .then (res => {
+                setPeringatan2biru (res.data.data)
+            })
+            .catch (err => {
+                console.log(err.message);
+            })
+        } else if (babak.length === 3){
+            //get juri 1 merah
+            await axios.get (BASE_URL +`/api/peringatan/merah/${id_jadwal}/i`)
+            .then (res => {
+                setPeringatan1merah (res.data.data)
+            })
+            .catch (err => {
+                console.log(err.message);
+            })
+            //get juri 1 merah
+            await axios.get (BASE_URL +`/api/peringatan/merah/${id_jadwal}/ii`)
+            .then (res => {
+                setPeringatan2merah (res.data.data)
+            })
+            .catch (err => {
+                console.log(err.message);
+            })
+            await axios.get (BASE_URL +`/api/peringatan/merah/${id_jadwal}/iii`)
+            .then (res => {
+                setPeringatan3merah (res.data.data)
+            })
+            .catch (err => {
+                console.log(err.message);
+            })
+
+            //get juri 1 biry
+            await axios.get (BASE_URL +`/api/peringatan/biru/${id_jadwal}/i`)
+            .then (res => {
+                setPeringatan1biru (res.data.data)
+            })
+            .catch (err => {
+                console.log(err.message);
+            })
+            //get juri 2 biru
+            await axios.get (BASE_URL +`/api/peringatan/biru/${id_jadwal}/ii`)
+            .then (res => {
+                setPeringatan2biru (res.data.data)
+            })
+            .catch (err => {
+                console.log(err.message);
+            })
+            //get juri 3 biru
+            await axios.get (BASE_URL +`/api/peringatan/biru/${id_jadwal}/iii`)
+            .then (res => {
+                setPeringatan3biru (res.data.data)
+                console.log(res.data.data);
+            })
+            .catch (err => {
+                console.log(err.message);
+            })
+        }
+    }
+
     const isLogged = () => {
         if (localStorage.getItem ('token') === null || localStorage.getItem ('dewanTanding') === null) {
          router.push ('/tanding/dewan/login') 
@@ -255,6 +381,7 @@ const dewanSelesai = () => {
         getJuriBiru3()
         getJuriMerah3()
         getNilaiTanding ()
+        getPeringatan()
         isLogged ()
     }, [])
 
@@ -362,22 +489,6 @@ const dewanSelesai = () => {
                                                             )
                                                         }
                                                     })()}
-                                                    {/* {item.poin_biru?.log_juri1.map ((item, index) => (
-                                                        <>
-                                                        {(() => {
-                                                            if (item.masuk == false) {
-                                                                return (
-                                                                    <s key={index + 1} className='text-lg font-bold text-blue-600 tracking-widest justify-start items-center'>{item.poin}, 
-                                                                    </s>
-                                                                )
-                                                            } else if (item.masuk == true) {
-                                                                return (
-                                                                    <span key={index + 1} className='bg-blue-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
-                                                                )
-                                                            }
-                                                        })()}
-                                                        </>
-                                                    ))} */}
                                                 </div>
                                                 {/* urutan juri */}
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-2 text-center">Juri 1</div>
@@ -395,22 +506,27 @@ const dewanSelesai = () => {
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-2 text-center">Juri 1</div>
                                                 {/* nilai */}
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-4 text-red-600">
-                                                    {/* {item.poin_merah?.log_juri1.map ((item, index) => (
-                                                        <>
-                                                        {(() => {
-                                                            if (item.masuk == false) {
-                                                                return (
-                                                                    <s key={index + 1} className='text-lg font-bold text-red-600 tracking-widest justify-start items-center'>{item.poin}, 
-                                                                    </s>
-                                                                )
-                                                            } else if (item.masuk == true) {
-                                                                return (
-                                                                    <span key={index + 1} className='bg-red-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
-                                                                )
-                                                            }
-                                                        })()}
-                                                        </>
-                                                    ))} */}
+                                                    {(()=>{
+                                                        if(item.babak === "I"){
+                                                            return(
+                                                                juri1Merah1.map ((item, index) => (
+                                                                    <span key={index + 1}>{item.poin}, </span>
+                                                                ))
+                                                            )
+                                                        }else if(item.babak === 'II'){
+                                                            return(
+                                                                juri1Merah2.map ((item, index) => (
+                                                                    <span key={index + 1}>{item.poin}, </span>
+                                                                ))
+                                                            )
+                                                        }else if(item.babak === 'III'){
+                                                            return(
+                                                                juri1Merah3.map ((item, index) => (
+                                                                    <span key={index + 1}>{item.poin}, </span>
+                                                                ))
+                                                            )
+                                                        }
+                                                    })()}
                                                 </div>
                                             </div>
                                         </td>
@@ -426,23 +542,28 @@ const dewanSelesai = () => {
                                             {/* detail nilai */}
                                             <div className="grid grid-cols-6 gap-x-2">
                                                 {/* nilai */}
-                                                <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-4 text-blue-600 ">
-                                                    {/* {item.poin_biru.log_juri2.map ((item, index) => (
-                                                        <>
-                                                        {(() => {
-                                                            if (item.masuk == false) {
-                                                                return (
-                                                                    <s key={index + 1} className='text-lg font-bold text-blue-600 tracking-widest justify-start items-center'>{item.poin}, 
-                                                                    </s>
-                                                                )
-                                                            } else if (item.masuk == true) {
-                                                                return (
-                                                                    <span key={index + 1} className='bg-blue-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
-                                                                )
-                                                            }
-                                                        })()}
-                                                        </>
-                                                    ))} */}
+                                                <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-4 text-blue-600">
+                                                {(() =>{
+                                                        if(item.babak === 'I'){
+                                                            return(
+                                                                juri2Biru1.map ((item, index) => (
+                                                                    <span key={index + 1}>{item.poin}, </span>
+                                                                ))
+                                                            )
+                                                        }else if(item.babak === 'II'){
+                                                            return(
+                                                                juri2Biru2.map ((item, index) => (
+                                                                    <span key={index + 1}>{item.poin}, </span>
+                                                                ))
+                                                            )
+                                                        }else if(item.babak === 'III'){
+                                                            return(
+                                                                juri2Biru3.map ((item, index) => (
+                                                                    <span key={index + 1}>{item.poin}, </span>
+                                                                ))
+                                                            )
+                                                        }
+                                                    })()}
                                                 </div>
                                                 {/* urutan juri */}
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-2 text-center">Juri 2</div>
@@ -456,22 +577,27 @@ const dewanSelesai = () => {
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-2 text-center">Juri 2</div>
                                                 {/* nilai */}
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-4 text-red-600">
-                                                    {/* {item.poin_biru.log_juri2.map ((item, index) => (
-                                                        <>
-                                                        {(() => {
-                                                            if (item.masuk == false) {
-                                                                return (
-                                                                    <s key={index + 1} className='text-lg font-bold text-red-600 tracking-widest justify-start items-center'>{item.poin}, 
-                                                                    </s>
-                                                                )
-                                                            } else if (item.masuk == true) {
-                                                                return (
-                                                                    <span key={index + 1} className='bg-red-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
-                                                                )
-                                                            }
-                                                        })()}
-                                                        </>
-                                                    ))} */}
+                                                {(()=>{
+                                                        if(item.babak === "I"){
+                                                            return(
+                                                                juri2Merah1.map ((item, index) => (
+                                                                    <span key={index + 1}>{item.poin}, </span>
+                                                                ))
+                                                            )
+                                                        }else if(item.babak === 'II'){
+                                                            return(
+                                                                juri2Merah2.map ((item, index) => (
+                                                                    <span key={index + 1}>{item.poin}, </span>
+                                                                ))
+                                                            )
+                                                        }else if(item.babak === 'III'){
+                                                            return(
+                                                                juri2Merah3.map ((item, index) => (
+                                                                    <span key={index + 1}>{item.poin}, </span>
+                                                                ))
+                                                            )
+                                                        }
+                                                    })()}
                                                 </div>
                                             </div>
                                         </td>
@@ -484,23 +610,28 @@ const dewanSelesai = () => {
                                             {/* detail nilai */}
                                             <div className="grid grid-cols-6 gap-x-2">
                                                 {/* nilai */}
-                                                <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-4 text-blue-600 ">
-                                                {/* {item.poin_biru.log_juri3.map ((item, index) => (
-                                                    <>
-                                                    {(() => {
-                                                        if (item.masuk == false) {
-                                                            return (
-                                                                <s key={index + 1} className='text-lg font-bold text-blue-600 tracking-widest justify-start items-center'>{item.poin}, 
-                                                                </s>
+                                                <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-4 text-blue-600">
+                                                {(() =>{
+                                                        if(item.babak === 'I'){
+                                                            return(
+                                                                juri3Biru1.map ((item, index) => (
+                                                                    <span key={index + 1}>{item.poin}, </span>
+                                                                ))
                                                             )
-                                                        } else if (item.masuk == true) {
-                                                            return (
-                                                                <span key={index + 1} className='bg-blue-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
+                                                        }else if(item.babak === 'II'){
+                                                            return(
+                                                                juri3Biru2.map ((item, index) => (
+                                                                    <span key={index + 1}>{item.poin}, </span>
+                                                                ))
+                                                            )
+                                                        }else if(item.babak === 'III'){
+                                                            return(
+                                                                juri3Biru3.map ((item, index) => (
+                                                                    <span key={index + 1}>{item.poin}, </span>
+                                                                ))
                                                             )
                                                         }
                                                     })()}
-                                                    </>
-                                                ))} */}
                                                 </div>
                                                 {/* urutan juri */}
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-2 text-center">Juri 3</div>
@@ -514,22 +645,27 @@ const dewanSelesai = () => {
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-2 text-center">Juri 3</div>
                                                 {/* nilai */}
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-4 text-red-600">
-                                                    {/* {item.poin_biru.log_juri3.map ((item, index) => (
-                                                        <>
-                                                        {(() => {
-                                                            if (item.masuk == false) {
-                                                                return (
-                                                                    <s key={index + 1} className='text-lg font-bold text-red-600 tracking-widest justify-start items-center'>{item.poin}, 
-                                                                    </s>
-                                                                )
-                                                            } else if (item.masuk == true) {
-                                                                return (
-                                                                    <span key={index + 1} className='bg-red-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
-                                                                )
-                                                            }
-                                                        })()}
-                                                        </>
-                                                    ))} */}
+                                                {(()=>{
+                                                        if(item.babak === "I"){
+                                                            return(
+                                                                juri3Merah1.map ((item, index) => (
+                                                                    <span key={index + 1}>{item.poin}, </span>
+                                                                ))
+                                                            )
+                                                        }else if(item.babak === 'II'){
+                                                            return(
+                                                                juri3Merah2.map ((item, index) => (
+                                                                    <span key={index + 1}>{item.poin}, </span>
+                                                                ))
+                                                            )
+                                                        }else if(item.babak === 'III'){
+                                                            return(
+                                                                juri3Merah3.map ((item, index) => (
+                                                                    <span key={index + 1}>{item.poin}, </span>
+                                                                ))
+                                                            )
+                                                        }
+                                                    })()}
                                                 </div>
                                             </div>
                                         </td>
@@ -544,7 +680,7 @@ const dewanSelesai = () => {
                                                 {/* total nilai */}
                                                 <div className="border-2 border-[#222954] rounded-lg text-center py-1 col-span-1 bg-[#FDFFA0]">{item.poin_biru?.poin_masuk}</div>
                                                 {/* nilai */}
-                                                <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-3 bg-[#FDFFA0] ">
+                                                <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-3 bg-[#FDFFA0] break-words">
                                                     {item.poin_biru?.log_poin_masuk.map ((item, index) => (
                                                         <span key={index + 1}>{item.poin},</span>
                                                     ))}
@@ -560,7 +696,7 @@ const dewanSelesai = () => {
                                                 {/* nama poin */}
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-2 text-center bg-[#FDFFA0]">Poin Masuk</div>
                                                 {/* nilai */}
-                                                <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-3 bg-[#FDFFA0]">
+                                                <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-3 bg-[#FDFFA0] break-words">
                                                     {item.poin_merah?.log_poin_masuk.map ((item, index) => (
                                                         <span key={index + 1}>{item.poin},</span>
                                                     ))}
@@ -626,11 +762,30 @@ const dewanSelesai = () => {
                                                     </div>
                                                     <div className="border-2 border-[#222954] rounded-lg px-4 bg-[#FFBBBB]">{item.poin_biru?.log_teguran.map ((item, index) => (
                                                         <span key={index + 1}>{item.poin},</span>
-                                                    ))}</div>
+                                                    ))}
+                                                    </div>
                                                     <div className="border-2 border-[#222954] rounded-lg px-4 bg-[#FFBBBB]">
-                                                        {item.poin_biru?.log_peringatan.map ((item, index) => (
-                                                            <span key={index + 1}>{item.poin},</span>
-                                                        ))}
+                                                        {(()=>{
+                                                            if(item.babak === "I"){
+                                                                return(
+                                                                    peringatan1biru.map ((item, index) => (
+                                                                        <span key={index + 1}>{item.poin}, </span>
+                                                                    ))
+                                                                )
+                                                            }else if(item.babak === 'II'){
+                                                                return(
+                                                                    peringatan2biru.map ((item, index) => (
+                                                                        <span key={index + 1}>{item.poin}, </span>
+                                                                    ))
+                                                                )
+                                                            }else if(item.babak === 'III'){
+                                                                return(
+                                                                    peringatan3biru.map ((item, index) => (
+                                                                        <span key={index + 1}>{item.poin}, </span>
+                                                                    ))
+                                                                )
+                                                            }
+                                                        })()}
                                                     </div>
                                                 </div>
                                                 {/* nama hukuman */}
@@ -663,9 +818,27 @@ const dewanSelesai = () => {
                                                         ))}
                                                     </div>
                                                     <div className="border-2 border-[#222954] rounded-lg px-4 bg-[#FFBBBB]">
-                                                        {item.poin_merah?.log_peringatan.map ((item, index) => (
-                                                            <span key={index + 1}>{item.poin},</span>
-                                                        ))}
+                                                        {(()=>{
+                                                            if(item.babak === "I"){
+                                                                return(
+                                                                    peringatan1merah.map ((item, index) => (
+                                                                        <span key={index + 1}>{item.poin}, </span>
+                                                                    ))
+                                                                )
+                                                            }else if(item.babak === 'II'){
+                                                                return(
+                                                                    peringatan2merah.map ((item, index) => (
+                                                                        <span key={index + 1}>{item.poin}, </span>
+                                                                    ))
+                                                                )
+                                                            }else if(item.babak === 'III'){
+                                                                return(
+                                                                    peringatan3merah.map ((item, index) => (
+                                                                        <span key={index + 1}>{item.poin}, </span>
+                                                                    ))
+                                                                )
+                                                            }
+                                                        })()}
                                                     </div>
                                                 </div>
                                                 {/* total hukuman */}

@@ -49,7 +49,7 @@ const timer = () => {
                     setActive (e)
                     localStorage.setItem ('babak', 'I')
                     setRound("I")
-                    socket.emit ('editNilaiTanding')
+                    socket.emit ('naikBabak')
                 })
                 .catch (err => {
                     console.log(err.response.data.message);
@@ -69,7 +69,7 @@ const timer = () => {
                     setActive (e)
                     localStorage.setItem ('babak', 'II')
                     setRound("II")
-                    socket.emit ('editNilaiTanding')
+                    socket.emit ('naikBabak')
                 })
                 .catch (err => {
                     console.log(err.response.data.message);
@@ -89,7 +89,7 @@ const timer = () => {
                     setActive (e)
                     localStorage.setItem ('babak', 'III')
                     setRound("III")
-                    socket.emit ('editNilaiTanding')
+                    socket.emit ('naikBabak')
                 })
                 .catch (err => {
                     console.log(err.response.data.message);

@@ -376,11 +376,11 @@ const dewan = () => {
     }
 
 
-    const getJadwal = () => {
+    const getJadwal = async () => {
         const jadwal = localStorage.getItem ('jadwal')
         let id_jadwal = jadwal
 
-        axios.get (BASE_URL + `/api/tanding/${id_jadwal}`)
+        await axios.get (BASE_URL + `/api/tanding/${id_jadwal}`)
         .then (res => {
             setJadwal (res.data.data)
             setJadwalBiru (res.data.data.biru)
@@ -403,9 +403,9 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/biru/jatuhan`, form)
             .then (res => {
-                console.log(res.data.message);
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -417,10 +417,9 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/merah/jatuhan`, form)
             .then (res => {
-                console.log(res.data.message);
-                // console.log('berhasil');
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log('gagal');
@@ -436,9 +435,9 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/biru/jatuhan`, form)
             .then (res => {
-                console.log(res.data.message);
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -450,9 +449,9 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/merah/jatuhan`, form)
             .then (res => {
-                console.log(res.data.message);
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -467,9 +466,9 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/biru/jatuhan`, form)
             .then (res => {
-                console.log(res.data.message);
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -481,9 +480,9 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/merah/jatuhan`, form)
             .then (res => {
-                console.log(res.data.message);
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -503,9 +502,9 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/biru/binaan`, form)
             .then (res => {
-                console.log(res.data.message);
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -517,9 +516,9 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/merah/binaan`, form)
             .then (res => {
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -534,9 +533,9 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/biru/binaan`, form)
             .then (res => {
-                console.log(res.data.message);
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -548,9 +547,9 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/merah/binaan`, form)
             .then (res => {
-                console.log(res.data.message);
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -565,9 +564,9 @@ const dewan = () => {
             }
             axios.post  (BASE_URL + `/api/nilai/tanding/biru/binaan`, form)
             .then (res => {
-                console.log(res.data.message);
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -579,9 +578,9 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/merah/binaan`, form)
             .then (res => {
-                console.log(res.data.message);
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -601,9 +600,9 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/biru/teguran`, form)
             .then (res => {
-                console.log(res.data.message);
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -615,9 +614,9 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/merah/teguran`, form)
             .then (res => {
-                console.log(res.data.message);
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -632,9 +631,9 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/biru/teguran`, form)
             .then (res => {
-                console.log(res.data.message);
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -646,9 +645,9 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/merah/teguran`, form)
             .then (res => {
-                console.log(res.data.message);
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -663,9 +662,9 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/biru/teguran`, form)
             .then (res => {
-                console.log(res.data.message);
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -677,9 +676,9 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/merah/teguran`, form)
             .then (res => {
-                console.log(res.data.message);
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -699,9 +698,10 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/peringatan/biru`, form)
             .then (res => {
-                console.log(res.data.message);
+                socket.emit('dewanToLayar')
+                getNilai ()
                 getPeringatan()
-                socket.emit ('editNilaiTanding')
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -713,9 +713,10 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/peringatan/merah/`, form)
             .then (res => {
-                console.log(res.data.message);
+                socket.emit('dewanToLayar')
+                getNilai ()
                 getPeringatan()
-                socket.emit ('editNilaiTanding')
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -730,9 +731,10 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/peringatan/biru`, form)
             .then (res => {
-                console.log(res.data.message);
+                socket.emit('dewanToLayar')
+                getNilai ()
                 getPeringatan()
-                socket.emit ('editNilaiTanding')
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -744,9 +746,10 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/peringatan/merah/`, form)
             .then (res => {
-                console.log(res.data);
+                socket.emit('dewanToLayar')
+                getNilai ()
                 getPeringatan()
-                socket.emit ('editNilaiTanding')
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -761,9 +764,10 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/peringatan/biru`, form)
             .then (res => {
-                console.log(res.data.message);
+                socket.emit('dewanToLayar')
+                getNilai ()
                 getPeringatan()
-                socket.emit ('editNilaiTanding')
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -775,9 +779,10 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/peringatan/merah/`, form)
             .then (res => {
-                console.log(res.data.message);
+                socket.emit('dewanToLayar')
+                getNilai ()
                 getPeringatan()
-                socket.emit ('editNilaiTanding')
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -797,9 +802,9 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/biru/jatuhan`, {data : form})
             .then (res => {
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -811,9 +816,9 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/merah/jatuhan`, {data : form})
             .then (res => {
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -828,9 +833,9 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/biru/jatuhan`, {data : form})
             .then (res => {
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -842,9 +847,9 @@ const dewan = () => {
             }
             axios.delete (BASE_URL +`/api/nilai/tanding/merah/jatuhan`, {data : form})
             .then (res => {
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -859,9 +864,9 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/biru/jatuhan`, {data : form})
             .then (res => {
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -873,9 +878,9 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/merah/jatuhan`, {data : form})
             .then (res => {
-                // getNilai()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -895,9 +900,9 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/biru/binaan`, {data : form})
             .then (res => {
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message)
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -909,9 +914,9 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/merah/binaan`, {data : form})
             .then (res => {
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -926,9 +931,9 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/biru/binaan`, {data : form})
             .then (res => {
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -940,9 +945,9 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/merah/binaan`, {data : form})
             .then (res => {
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -957,9 +962,9 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/binaan`, {data : form})
             .then (res => {
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -971,9 +976,9 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/binaan`, {data : form})
             .then (res => {
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -993,9 +998,9 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/biru/teguran`, {data : form})
             .then (res => {
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -1007,9 +1012,9 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/merah/teguran`, {data : form})
             .then (res => {
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -1024,9 +1029,9 @@ const dewan = () => {
             }
             axios.delete (BASE_URL +`/api/nilai/tanding/biru/teguran`, {data : form})
             .then (res => {
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -1038,9 +1043,9 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/merah/teguran`, {data : form})
             .then (res => {
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -1055,9 +1060,9 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/biru/teguran`, {data : form})
             .then (res => {
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -1069,9 +1074,9 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/merah/teguran`, {data : form})
             .then (res => {
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
+                socket.emit('dewanToLayar')
+                getNilai ()
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -1091,10 +1096,10 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/peringatan/biru/`, {data : form})
             .then (res => {
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
+                socket.emit('dewanToLayar')
+                getNilai ()
                 getPeringatan()
-                console.log(res.data.message);
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -1106,10 +1111,10 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/peringatan/merah/`, {data : form})
             .then (res => {
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
+                socket.emit('dewanToLayar')
+                getNilai ()
                 getPeringatan()
-                console.log(res.data.message);
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -1124,10 +1129,10 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/peringatan/biru/`, {data : form})
             .then (res => {
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
+                socket.emit('dewanToLayar')
+                getNilai ()
                 getPeringatan()
-                console.log(res.data.message);
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -1139,10 +1144,10 @@ const dewan = () => {
             }
             axios.delete (BASE_URL +  `/api/peringatan/merah/`, {data : form})
             .then (res => {
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
+                socket.emit('dewanToLayar')
+                getNilai ()
                 getPeringatan()
-                console.log(res.data.message);
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -1157,10 +1162,10 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/peringatan/biru/`, {data : form})
             .then (res => {
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
+                socket.emit('dewanToLayar')
+                getNilai ()
                 getPeringatan()
-                console.log(res.data.message);
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -1172,10 +1177,10 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/peringatan/merah/`, {data : form})
             .then (res => {
-                // getNilai ()
-                socket.emit ('editNilaiTanding')
+                socket.emit('dewanToLayar')
+                getNilai ()
                 getPeringatan()
-                console.log(res.data.message);
+                getJadwal()
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -1190,8 +1195,14 @@ const dewan = () => {
 
         if (e == 'angkaBiru' || e == 'angkaMerah') {
             let form = {
-                keterangan : 'ANGKA'
+                keterangan : 'ANGKA',
             }
+            if (e == 'angkaBiru') {
+                form.id_pemenang = jadwalBiru.id
+            }else if (e == 'angkaMerah'){
+                form.id_pemenang = jadwalMerah.id
+            }
+
             axios.put (BASE_URL + `/api/tanding/keterangan/${id_jadwal}`, form)
             .then (res => {
                 console.log(res.data.message);
@@ -1202,6 +1213,11 @@ const dewan = () => {
         } else if (e == 'udBiru' || e == 'udMerah') {
             let form = {
                 keterangan : 'U.D.'
+            }
+            if (e == 'udBiru') {
+                form.id_pemenang = jadwalBiru.id
+            }else if (e == 'udMerah'){
+                form.id_pemenang = jadwalMerah.id
             }
             axios.put (BASE_URL + `/api/tanding/keterangan/${id_jadwal}`, form)
             .then (res => {
@@ -1214,6 +1230,11 @@ const dewan = () => {
             let form = {
                 keterangan : 'DIS'
             }
+            if (e == 'disBiru') {
+                form.id_pemenang = jadwalBiru.id
+            }else if (e == 'disMerah'){
+                form.id_pemenang = jadwalMerah.id
+            }
             axios.put (BASE_URL + `/api/tanding/keterangan/${id_jadwal}`, form)
             .then (res => {
                 console.log(res.data.message);
@@ -1224,6 +1245,11 @@ const dewan = () => {
         } else if (e == 'teknikBiru' || e == 'teknikMerah') {
             let form = {
                 keterangan : 'TEKNIK'
+            }
+            if (e == 'teknikBiru') {
+                form.id_pemenang = jadwalBiru.id
+            }else if (e == 'teknikMerah'){
+                form.id_pemenang = jadwalMerah.id
             }
             axios.put (BASE_URL + `/api/tanding/keterangan/${id_jadwal}`, form)
             .then (res => {
@@ -1236,6 +1262,11 @@ const dewan = () => {
             let form = {
                 keterangan : 'W.M.P.'
             }
+            if (e == 'wmpBiru') {
+                form.id_pemenang = jadwalBiru.id
+            }else if (e == 'wmpMerah'){
+                form.id_pemenang = jadwalMerah.id
+            }
             axios.put (BASE_URL + `/api/tanding/keterangan/${id_jadwal}`, form)
             .then (res => {
                 console.log(res.data.message);
@@ -1246,6 +1277,11 @@ const dewan = () => {
         } else if (e == 'mutlakBiru' || e == 'mutlakMerah') {
             let form = {
                 keterangan : 'MUTLAK'
+            }
+            if (e == 'mutlakBiru') {
+                form.id_pemenang = jadwalBiru.id
+            }else if (e == 'mutlakMerah'){
+                form.id_pemenang = jadwalMerah.id
             }
             axios.put (BASE_URL + `/api/tanding/keterangan/${id_jadwal}`, form)
             .then (res => {
@@ -1271,8 +1307,17 @@ const dewan = () => {
             })
             .catch (err => {
                 console.log(err.response.data.message);
+                router.back ()
             })
         }
+    }
+
+    const disWinner = () => {
+        if (data.poin_biru?.dis == true) {
+            setKeterangan ('disMerah')
+        } else if (data.poin_merah?.dis == true) {
+            setKeterangan ('disBiru')
+        } else console.log('gagal');
     }
 
     const isLogged = () => {
@@ -1324,22 +1369,46 @@ const dewan = () => {
         })
     }
 
-    const ubah_data = () => socket.emit ('init_nilai_tanding')
+    const ubah_data = () => socket.emit ('init_juri_tanding')
 
     useEffect (() => {
-        socket.emit('init_nilai_tanding')
-        socket.on("getNilaiTanding", getJuriBiru1)
-        socket.on("getNilaiTanding", getJuriBiru2)
-        // socket.on("getNilaiTanding", getJuriBiru3)0
-        socket.on("getNilaiTanding", getJuriMerah1)
-        socket.on("getNilaiTanding", getJuriMerah2)
-        // socket.on("getNilaiTanding", getJuriMerah3)
-        socket.on("getNilaiTanding", getNilai)
-        socket.on('change_nilai_tanding', ubah_data)
-        getPeringatan()
-        isLogged ()
-        // getNilai()
-        getJadwal()
+
+        (async () => {
+            const jadwal = localStorage.getItem ('jadwal')
+            let id_jadwal = jadwal
+
+            let babak = []
+            await axios.get (BASE_URL + `/api/nilai/tanding/babakbyjadwal/${id_jadwal}`)
+            .then (res => {
+                babak = res.data.data
+            })
+            .catch (err => {
+                console.log(err.message);
+            })
+
+            socket.emit('init_juri_tanding')
+            if (babak.length === 1) {
+                socket.on("getJuri", getJuriBiru1)
+                socket.on("getJuri", getJuriMerah1)
+
+            } else if (babak.length === 2){
+                socket.on("getJuri", getJuriBiru2)
+                socket.on("getJuri", getJuriMerah2)
+
+            } else if (babak.length === 3){
+                socket.on("getJuri", getJuriBiru3)
+                socket.on("getJuri", getJuriMerah3)
+
+            }
+
+            socket.on("getJuri", getNilai)
+            socket.on("getJuri", getJadwal)
+            socket.on("naikBabak", getNilai)
+            socket.on('change_nilai_juri', ubah_data)
+            getPeringatan()
+            isLogged ()
+        })();
+
 
         // socket.on ('getNilaiTanding', disWinner)
         return () => {

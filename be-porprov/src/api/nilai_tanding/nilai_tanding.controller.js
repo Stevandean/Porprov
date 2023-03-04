@@ -649,7 +649,7 @@ module.exports = {
                         [
                             {model: models.poin, as: "poin_biru"}, 
                             {model: models.log_poin_juri2,
-                            as: "log_juri2"},  'createdAt', 'ASC'
+                            as: "log_juri2"},  'createdAt', 'DESC'
                         ],
                     ],
                 })
