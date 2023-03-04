@@ -37,11 +37,13 @@ module.exports = {
     addJuriPukulanBiru: async (req,res) =>{
         try {
             const getNilai = await Nilai.findOne({
-                where: {id_jadwal : req.body.id_jadwal, babak: req.body.babak}  
+                where: {id_jadwal : req.body.id_jadwal, babak: req.body.babak},
+                attributes: ['id','id_jadwal', 'babak','id_poin_biru']
             })
 
             const getJuri = await Juri.findOne({
-                where: {id: req.body.id_juri}
+                where: {id: req.body.id_juri},
+                attributes: ['id','no']
             })
             
             const juri = getJuri.no
@@ -74,6 +76,7 @@ module.exports = {
                 const cekJuri2 = await Juri2.findOne({
                     where:{
                         poin: 1,
+                        sudut: 'biru'
                     },
                     order:[['createdAt', 'DESC']]
                 })
@@ -81,7 +84,8 @@ module.exports = {
                 //get input juri 3 terakir
                 const cekJuri3 = await Juri3.findOne({
                     where:{
-                        poin: 1
+                        poin: 1,
+                        sudut: 'biru'
                     },
                     order:[['createdAt', 'DESC']]
                 })
@@ -96,6 +100,7 @@ module.exports = {
                         const juri2 = await Juri2.findOne({
                             where:{
                                 poin: 1,
+                                sudut: 'biru',
                                 cek_start: {[Op.between]: [result.cek_start, result.cek_end]}
                             }
                         })
@@ -104,6 +109,7 @@ module.exports = {
                         const juri3 = await Juri3.findOne({
                             where:{
                                 poin: 1,
+                                sudut: 'biru',
                                 cek_start: {[Op.between]: [result.cek_start, result.cek_end]}
                             }
                         })
@@ -192,6 +198,7 @@ module.exports = {
                 const cekJuri1 = await Juri1.findOne({
                     where:{
                         poin: 1,
+                        sudut: 'biru'
                     },
                     order:[['createdAt', 'DESC']]
                 })
@@ -199,7 +206,8 @@ module.exports = {
                 //get input juri 3 terakir
                 const cekJuri3 = await Juri3.findOne({
                     where:{
-                        poin: 1
+                        poin: 1,
+                        sudut: 'biru'
                     },
                     order:[['createdAt', 'DESC']]
                 })
@@ -215,6 +223,7 @@ module.exports = {
                             const juri1 = await Juri1.findOne({
                                 where:{
                                     poin: 1,
+                                    sudut: 'biru',
                                     cek_start: {[Op.between]: [result.cek_start, result.cek_end]}
                                 }
                             })
@@ -223,6 +232,7 @@ module.exports = {
                             const juri3 = await Juri3.findOne({
                                 where:{
                                     poin: 1,
+                                    sudut: 'biru',
                                     cek_start: {[Op.between]: [result.cek_start, result.cek_end]}
                                 }
                             })
@@ -310,6 +320,7 @@ module.exports = {
                 const cekJuri1 = await Juri1.findOne({
                     where:{
                         poin: 1,
+                        sudut: 'biru'
                     },
                     order:[['createdAt', 'DESC']]
                 })
@@ -317,7 +328,8 @@ module.exports = {
                 //get input juri 2 terakir
                 const cekJuri2 = await Juri2.findOne({
                     where:{
-                        poin: 1
+                        poin: 1,
+                        sudut: 'biru'
                     },
                     order:[['createdAt', 'DESC']]
                 })
@@ -333,6 +345,7 @@ module.exports = {
                             const juri1 = await Juri1.findOne({
                                 where:{
                                     poin: 1,
+                                    sudut: 'biru',
                                     cek_start: {[Op.between]: [result.cek_start, result.cek_end]}
                                 }
                             })
@@ -341,6 +354,7 @@ module.exports = {
                             const juri2 = await Juri2.findOne({
                                 where:{
                                     poin: 1,
+                                    sudut: 'biru',
                                     cek_start: {[Op.between]: [result.cek_start, result.cek_end]}
                                 }
                             })
@@ -430,11 +444,13 @@ module.exports = {
     addJuriTendanganBiru: async (req,res) =>{
         try {
             const getNilai = await Nilai.findOne({
-                where: {id_jadwal : req.body.id_jadwal, babak: req.body.babak}  
+                where: {id_jadwal : req.body.id_jadwal, babak: req.body.babak},
+                attributes: ['id','id_jadwal', 'babak','id_poin_biru']
             })
 
             const getJuri = await Juri.findOne({
-                where: {id: req.body.id_juri}
+                where: {id: req.body.id_juri},
+                attributes: ['id','no']
             })
             
             const juri = getJuri.no
@@ -467,6 +483,7 @@ module.exports = {
                 const cekJuri2 = await Juri2.findOne({
                     where:{
                         poin: 2,
+                        sudut: 'biru'
                     },
                     order:[['createdAt', 'DESC']]
                 })
@@ -474,7 +491,8 @@ module.exports = {
                 //get input juri 3 terakir
                 const cekJuri3 = await Juri3.findOne({
                     where:{
-                        poin: 2
+                        poin: 2,
+                        sudut: 'biru'
                     },
                     order:[['createdAt', 'DESC']]
                 })
@@ -490,6 +508,7 @@ module.exports = {
                             const juri2 = await Juri2.findOne({
                                 where:{
                                     poin: 2,
+                                    sudut: 'biru',
                                     cek_start: {[Op.between]: [result.cek_start, result.cek_end]}
                                 }
                             })
@@ -498,6 +517,7 @@ module.exports = {
                             const juri3 = await Juri3.findOne({
                                 where:{
                                     poin: 2,
+                                    sudut: 'biru',
                                     cek_start: {[Op.between]: [result.cek_start, result.cek_end]}
                                 }
                             })
@@ -587,6 +607,7 @@ module.exports = {
                 const cekJuri1 = await Juri1.findOne({
                     where:{
                         poin: 2,
+                        sudut: 'biru'
                     },
                     order:[['createdAt', 'DESC']]
                 })
@@ -594,7 +615,8 @@ module.exports = {
                 //get input juri 3 terakir
                 const cekJuri3 = await Juri3.findOne({
                     where:{
-                        poin: 2
+                        poin: 2,
+                        sudut: 'biru'
                     },
                     order:[['createdAt', 'DESC']]
                 })
@@ -610,6 +632,7 @@ module.exports = {
                             const juri1 = await Juri1.findOne({
                                 where:{
                                     poin: 2,
+                                    sudut: 'biru',
                                     cek_start: {[Op.between]: [result.cek_start, result.cek_end]}
                                 }
                             })
@@ -618,6 +641,7 @@ module.exports = {
                             const juri3 = await Juri3.findOne({
                                 where:{
                                     poin: 2,
+                                    sudut: 'biru',
                                     cek_start: {[Op.between]: [result.cek_start, result.cek_end]}
                                 }
                             })
@@ -705,6 +729,7 @@ module.exports = {
                 const cekJuri1 = await Juri1.findOne({
                     where:{
                         poin: 2,
+                        sudut: 'biru'
                     },
                     order:[['createdAt', 'DESC']]
                 })
@@ -712,7 +737,8 @@ module.exports = {
                 //get input juri 2 terakir
                 const cekJuri2 = await Juri2.findOne({
                     where:{
-                        poin: 2
+                        poin: 2,
+                        sudut: 'biru'
                     },
                     order:[['createdAt', 'DESC']]
                 })
@@ -728,6 +754,7 @@ module.exports = {
                             const juri1 = await Juri1.findOne({
                                 where:{
                                     poin: 2,
+                                    sudut: 'biru',
                                     cek_start: {[Op.between]: [result.cek_start, result.cek_end]}
                                 }
                             })
@@ -736,6 +763,7 @@ module.exports = {
                             const juri2 = await Juri2.findOne({
                                 where:{
                                     poin: 2,
+                                    sudut: 'biru',
                                     cek_start: {[Op.between]: [result.cek_start, result.cek_end]}
                                 }
                             })

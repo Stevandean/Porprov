@@ -150,7 +150,7 @@ const timer = (props) => {
         if (running) {
             interval = setInterval(() => {
                 setTimer(new Date().getTime() - (waktuStart));
-                console.log(new Date().getTime() - (waktuStart));
+                // console.log(new Date().getTime() - (waktuStart));
                 if(golongan === 'SINGA' || golongan === 'MACAN' || golongan === 'USIA DINI' || golongan === 'MASTER A'){
                     if((new Date().getTime() - (waktuStart)) > 90000){
                         clearInterval(interval);

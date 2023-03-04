@@ -22,6 +22,7 @@ const nilai = () => {
     const [jadwalBiru, setJadwalBiru] = useState ([])
     const [jadwalMerah, setJadwalMerah] = useState ([])
     const [dataJuri, setDataJuri] = useState ([])
+    const [end, setEnd] = useState(false)
     const {showModalJuri, setShowModalJuri} = useContext (globalState)
     const {infoVerif, setInfoVerif} = useContext (globalState)
     const {clickedBlue,setClickedBlue} = useContext (globalState)
@@ -120,12 +121,12 @@ const nilai = () => {
         })
     }
 
-    const getNilai = () => {
+    const getNilai = async () => {
         const jadwal = localStorage.getItem ('jadwal')
         let id_jadwal = jadwal
         const juri = JSON.parse (localStorage.getItem ('juriTanding'))
 
-        axios.get (BASE_URL + `/api/nilai/tanding/babakbyjadwal/${id_jadwal}`)
+        await axios.get (BASE_URL + `/api/nilai/tanding/babakbyjadwal/${id_jadwal}`)
         .then (res => {
             setData (res.data.data)
         })
@@ -175,16 +176,10 @@ const nilai = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/biru/juri/pukulan`, form)
             .then (res => {
-                socket.emit ('editNilaiTanding')
                 getBiru1()
-                getBiru2()
-                getBiru3()
                 console.log(res.data.message);
                 setTimeout(()=>{
-                    getBiru1()
-                    getBiru2()
-                    getBiru3()
-                    socket.emit ('editNilaiTanding')
+                    socket.emit('edit_juri_tanding')
                 },3000)
             })
             .catch (err => {
@@ -207,15 +202,8 @@ const nilai = () => {
             axios.post (BASE_URL + `/api/nilai/tanding/merah/juri/pukulan`, form)
             .then (res => {
                 getMerah1()
-                getMerah2()
-                getMerah3()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
                 setTimeout(()=>{
-                    socket.emit ('editNilaiTanding')
-                    getMerah1()
-                    getMerah2()
-                    getMerah3()
+                    socket.emit('edit_juri_tanding')
                 },3000)
             })
             .catch (err => {
@@ -242,16 +230,9 @@ const nilai = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/biru/juri/pukulan`, form)
             .then (res => {
-                getBiru1()
                 getBiru2()
-                getBiru3()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
                 setTimeout(()=>{
-                    socket.emit ('editNilaiTanding')
-                    getBiru1()
-                    getBiru2()
-                    getBiru3()
+                    socket.emit('edit_juri_tanding')
                 },3000)
             })
             .catch (err => {
@@ -273,16 +254,9 @@ const nilai = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/merah/juri/pukulan`, form)
             .then (res => {
-                getMerah1()
                 getMerah2()
-                getMerah3()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
                 setTimeout(()=>{
-                    socket.emit ('editNilaiTanding')
-                    getMerah1()
-                    getMerah2()
-                    getMerah3()
+                    socket.emit('edit_juri_tanding')
                 },3000)
             })
             .catch (err => {
@@ -308,15 +282,10 @@ const nilai = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/biru/juri/pukulan`, form)
             .then (res => {
-                getBiru1()
-                getBiru2()
                 getBiru3()
-                socket.emit ('editNilaiTanding')
                 console.log(res.data.message);
                 setTimeout(()=>{
-                    socket.emit ('editNilaiTanding')
-                    getBiru1()
-                    getBiru2()
+                    socket.emit('edit_juri_tanding')
                     getBiru3()
                 },3000)
             })
@@ -339,16 +308,9 @@ const nilai = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/merah/juri/pukulan`, form)
             .then (res => {
-                getMerah1()
-                getMerah2()
                 getMerah3()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
                 setTimeout(()=>{
-                    socket.emit ('editNilaiTanding')
-                    getMerah1()
-                    getMerah2()
-                    getMerah3()
+                    socket.emit('edit_juri_tanding')
                 },3000)
             })
             .catch (err => {
@@ -381,15 +343,8 @@ const nilai = () => {
             axios.post (BASE_URL + `/api/nilai/tanding/biru/juri/tendangan`, form)
             .then (res => {
                 getBiru1()
-                getBiru2()
-                getBiru3()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
                 setTimeout(()=>{
-                    socket.emit ('editNilaiTanding')
-                    getBiru1()
-                getBiru2()
-                getBiru3()
+                    socket.emit('edit_juri_tanding')
                 },3000)
             })
             .catch (err => {
@@ -414,15 +369,8 @@ const nilai = () => {
             axios.post (BASE_URL + `/api/nilai/tanding/merah/juri/tendangan`, form)
             .then (res => {
                 getMerah1()
-                getMerah2()
-                getMerah3()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
                 setTimeout(()=>{
-                    socket.emit ('editNilaiTanding')
-                    getMerah1()
-                    getMerah2()
-                    getMerah3()
+                    socket.emit('edit_juri_tanding')
                 },3000)
             })
             .catch (err => {
@@ -449,16 +397,9 @@ const nilai = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/biru/juri/tendangan`, form)
             .then (res => {
-                getBiru1()
                 getBiru2()
-                getBiru3()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
                 setTimeout(()=>{
-                    socket.emit ('editNilaiTanding')
-                    getBiru1()
-                    getBiru2()
-                    getBiru3()
+                    socket.emit('edit_juri_tanding')
                 },3000)
             })
             .catch (err => {
@@ -482,16 +423,9 @@ const nilai = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/merah/juri/tendangan`, form)
             .then (res => {
-                getMerah1()
                 getMerah2()
-                getMerah3()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
                 setTimeout(()=>{
-                    socket.emit ('editNilaiTanding')
-                    getMerah1()
-                    getMerah2()
-                    getMerah3()
+                    socket.emit('edit_juri_tanding')
                 },3000)
             })
             .catch (err => {
@@ -518,16 +452,9 @@ const nilai = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/biru/juri/tendangan`, form)
             .then (res => {
-                getBiru1()
-                getBiru2()
                 getBiru3()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
                 setTimeout(()=>{
-                    socket.emit ('editNilaiTanding')
-                    getBiru1()
-                    getBiru2()
-                    getBiru3()
+                    socket.emit('edit_juri_tanding')
                 },3000)
             })
             .catch (err => {
@@ -551,16 +478,9 @@ const nilai = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/merah/juri/tendangan`, form)
             .then (res => {
-                getMerah1()
-                getMerah2()
                 getMerah3()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
                 setTimeout(()=>{
-                    socket.emit ('editNilaiTanding')
-                    getMerah1()
-                    getMerah2()
-                    getMerah3()
+                    socket.emit('edit_juri_tanding')
                 },3000)
             })
             .catch (err => {
@@ -582,8 +502,6 @@ const nilai = () => {
                 getBiru1()
                 getBiru2()
                 getBiru3()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -594,8 +512,6 @@ const nilai = () => {
                 getMerah1()
                 getMerah2()
                 getMerah3()
-                socket.emit ('editNilaiTanding')
-                console.log(res.data.message);
             })
             .catch (err => {
                 console.log(err.message);
@@ -631,6 +547,7 @@ const nilai = () => {
 
     const showModal = () => {
         setShowModalJuri(true)
+
     }
 
     const closeModal = () =>{
@@ -638,9 +555,9 @@ const nilai = () => {
     }
 
     const cekVerif = async () => {
-        setClickedBlue (true)
         setClickedRed (true)
         setClickedYellow (true)
+        setClickedBlue(true)
         let info = []
         const jadwal = localStorage.getItem ('jadwal')
         let id_jadwal = jadwal
@@ -664,21 +581,48 @@ const nilai = () => {
         })
     }
 
-    const ubah_data = () => socket.emit ('init_nilai_tanding')
+    const ubah_data = () => socket.emit ('init_time_tanding')
+
+    
+    const cekTimer = async () => {
+        getNilai()
+        const jadwal = localStorage.getItem ('jadwal')
+        let id_jadwal = jadwal    
+        let waktu = []
+        //get waktu peserta
+        console.log(data);
+        await axios.get(BASE_URL + `/api/tanding/get/timer/${id_jadwal}/${data.babak}`)
+        .then(res => {
+            waktu = res.data.data
+            //jika waktu null set time ke 0
+            if(waktu === null){
+                console.log('waktu null');
+                setEnd(true)
+            //jika waktu ada set sesuai waktu  
+            }else if (waktu !== null){
+                //jika pertandingan selesai tampilkan waktu selesai
+                if(waktu.selesai === true){
+                    console.log(golongan);
+                    setEnd(true)
+                    // setTimer(90000)
+                    // setRunning(false)
+                }
+            }
+        }).catch(err =>{
+            console.log(err.response.data.message);
+        })
+    }
 
     useEffect (() => {
         //socket modal
         socket.on('open_verif', cekVerif)
         socket.on('close_verif', closeModal)
 
-        //socket nilai
-        socket.emit('init_nilai_tanding')
-        socket.on("getNilaiTanding", getNilai)
-        // socket.on("getNilaiTanding", getJadwal)
-        socket.on('change_nilai_tanding', ubah_data)
-
-        //get data awal
         getNilai ()
+        socket.emit('init_time_tanding')
+        socket.on ('get_time_tanding', cekTimer)
+        socket.on ('change_time_tanding', ubah_data)
+        //get data awal
         getJadwal ()
         getJuri ()
         isLogged ()

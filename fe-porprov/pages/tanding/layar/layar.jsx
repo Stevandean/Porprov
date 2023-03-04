@@ -194,18 +194,28 @@ const layar = () => {
         setShowModalLayar(false)
     }
 
-    const ubah_data = () => socket.emit ('init_nilai_tanding')
+    const refreshLayar = () =>{
+        window.location.reload(false);
+    }
+
+    const ubah_data = () => socket.emit ('init_juri_tanding')
 
     useEffect (() => {
+        socket.on('naikBabak', refreshLayar)
+
         //socket modal verif
         socket.on('open_verif', showModal)
         socket.on('close_verif', closeModal)
 
         //socket nilai
-        socket.emit('init_nilai_tanding')
-        socket.on("getNilaiTanding", getTotalPoin)
-        socket.on("getNilaiTanding", getNilaiTanding)
-        socket.on('change_nilai_tanding', ubah_data)
+        socket.emit('init_juri_tanding')
+        socket.on("getJuri", getTotalPoin)
+        // socket.on("getJuri", getNilaiTanding)
+
+        socket.on("refreshLayar", getTotalPoin)
+        socket.on("refreshLayar", getNilaiTanding)
+
+        socket.on('change_nilai_juri', ubah_data)
 
         // socket indicator juri pukulan merah
         socket.on ('pmj1On', onLightPmj1)
@@ -228,7 +238,7 @@ const layar = () => {
         socket.on ('tbj3On', onLightTbj3)
 
         getJadwalTanding ()
-        // getNilaiTanding ()
+        getNilaiTanding ()
     }, [])
 
     return (

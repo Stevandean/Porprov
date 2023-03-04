@@ -25,6 +25,7 @@ const detailSelesai = () => {
 
     const toDetailTanding = (item) => {
         localStorage.setItem ('jadwalTanding', JSON.stringify(item))
+        localStorage.setItem('jadwal', item.id)
 
         router.push ('./dewanSelesai')
     }

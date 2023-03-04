@@ -198,7 +198,9 @@ module.exports = {
         try {
             let id = {id: req.params.id_jadwal}
             let data = {
-                keterangan: req.body.keterangan
+                keterangan: req.body.keterangan,
+                id_pemenang: req.body.id_pemenang,
+                selesai: 1
             }
             let result = await Tanding.update(data, {where: id})
             return editResponse( req, res, result )
