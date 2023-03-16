@@ -2,6 +2,10 @@
 const models = require("../../models/index")
 const Peserta = models.peserta_tanding
 
+const fs = require("fs");
+const readline = require("readline");
+const { parse } = require("csv-parse");
+
 //import helpers
 const {
     getResponse,
@@ -93,5 +97,48 @@ module.exports = {
         } catch (error) {
             return errorResponse( req, res, error.message )
         }
-    }
+    },
+
+    importTanding: async (req, res)=>{
+        try{
+            let file = "src/tmp/tanding.csv"
+            const stream = fs.createReadStream(file);
+            const reader = readline.createInterface({ input: stream });
+
+            let data = [];
+
+            stream
+            .pipe(parse({ delimiter: ",", from_line: 1 }))
+            .on("data", function (row) {
+            // 👇 split a row string into an array
+            // then push into the data array
+            data.push(row)
+
+            });
+
+            reader.on("close", async () => {
+                // 👇 reached the end of file
+                console.log(data)
+                for (var i=0; i < data.length; i++){
+                    let tgr = data[i]
+
+                    let input = {
+                        id: uuidv4(),
+                        jk: tgr[0],
+                        golongan: tgr[1],
+                        kelas: tgr[2],                    
+                        nama: tgr[3],
+                        kontingen: tgr[4]
+                    }
+
+                    const result = await Peserta.create(input)
+                }
+                fs.unlink(file, (err) => console.log(err))
+                return addResponse( req, res )
+            });
+
+        } catch (error){
+            return errorResponse( req, res, error.message )
+        }
+    },
 }

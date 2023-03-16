@@ -239,6 +239,10 @@ const layar = () => {
 
         getJadwalTanding ()
         getNilaiTanding ()
+
+        return () =>{
+            socket.disconnect()
+        }
     }, [])
 
     return (

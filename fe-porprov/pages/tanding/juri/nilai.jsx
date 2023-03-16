@@ -619,9 +619,9 @@ const nilai = () => {
         socket.on('close_verif', closeModal)
 
         getNilai ()
-        socket.emit('init_time_tanding')
-        socket.on ('get_time_tanding', cekTimer)
-        socket.on ('change_time_tanding', ubah_data)
+        // socket.emit('init_time_tanding')
+        // socket.on ('get_time_tanding', cekTimer)
+        // socket.on ('change_time_tanding', ubah_data)
         //get data awal
         getJadwal ()
         getJuri ()
@@ -630,17 +630,13 @@ const nilai = () => {
 
         //get juri
         getBiru1 ()
-        getBiru2 ()
-        getBiru3 ()
-        getMerah1 ()
-        getMerah2 ()
-        getMerah3 ()
+        // getBiru2 ()
+        // getBiru3 ()
+        // getMerah1 ()
+        // getMerah2 ()
+        // getMerah3 ()
 
         return () => {
-            // socket.off('getNilaiTanding')
-            // socket.off('change_nilai_tanding')
-            // socket.off('open_verif')
-            // socket.off('close_verif')
         }
     }, [])
 

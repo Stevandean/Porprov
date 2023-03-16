@@ -31,6 +31,7 @@ const PORT = process.env.PORT;
 
 io.on('connection', socket => {
     // console.log(`⚡: ${socket.id} user just connected!`);
+    console.log(`a user connected!`);
     // socket.disconnect() 
     // socket.disconnect(0) 
 
@@ -160,6 +161,7 @@ io.on('connection', socket => {
     socket.on('disconnect', () => {
       // socket.disconnect() 
       // console.log('🔥: A user disconnected');
+      console.log(`a user disconnected`);
     });
 
 })

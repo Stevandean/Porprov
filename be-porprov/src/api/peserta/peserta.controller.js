@@ -1,7 +1,7 @@
 const models = require("../../models/index")
 const Peserta = models.peserta_seni
 
-const fs = require("fs");
+const fs = require("fs")
 const readline = require("readline");
 const { parse } = require("csv-parse");
 
@@ -83,8 +83,8 @@ module.exports = {
                         kategori: 'tunggal',
                         jk: tgr[1],
                         kelas: tgr[2],                    
-                        nama1: tgr[4],
-                        kontingen: tgr[5]
+                        nama1: tgr[3],
+                        kontingen: tgr[4]
                     }
 
                     const result = await Peserta.create(input)
@@ -126,9 +126,9 @@ module.exports = {
                         kategori: 'ganda',
                         jk: tgr[1],
                         kelas: tgr[2],                    
-                        nama1: tgr[4],
-                        nama2: tgr[5],
-                        kontingen: tgr[6]
+                        nama1: tgr[3],
+                        nama2: tgr[4],
+                        kontingen: tgr[5]
                     }
 
                     const result = await Peserta.create(input)
@@ -155,17 +155,17 @@ module.exports = {
             let data = [];
 
             stream
-            .pipe(parse({ delimiter: ",", from_line: 1 }))
-            .on("data", function (row) {
-            // 👇 split a row string into an array
-            // then push into the data array
-            data.push(row)
-
-            });
+                .pipe(parse({ delimiter: ",", from_line: 1 }))
+                .on('data', async function (row) {
+                    console.log(row);
+                    // 👇 split a row string into an array
+                    // then push into the data array
+                    data.push(row);
+                });
 
             reader.on("close", async () => {
                 // 👇 reached the end of file
-                console.log(data)
+                console.log(data.length)
                 for (var i=0; i < data.length; i++){
                     let tgr = data[i]
 
@@ -174,22 +174,17 @@ module.exports = {
                         kategori: 'regu',
                         jk: tgr[1],
                         kelas: tgr[2],                    
-                        nama1: tgr[4],
-                        nama2: tgr[5],
-                        nama3: tgr[6],
-                        kontingen: tgr[7]
+                        nama1: tgr[3],
+                        nama2: tgr[4],
+                        nama3: tgr[5],
+                        kontingen: tgr[6]
                     }
 
                     const result = await Peserta.create(input)
                 }
                 fs.unlink(file, (err) => console.log(err))
                 return addResponse( req, res )
-                // data.forEach(element => {
-                //     element.id = uuidv4(),
-                //     element.tgl = current
-                // }) 
-            });
-
+            })
         } catch (error){
             return errorResponse( req, res, error.message )
         }

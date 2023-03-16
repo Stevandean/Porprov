@@ -160,9 +160,9 @@ const pesertaTanding = () => {
             <ModalPesertaTanding />
         </globalState.Provider>
 
-        {/* <globalState.Provider value={{ showModalImport, setShowModalImport }}>
+        <globalState.Provider value={{ showModalImport, setShowModalImport, dataPesertaTanding, setDataPesertaTanding }}>
         <ModalImport />
-        </globalState.Provider> */}
+        </globalState.Provider>
 
         <globalState.Provider value={{ showAlertHapus, setShowAlertHapus, id, setDataPesertaTanding }}>
             <ModalDelete />

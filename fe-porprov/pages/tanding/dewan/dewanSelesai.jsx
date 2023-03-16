@@ -373,16 +373,36 @@ const dewanSelesai = () => {
     }
 
     useEffect (() => {
-        getJadwal ()
-        getJuriBiru1()
-        getJuriMerah1()
-        getJuriBiru2()
-        getJuriMerah2()
-        getJuriBiru3()
-        getJuriMerah3()
-        getNilaiTanding ()
-        getPeringatan()
-        isLogged ()
+        (async () => {
+            const jadwal = localStorage.getItem ('jadwal')
+            let id_jadwal = jadwal
+
+            let babak = []
+            await axios.get (BASE_URL + `/api/nilai/tanding/babakbyjadwal/${id_jadwal}`)
+            .then (res => {
+                babak = res.data.data
+            })
+            .catch (err => {
+                console.log(err.message);
+            })
+
+            if (babak.length === 1) {
+                getJuriBiru1()
+                getJuriMerah1()
+
+            } else if (babak.length === 2){
+                getJuriBiru2()
+                getJuriMerah2()
+            } else if (babak.length === 3){
+                getJuriBiru3()
+                getJuriMerah3()
+
+            }
+            getJadwal ()
+            getNilaiTanding ()
+            getPeringatan()
+            isLogged ()
+        })();
     }, [])
 
     return (

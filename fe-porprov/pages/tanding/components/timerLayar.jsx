@@ -77,7 +77,7 @@ const timerLayar = (props) => {
                 //jika pertandingan belum selesai tampilkan waktu berjalan  
                 } else if (waktu.selesai === false){
                     if(waktu.running === true){
-                        setWaktuStart (new Date(waktu.start).getTime() + waktu.total_pause + 1000)
+                        setWaktuStart (new Date(waktu.start).getTime() + waktu.total_pause)
                         setRunning(true)
                         setPause(false)
                     } else if (waktu.running === false) {

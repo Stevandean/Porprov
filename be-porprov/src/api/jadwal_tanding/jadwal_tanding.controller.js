@@ -45,9 +45,21 @@ module.exports = {
                     exclude:['createdAt','updatedAt']
                 },
                 include:[
-                    "biru",
-                    "merah",
-                    "pemenang",
+                    {
+                        model: models.peserta_tanding,
+                        as:"biru",
+                        attributes: ['id','nama', 'kontingen']
+                    },
+                    {
+                        model: models.peserta_tanding,
+                        as:"merah",
+                        attributes: ['id','nama', 'kontingen']
+                    },
+                    {
+                        model: models.peserta_tanding,
+                        as:"pemenang",
+                        attributes: ['id','nama', 'kontingen']
+                    },
                 ],
             })
             return getResponse( req, res, tanding )
@@ -65,9 +77,21 @@ module.exports = {
                     exclude:['createdAt','updatedAt']
                 },
                 include:[
-                    "biru",
-                    "merah",
-                    "pemenang",
+                    {
+                        model: models.peserta_tanding,
+                        as:"biru",
+                        attributes: ['id','nama', 'kontingen']
+                    },
+                    {
+                        model: models.peserta_tanding,
+                        as:"merah",
+                        attributes: ['id','nama', 'kontingen']
+                    },
+                    {
+                        model: models.peserta_tanding,
+                        as:"pemenang",
+                        attributes: ['id','nama', 'kontingen']
+                    },
                 ],
                 order:[
                     ['gelanggang', 'ASC'],

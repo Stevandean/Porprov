@@ -54,8 +54,6 @@ module.exports = {
             let setdetik = endDate.setMilliseconds((endDate.getMilliseconds()) + 3300)
             let end = new Date(setdetik)
 
-            console.log(end - start);
-
             //set data for poin juri 
             let data = {
                 id: uuidv4(),
@@ -91,7 +89,7 @@ module.exports = {
                 })
 
                 if(((result.cek_start >= cekJuri2.cek_start) && (result.cek_start <= cekJuri2.cek_end)) || ((result.cek_start >= cekJuri3.cek_start) && (result.cek_start <= cekJuri3.cek_end))){
-                    console.log(true);
+                    // console.log(true);
                 }else{
                     console.log(false);
                     setTimeout( async () => {
@@ -113,8 +111,6 @@ module.exports = {
                                 cek_start: {[Op.between]: [result.cek_start, result.cek_end]}
                             }
                         })
-
-                        console.log(juri2);
 
                         //jika ada poin masuk
                         if (juri2 || juri3) {

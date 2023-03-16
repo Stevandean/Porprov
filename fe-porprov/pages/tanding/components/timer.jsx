@@ -33,7 +33,7 @@ const timer = (props) => {
         let waktu = []
         //get waktu peserta
         let babak = localStorage.getItem('babak')
-        console.log(golongan);
+        // console.log(golongan);
         await axios.get(BASE_URL + `/api/tanding/get/timer/${id_jadwal}/${babak}`)
         .then(res => {
             setData(res.data.data)

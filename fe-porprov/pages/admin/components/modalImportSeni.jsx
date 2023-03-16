@@ -1,9 +1,14 @@
 import React, { useContext, useState } from 'react'
 import { globalState } from '../../../context/context'
 import axios from 'axios'
+import { useRouter } from 'next/router';
+
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const modalImport = () => {
+    const location = useRouter()
+    const {pathname} = location
+    const splitLoc = pathname.split ('/admin/peserta')
 
     const {showModalImport, setShowModalImport} = useContext(globalState)
     const [file, setFile] = useState(null)
@@ -27,14 +32,35 @@ const modalImport = () => {
         let form = new FormData() 
         form.append("file",file)
 
-        axios.post (BASE_URL + `/api/peserta/tanding/import`, form)
-        .then (res => {
-            setShowModalImport(false)
-            getPesertaTanding()
-        })
-        .catch (err => {
-            console.log(err.message);
-        })
+        if(splitLoc.toString() === ',Tunggal'){
+            axios.post (BASE_URL + `/api/peserta/tanding/import`, form)
+            .then (res => {
+                setShowModalImport(false)
+                getPesertaTanding()
+            })
+            .catch (err => {
+                console.log(err.message);
+            })
+        }else if(splitLoc.toString() === ',Ganda'){
+            axios.post (BASE_URL + `/api/peserta/tanding/import`, form)
+            .then (res => {
+                setShowModalImport(false)
+                getPesertaTanding()
+            })
+            .catch (err => {
+                console.log(err.message);
+            })
+        } else if(splitLoc.toString() === ',Regu'){
+            axios.post (BASE_URL + `/api/peserta/tanding/import`, form)
+            .then (res => {
+                setShowModalImport(false)
+                getPesertaTanding()
+            })
+            .catch (err => {
+                console.log(err.message);
+            })
+        }
+
     }
 
     return (
@@ -50,7 +76,7 @@ const modalImport = () => {
                         {/*header Modal*/}
                         <div className="flex justify-center p-5 border-b border-solid border-slate-500 rounded-t">
                         <h3 className="text-3xl font-semibold text-white">
-                            Import Peserta Tanding
+                            Import Peserta {splitLoc}
                         </h3>
                         </div>
         
