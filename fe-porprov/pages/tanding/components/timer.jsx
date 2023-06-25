@@ -3,17 +3,17 @@ import React, { useContext, useEffect, useState } from 'react'
 import socketIo from 'socket.io-client'
 import { globalState } from '../../../context/context'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-let socket
+const socket = socketIo.connect(BASE_URL)
 
 const timer = (props) => {
 
-    useEffect(() => {
-        socketInitializer()
-    }, [])
+    // useEffect(() => {
+    //     socketInitializer()
+    // }, [])
 
-    const socketInitializer = async () => {
-      socket = socketIo(BASE_URL)
-    }
+    // const socketInitializer = async () => {
+    //   socket = socketIo(BASE_URL)
+    // }
     const [running, setRunning] = useState(false)
     const [pause, setPause] = useState(false)
     const [waktuPause, setWaktuPause] = useState(0)
@@ -29,12 +29,19 @@ const timer = (props) => {
         getData()
     },[round])
 
+    useEffect(() =>{
+        socket.emit('join', id_jadwal)
+        return(() =>{
+            socket.close()
+        })
+    },[])
+
     const getData = async () => {
         let waktu = []
         //get waktu peserta
         let babak = localStorage.getItem('babak')
         // console.log(golongan);
-        await axios.get(BASE_URL + `/api/tanding/get/timer/${id_jadwal}/${babak}`)
+        await axios.get(BASE_URL + `/api/tanding/jadwal/get/timer/${id_jadwal}/${babak}`)
         .then(res => {
             setData(res.data.data)
             waktu = res.data.data
@@ -88,10 +95,10 @@ const timer = (props) => {
             id_jadwal: id_jadwal,
             babak: round
         }
-        await axios.put(BASE_URL + "/api/tanding/timer/pause", data)
+        await axios.put(BASE_URL + "/api/tanding/jadwal/timer/pause", data)
         .then(res =>{
             console.log(res.data.message);
-            socket.emit ("update_time_tanding")
+            socket.emit ("update_time_tanding", id_jadwal)
             setRunning (false)
             setPause(true) 
         })
@@ -106,10 +113,10 @@ const timer = (props) => {
             id_jadwal: id_jadwal,
             babak: round
         }
-        await axios.post(BASE_URL + "/api/tanding/timer/start", data)
+        await axios.post(BASE_URL + "/api/tanding/jadwal/timer/start", data)
         .then(res => {
             console.log(res.data.message);
-            socket.emit ("update_time_tanding")
+            socket.emit ("update_time_tanding", id_jadwal)
             getData()
 
         }).catch(err =>{
@@ -130,10 +137,10 @@ const timer = (props) => {
         waktu: time 
       }
   
-      axios.put (BASE_URL + `/api/tanding/timer/stop`, form)
+      axios.put (BASE_URL + `/api/tanding/jadwal/timer/stop`, form)
       .then (res => {
         console.log(res.data.message);
-        socket.emit ("update_time_tanding")
+        socket.emit ("update_time_tanding", id_jadwal)
         setRunning (false)
         getData()
       })
@@ -143,7 +150,7 @@ const timer = (props) => {
     }
   
     // untuk merefresh saat data berubah
-    const ubah_data = () => socket.emit ('init_time_seni')
+    const ubah_data = () => socket.emit ('init_time_tanding', id_jadwal)
 
     useEffect(() => {
         let interval;

@@ -5,8 +5,25 @@ module.exports = {
     await queryInterface.createTable('user', {
       id: {
         allowNull: false,
+        defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
-        type: Sequelize.UUID
+        type: Sequelize.UUID,
+      },
+      role_id: {
+        allowNull: true,
+        type: Sequelize.STRING,
+        references:{
+          model:"roles",
+          key:"id"
+        }
+      },
+      event_id: {
+        allowNull: true,
+        type: Sequelize.UUID,
+        references:{
+          model:"event",
+          key:"id"
+        }
       },
       username: {
         allowNull: false,
@@ -16,19 +33,18 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      role: {
-        type: Sequelize.ENUM('admin','dewan')
-      },
       createdAt: {
         type: 'TIMESTAMP',
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         allowNull: false
       },
       updatedAt: {
-        type: 'TIMESTAMP',
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-        allowNull: false
-      }
+        type: "TIMESTAMP",
+        defaultValue: Sequelize.literal(
+          "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+        ),
+        allowNull: false,
+      },
     });
   },
   async down(queryInterface, Sequelize) {

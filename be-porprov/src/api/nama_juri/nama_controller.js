@@ -22,6 +22,7 @@ module.exports = {
             let data = {
                 id: id,
                 nama: req.body.nama,
+                event_id: req.user.event_id,
             }
             const result = await Nama.create(data)
             return addResponse( req, res, result )

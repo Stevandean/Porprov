@@ -8,17 +8,29 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.UUID
       },
+      event_id: {
+        allowNull: false,
+        type: Sequelize.UUID,
+        references:{
+          model:"event",
+          key:"id"
+        }
+      },
       nama: {
         type: Sequelize.STRING
       },
       createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        type: 'TIMESTAMP',
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        allowNull: false
       },
       updatedAt: {
+        type: "TIMESTAMP",
+        defaultValue: Sequelize.literal(
+          "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+        ),
         allowNull: false,
-        type: Sequelize.DATE
-      }
+      },
     });
   },
   async down(queryInterface, Sequelize) {

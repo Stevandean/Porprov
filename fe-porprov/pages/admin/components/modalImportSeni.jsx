@@ -12,17 +12,59 @@ const modalImport = () => {
 
     const {showModalImport, setShowModalImport} = useContext(globalState)
     const [file, setFile] = useState(null)
-    const {dataPesertaTanding, setDataPesertaTanding} = useContext (globalState)
+    const {dataTunggal, setDataPesertaTunggal} = useContext (globalState)
+    const {dataGanda, setDataPesertaGanda} = useContext (globalState)
+    const {dataRegu, setDataPesertaRegu} = useContext (globalState)
+    const {dataSoloKreatif, setDataPesertaSoloKreatif} = useContext (globalState)
 
-    const getPesertaTanding = () => {
-        axios.get (BASE_URL + `/api/peserta/tanding`)
+    const headerConfig = () => {
+        let token = localStorage.getItem("token")
+        let header = {
+          headers : { Authorization : `Bearer ${token}` }
+        }
+        return header
+    }
+
+    const getPesertaTunggal = () => {
+        axios.get (BASE_URL + `/api/seni/peserta/tunggal`, headerConfig())
         .then (res => {
-            setDataPesertaTanding (res.data.data)
+            setDataPesertaTunggal (res.data.data)
         })
         .catch (err => {
             console.log(err.message);
         })
     }
+
+    const getPesertaGanda = () => {
+        axios.get (BASE_URL + `/api/seni/peserta/ganda`, headerConfig())
+        .then (res => {
+            setDataPesertaGanda (res.data.data)
+        })
+        .catch (err => {
+            console.log(err.message);
+        })
+    }
+
+    const getPesertaSoloKreatif = () => {
+        axios.get (BASE_URL + `/api/seni/peserta/solo_kreatif`, headerConfig())
+        .then (res => {
+            setDataPesertaSoloKreatif (res.data.data)
+        })
+        .catch (err => {
+            console.log(err.message);
+        })
+    }
+
+    const getPesertaRegu = () => {
+        axios.get (BASE_URL + `/api/seni/peserta/regu`, headerConfig())
+        .then (res => {
+            setDataPesertaRegu (res.data.data)
+        })
+        .catch (err => {
+            console.log(err.message);
+        })
+    }
+
 
     const handleFile = (e) =>{
         setFile (e.target.files[0])
@@ -33,28 +75,28 @@ const modalImport = () => {
         form.append("file",file)
 
         if(splitLoc.toString() === ',Tunggal'){
-            axios.post (BASE_URL + `/api/peserta/tanding/import`, form)
+            axios.post (BASE_URL + `/api/seni/peserta/import/tunggal`, form, headerConfig())
             .then (res => {
                 setShowModalImport(false)
-                getPesertaTanding()
+                getPesertaTunggal()
             })
             .catch (err => {
                 console.log(err.message);
             })
         }else if(splitLoc.toString() === ',Ganda'){
-            axios.post (BASE_URL + `/api/peserta/tanding/import`, form)
+            axios.post (BASE_URL + `/api/seni/peserta/import/ganda`, form, headerConfig())
             .then (res => {
                 setShowModalImport(false)
-                getPesertaTanding()
+                getPesertaGanda()
             })
             .catch (err => {
                 console.log(err.message);
             })
         } else if(splitLoc.toString() === ',Regu'){
-            axios.post (BASE_URL + `/api/peserta/tanding/import`, form)
+            axios.post (BASE_URL + `/api/seni/peserta/import/regu`, form, headerConfig())
             .then (res => {
                 setShowModalImport(false)
-                getPesertaTanding()
+                getPesertaSoloKreatif()
             })
             .catch (err => {
                 console.log(err.message);

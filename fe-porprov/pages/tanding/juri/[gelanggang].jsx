@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Navbar from '../components/navbar'
+import Navbar from '../../component/navbar/navbar';
 import Footer from '../components/footer'
 import Link from 'next/link'
 import { useRouter } from 'next/router';
@@ -16,11 +16,19 @@ const detail = () => {
     const [data, setData] = useState ([])
     const [dataJuri, setDataJuri] = useState ([])
 
+    const headerConfig = () => {
+        let token = localStorage.getItem("token")
+        let header = {
+          headers : { Authorization : `Bearer ${token}` }
+        }
+        return header
+    }
+
     const getData = () => {
-        const juriTanding = JSON.parse (localStorage.getItem ('juriTanding'))
+        const juriTanding = JSON.parse (localStorage.getItem ('user'))
         setDataJuri (juriTanding)
 
-        axios.get (BASE_URL + `/api/tanding/gel/` + gelanggang)
+        axios.get (BASE_URL + `/api/tanding/jadwal/gel/` + gelanggang, headerConfig())
         .then (res => {
             setData (res.data.data)
         })
@@ -44,7 +52,7 @@ const detail = () => {
     useEffect (() => {
         if (!router.isReady) return;
         getData () 
-        isLogged ()
+        // isLogged ()
     }, [router.query.gelanggang, router.isReady])
 
     return (

@@ -22,6 +22,14 @@ const juri = () => {
   const [showModalJuri, setShowModalJuri] = useState (false)
   const [showAlertHapus, setShowAlertHapus] = useState (false)
 
+  const headerConfig = () => {
+    let token = localStorage.getItem("token")
+    let header = {
+      headers : { Authorization : `Bearer ${token}` }
+    }
+    return header
+  }
+
   const addModal = () => {
       setShowModalJuri (true)
       setAction ('insert')
@@ -41,7 +49,7 @@ const juri = () => {
   }
 
   const getJuri = () => {
-      axios.get (BASE_URL + `/api/nama`)
+      axios.get (BASE_URL + `/api/nama`, headerConfig())
       .then (res => {
           setNamaJuri (res.data.data)
       })

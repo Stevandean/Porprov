@@ -39,18 +39,18 @@ const loginPage = () => {
     })
   }
 
-  const getEvent = () => {
-    axios.get (BASE_URL + `/api/event`)
-    .then (res => {
-      setEvent (res.data.data)
-    })
-    .catch (err => {
-      console.log(err.response.data.message);
-    })
-  }
+  // const getEvent = () => {
+  //   axios.get (BASE_URL + `/api/event`)
+  //   .then (res => {
+  //     setEvent (res.data.data)
+  //   })
+  //   .catch (err => {
+  //     console.log(err.response.data.message);
+  //   })
+  // }
 
   useEffect (() => {
-    getEvent ()
+    // getEvent ()
   }, [])
 
   return (
@@ -63,9 +63,7 @@ const loginPage = () => {
       className="fixed hidden bottom-0 right-0 lg:block"/>
     <div className="w-screen h-screen flex flex-col justify-center items-center">
       <form className="flex flex-col justify-center items-center z-50" onSubmit={(e)=> login(e)}>
-        {event.map ((item, index) => (
-          <img key={index + 1} className="w-32" src={BASE_URL + "/api/event/image/" + item.logo} />
-        ))}
+        <img className="w-32" src="../../images/logo_new.png" />
         <h2 className="my-8 font-display font-bold text-3xl text-gray-700 text-center">Login Admin</h2>
         <div className="relative">
           <svg className='w-5 absolute' fill="#ff9d00" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">

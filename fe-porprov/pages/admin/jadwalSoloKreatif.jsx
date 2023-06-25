@@ -30,13 +30,23 @@ const jadwalSoloKreatif = () => {
     const [jk, setJk] = useState ('')
     const [partai, setPartai] = useState ('')
     const [gelanggang, setGelanggang] = useState ('')
+    const [golongan, setGolongan] = useState ('')
     const [aktif, setAktif] = useState ('')
+
+    const headerConfig = () => {
+        let token = localStorage.getItem("token")
+        let header = {
+          headers : { Authorization : `Bearer ${token}` }
+        }
+        return header
+    }
 
     const addModalPutra = () => {
         setShowModalJadwal (true)
         setAction ('insert')
         setJk ('PUTRA')
         setGelanggang ('')
+        setGolongan('')
         setPartai ('')
         setIdBiru ('')
         setIdMerah ('')
@@ -47,6 +57,7 @@ const jadwalSoloKreatif = () => {
         setAction ('insert')
         setJk ('PUTRI')
         setGelanggang ('')
+        setGolongan('')
         setPartai ('')
         setIdBiru ('')
         setIdMerah ('')
@@ -55,13 +66,14 @@ const jadwalSoloKreatif = () => {
     const editModal = (selectedItem) => {
         setShowModalJadwal (true)
         setAction ('update')
-        setGelanggang (selectedItem.gelanggang)
+        setGelanggang (selectedItem.gelanggang_id)
         setPartai (selectedItem.partai)
-        setIdBiru (selectedItem.id_biru)
-        setIdMerah (selectedItem.id_merah)
+        setIdBiru (selectedItem.id_peserta_biru)
+        setIdMerah (selectedItem.id_peserta_merah)
         setBabak (selectedItem.babak)
         setJk (selectedItem.jk)
         setIdJadwal (selectedItem.id)
+        setGolongan(selectedItem.golongan)
     }
 
     const deleteModal = (selectedId) => {
@@ -70,7 +82,7 @@ const jadwalSoloKreatif = () => {
     }
 
     const getJadwalSoloKreatif = () => {
-        axios.get (BASE_URL + `/api/tgr/solo_kreatif`)
+        axios.get (BASE_URL + `/api/seni/jadwal/solo_kreatif`, headerConfig())
         .then (res => {
             setDataJadwalSoloKreatif (res.data.data)
         })
@@ -176,9 +188,9 @@ const jadwalSoloKreatif = () => {
                                 <tbody className='text-center'>
                                 {dataJadwalSoloKreatif.map((item, index) => (
                                     <tr key={index + 1} className='even:bg-[#4C4F6D] odd:bg-[#2c2f48]'>
-                                        <td className='py-5'>{item.gelanggang}</td>
+                                        <td className='py-5'>{item.gelanggang.gelanggang}</td>
                                         <td>{item.partai}</td>
-                                        <td>{item.kelas}</td>
+                                        <td>{item.golongan}</td>
                                         <td>{item.jk}</td>
                                         <td>{item.babak}</td>
                                         <td>{item.biru.nama1} ( {item.biru.kontingen} )</td>
@@ -205,7 +217,7 @@ const jadwalSoloKreatif = () => {
             {/* akhir konten utama */}
         </div>
 
-        <globalState.Provider value={{ showModalJadwal, setShowModalJadwal, action, setAction, dataJadwalSoloKreatif, setDataJadwalSoloKreatif, gelanggang, setGelanggang, partai, setPartai, idBiru, setIdBiru, idMerah, setIdMerah, idJadwal, setIdJadwal, jk, setJk, babak, setBabak}}>
+        <globalState.Provider value={{ showModalJadwal, setShowModalJadwal, action, setAction, dataJadwalSoloKreatif, setDataJadwalSoloKreatif, gelanggang, setGelanggang, partai, setPartai, idBiru, setIdBiru, idMerah, setIdMerah, idJadwal, setIdJadwal, golongan, setGolongan, jk, setJk, babak, setBabak}}>
             <ModalJadwal />
         </globalState.Provider>
 

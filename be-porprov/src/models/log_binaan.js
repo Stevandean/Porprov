@@ -17,9 +17,10 @@ module.exports = (sequelize, DataTypes) => {
     id: {
       allowNull: false,
       primaryKey: true,
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
     },
-    id_poin: {
+    id_nilai_tanding: {
       allowNull: false,
       type: DataTypes.UUID
     },

@@ -33,8 +33,16 @@ const jadwalTanding = () => {
     const [idMerah, setIdMerah] = useState ('')
     const [babak, setBabak] = useState ('')
 
+    const headerConfig = () => {
+        let token = localStorage.getItem("token")
+        let header = {
+          headers : { Authorization : `Bearer ${token}` }
+        }
+        return header
+    }
+
     const getJadwalTanding = () => {
-        axios.get (BASE_URL + `/api/tanding`)
+        axios.get (BASE_URL + `/api/tanding/jadwal`, headerConfig())
         .then (res => {
             setDataJadwalTanding (res.data.data)
         })
@@ -52,6 +60,8 @@ const jadwalTanding = () => {
         setIdBiru ('')
         setIdMerah ('')
         setBabak ('')
+        setGelanggang ('')
+        setPartai('')
     }
 
     const addModalPutri = () => {
@@ -63,6 +73,8 @@ const jadwalTanding = () => {
         setIdBiru ('')
         setIdMerah ('')
         setBabak ('')
+        setGelanggang ('')
+        setPartai('')
     }
 
     const editModal = (selectedItem) => {
@@ -70,12 +82,12 @@ const jadwalTanding = () => {
         setAction ('update')
         setIdJadwal (selectedItem.id)
         setJk (selectedItem.jk)
-        setGelanggang (selectedItem.gelanggang)
+        setGelanggang (selectedItem.gelanggang_id)
         setPartai (selectedItem.partai)
         setKelas (selectedItem.kelas)
         setGolongan (selectedItem.golongan)
-        setIdBiru (selectedItem.id_biru)
-        setIdMerah (selectedItem.id_merah)
+        setIdBiru (selectedItem.id_peserta_biru)
+        setIdMerah (selectedItem.id_peserta_merah)
         setBabak (selectedItem.babak)
     }
 
@@ -183,9 +195,9 @@ const jadwalTanding = () => {
                                 </thead>
                                 <tbody className='text-center'>
                                     {dataJadwalTanding.map((item, index) => (
-                                        <tr className='even:bg-[#4C4F6D] odd:bg-[#2c2f48]'>
+                                        <tr key={index + 1} className='even:bg-[#4C4F6D] odd:bg-[#2c2f48]'>
                                             <td className='py-5'>{index + 1}</td>
-                                            <td>{item.gelanggang}</td>
+                                            <td>{item.gelanggang.gelanggang}</td>
                                             <td>{item.partai}</td>
                                             <td>{item.kelas}</td>
                                             <td>{item.jk}</td>

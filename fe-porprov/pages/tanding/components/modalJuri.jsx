@@ -3,9 +3,9 @@ import { globalState } from '../../../context/context'
 import axios from 'axios';
 import socketIo from 'socket.io-client'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-const socket = socketIo (BASE_URL)
 
 const modalJuri = (props) => {
+    const socket = props.socket
 
     const {showModalJuri, setShowModalJuri} = useContext (globalState)
     const {infoVerif, setInfoVerif} = useContext (globalState)
@@ -17,7 +17,7 @@ const modalJuri = (props) => {
     // const jadwal = props.id_jadwal
 
     const getJuri = () => {
-        const juri = JSON.parse (localStorage.getItem ('juriTanding'))
+        const juri = JSON.parse (localStorage.getItem ('user'))
         setDataJuri (juri)
     }
 
@@ -25,29 +25,29 @@ const modalJuri = (props) => {
         let info = []
         const jadwal = localStorage.getItem ('jadwal')
         let id_jadwal = jadwal
-        console.log(jadwal);
-        await axios.get(BASE_URL + `/api/verif/tanding/${jadwal}`)
+        // console.log(jadwal);
+        await axios.get(BASE_URL + `/api/tanding/verif/${jadwal}`)
         .then (res => {
             setData(res.data.data)
             info = res.data.data
             if(info === null){
-                console.log('verif null');
+                // console.log('verif null');
             } else if (info !== null){
                 if(info.show === true){
-                    setShowModalJuri(false)
+                    setShowModalJuri(true)
                 } else if (info.show === false){
                     setShowModalJuri(false)
                 }
             }
         }).catch(err => {
-            // console.log(err.message);
+            console.log(err.message);
         })
     }
 
     const selectBiru = async () =>{
         const jadwal = localStorage.getItem ('jadwal')
         let id_jadwal = jadwal
-        const juri = JSON.parse (localStorage.getItem ('juriTanding'))
+        const juri = JSON.parse (localStorage.getItem ('user'))
         let id_juri = juri.id
 
         let form = {
@@ -55,13 +55,13 @@ const modalJuri = (props) => {
             id_juri: id_juri
 
         }
-        await axios.put(BASE_URL + `/api/verif/tanding/jatuhan/juri/biru`, form)
+        await axios.put(BASE_URL + `/api/tanding/verif/jatuhan/juri/biru`, form)
         .then(res => {
             console.log(res.data.message);
             setClickedRed (false)
             setClickedYellow (false)
             console.log("nilai masuk");
-            socket.emit('editVerif')
+            socket.emit('editVerif', jadwal)
             // setShowModalJuri(false)
         }).catch(err => {
             console.log(err.message);
@@ -71,7 +71,7 @@ const modalJuri = (props) => {
     const selectMerah = async () =>{
         const jadwal = localStorage.getItem ('jadwal')
         let id_jadwal = jadwal
-        const juri = JSON.parse (localStorage.getItem ('juriTanding'))
+        const juri = JSON.parse (localStorage.getItem ('user'))
         let id_juri = juri.id
 
         let form = {
@@ -79,23 +79,24 @@ const modalJuri = (props) => {
             id_juri: id_juri
 
         }
-        await axios.put(BASE_URL + `/api/verif/tanding/jatuhan/juri/merah`, form)
+        await axios.put(BASE_URL + `/api/tanding/verif/jatuhan/juri/merah`, form)
         .then(res => {
             setClickedBlue (false)
             setClickedYellow (false)
             console.log(res.data.message);
             console.log("nilai masuk");
-            socket.emit('editVerif')
+            socket.emit('editVerif', jadwal)
             // setShowModalJuri(false)
         }).catch(err => {
             console.log(err.message);
+            console.log(err.response.data.message);
         })
     }
 
     const selectKuning = async () =>{
         const jadwal = localStorage.getItem ('jadwal')
         let id_jadwal = jadwal
-        const juri = JSON.parse (localStorage.getItem ('juriTanding'))
+        const juri = JSON.parse (localStorage.getItem ('user'))
         let id_juri = juri.id
 
         let form = {
@@ -103,13 +104,13 @@ const modalJuri = (props) => {
             id_juri: id_juri
 
         }
-        await axios.put(BASE_URL + `/api/verif/tanding/jatuhan/juri/kuning`, form)
+        await axios.put(BASE_URL + `/api/tanding/verif/jatuhan/juri/kuning`, form)
         .then(res => {
             setClickedBlue (false)
             setClickedRed (false)
             console.log(res.data.message);
             console.log("nilai masuk");
-            socket.emit('editVerif')
+            socket.emit('editVerif', jadwal)
             // setShowModalJuri(false)
         }).catch(err => {
             console.log(err.message);
@@ -117,9 +118,21 @@ const modalJuri = (props) => {
     }
     
     useEffect(() => {
-      cekVerif()
-      getJuri()
+        const jadwal = localStorage.getItem ('jadwal')
+        socket.emit('join', jadwal)
+    
+        return () => {
+            socket.emit('leave', jadwal)
+        }
     }, [])
+    
+
+    useEffect(() => {
+        if (showModalJuri) {
+            cekVerif()
+            getJuri()
+        }
+    }, [showModalJuri])
     
 
     return (

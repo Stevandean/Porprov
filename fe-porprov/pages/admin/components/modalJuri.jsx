@@ -11,13 +11,21 @@ const modalJuri = () => {
 
     const {namaJuri, setNamaJuri} = useContext (globalState)
 
+    const headerConfig = () => {
+        let token = localStorage.getItem("token")
+        let header = {
+          headers : { Authorization : `Bearer ${token}` }
+        }
+        return header
+    }
+      
     const handleSave = (e) => {
         e.preventDefault ()
         let form = {
             nama : nama
         }
         if (action === 'insert') {
-            axios.post (BASE_URL + `/api/nama`, form)
+            axios.post (BASE_URL + `/api/nama`, form, headerConfig())
             .then (res => {
                 setShowModalJuri (false)
                 getJuri ()
@@ -26,7 +34,7 @@ const modalJuri = () => {
                 console.log(err.response.data.message);
             })
         } else if (action === 'update') {
-            axios.put (BASE_URL + `/api/nama/${id}`, form)
+            axios.put (BASE_URL + `/api/nama/${id}`, form, headerConfig())
             .then (res => {
                 setShowModalJuri (false)
                 getJuri ()
@@ -40,7 +48,7 @@ const modalJuri = () => {
     }
 
     const getJuri = () => {
-        axios.get (BASE_URL + `/api/nama`)
+        axios.get (BASE_URL + `/api/nama`, headerConfig())
         .then (res => {
             setNamaJuri (res.data.data)
         })

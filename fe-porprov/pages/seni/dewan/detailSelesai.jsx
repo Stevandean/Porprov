@@ -3,7 +3,7 @@ import axios from 'axios';
 import Link from 'next/link'
 import { useRouter } from 'next/router';
 import socketIo from 'socket.io-client'
-import Navbar from '../components/navbar'
+import Navbar from '../../component/navbar/navbar'
 import Footer from '../components/footer'
 import TimerLayar from '../components/timerLayar';
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -39,7 +39,7 @@ const detailSelesai = () => {
         let hukum = []
 
         if (peserta.kategori == 'tunggal') {   
-            await axios.get (BASE_URL + `/api/tunggal/jadwal/${id_jadwal}/${id_peserta}`)
+            await axios.get (BASE_URL + `/api/nilai/tunggal/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilai (res.data.data)
                 nilai = (res.data.data)
@@ -48,7 +48,7 @@ const detailSelesai = () => {
                 console.log(err.message);
             })
         } else if (peserta.kategori == 'ganda') {
-            await axios.get (BASE_URL + `/api/ganda/jadwal/${id_jadwal}/${id_peserta}`)
+            await axios.get (BASE_URL + `/api/nilai/ganda/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilai (res.data.data)
                 nilai = (res.data.data)
@@ -57,7 +57,7 @@ const detailSelesai = () => {
                 console.log(err.response.data.message);
             })
         } else if (peserta.kategori == 'solo_kreatif') {
-            await axios.get (BASE_URL + `/api/solo_kreatif/${id_jadwal}/${id_peserta}`)
+            await axios.get (BASE_URL + `/api/nilai/solo_kreatif/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilai (res.data.data)
                 nilai = (res.data.data)
@@ -66,7 +66,7 @@ const detailSelesai = () => {
                 console.log(err.response.data.message);
             })
         } else if (peserta.kategori == 'regu') {
-            await axios.get (BASE_URL + `/api/regu/jadwal/${id_jadwal}/${id_peserta}`)
+            await axios.get (BASE_URL + `/api/nilai/regu/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilai (res.data.data)
                 nilai = (res.data.data)
@@ -75,9 +75,9 @@ const detailSelesai = () => {
             console.log('gagal');
         }
 
-        console.log (BASE_URL + `/api/tunggal/jadwal/${id_jadwal}/${id_peserta}`);
+        console.log (BASE_URL + `/api/nilai/tunggal/jadwal/${id_jadwal}/${id_peserta}`);
 
-        await axios.get (BASE_URL + `/api/hukum/tgr/jadwal/${id_jadwal}/${id_peserta}`)
+        await axios.get (BASE_URL + `/api/seni/hukum/jadwal/${id_jadwal}/${id_peserta}`)
         .then (res => {
             setHukum (res.data.data)
             hukum = (res.data.data)
@@ -87,7 +87,7 @@ const detailSelesai = () => {
         })
 
         if (peserta.kategori == 'tunggal') {
-            axios.get (BASE_URL + `/api/tunggal/jadwal/${id_jadwal}/${id_peserta}`)
+            axios.get (BASE_URL + `/api/nilai/tunggal/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilaiSort (res.data.data)
             })
@@ -95,7 +95,7 @@ const detailSelesai = () => {
                 console.log(err.message);
             })
         } else if (peserta.kategori == 'ganda') {
-            axios.get (BASE_URL + `/api/ganda/jadwal/${id_jadwal}/${id_peserta}`)
+            axios.get (BASE_URL + `/api/nilai/ganda/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilaiSort (res.data.data)
             })
@@ -103,7 +103,7 @@ const detailSelesai = () => {
                 console.log(err.response.data.message);
             })
         } else if (peserta.kategori == 'regu') {
-            axios.get (BASE_URL + `/api/regu/jadwal/${id_jadwal}/${id_peserta}`)
+            axios.get (BASE_URL + `/api/nilai/regu/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilaiSort (res.data.data)
             })
@@ -111,7 +111,7 @@ const detailSelesai = () => {
                 console.log(err.response.data.message);
             })
         } else if (peserta.kategori == 'solo_kreatif') {
-            axios.get (BASE_URL + `/api/solo_kreatif/jadwal/${id_jadwal}/${id_peserta}`)
+            axios.get (BASE_URL + `/api/nilai/solo_kreatif/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilaiSort (res.data.data)
             })

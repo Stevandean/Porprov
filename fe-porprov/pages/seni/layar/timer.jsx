@@ -50,7 +50,7 @@ const timer = () => {
                                 <button onClick={() => router.back()} className="bg-red-700 rounded-lg w-12 h-12 my-auto">
                                     <img className='p-3' src="../../svg/back.svg" />
                                 </button>
-                                <div className={peserta.id == jadwal.id_biru ? "bg-blue-600 w-full flex justify-start items-center pl-5 py-2 rounded-lg" : "bg-red-600 w-full flex justify-start items-center pl-5 py-2 rounded-lg"}>
+                                <div className={peserta.id == jadwal.id_peserta_biru ? "bg-blue-600 w-full flex justify-start items-center pl-5 py-2 rounded-lg" : "bg-red-600 w-full flex justify-start items-center pl-5 py-2 rounded-lg"}>
                                     <div className="mr-3">
                                         <h1 className='text-5xl font-bold'>{jadwal.partai}</h1>
                                     </div>
@@ -84,7 +84,7 @@ const timer = () => {
                             </div>
                             <div className="bg-[#222954] py-2 px-8 rounded-lg flex flex-col jusitfy-center items-center col-span-3">
                                 <span className='text-lg font-semibold'>{jadwal.babak}</span>
-                                <span className='text-lg font-semibold'>{jadwal.kategori} - {jadwal.kelas}</span>
+                                <span className='text-lg font-semibold'>{jadwal.kategori} - {jadwal.golongan}</span>
                             </div>
                         </div>
 

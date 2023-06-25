@@ -3,7 +3,7 @@ import Link from 'next/link'
 import axios from 'axios'
 import socketIo from 'socket.io-client'
 import { useRouter } from 'next/router'
-import Navbar from '../components/navbar'
+import Navbar from '../../component/navbar/navbar'
 import Footer from '../components/footer'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 

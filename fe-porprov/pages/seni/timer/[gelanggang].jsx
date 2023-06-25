@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Navbar from '../components/navbar'
+import Navbar from '../../component/navbar/navbar'
 import Footer from '../components/footer'
 import Link from 'next/link'
 import axios from 'axios'
@@ -15,10 +15,20 @@ const detail = () => {
     // ini state
     const [data, setData] = useState ([])
 
+    
+    const headerConfig = () => {
+        let token = localStorage.getItem("token")
+        let header = {
+          headers : { Authorization : `Bearer ${token}` }
+        }
+        return header
+    }
+
     const getData = () => {
-        axios.get (BASE_URL+ "/api/tgr/gel/" + gelanggang)
+        axios.get (BASE_URL+ "/api/seni/jadwal/gel/" + gelanggang, headerConfig())
         .then ((res) => {
-        setData (res.data.data)
+          setData (res.data.data)
+          console.log(res.data.data);
         })
         .catch((err) => {
         console.log(err.message);
@@ -40,8 +50,9 @@ const detail = () => {
         router.push ('/seni/timer/timer')
     }
     useEffect (() => {
+        if (!router.isReady) return;
         getData ()
-    },[])
+    }, [router.query.kategori, router.isReady])
   
     return (
         <>
@@ -116,7 +127,7 @@ const detail = () => {
                             <span className='font-medium texy-lg text-[#2C2F48]'>{item.biru.kontingen}</span>
                             {/* action button */}
                             <div className="px-3 pb-3">
-                                <button className='bg-[#39ac39] hover:bg-[#2f912f] py-2 rounded-lg w-full' onClick={() => toTimerBiru(item)}>Layar</button>
+                                <button className='bg-[#39ac39] hover:bg-[#2f912f] py-2 rounded-lg w-full' onClick={() => toTimerBiru(item)}>Timer</button>
                             </div>
                         </div>
                         {/* card pesilat merah */}
@@ -156,7 +167,7 @@ const detail = () => {
                             <span className='font-medium texy-lg text-[#2C2F48]'>{item.merah.kontingen}</span>
                             {/* action button */}
                             <div className="px-3 pb-3">
-                                <button className='bg-[#39ac39] hover:bg-[#2f912f] py-2 rounded-lg w-full' onClick={() => toTimerMerah(item)}>Layar</button>
+                                <button className='bg-[#39ac39] hover:bg-[#2f912f] py-2 rounded-lg w-full' onClick={() => toTimerMerah(item)}>Timer</button>
                             </div>
                         </div>   
                     </div>

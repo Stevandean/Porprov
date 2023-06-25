@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class admin extends Model {
+  class user extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,21 +11,26 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.event,{
+        foreignKey: "event_id",
+        ad: "event"
+      })
     }
   }
-  admin.init({
+  user.init({
     id: {
-      allowNull: false,
       primaryKey: true,
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
     },
+    role_id: DataTypes.STRING,
+    event_id: DataTypes.UUID,
     username: DataTypes.STRING,
     password: DataTypes.STRING,
-    role: DataTypes.ENUM('admin','dewan')
   }, {
     sequelize,
     modelName: 'user',
     tableName: 'user'
   });
-  return admin;
+  return user;
 };

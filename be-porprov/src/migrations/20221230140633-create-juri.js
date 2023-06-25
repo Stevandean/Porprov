@@ -8,6 +8,22 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.UUID
       },
+      role_id: {
+        allowNull: true,
+        type: Sequelize.STRING,
+        references:{
+          model:"roles",
+          key:"id"
+        }
+      },
+      event_id: {
+        allowNull: false,
+        type: Sequelize.UUID,
+        references:{
+          model:"event",
+          key:"id"
+        }
+      },
       no: {
         allowNull: false,
         type: Sequelize.INTEGER
@@ -26,10 +42,12 @@ module.exports = {
         allowNull: false
       },
       updatedAt: {
-        type: 'TIMESTAMP',
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-        allowNull: false
-      }
+        type: "TIMESTAMP",
+        defaultValue: Sequelize.literal(
+          "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+        ),
+        allowNull: false,
+      },
     });
   },
   async down(queryInterface, Sequelize) {

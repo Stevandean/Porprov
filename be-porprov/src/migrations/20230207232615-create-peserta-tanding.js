@@ -8,41 +8,45 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.UUID
       },
+      event_id: {
+        allowNull: false,
+        type: Sequelize.UUID,
+        references:{
+          model:"event",
+          key:"id"
+        }
+      },
       kelas: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       jk: {
         type: Sequelize.ENUM('PUTRA','PUTRI')
       },
       golongan: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       nama: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       kontingen: {
+        allowNull: false,
         type: Sequelize.STRING
-      },
-      kota: {
-        type: Sequelize.STRING
-      },
-      umur: {
-        type: Sequelize.INTEGER
-      },
-      tinggi_badan: {
-        type: Sequelize.INTEGER
-      },
-      berat_badan: {
-        type: Sequelize.INTEGER
       },
       createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        type: 'TIMESTAMP',
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        allowNull: false
       },
       updatedAt: {
+        type: "TIMESTAMP",
+        defaultValue: Sequelize.literal(
+          "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+        ),
         allowNull: false,
-        type: Sequelize.DATE
-      }
+      },
     });
   },
   async down(queryInterface, Sequelize) {

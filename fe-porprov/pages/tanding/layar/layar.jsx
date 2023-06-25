@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react'
 import Link from 'next/link'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import Navbar from '../components/navbar'
+import Navbar from '../../component/navbar/navbar'
 import Footer from '../components/footer'
 import TimerLayar from '../components/timerLayar'
 import ModalLayar from '../components/modalLayar'
@@ -17,6 +17,9 @@ const layar = () => {
 
     // ini state
     const {showModalLayar, setShowModalLayar} = useContext (globalState)
+    const {infoVerif, setInfoVerif} = useContext (globalState)
+    const [jadwal, setJadwal] = useState ([])
+
     const [jadwalTanding, setJadwalTanding] = useState ([])
     const [nilaiTanding, setNilaiTanding] = useState ([])
     const [totalPoin, setTotalPoin] = useState ([])
@@ -152,19 +155,21 @@ const layar = () => {
         await axios.get (BASE_URL + `/api/nilai/tanding/layar/` + jadwal.id)
         .then (res => {
             setNilaiTanding (res.data.data)
+            console.log(res.data.data);
         })
         .catch (err => {
             console.log(err.response.data.message);
         })
 
-        await axios.get (BASE_URL + `/api/peringatan/sudut/merah/` + jadwal.id)
+        await axios.get (BASE_URL + `/api/tanding/peringatan/sudut/merah/` + jadwal.id)
         .then (res => {
             setPeringatanMerah (res.data.data)
         })
         .catch (err => {
             console.log(err.response.data.message);
         })
-        await axios.get (BASE_URL + `/api/peringatan/sudut/biru/` + jadwal.id)
+
+        await axios.get (BASE_URL + `/api/tanding/peringatan/sudut/biru/` + jadwal.id)
         .then (res => {
             setPeringatanBiru (res.data.data)
         })
@@ -176,18 +181,42 @@ const layar = () => {
     const getTotalPoin = () =>{
         const jadwal = JSON.parse(localStorage.getItem ('jadwalTanding'))
 
-        axios.get (BASE_URL + `/api/tanding/poin/` + jadwal.id)
+        axios.get (BASE_URL + `/api/tanding/jadwal/poin/` + jadwal.id)
         .then (res => {
             setTotalPoin (res.data.data)
         })
         .catch (err => {
             console.log(err.response.data.message);
         })
-        console.log(BASE_URL + `/api/tanding/poin/` + jadwal.id)
+        // console.log(BASE_URL + `/api/tanding/poin/` + jadwal.id)
     }
 
     const showModal = () => {
         setShowModalLayar(true)
+    }
+
+    const cekVerif = async () => {
+        let info = []
+        const jadwal = JSON.parse(localStorage.getItem ('jadwalTanding'))
+        let id_jadwal = jadwal.id
+        await axios.get(BASE_URL + `/api/tanding/verif/${id_jadwal}`)
+        .then (res => {
+            console.log(res.data.data);
+            info = res.data.data
+            setInfoVerif(info.poin)
+            // console.log(info.show);
+            if(info == null){
+                console.log('verif null');
+            } else if (info != null){
+                if(info.show == true){
+                    setShowModalLayar(true)
+                } else if (info.show === false){
+                    setShowModalLayar(false)
+                }
+            }
+        }).catch(err => {
+            console.log(err.message);
+        })
     }
 
     const closeModal = () =>{
@@ -198,13 +227,16 @@ const layar = () => {
         window.location.reload(false);
     }
 
-    const ubah_data = () => socket.emit ('init_juri_tanding')
+    const ubah_data = () => socket.emit ('init_juri_tanding', localStorage.getItem ('jadwal'))
 
     useEffect (() => {
+        const jadwal = JSON.parse(localStorage.getItem ('jadwalTanding'))
+        socket.emit('join', jadwal.id)
+
         socket.on('naikBabak', refreshLayar)
 
         //socket modal verif
-        socket.on('open_verif', showModal)
+        socket.on('open_verif', cekVerif)
         socket.on('close_verif', closeModal)
 
         //socket nilai
@@ -237,11 +269,12 @@ const layar = () => {
         socket.on ('tbj2On', onLightTbj2)
         socket.on ('tbj3On', onLightTbj3)
 
+        getTotalPoin()
         getJadwalTanding ()
         getNilaiTanding ()
 
         return () =>{
-            socket.disconnect()
+            socket.emit('leave', jadwal)
         }
     }, [])
 
@@ -304,7 +337,9 @@ const layar = () => {
                                                     <TimerLayar id_jadwal={jadwalTanding.id} golongan={jadwalTanding.golongan} babak={'III'} />
                                                 )
                                             }
-                                        } else console.log('gagal');
+                                        } else {
+                                            console.log('gagal');
+                                        }
                                     })()}
                                 </div>
                                 {/* pesilat merah information */}
@@ -316,14 +351,14 @@ const layar = () => {
                             {/* wrapper hukuman and babak */}
                             <div className="grid grid-cols-11 gap-x-5 border-2 border-[#222954] p-4 rounded-lg mb-5">
                                 {/* hukuman and babak biru */}
-                                <div className="col-span-5 grid grid-cols-3 gap-x-3">
+                                <div className="col-span-5 grid grid-cols-5 gap-x-3">
                                     {/* wrapper hukuman and total score */}
-                                    <div className="grid grid-rows-3 gap-y-3">
+                                    <div className="grid grid-rows-3 gap-y-3 col-span-2">
                                         {/* binaan */}
                                         <div className="flex flex-rows justify-around gap-x-3">
                                             {(() => {
                                                 if (nilaiTanding.length == 1) {
-                                                    if (nilaiTanding[0].poin_biru?.log_binaan[0]?.poin == '1x') {
+                                                    if (nilaiTanding[0].nilai_biru?.log_binaan[0]?.poin == '1x') {
                                                         return (
                                                             <>
                                                                 <div className="bg-[#fbff00] border-2 border-[#222954] rounded-lg flex justify-center items-center w-full">
@@ -335,7 +370,7 @@ const layar = () => {
                                                                 </div>
                                                             </>
                                                         )
-                                                    } else if (nilaiTanding[0].poin_biru?.log_binaan[0]?.poin == '2x') {
+                                                    } else if (nilaiTanding[0].nilai_biru?.log_binaan[0]?.poin == '2x') {
                                                         return (
                                                             <>
                                                                 <div className="bg-[#fbff00] border-2 border-[#222954] rounded-lg flex justify-center items-center w-full">
@@ -359,7 +394,7 @@ const layar = () => {
                                                         )
                                                     }
                                                 } else if (nilaiTanding.length == 2) {
-                                                    if (nilaiTanding[1].poin_biru?.log_binaan[0]?.poin == '1x') {
+                                                    if (nilaiTanding[1].nilai_biru?.log_binaan[0]?.poin == '1x') {
                                                         return (
                                                             <>
                                                                 <div className="bg-[#fbff00] border-2 border-[#222954] rounded-lg flex justify-center items-center w-full">
@@ -371,7 +406,7 @@ const layar = () => {
                                                                 </div>
                                                             </>
                                                         )
-                                                    } else if (nilaiTanding[1].poin_biru?.log_binaan[0]?.poin == '2x') {
+                                                    } else if (nilaiTanding[1].nilai_biru?.log_binaan[0]?.poin == '2x') {
                                                         return (
                                                             <>
                                                                 <div className="bg-[#fbff00] border-2 border-[#222954] rounded-lg flex justify-center items-center w-full">
@@ -395,7 +430,7 @@ const layar = () => {
                                                         )
                                                     }
                                                 } else if (nilaiTanding.length == 3) {
-                                                    if (nilaiTanding[2].poin_biru?.log_binaan[0]?.poin == '1x') {
+                                                    if (nilaiTanding[2].nilai_biru?.log_binaan[0]?.poin == '1x') {
                                                         return (
                                                             <>
                                                                 <div className="bg-[#fbff00] border-2 border-[#222954] rounded-lg flex justify-center items-center w-full">
@@ -407,7 +442,7 @@ const layar = () => {
                                                                 </div>
                                                             </>
                                                         )
-                                                    } else if (nilaiTanding[2].poin_biru?.log_binaan[0]?.poin == '2x') {
+                                                    } else if (nilaiTanding[2].nilai_biru?.log_binaan[0]?.poin == '2x') {
                                                         return (
                                                             <>
                                                                 <div className="bg-[#fbff00] border-2 border-[#222954] rounded-lg flex justify-center items-center w-full">
@@ -437,7 +472,7 @@ const layar = () => {
                                         <div className="flex flex-rows justify-around gap-x-3">
                                             {(() => {
                                                 if (nilaiTanding.length == 1) {
-                                                    if (nilaiTanding[0].poin_biru?.log_teguran.length == 1) {
+                                                    if (nilaiTanding[0].nilai_biru?.log_teguran.length == 1) {
                                                         return (
                                                             <>
                                                                 <div className="bg-[#fbff00] border-2 border-[#222954] rounded-lg flex justify-center items-center w-full">
@@ -449,7 +484,7 @@ const layar = () => {
                                                                 </div>
                                                             </>
                                                         )
-                                                    } else if (nilaiTanding[0].poin_biru?.log_teguran.length == 2) {
+                                                    } else if (nilaiTanding[0].nilai_biru?.log_teguran.length == 2) {
                                                         return (
                                                             <>
                                                                 <div className="bg-[#fbff00] border-2 border-[#222954] rounded-lg flex justify-center items-center w-full">
@@ -475,7 +510,7 @@ const layar = () => {
                                                         )
                                                     }
                                                 } else if (nilaiTanding.length == 2) {
-                                                    if (nilaiTanding[1].poin_biru?.log_teguran.length == 1) {
+                                                    if (nilaiTanding[1].nilai_biru?.log_teguran.length == 1) {
                                                         return (
                                                             <>
                                                                 <div className="bg-[#fbff00] border-2 border-[#222954] rounded-lg flex justify-center items-center w-full">
@@ -487,7 +522,7 @@ const layar = () => {
                                                                 </div>
                                                             </>
                                                         )
-                                                    } else if (nilaiTanding[1].poin_biru?.log_teguran.length == 2) {
+                                                    } else if (nilaiTanding[1].nilai_biru?.log_teguran.length == 2) {
                                                         return (
                                                             <>
                                                                 <div className="bg-[#fbff00] border-2 border-[#222954] rounded-lg flex justify-center items-center w-full">
@@ -513,7 +548,7 @@ const layar = () => {
                                                         )
                                                     }
                                                 } else if (nilaiTanding.length == 3) {
-                                                    if (nilaiTanding[2].poin_biru?.log_teguran.length == 1) {
+                                                    if (nilaiTanding[2].nilai_biru?.log_teguran.length == 1) {
                                                         return (
                                                             <>
                                                                 <div className="bg-[#fbff00] border-2 border-[#222954] rounded-lg flex justify-center items-center w-full">
@@ -525,7 +560,7 @@ const layar = () => {
                                                                 </div>
                                                             </>
                                                         )
-                                                    } else if (nilaiTanding[2].poin_biru?.log_teguran.length == 2) {
+                                                    } else if (nilaiTanding[2].nilai_biru?.log_teguran.length == 2) {
                                                         return (
                                                             <>
                                                                 <div className="bg-[#fbff00] border-2 border-[#222954] rounded-lg flex justify-center items-center w-full">
@@ -792,25 +827,44 @@ const layar = () => {
                                                 }
                                             })()}
                                         </div>
+                                        {/* jatuhan */}
+                                        <div className='gap-x-3 border-2 border-black rounded-lg py-1'>
+                                            {(() => {
+                                                if (nilaiTanding.length == 1) {
+                                                    return (
+                                                        <h1 className='text-black font-montserrat text-center text-2xl font-bold'>JATUHAN: {nilaiTanding[0]?.nilai_biru?.log_jatuhan.length}x</h1>
+                                                    )
+                                                } else if (nilaiTanding.length == 2) {
+                                                    return (
+                                                        <h1 className='text-black font-montserrat text-center text-2xl font-bold'>JATUHAN: {(nilaiTanding[0]?.nilai_biru?.log_jatuhan.length)+(nilaiTanding[1]?.nilai_biru?.log_jatuhan.length)}x</h1>
+                                                    )
+                                                } else if (nilaiTanding.length == 3) {
+                                                    return (
+                                                        <h1 className='text-black font-montserrat text-center text-2xl font-bold'>JATUHAN: {(nilaiTanding[0]?.nilai_biru?.log_jatuhan.length)+(nilaiTanding[1]?.nilai_biru?.log_jatuhan.length)+(nilaiTanding[2]?.nilai_biru?.log_jatuhan.length)}x</h1>
+                                                    )
+                                                }
+                                            })()}
+                                        </div>
                                     </div>
                                     {/* wrapper score biru */}
-                                    <div className="bg-gradient-to-b from-[#0029FF] to-[#001479] rounded-lg flex justify-center items-center col-span-2">
+                                    <div className="bg-gradient-to-b from-[#0029FF] to-[#001479] rounded-lg flex justify-center items-center col-span-3">
                                         {(() => {
                                             if (nilaiTanding.length == 1) {
                                                 return (
-                                                    <h1 className='text-9xl font-bold'>{totalPoin.total_biru}</h1>
+                                                    <h1 className='text-[170px] font-bold h-full p-0 m-0 inline-block'>{totalPoin.total_biru}</h1>
                                                 )
                                             } else if (nilaiTanding.length == 2) {
                                                 return (
-                                                    <h1 className='text-9xl font-bold'>{totalPoin.total_biru}</h1> 
+                                                    <h1 className='text-[170px] font-bold'>{totalPoin.total_biru}</h1> 
                                                 )
                                             } else if (nilaiTanding.length == 3) {
                                                 return (
-                                                    <h1 className='text-9xl font-bold'>{totalPoin.total_biru}</h1>
+                                                    <h1 className='text-[170px] font-bold'>{totalPoin.total_biru}</h1>
                                                 )
                                             }
                                         })()}
                                     </div>
+
                                 </div>
                                 {/* wrapper babak indicator */}
                                 <div className="flex flex-col justify-center items-center">
@@ -835,15 +889,15 @@ const layar = () => {
                                         {(() => {
                                             if (nilaiTanding.length == 1) {
                                                 return (
-                                                    <h1 className='text-9xl font-bold'>{totalPoin.total_merah}</h1>
+                                                    <h1 className='text-[170px] font-bold'>{totalPoin.total_merah}</h1>
                                                 )
                                             } else if (nilaiTanding.length == 2) {
                                                 return (
-                                                    <h1 className='text-9xl font-bold'>{totalPoin.total_merah}</h1>
+                                                    <h1 className='text-[170px] font-bold'>{totalPoin.total_merah}</h1>
                                                 )
                                             } else if (nilaiTanding.length == 3) {
                                                 return (
-                                                    <h1 className='text-9xl font-bold'>{totalPoin.total_merah}</h1>
+                                                    <h1 className='text-[170px] font-bold'>{totalPoin.total_merah}</h1>
                                                 )
                                             }
                                         })()}
@@ -854,7 +908,7 @@ const layar = () => {
                                         <div className="flex flex-rows justify-around gap-x-3">
                                             {(() => {
                                                 if (nilaiTanding.length == 1) {
-                                                    if (nilaiTanding[0].poin_merah?.log_binaan[0]?.poin == '1x') {
+                                                    if (nilaiTanding[0].nilai_merah?.log_binaan[0]?.poin == '1x') {
                                                         return (
                                                             <>
                                                                 <div className="bg-[#fbff00] border-2 border-[#222954] rounded-lg flex justify-center items-center w-full">
@@ -866,7 +920,7 @@ const layar = () => {
                                                                 </div>
                                                             </>
                                                         )
-                                                    } else if (nilaiTanding[0].poin_merah?.log_binaan[0]?.poin == '2x') {
+                                                    } else if (nilaiTanding[0].nilai_merah?.log_binaan[0]?.poin == '2x') {
                                                         return (
                                                             <>
                                                                 <div className="bg-[#fbff00] border-2 border-[#222954] rounded-lg flex justify-center items-center w-full">
@@ -890,7 +944,7 @@ const layar = () => {
                                                         )
                                                     }
                                                 } else if (nilaiTanding.length == 2) {
-                                                    if (nilaiTanding[1].poin_merah?.log_binaan[0]?.poin == '1x') {
+                                                    if (nilaiTanding[1].nilai_merah?.log_binaan[0]?.poin == '1x') {
                                                         return (
                                                             <>
                                                                 <div className="bg-[#fbff00] border-2 border-[#222954] rounded-lg flex justify-center items-center w-full">
@@ -902,7 +956,7 @@ const layar = () => {
                                                                 </div>
                                                             </>
                                                         )
-                                                    } else if (nilaiTanding[1].poin_merah?.log_binaan[0]?.poin == '2x') {
+                                                    } else if (nilaiTanding[1].nilai_merah?.log_binaan[0]?.poin == '2x') {
                                                         return (
                                                             <>
                                                                 <div className="bg-[#fbff00] border-2 border-[#222954] rounded-lg flex justify-center items-center w-full">
@@ -926,7 +980,7 @@ const layar = () => {
                                                         )
                                                     }
                                                 } else if (nilaiTanding.length == 3) {
-                                                    if (nilaiTanding[2].poin_merah?.log_binaan[0]?.poin == '1x') {
+                                                    if (nilaiTanding[2].nilai_merah?.log_binaan[0]?.poin == '1x') {
                                                         return (
                                                             <>
                                                                 <div className="bg-[#fbff00] border-2 border-[#222954] rounded-lg flex justify-center items-center w-full">
@@ -938,7 +992,7 @@ const layar = () => {
                                                                 </div>
                                                             </>
                                                         )
-                                                    } else if (nilaiTanding[2].poin_merah?.log_binaan[0]?.poin == '2x') {
+                                                    } else if (nilaiTanding[2].nilai_merah?.log_binaan[0]?.poin == '2x') {
                                                         return (
                                                             <>
                                                                 <div className="bg-[#fbff00] border-2 border-[#222954] rounded-lg flex justify-center items-center w-full">
@@ -968,7 +1022,7 @@ const layar = () => {
                                         <div className="flex flex-rows justify-around gap-x-3">
                                             {(() => {
                                                 if (nilaiTanding.length == 1) {
-                                                    if (nilaiTanding[0].poin_merah?.log_teguran.length == 1) {
+                                                    if (nilaiTanding[0].nilai_merah?.log_teguran.length == 1) {
                                                         return (
                                                             <>
                                                                 <div className="bg-[#fbff00] border-2 border-[#222954] rounded-lg flex justify-center items-center w-full">
@@ -980,7 +1034,7 @@ const layar = () => {
                                                                 </div>
                                                             </>
                                                         )
-                                                    } else if (nilaiTanding[0].poin_merah?.log_teguran.length == 2) {
+                                                    } else if (nilaiTanding[0].nilai_merah?.log_teguran.length == 2) {
                                                         return (
                                                             <>
                                                                 <div className="bg-[#fbff00] border-2 border-[#222954] rounded-lg flex justify-center items-center w-full">
@@ -1006,7 +1060,7 @@ const layar = () => {
                                                         )
                                                     }
                                                 } else if (nilaiTanding.length == 2) {
-                                                    if (nilaiTanding[1].poin_merah?.log_teguran.length == 1) {
+                                                    if (nilaiTanding[1].nilai_merah?.log_teguran.length == 1) {
                                                         return (
                                                             <>
                                                                 <div className="bg-[#fbff00] border-2 border-[#222954] rounded-lg flex justify-center items-center w-full">
@@ -1018,7 +1072,7 @@ const layar = () => {
                                                                 </div>
                                                             </>
                                                         )
-                                                    } else if (nilaiTanding[1].poin_merah?.log_teguran.length == 2) {
+                                                    } else if (nilaiTanding[1].nilai_merah?.log_teguran.length == 2) {
                                                         return (
                                                             <>
                                                                 <div className="bg-[#fbff00] border-2 border-[#222954] rounded-lg flex justify-center items-center w-full">
@@ -1044,7 +1098,7 @@ const layar = () => {
                                                         )
                                                     }
                                                 } else if (nilaiTanding.length == 3) {
-                                                    if (nilaiTanding[2].poin_merah?.log_teguran.length == 1) {
+                                                    if (nilaiTanding[2].nilai_merah?.log_teguran.length == 1) {
                                                         return (
                                                             <>
                                                                 <div className="bg-[#fbff00] border-2 border-[#222954] rounded-lg flex justify-center items-center w-full">
@@ -1056,7 +1110,7 @@ const layar = () => {
                                                                 </div>
                                                             </>
                                                         )
-                                                    } else if (nilaiTanding[2].poin_merah?.log_teguran.length == 2) {
+                                                    } else if (nilaiTanding[2].nilai_merah?.log_teguran.length == 2) {
                                                         return (
                                                             <>
                                                                 <div className="bg-[#fbff00] border-2 border-[#222954] rounded-lg flex justify-center items-center w-full">
@@ -1206,7 +1260,7 @@ const layar = () => {
                                                                 </div>
                                                             </>
                                                         )
-                                                    } else if (nilaiTanding[1].poin_merah?.dis == true) {
+                                                    } else if (nilaiTanding[1].nilai_merah?.dis == true) {
                                                         return (
                                                             <>
                                                                 <div className="bg-[#fbff00] border-2 border-[#222954] rounded-lg flex justify-center items-center w-full">
@@ -1325,6 +1379,24 @@ const layar = () => {
                                                 }
                                             })()}
                                         </div>
+                                        {/* jatuhan */}
+                                        <div className='gap-x-3 border-2 border-black rounded-lg py-1'>
+                                        {(() => {
+                                                if (nilaiTanding.length == 1) {
+                                                    return (
+                                                        <h1 className='text-black font-montserrat text-center text-2xl font-bold'>JATUHAN: {nilaiTanding[0]?.nilai_merah?.log_jatuhan.length}x</h1>
+                                                    )
+                                                } else if (nilaiTanding.length == 2) {
+                                                    return (
+                                                        <h1 className='text-black font-montserrat text-center text-2xl font-bold'>JATUHAN: {(nilaiTanding[0]?.nilai_merah?.log_jatuhan.length)+(nilaiTanding[1]?.nilai_merah?.log_jatuhan.length)}x</h1>
+                                                    )
+                                                } else if (nilaiTanding.length == 3) {
+                                                    return (
+                                                        <h1 className='text-black font-montserrat text-center text-2xl font-bold'>JATUHAN: {(nilaiTanding[0]?.nilai_merah?.log_jatuhan.length)+(nilaiTanding[1]?.nilai_merah?.log_jatuhan.length)+(nilaiTanding[2]?.nilai_merah?.log_jatuhan.length)}x</h1>
+                                                    )
+                                                }
+                                            })()}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1416,7 +1488,7 @@ const layar = () => {
                 </div>
                 {/* akhir konten utama */}
 
-                {/* <ModalLayar/> */}
+                <ModalLayar verif={infoVerif} id_jadwal={jadwalTanding.id} socket={socket}/>
             </div>
             </>
     )

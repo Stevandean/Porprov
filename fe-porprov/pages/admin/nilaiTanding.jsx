@@ -16,7 +16,7 @@ const nilaiTanding = () => {
   const [dataJadwalTanding, setDataJadwalTanding] = useState ([])
 
   const getJadwalTanding = () => {
-    axios.get (BASE_URL + `/api/tanding`)
+    axios.get (BASE_URL + `/api/tanding/jadwal`)
     .then (res => {
       setDataJadwalTanding (res.data.data)
     })
@@ -85,19 +85,19 @@ const nilaiTanding = () => {
                   {dataJadwalTanding.filter(a => a.selesai == true).map((item, index) => (
                     <tr key={index + 1} className='even:bg-[#4C4F6D] odd:bg-[#2c2f48]'>
                       <td className='py-5'>{index + 1}</td>
-                      <td>{item.gelanggang}</td>
+                      <td>{item.gelanggang.gelanggang}</td>
                       <td>{item.partai}</td>
                       <td>{item.kelas}</td>
                       <td>{item.pemenang?.nama} - {item.pemenang?.kontingen}</td>
                       {(() => {
-                        if (item.pemenang?.id == item.id_biru) {
+                        if (item.pemenang?.id == item.id_peserta_biru) {
                           return (
                             <>
                               <td>Sudut Biru</td>
                               <td>({item.total_biru}) - ({item.total_merah})</td>
                             </>
                           )
-                        } else if (item.pemenang?.id == item.id_merah) {
+                        } else if (item.pemenang?.id == item.id_peserta_merah) {
                           return (
                             <>
                               <td>Sudut Merah</td>

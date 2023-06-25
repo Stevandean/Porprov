@@ -3,7 +3,7 @@ import socketIo from 'socket.io-client'
 import axios from 'axios'
 import Link from 'next/link'
 import { globalState } from '../../../context/context'
-import Navbar from '../components/navbar'
+import Navbar from '../../component/navbar/navbar'
 import Footer from '../components/footer'
 import TimerLayar from '../components/timerLayar'
 import { useRouter } from 'next/router'
@@ -48,7 +48,7 @@ const detailSelesai = () => {
         setPeserta(peserta)
         setJadwal(jadwal)
 
-        console.log(jadwal);
+        // console.log(jadwal);
 
         let id_peserta = peserta.id
         let id_jadwal = jadwal.id
@@ -56,17 +56,17 @@ const detailSelesai = () => {
         let hukum = []
 
         if (peserta.kategori == 'tunggal') {   
-            await axios.get (BASE_URL + `/api/tunggal/jadwal/${id_jadwal}/${id_peserta}`)
+            await axios.get (BASE_URL + `/api/nilai/tunggal/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilai (res.data.data)
                 nilai = (res.data.data)
-                console.log(nilai);
+                // console.log(nilai);
             })
             .catch (err => {
                 console.log(err.message);
             })
         } else if (peserta.kategori == 'ganda') {
-            await axios.get (BASE_URL + `/api/ganda/jadwal/${id_jadwal}/${id_peserta}`)
+            await axios.get (BASE_URL + `/api/nilai/ganda/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilai (res.data.data)
                 nilai = (res.data.data)
@@ -75,7 +75,7 @@ const detailSelesai = () => {
                 console.log(err.response.data.message);
             })
         } else if (peserta.kategori == 'regu') {
-            await axios.get (BASE_URL + `/api/regu/jadwal/${id_jadwal}/${id_peserta}`)
+            await axios.get (BASE_URL + `/api/nilai/regu/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilai (res.data.data)
                 nilai = (res.data.data)
@@ -84,7 +84,7 @@ const detailSelesai = () => {
                 console.log(err.response.data.message);
             })
         } else if (peserta.kategori == 'solo_kreatif') {
-            await axios.get (BASE_URL + `/api/solo_kreatif/jadwal/${id_jadwal}/${id_peserta}`)
+            await axios.get (BASE_URL + `/api/nilai/solo_kreatif/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilai (res.data.data)
                 nilai = (res.data.data)
@@ -94,11 +94,11 @@ const detailSelesai = () => {
             })
         } else {
         }
-        console.log(peserta.kategori);
+        // console.log(peserta.kategori);
 
         //nilai berdasarkan besar nilai
         if (peserta.kategori == 'tunggal') {
-            await axios.get (BASE_URL + `/api/tunggal/jadwal/${id_jadwal}/${id_peserta}`)
+            await axios.get (BASE_URL + `/api/nilai/tunggal/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilaiSort (res.data.data)
                 nilai = (res.data.data)
@@ -107,7 +107,7 @@ const detailSelesai = () => {
                 console.log(err.message);
             })
         } else if (peserta.kategori == 'ganda') {
-            await axios.get (BASE_URL + `/api/ganda/jadwal/${id_jadwal}/${id_peserta}`)
+            await axios.get (BASE_URL + `/api/nilai/ganda/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilaiSort (res.data.data)
                 nilai = res.data.data
@@ -116,7 +116,7 @@ const detailSelesai = () => {
                 console.log(err.response.data.message);
             })
         } else if (peserta.kategori == 'regu') {
-            await axios.get (BASE_URL + `/api/regu/jadwal/${id_jadwal}/${id_peserta}`)
+            await axios.get (BASE_URL + `/api/nilai/regu/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilaiSort (res.data.data)
                 nilai = res.data.data
@@ -126,7 +126,7 @@ const detailSelesai = () => {
                 console.log(err.response.data.message);
             })
         } else if (peserta.kategori == 'solo_kreatif') {
-            await axios.get (BASE_URL + `/api/solo_kreatif/jadwal/${id_jadwal}/${id_peserta}`)
+            await axios.get (BASE_URL + `/api/nilai/solo_kreatif/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilaiSort (res.data.data)
                 nilai = res.data.data
@@ -138,7 +138,7 @@ const detailSelesai = () => {
             console.log('gagal');
         }
 
-        await axios.get (BASE_URL + `/api/hukum/tgr/jadwal/${id_jadwal}/${id_peserta}`)
+        await axios.get (BASE_URL + `/api/seni/hukum/jadwal/${id_jadwal}/${id_peserta}`)
         .then (res => {
             setHukum (res.data.data)
             hukum = (res.data.data)
@@ -213,8 +213,8 @@ const detailSelesai = () => {
                         </div>
                     </div>
                     {/* info pesilat */}
-                    <div className={babak.id_biru == peserta.id ? " grid grid-cols-12 gap-x-3" : "grid grid-cols-12 gap-x-3"}>
-                        <div className={jadwal.id_biru == peserta.id ? "flex flex-col justify-start rounded-lg col-span-10 bg-blue-700 px-5 py-2" : "flex flex-col justify-start rounded-lg col-span-10 bg-red-700 px-5 py-2"}>
+                    <div className={babak.id_peserta_biru == peserta.id ? " grid grid-cols-12 gap-x-3" : "grid grid-cols-12 gap-x-3"}>
+                        <div className={jadwal.id_peserta_biru == peserta.id ? "flex flex-col justify-start rounded-lg col-span-10 bg-blue-700 px-5 py-2" : "flex flex-col justify-start rounded-lg col-span-10 bg-red-700 px-5 py-2"}>
                             {(() => {
                                 if (peserta.kategori === 'tunggal') {
                                     return (
@@ -280,7 +280,7 @@ const detailSelesai = () => {
                 <table className='w-full table-fixed border-separate border-spacing-x-2 font-medium'>
                     <tbody className='text-center'>
                             <tr className='bg-[#2C2F48]'>
-                                <th colSpan={2} rowSpan={2} className="text-lg border-2 border-[#2C2F48] ">Urutan Juri</th>
+                                <th colSpan={2} rowSpan={2} className="text-lg border-2 border-[#2C2F48] ">Urutan Nilai</th>
                                 {nilaiSort.sort ((a,b) => a.total - b.total).map ((item )=> (
                                     <th className=' font-bold'>
                                         {item.juri.no}
@@ -288,9 +288,22 @@ const detailSelesai = () => {
                                 ))}
                             </tr>
                             <tr className='text-[#2C2F48]'>
-                                {nilaiSort.sort ((a,b) => a.total - b.total).map (item => (
-                                    <th className='border-2 border-[#2C2F48] text-3xl font-bold'>{(item.total_skor).toFixed(2)}</th>
-                                ))}
+                                {nilaiSort.sort ((a,b) => a.total - b.total).map ((item, index) => {
+                                    if (nilaiSort[5].id == item.id) {
+                                        return(
+                                            <th key={index+1} className='border-2 border-[#2C2F48] text-3xl font-bold bg-yellow-300'>{(item.total_skor).toFixed(2)}</th>
+                                        )
+                                    }
+                                    if (nilaiSort[4].id == item.id) {
+                                        return(
+                                            <th key={index+1} className='border-2 border-[#2C2F48] text-3xl font-bold bg-yellow-300'>{(item.total_skor).toFixed(2)}</th>
+                                        )
+                                    }else{
+                                        return(
+                                            <th key={index+1} className='border-2 border-[#2C2F48] text-3xl font-bold'>{(item.total_skor).toFixed(2)}</th>
+                                        )
+                                    }
+                                })}
                             </tr>
                     </tbody>
                 </table>

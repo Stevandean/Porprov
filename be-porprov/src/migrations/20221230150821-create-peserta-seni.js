@@ -8,13 +8,21 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.UUID
       },
+      event_id: {
+        allowNull: false,
+        type: Sequelize.UUID,
+        references:{
+          model:"event",
+          key:"id"
+        }
+      },
       kategori: {
         type: Sequelize.STRING
       },
       jk: {
         type: Sequelize.ENUM('PUTRA','PUTRI')
       },
-      kelas: {
+      golongan: {
         type: Sequelize.STRING
       },
       nama1: {
@@ -33,13 +41,17 @@ module.exports = {
         type: Sequelize.BOOLEAN,
       },
       createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        type: 'TIMESTAMP',
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        allowNull: false
       },
       updatedAt: {
+        type: "TIMESTAMP",
+        defaultValue: Sequelize.literal(
+          "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+        ),
         allowNull: false,
-        type: Sequelize.DATE
-      }
+      },
     });
   },
   async down(queryInterface, Sequelize) {

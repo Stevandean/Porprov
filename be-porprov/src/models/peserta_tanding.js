@@ -17,8 +17,10 @@ module.exports = (sequelize, DataTypes) => {
     id: {
       allowNull: false,
       primaryKey: true,
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
     },
+    event_id: DataTypes.UUID,
     kelas: DataTypes.STRING,
     jk: {
       type: DataTypes.ENUM('PUTRA','PUTRI'),
@@ -26,11 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     golongan: DataTypes.STRING,
     nama: DataTypes.STRING,
-    kontingen: DataTypes.STRING,
-    kota: DataTypes.STRING,
-    umur: DataTypes.INTEGER,
-    tinggi_badan: DataTypes.INTEGER,
-    berat_badan: DataTypes.INTEGER
+    kontingen: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'peserta_tanding',

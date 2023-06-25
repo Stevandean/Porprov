@@ -12,16 +12,20 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.belongsTo(models.peserta_tanding,{
-        foreignKey: "id_biru",
+        foreignKey: "id_peserta_biru",
         as: "biru"
       })
       this.belongsTo(models.peserta_tanding,{
-        foreignKey: "id_merah",
+        foreignKey: "id_peserta_merah",
         as: "merah"
       })
       this.belongsTo(models.peserta_tanding,{
         foreignKey: "id_pemenang",
         as: "pemenang"
+      })
+      this.belongsTo(models.gelanggang,{
+        foreignKey: "gelanggang_id",
+        as: "gelanggang"
       })
     }
   }
@@ -29,22 +33,24 @@ module.exports = (sequelize, DataTypes) => {
     id: {
       allowNull: false,
       primaryKey: true,
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
     },
-    babak: DataTypes.STRING,
+    event_id: DataTypes.UUID,
     partai: DataTypes.INTEGER,
-    gelanggang: DataTypes.STRING,
+    babak: DataTypes.STRING,
+    gelanggang_id: DataTypes.UUID,
     kelas: DataTypes.STRING,
     jk: {
       type: DataTypes.ENUM('PUTRA','PUTRI'),
       allowNull: false
     },
     golongan: DataTypes.STRING,
-    id_merah: {
+    id_peserta_merah: {
       allowNull: true,
       type: DataTypes.UUID
     },
-    id_biru: {
+    id_peserta_biru: {
       allowNull: false,
       type: DataTypes.UUID
     },
@@ -59,6 +65,9 @@ module.exports = (sequelize, DataTypes) => {
     keterangan: {
       type: DataTypes.STRING,
       defaultValue: null
+    },
+    id_pemenang: {
+      type: DataTypes.UUID
     },
     selesai:{
       type: DataTypes.BOOLEAN,

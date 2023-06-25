@@ -3,7 +3,7 @@ import React, {useContext, useState, useEffect} from 'react'
 import { globalState } from '../../../context/context';
 import socketIo from 'socket.io-client'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-const socket = socketIo (BASE_URL)
+// const socket = socketIo (BASE_URL)
 
 
 const modalDewan = (props) => {
@@ -14,13 +14,14 @@ const modalDewan = (props) => {
     const [isLoadingJuri3, setIsLoadingJuri3] = useState(true)
     const [data, setData] = useState([])
     const verif = props.verif
+    const socket = props.socket
 
     const cekVerif = async () => {
         let info = []
         const jadwal = localStorage.getItem ('jadwal')
         let id_jadwal = jadwal
         console.log(jadwal);
-        await axios.get(BASE_URL + `/api/verif/tanding/${jadwal}`)
+        await axios.get(BASE_URL + `/api/tanding/verif/${jadwal}`)
         .then (res => {
             setData(res.data.data)
             info = res.data.data
@@ -44,15 +45,27 @@ const modalDewan = (props) => {
     }
 
     const closeModal = () => {
+        const jadwal = localStorage.getItem ('jadwal')
+
         setShowModalDewan(false)
-        socket.emit('closeVerif')
+        socket.emit('closeVerif', jadwal)
         setIsLoadingJuri1(true)
         setIsLoadingJuri2(true)
         setIsLoadingJuri3(true)
     }
 
-    const ubah_data = () => socket.emit ('init_verif')
+    const ubah_data = () => socket.emit ('init_verif', localStorage.getItem ('jadwal'))
 
+
+    useEffect(() => {
+        const jadwal = localStorage.getItem ('jadwal')
+        socket.emit('join', jadwal)
+    
+        return () => {
+            socket.emit('leave', jadwal)
+        }
+    }, [])
+    
     useEffect(() => {
         // socket.emit('init_verif')
         socket.on('getVerif', cekVerif)

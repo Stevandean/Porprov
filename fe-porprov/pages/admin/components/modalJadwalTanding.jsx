@@ -11,6 +11,8 @@ const modalJadwalTanding = () => {
     // ini state
     const {dataJadwalTanding, setDataJadwalTanding} = useContext (globalState)
     const [dataPesertaTanding, setDataPesertaTanding] = useState ([])
+    const [dataGelanggang, setDataGelanggang] = useState([])
+
     const {action, id} = useContext (globalState)
     const {idJadwal, setIdJadwal} = useContext (globalState)
     const {gelanggang, setGelanggang} = useContext (globalState)
@@ -22,8 +24,27 @@ const modalJadwalTanding = () => {
     const {idMerah, setIdMerah} = useContext (globalState)
     const {babak, setBabak} = useContext (globalState)
 
+    const headerConfig = () => {
+        let token = localStorage.getItem("token")
+        let header = {
+          headers : { Authorization : `Bearer ${token}` }
+        }
+        return header
+    }
+
+    const getGelanggang = () => {
+        let user = JSON.parse(localStorage.getItem("admin"))
+        axios.get (BASE_URL + `/api/gelanggang/event/${user.event_id}`, headerConfig())
+        .then (res => {
+        setDataGelanggang (res.data.data)
+        })
+        .catch (err => {
+        console.log(err.response.data.message);
+        })
+    }
+
     const getPesertaTanding = () => {
-        axios.get (BASE_URL + `/api/peserta/tanding`)
+        axios.get (BASE_URL + `/api/tanding/peserta/`, headerConfig())
         .then (res => {
             setDataPesertaTanding (res.data.data)
         })
@@ -33,7 +54,7 @@ const modalJadwalTanding = () => {
     }
 
     const getJadwalTanding = () => {
-        axios.get (BASE_URL + `/api/tanding`)
+        axios.get (BASE_URL + `/api/tanding/jadwal`, headerConfig())
         .then (res => {
             setDataJadwalTanding (res.data.data)
         })
@@ -45,17 +66,17 @@ const modalJadwalTanding = () => {
     const handleSave = (e) => {
         e.preventDefault ()
         let form = {
-            gelanggang : gelanggang,
+            gelanggang_id : gelanggang,
             partai : partai,
             kelas : kelas,
             jk : jk,
             golongan : golongan,
-            id_biru : idBiru,
-            id_merah : idMerah,
+            id_peserta_biru : idBiru,
+            id_peserta_merah : idMerah,
             babak : babak
         }
         if (action == 'insert') {
-            axios.post (BASE_URL + `/api/tanding`, form)
+            axios.post (BASE_URL + `/api/tanding/jadwal`, form, headerConfig())
             .then (res => {
                 getJadwalTanding ()
                 setShowModalJadwalTanding (false)
@@ -64,7 +85,7 @@ const modalJadwalTanding = () => {
                 console.log (err.response.data.message)
             })
         } else if (action == 'update') {
-            axios.put (BASE_URL + `/api/tanding/${idJadwal}`, form)
+            axios.put (BASE_URL + `/api/tanding/jadwal/${idJadwal}`, form, headerConfig())
             .then (res => {
                 getJadwalTanding ()
                 console.log('berhasil');
@@ -79,8 +100,11 @@ const modalJadwalTanding = () => {
     }
 
     useEffect (() => {
-        getPesertaTanding ()
-    }, [])
+        if(showModalJadwalTanding){
+            getGelanggang()
+            getPesertaTanding ()
+        }
+    }, [showModalJadwalTanding])
 
     return (
         <>
@@ -125,14 +149,17 @@ const modalJadwalTanding = () => {
                                         <span>:</span>
                                     </div>
                                     <div className="w-4/6">
-                                        <input className='w-full bg-[#212437] rounded-md focus:outline-none border-2 border-slate-200'
-                                            type="text"
-                                            value={gelanggang}
-                                            onChange={(e) => setGelanggang((e.target.value).toUpperCase())}
-                                            required
-                                            >        
-                                        </input>
-                                    </div>
+                                            <div className="relative w-full">
+                                                <div className='border-2 bg-[#212437] border-slate-200 rounded-lg px-1'>
+                                                    <select className='w-full bg-[#212437] focus:outline-none' value={gelanggang} onChange = {(e) => setGelanggang (e.target.value)} required>
+                                                        <option></option>
+                                                        {dataGelanggang.map((item, index)=>(
+                                                            <option key={index+1} value={item.id}>{item?.gelanggang}</option>
+                                                        ))}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
                                 </div>
                                 <div className="flex flex-row space-x-3 w-full">
                                     <div className="w-2/6 flex justify-between">
@@ -172,7 +199,7 @@ const modalJadwalTanding = () => {
                                     <div className="w-4/6">
                                         <div className="relative w-full">
                                             <div className='border-2 bg-[#212437] border-slate-200 rounded-lg px-2'>
-                                                <select className='w-full bg-[#212437] focus:outline-none' name={golongan} onChange = {(e) => setGolongan (e.target.value)} required>
+                                                <select className='w-full bg-[#212437] focus:outline-none' value={golongan} onChange = {(e) => setGolongan (e.target.value)} required>
                                                     <option></option>
                                                     <option value="SINGA">Singa</option>
                                                     <option value="MACAN">Macan</option>
@@ -195,12 +222,10 @@ const modalJadwalTanding = () => {
                                     <div className="w-4/6">
                                         <div className="relative w-full">
                                             <div className='border-2 bg-[#212437] border-slate-200 rounded-lg px-2'>
-                                                <select className='w-full bg-[#212437] focus:outline-none' name={idBiru} onChange = {(e) => setIdBiru (e.target.value)} required>
+                                                <select className='w-full bg-[#212437] focus:outline-none' value={idBiru} onChange = {(e) => setIdBiru (e.target.value)} required>
                                                     <option></option>
-                                                    {dataPesertaTanding.filter(a => a.jk == jk).filter (a => a.kelas == kelas).filter (a => a.golongan == golongan).map (item => (
-                                                        <>
-                                                            <option value={item.id}>{item.nama} - {item.kontingen}</option>
-                                                        </>
+                                                    {dataPesertaTanding.filter(a => a.jk == jk).filter (a => a.kelas == kelas).filter (a => a.golongan == golongan).map ((item, index) => (
+                                                        <option key={index + 1} value={item.id}>{item.nama} - {item.kontingen}</option>
                                                     ))}
                                                 </select>
                                             </div>
@@ -215,12 +240,10 @@ const modalJadwalTanding = () => {
                                     <div className="w-4/6">
                                         <div className="relative w-full">
                                             <div className='border-2 bg-[#212437] border-slate-200 rounded-lg px-2'>
-                                                <select className='w-full bg-[#212437] focus:outline-none' name={idMerah} onChange = {(e) => setIdMerah (e.target.value)} required>
+                                                <select className='w-full bg-[#212437] focus:outline-none' value={idMerah} onChange = {(e) => setIdMerah (e.target.value)} required>
                                                     <option></option>
-                                                    {dataPesertaTanding.filter (a => a.jk == jk).filter (a => a.kelas == kelas).filter (a => a.golongan == golongan).map (item => (
-                                                        <>
-                                                            <option value={item.id}>{item.nama} - {item.kontingen}</option>
-                                                        </>
+                                                    {dataPesertaTanding.filter (a => a.jk == jk).filter (a => a.kelas == kelas).filter (a => a.golongan == golongan).map ((item, index) => (
+                                                        <option key={index + 1} value={item.id}>{item.nama} - {item.kontingen}</option>
                                                     ))}
                                                 </select>
                                             </div>

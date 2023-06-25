@@ -9,8 +9,16 @@ const modalImport = () => {
     const [file, setFile] = useState(null)
     const {dataPesertaTanding, setDataPesertaTanding} = useContext (globalState)
 
+    const headerConfig = () => {
+        let token = localStorage.getItem("token")
+        let header = {
+          headers : { Authorization : `Bearer ${token}` }
+        }
+        return header
+    }
+
     const getPesertaTanding = () => {
-        axios.get (BASE_URL + `/api/peserta/tanding`)
+        axios.get (BASE_URL + `/api/tanding/peserta`, headerConfig())
         .then (res => {
             setDataPesertaTanding (res.data.data)
         })
@@ -27,7 +35,7 @@ const modalImport = () => {
         let form = new FormData() 
         form.append("file",file)
 
-        axios.post (BASE_URL + `/api/peserta/tanding/import`, form)
+        axios.post (BASE_URL + `/api/tanding/peserta/import`, form, headerConfig())
         .then (res => {
             setShowModalImport(false)
             getPesertaTanding()

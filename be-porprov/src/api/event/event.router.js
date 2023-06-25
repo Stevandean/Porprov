@@ -4,8 +4,14 @@ const {
     getEvent,
     addEvent,
     editEvent,
-    getImage
+    getImage,
+    getEventbyId,
+    deleteEvent,
+    loginEvent,
+    getPubEvent,
 }= require("./event.controller");
+const Auth = require('../../middleware/Auth')
+const verifyRoles = require("../../middleware/verifyRoles")
 
 const multer = require("multer");
 const path = require('path');
@@ -24,10 +30,10 @@ let upload = multer({ storage: storage })
 //--------------------------------
 //route event
 //---------------------------------
-
-//router
-router.get("/", getEvent);
-router.post("/", 
+router.get("/active", getPubEvent)
+router.get("/", Auth, verifyRoles("superadmin"), getEvent);
+router.get("/:id", getEventbyId);
+router.post("/", Auth, verifyRoles("superadmin"),
     upload.fields(
         [
             {name: 'logo', maxCount: 1}, 
@@ -35,7 +41,7 @@ router.post("/",
             {name: 'icon2', maxCount: 1}
         ]
 ), addEvent);
-router.put('/:id',
+router.put('/:id', Auth, verifyRoles("admin", "superadmin"),
     upload.fields(
         [
             {name: 'logo', maxCount: 1}, 
@@ -44,7 +50,8 @@ router.put('/:id',
         ]
 ), editEvent)
 router.get("/image/:filename", getImage)
-
+router.delete("/:id", Auth, verifyRoles("superadmin"), deleteEvent)
+router.post('/login', loginEvent)
 
 //export module
 module.exports = router;

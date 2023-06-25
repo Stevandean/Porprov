@@ -8,7 +8,7 @@ import { FullScreen, useFullScreenHandle } from "react-full-screen";
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 // socket io
-const socket = socketIo (BASE_URL)
+const socket = socketIo.connect(BASE_URL)
 
 const nilaiSeniTunggal = () => {
 
@@ -26,10 +26,25 @@ const nilaiSeniTunggal = () => {
     const [nilai, setNilai] = useState ([])
     const [active, setActive] = useState(0)
     
+    useEffect(() => {
+        const jadwal = JSON.parse(localStorage.getItem ('jadwalSeni'))
+        const user = JSON.parse(localStorage.getItem('user'))
+        let data ={
+            user: user.username,
+            id_jadwal: jadwal.id
+        }
+        socket.emit('joinSeni', data)
+    
+        return () => {
+            socket.off('joinSeni', data)
+            socket.close()
+        }
+    }, [])
+
     const getNilai = () => {
         const peserta = JSON.parse (localStorage.getItem ('pesertaSeni'))
         const jadwal = JSON.parse (localStorage.getItem ('jadwalSeni'))
-        const juri = JSON.parse (localStorage.getItem ('juriSeni'))
+        const juri = JSON.parse (localStorage.getItem ('user'))
 
         setJadwal (jadwal)
         setDataJuri (juri)
@@ -37,7 +52,7 @@ const nilaiSeniTunggal = () => {
         let id_jadwal = jadwal.id
         let id_juri = juri.id
 
-        axios.get (BASE_URL + `/api/tunggal/juri/${id_jadwal}/${id_peserta}/${id_juri}`)
+        axios.get (BASE_URL + `/api/nilai/tunggal/juri/${id_jadwal}/${id_peserta}/${id_juri}`)
         .then (res => {
             setNilai (res.data.data)
         })
@@ -50,7 +65,7 @@ const nilaiSeniTunggal = () => {
         setActive(b)
         const peserta = JSON.parse (localStorage.getItem ('pesertaSeni'))
         const jadwal = JSON.parse(localStorage.getItem ('jadwalSeni'))
-        const juri = JSON.parse (localStorage.getItem ('juriSeni'))
+        const juri = JSON.parse (localStorage.getItem ('user'))
 
         let id_peserta = peserta.id
         let id_jadwal = jadwal.id
@@ -60,9 +75,9 @@ const nilaiSeniTunggal = () => {
             skor_b : b
         }
 
-        axios.put (BASE_URL + `/api/tunggal/juri/${id_jadwal}/${id_peserta}/${id_juri}`, form)
+        axios.put (BASE_URL + `/api/nilai/tunggal/juri/${id_jadwal}/${id_peserta}/${id_juri}`, form)
         .then (res => {
-            socket.emit ('juriToDewan')
+            socket.emit ('juriToDewanLayar', id_jadwal)
             getNilai()
         })
         .catch (err => {
@@ -74,7 +89,7 @@ const nilaiSeniTunggal = () => {
 
         const peserta = JSON.parse (localStorage.getItem ('pesertaSeni'))
         const jadwal = JSON.parse(localStorage.getItem ('jadwalSeni'))
-        const juri = JSON.parse (localStorage.getItem ('juriSeni'))
+        const juri = JSON.parse (localStorage.getItem ('user'))
 
         let id_peserta = peserta.id
         let id_jadwal = jadwal.id
@@ -88,10 +103,10 @@ const nilaiSeniTunggal = () => {
                 jurus1 : jurus1 + (-0.01)
             }
 
-           axios.put (BASE_URL + `/api/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
+           axios.put (BASE_URL + `/api/nilai/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
             .then (res => {
                 console.log(res.data.message);
-                socket.emit ('juriToDewan')
+                socket.emit ('juriToDewanLayar', id_jadwal)
                 getNilai()
             })
             .catch (err => {
@@ -105,10 +120,10 @@ const nilaiSeniTunggal = () => {
                 jurus2 : jurus2 + (-0.01)
             }
 
-            axios.put (BASE_URL + `/api/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
+            axios.put (BASE_URL + `/api/nilai/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
             .then (res => {
                 console.log(res.data.message);
-                socket.emit ('juriToDewan')
+                socket.emit ('juriToDewanLayar', id_jadwal)
                 getNilai()
             })
             .catch (err => {
@@ -122,10 +137,10 @@ const nilaiSeniTunggal = () => {
                 jurus3 : jurus3 + (-0.01)
             } 
 
-            axios.put (BASE_URL + `/api/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
+            axios.put (BASE_URL + `/api/nilai/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
             .then (res => {
                 console.log(res.data.message);
-                                socket.emit ('juriToDewan')
+                                socket.emit ('juriToDewanLayar', id_jadwal)
                 getNilai()
             })
             .catch (err => {
@@ -139,10 +154,10 @@ const nilaiSeniTunggal = () => {
                 jurus4 : jurus4 + (-0.01)
             }
 
-            axios.put (BASE_URL + `/api/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
+            axios.put (BASE_URL + `/api/nilai/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
             .then (res => {
                 console.log(res.data.message);
-                                socket.emit ('juriToDewan')
+                                socket.emit ('juriToDewanLayar', id_jadwal)
                 getNilai()
             })
             .catch (err => {
@@ -156,10 +171,10 @@ const nilaiSeniTunggal = () => {
                 jurus5 : jurus5 + (-0.01)
             }
 
-            axios.put (BASE_URL + `/api/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
+            axios.put (BASE_URL + `/api/nilai/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
             .then (res => {
                 console.log(res.data.message);
-                                socket.emit ('juriToDewan')
+                                socket.emit ('juriToDewanLayar', id_jadwal)
                 getNilai()
             })
             .catch (err => {
@@ -173,10 +188,10 @@ const nilaiSeniTunggal = () => {
                 jurus6 : jurus6 + (-0.01)
             }
 
-            axios.put (BASE_URL + `/api/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
+            axios.put (BASE_URL + `/api/nilai/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
             .then (res => {
                 console.log(res.data.message);
-                                socket.emit ('juriToDewan')
+                                socket.emit ('juriToDewanLayar', id_jadwal)
                 getNilai()
             })
             .catch (err => {
@@ -190,10 +205,10 @@ const nilaiSeniTunggal = () => {
                 jurus7 : jurus7 + (-0.01)
             }
 
-            axios.put (BASE_URL + `/api/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
+            axios.put (BASE_URL + `/api/nilai/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
             .then (res => {
                 console.log(res.data.message);
-                                socket.emit ('juriToDewan')
+                                socket.emit ('juriToDewanLayar', id_jadwal)
                 getNilai()
             })
             .catch (err => {
@@ -207,10 +222,10 @@ const nilaiSeniTunggal = () => {
                 jurus8 : jurus8 + (-0.01)
             }
 
-            axios.put (BASE_URL + `/api/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
+            axios.put (BASE_URL + `/api/nilai/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
                 .then (res => {
                 console.log(res.data.message);
-                                socket.emit ('juriToDewan')
+                                socket.emit ('juriToDewanLayar', id_jadwal)
                 getNilai()
                 })
             .catch (err => {
@@ -224,10 +239,10 @@ const nilaiSeniTunggal = () => {
                 jurus9 : jurus9 + (-0.01)
             }
 
-            axios.put (BASE_URL + `/api/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
+            axios.put (BASE_URL + `/api/nilai/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
             .then (res => {
                 console.log(res.data.message);
-                                socket.emit ('juriToDewan')
+                                socket.emit ('juriToDewanLayar', id_jadwal)
                 getNilai()
             })
            .catch (err => {
@@ -241,10 +256,10 @@ const nilaiSeniTunggal = () => {
                 jurus10 : jurus10 + (-0.01)
             }
 
-            axios.put (BASE_URL + `/api/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
+            axios.put (BASE_URL + `/api/nilai/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
             .then (res => {
                 console.log(res.data.message);
-                                socket.emit ('juriToDewan')
+                                socket.emit ('juriToDewanLayar', id_jadwal)
                 getNilai()
             })
             .catch (err => {
@@ -258,10 +273,10 @@ const nilaiSeniTunggal = () => {
                 jurus11 : jurus11 + (-0.01)
             }
 
-            axios.put (BASE_URL + `/api/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
+            axios.put (BASE_URL + `/api/nilai/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
             .then (res => {
                 console.log(res.data.message);
-                                socket.emit ('juriToDewan')
+                                socket.emit ('juriToDewanLayar', id_jadwal)
                 getNilai()
             })
             .catch (err => {
@@ -275,10 +290,10 @@ const nilaiSeniTunggal = () => {
             jurus12 : jurus12 + (-0.01)
            }
 
-           axios.put (BASE_URL + `/api/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
+           axios.put (BASE_URL + `/api/nilai/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
             .then (res => {
                 console.log(res.data.message);
-                                socket.emit ('juriToDewan')
+                                socket.emit ('juriToDewanLayar', id_jadwal)
                 getNilai()
             })
             .catch (err => {
@@ -292,10 +307,10 @@ const nilaiSeniTunggal = () => {
                 jurus13 : jurus13 + (-0.01)
             }
 
-            axios.put (BASE_URL + `/api/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
+            axios.put (BASE_URL + `/api/nilai/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
             .then (res => {
                 console.log(res.data.message);
-                                socket.emit ('juriToDewan')
+                                socket.emit ('juriToDewanLayar', id_jadwal)
                 getNilai()
             })
             .catch (err => {
@@ -309,10 +324,10 @@ const nilaiSeniTunggal = () => {
                 jurus14 : jurus14 + (-0.01)
             }
 
-            axios.put (BASE_URL + `/api/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
+            axios.put (BASE_URL + `/api/nilai/tunggal/skor/${id_jadwal}/${id_peserta}/${id_juri}`,form)
             .then (res => {
                 console.log(res.data.message);
-                                socket.emit ('juriToDewan')
+                                socket.emit ('juriToDewanLayar', id_jadwal)
                 getNilai()
             })
             .catch (err => {
@@ -332,7 +347,7 @@ const nilaiSeniTunggal = () => {
     const selesai = () => {
         const peserta = JSON.parse (localStorage.getItem ('pesertaSeni'))
         const jadwal = JSON.parse(localStorage.getItem ('jadwalSeni'))
-        const juri = JSON.parse (localStorage.getItem ('juriSeni'))
+        const juri = JSON.parse (localStorage.getItem ('user'))
         const nama = (localStorage.getItem ('nama'))
 
         let id_peserta = peserta.id
@@ -345,7 +360,7 @@ const nilaiSeniTunggal = () => {
         }
 
         if (confirm('Anda yakin mengakhiri pertandingan?') == 1) {
-            axios.put (BASE_URL + `/api/tunggal/juri/${id_jadwal}/${id_peserta}/${id_juri}`, form)
+            axios.put (BASE_URL + `/api/nilai/tunggal/juri/${id_jadwal}/${id_peserta}/${id_juri}`, form)
             .then (res => {
                 Router.back()
                 localStorage.removeItem('jurus')
@@ -372,7 +387,9 @@ const nilaiSeniTunggal = () => {
     }
 
     const getEvent = () => {
-        axios.get (BASE_URL + `/api/event`)
+        let event = JSON.parse(localStorage.getItem('event'))
+        let event_id = event.id
+        axios.get (BASE_URL + `/api/event/${event_id}`)
         .then (res => {
         setEvent (res.data.data)
         })
@@ -384,7 +401,7 @@ const nilaiSeniTunggal = () => {
     const handle = useFullScreenHandle ()
 
     const isLogged = () => {
-        if (localStorage.getItem ('token') === null || localStorage.getItem ('juriSeni') === null) {
+        if (localStorage.getItem ('token') === null || localStorage.getItem ('user') === null) {
          router.push ('/seni/juri/login') 
         }
     }
@@ -409,25 +426,23 @@ const nilaiSeniTunggal = () => {
                 {/* awal konten utama */}
                 <div className="w-full overflow-y-auto h-screen">
 
-                    {/* header */}
-                    <div className="bg-[#2C2F48] sticky top-0 h-20 z-40 flex">
-                            {event.map((item, index) => (
-                            <div key={index + 1} className="flex justify-between w-full text-white px-10">
-                                <div className="flex space-x-3">
-                                <button onClick={handle.enter} className="flex justify-center items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-maximize">
-                                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
-                                    </svg>
-                                </button> 
-                                    <img className='py-3'src={BASE_URL + "/api/event/image/" + item.logo} alt="Kabupaten Trenggalek" />
-                                </div>
-                                <span className='text-xl font-semibold my-auto uppercase text-center'>{item.nama}</span>
-                                <div className="flex space-x-3">
-                                    <img className='py-3' src={BASE_URL + "/api/event/image/" + item.icon1} alt="IPSI" />
-                                    <img className='py-3' src={BASE_URL + "/api/event/image/" + item.icon2} alt="IPSI2" />
-                                </div>
-                            </div>          
-                            ))}
+                   {/* header */}
+                   <div className="bg-[#2C2F48] sticky top-0 h-20 z-40 flex">
+                        <div className="flex justify-between w-full text-white px-10">
+                            <div className="flex space-x-3">
+                            <button onClick={handle.enter} className="flex justify-center items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-maximize">
+                                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                                </svg>
+                            </button> 
+                                <img className='py-3'src={BASE_URL + "/api/event/image/" + event.logo} alt="Kabupaten Trenggalek" />
+                            </div>
+                            <span className='text-xl font-semibold my-auto uppercase text-center'>{event.nama}</span>
+                            <div className="flex space-x-3">
+                                <img className='py-3' src={BASE_URL + "/api/event/image/" + event.icon1} alt="IPSI" />
+                                <img className='py-3' src={BASE_URL + "/api/event/image/" + event.icon2} alt="IPSI2" />
+                            </div>
+                        </div>          
                     </div>
                     {/* akhir header */} 
                 
@@ -488,7 +503,7 @@ const nilaiSeniTunggal = () => {
                                             return (
                                                 <h1 className='text-xl font-semibold py-1.5'>JURI 10</h1>
                                             )
-                                        } else {
+                                        } else if(!dataJuri) {
                                             console.log('gagal');
                                         }
                                     })()}
@@ -496,7 +511,7 @@ const nilaiSeniTunggal = () => {
                             </div>
                                 
                             {/* info pesilat */}
-                            <div className={jadwal.id_biru == peserta.id ? "flex flex-row items-center py-2 px-4 bg-blue-600 rounded-lg text-white" : "flex flex-row items-center py-2 px-4 bg-red-600 rounded-lg text-white"}>
+                            <div className={jadwal.id_peserta_biru == peserta.id ? "flex flex-row items-center py-2 px-4 bg-blue-600 rounded-lg text-white" : "flex flex-row items-center py-2 px-4 bg-red-600 rounded-lg text-white"}>
                                 <div className="flex flex-col">
                                     <span className='text-2xl font-bold'>{peserta.nama1}</span>
                                     <span className='text-lg font-normal'>{peserta.kontingen}</span>

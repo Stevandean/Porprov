@@ -29,6 +29,14 @@ const pesertaTanding = () => {
     const [kontingen, setKontingen] = useState ('')
     const [golongan, setGolongan] = useState ('')
 
+    const headerConfig = () => {
+        let token = localStorage.getItem("token")
+        let header = {
+          headers : { Authorization : `Bearer ${token}` }
+        }
+        return header
+    }
+
     const addModal = () => {
         setShowModalPesertaTanding (true)
         setAction ('insert')
@@ -56,12 +64,12 @@ const pesertaTanding = () => {
     }
 
     const getPesertaTanding = () => {
-        axios.get (BASE_URL + `/api/peserta/tanding`)
+        axios.get (BASE_URL + `/api/tanding/peserta`, headerConfig())
         .then (res => {
             setDataPesertaTanding (res.data.data)
         })
         .catch (err => {
-            console.log(err.response.data.message);
+            console.log(err.message);
         })
     }
 

@@ -17,9 +17,12 @@ module.exports = (sequelize, DataTypes) => {
     id: {
       allowNull: false,
       primaryKey: true,
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
     },
-    gelanggang: DataTypes.INTEGER
+    gelanggang: DataTypes.INTEGER,
+    status: DataTypes.ENUM('seni','tanding'),
+    event_id: DataTypes.UUID,
   }, {
     sequelize,
     modelName: 'gelanggang',

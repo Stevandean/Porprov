@@ -14,6 +14,14 @@ const ModalEvent = () => {
 
     const {event, setEvent} = useContext (globalState)
 
+    const headerConfig = () => {
+        let token = localStorage.getItem("token")
+        let header = {
+          headers : { Authorization : `Bearer ${token}` }
+        }
+        return header
+    }
+
     const handleSave = (e) => {
         e.preventDefault ()
         let form = new FormData() 
@@ -23,13 +31,14 @@ const ModalEvent = () => {
         form.append("icon2", icon2)
 
 
-        axios.put (BASE_URL + `/api/event/${id}`, form)
+        axios.put (BASE_URL + `/api/event/${id}`, form, headerConfig())
         .then (res => {
             setShowModalEvent (false)
             getEvent ()
         })
         .catch (err => {
             console.log(err.message);
+            console.log(err.response.data.message);
         })
     }
 
@@ -44,7 +53,7 @@ const ModalEvent = () => {
     }
 
     const getEvent = () => {
-        axios.get (BASE_URL + `/api/event`)
+        axios.get (BASE_URL + `/api/event/${id}`, headerConfig())
         .then (res => {
             setEvent (res.data.data)
         })
@@ -78,7 +87,7 @@ const ModalEvent = () => {
                                         return (
                                             <>    
                                                 <h3 className="text-3xl font-semibold text-white">
-                                                    Edit Jadwal Tanding
+                                                    Edit Event
                                                 </h3>
                                             </>
                                         )
@@ -92,7 +101,7 @@ const ModalEvent = () => {
                             {/* Input */}
                             <div className="flex flex-row space-x-3 w-full">
                                     <div className="w-2/6 flex justify-between">
-                                        <span>Nama Juri</span>
+                                        <span>Nama Event</span>
                                         <span>:</span>
                                     </div>
                                     <div className="w-4/6">
@@ -154,29 +163,11 @@ const ModalEvent = () => {
                                 onClick={ () => setShowModalEvent(false)}>
                                 Close
                                 </button>
-                                {(() => {
-                                    if (action === 'insert') {
-                                        return (
-                                            <>
-                                                <button
-                                                className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                                type="submit">
-                                                    Tambah Jadwal Tanding
-                                                </button>
-                                            </>
-                                        )
-                                    } else if (action === 'update') {
-                                        return (
-                                            <>
-                                                <button
-                                                    className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                                    type="submit">
-                                                        Edit Jadwal Tanding
-                                                </button>
-                                            </>
-                                        )
-                                    }
-                                })()}
+                                <button
+                                    className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                    type="submit">
+                                        Edit Event
+                                </button>
                             </div>
                         </form>
                         
