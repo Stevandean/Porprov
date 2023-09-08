@@ -28,8 +28,9 @@ const timer = () => {
         const babak = localStorage.getItem ('babak')
         let id_jadwal = jadwal
 
-        axios.get (BASE_URL + `/api/tanding/${id_jadwal}`)
+        axios.get (BASE_URL + `/api/tanding/jadwal/${id_jadwal}`)
         .then (res => {
+            // console.log(res.data.data);
             setJadwal (res.data.data)
             setJadwalBiru (res.data.data.biru)
             setJadwalMerah (res.data.data.merah)
@@ -49,7 +50,7 @@ const timer = () => {
                     setActive (e)
                     localStorage.setItem ('babak', 'I')
                     setRound("I")
-                    socket.emit ('naikBabak')
+                    socket.emit ('naikBabak', jadwal)
                 })
                 .catch (err => {
                     console.log(err.response.data.message);
@@ -69,7 +70,7 @@ const timer = () => {
                     setActive (e)
                     localStorage.setItem ('babak', 'II')
                     setRound("II")
-                    socket.emit ('naikBabak')
+                    socket.emit ('naikBabak', jadwal)
                 })
                 .catch (err => {
                     console.log(err.response.data.message);
@@ -89,7 +90,7 @@ const timer = () => {
                     setActive (e)
                     localStorage.setItem ('babak', 'III')
                     setRound("III")
-                    socket.emit ('naikBabak')
+                    socket.emit ('naikBabak', jadwal)
                 })
                 .catch (err => {
                     console.log(err.response.data.message);
@@ -101,25 +102,36 @@ const timer = () => {
     }
     
     const getEvent = () => {
-        axios.get (BASE_URL + `/api/event`)
+        let event = JSON.parse(localStorage.getItem('event'))
+        let event_id = event.id
+        axios.get (BASE_URL + `/api/event/${event_id}`)
         .then (res => {
-        setEvent (res.data.data)
+            setEvent (res.data.data)
         })
         .catch (err => {
-        console.log(err.response.data.message);
+            console.log(err.response.data.message);
         })
     }
 
     const isLogged = () => {
-        if (localStorage.getItem ('token') === null || localStorage.getItem ('timerTanding') === null) {
+        if (localStorage.getItem ('token') === null || localStorage.getItem ('user') === null) {
             router.push ('/tanding/timer/login')
         }
     }
     
-    const ubah_data = () => socket.emit ('init_tanding_nilai')
+    useEffect(() => {
+        const jadwal = localStorage.getItem ('jadwal')
+        socket.emit('join', jadwal)
+    
+        return () => {
+            socket.close()
+        }
+    }, [])
+
+    const ubah_data = () => socket.emit ('init_nilai_tanding', localStorage.getItem('jadwal'))
 
     useEffect (() => {
-        socket.emit ('init_nilai_tanding')
+        socket.emit ('init_nilai_tanding', localStorage.getItem('jadwal'))
         socket.on ('getNilaiTanding', getJadwal)
         socket.on ('change_nilai_tanding', ubah_data)
         getEvent ()
@@ -140,23 +152,21 @@ const timer = () => {
             
                 {/* header */}
                 <div className="bg-[#2C2F48] sticky top-0 h-20 z-40 flex">
-                    {event.map((item, index) => (
-                        <div key={index + 1} className="flex justify-between w-full text-white px-10">
+                    <div className="flex justify-between w-full text-white px-10">
                         <div className="flex space-x-3">
                             <button onClick={handle.enter} className="flex justify-center items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-maximize">
                             <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
                             </svg>
                             </button> 
-                            <img className='py-3'src={BASE_URL + "/api/event/image/" + item.logo} alt="Kabupaten Trenggalek" />
+                            <img className='py-3'src={BASE_URL + "/api/event/image/" + event.logo} alt="Kabupaten Trenggalek" />
                         </div>
-                        <span className='text-xl font-semibold my-auto uppercase text-center'>{item.nama}</span>
+                        <span className='text-xl font-semibold my-auto uppercase text-center'>{event.nama}</span>
                         <div className="flex space-x-3">
-                            <img className='py-3' src={BASE_URL + "/api/event/image/" + item.icon1} alt="IPSI" />
-                            <img className='py-3' src={BASE_URL + "/api/event/image/" + item.icon2} alt="IPSI2" />
+                            <img className='py-3' src={BASE_URL + "/api/event/image/" + event.icon1} alt="IPSI" />
+                            <img className='py-3' src={BASE_URL + "/api/event/image/" + event.icon2} alt="IPSI2" />
                         </div>
-                        </div>          
-                    ))}
+                    </div>          
                 </div>
                 {/* akhir header */}
 

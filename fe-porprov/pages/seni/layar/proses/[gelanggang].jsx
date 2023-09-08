@@ -16,17 +16,26 @@ const detail = () => {
   // ini state
   const [data, setData] = useState ([])
   const [jadwal, setJadwal] = useState ([])
+    
+  //config header
+  const headerConfig = () => {
+    let token = localStorage.getItem("token")
+    let header = {
+    headers : { Authorization : `Bearer ${token}` }
+    }
+    return header
+  }
 
   const getData = () => {
-    axios.get (BASE_URL+ "/api/tgr/gel/" + gelanggang)
-    .then ((res) => {
-      setData (res.data.data)
+    axios.get (BASE_URL + "/api/seni/jadwal/gel/" + gelanggang, headerConfig())
+    .then (res => {
+        setData (res.data.data)
+    }) 
+    .catch (err => {
+        console.log(err.response.data.message);
     })
-    .catch((err) => {
-      console.log(err.message);
-    })
-    console.log(BASE_URL+ "/api/tgr/gel/" + gelanggang);
-  }
+    console.log (BASE_URL + "/api/tgr/");
+}
 
   // const getJadwal = () => {
   //   axios.get (BASE_URL + `/api/tgr`)
@@ -44,9 +53,10 @@ const detail = () => {
   }
 
   useEffect (() => {
+    if (!router.isReady) return; 
     getData ()
     // getJadwal ()
-  },[])
+  }, [router.query.kategori, router.isReady])
   
   return (
     <>

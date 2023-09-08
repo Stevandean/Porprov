@@ -16,12 +16,43 @@ module.exports = {
             return errorResponse( req, res, error.message )
         }
     },
+
+    getAllbyEvent: async (req,res) => {
+        try{
+            const nama = await Gelanggang.findAll({
+                where:{event_id: req.params.event_id},
+                order: [
+                    ['gelanggang', 'ASC'],
+                ],
+            })
+            return getResponse( req, res, nama )
+        } catch (error) {
+            return errorResponse( req, res, error.message )
+        }
+    },
+
+    getbyUserEvent: async (req,res) => {
+        try{
+            const nama = await Gelanggang.findAll({
+                where:{event_id: req.user.event_id},
+                attributes: {
+                    exclude:['createdAt','updatedAt']
+                },
+                order: [
+                    ['gelanggang', 'ASC'],
+                ],
+            })
+            return getResponse( req, res, nama )
+        } catch (error) {
+            return errorResponse( req, res, error.message )
+        }
+    },
+
     addGelanggang: async (req,res) => {
         try{
-            const id = uuidv4()
             let data = {
-                id: id,
                 gelanggang: req.body.gelanggang,
+                event_id: req.user.event_id
             }
             const result = await Gelanggang.create(data)
             return addResponse( req, res, result )
@@ -33,7 +64,8 @@ module.exports = {
         try{
             let param = {id: req.params.id}
             let data = {
-                gelanggang: req.body.gelanggang
+                gelanggang: req.body.gelanggang,
+                status: req.body.status
             }
             const result = await Gelanggang.update(data, {where:param})
             return editResponse( req, res, result )

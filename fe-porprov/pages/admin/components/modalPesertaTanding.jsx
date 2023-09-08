@@ -17,8 +17,16 @@ const modalPesertaTanding = () => {
     const {kontingen, setKontingen} = useContext (globalState)
     const {golongan, setGolongan} = useContext (globalState)
 
+    const headerConfig = () => {
+        let token = localStorage.getItem("token")
+        let header = {
+          headers : { Authorization : `Bearer ${token}` }
+        }
+        return header
+    }
+
     const getPesertaTanding = () => {
-        axios.get (BASE_URL + `/api/peserta/tanding`)
+        axios.get (BASE_URL + `/api/tanding/peserta`, headerConfig())
         .then (res => {
             setDataPesertaTanding (res.data.data)
         })
@@ -37,7 +45,7 @@ const modalPesertaTanding = () => {
             golongan :golongan
         }
         if (action == 'insert') {
-            axios.post (BASE_URL + `/api/peserta/tanding`, form)
+            axios.post (BASE_URL + `/api/tanding/peserta`, form, headerConfig())
             .then (res => {
                 getPesertaTanding ()
                 setShowModalPesertaTanding (false)
@@ -46,7 +54,7 @@ const modalPesertaTanding = () => {
                 console.log(err.response.data.message);
             })
         } else if (action == 'update') {
-            axios.put (BASE_URL + `/api/peserta/tanding/${id}`, form)
+            axios.put (BASE_URL + `/api/tanding/peserta/${id}`, form, headerConfig())
             .then (res => {
                 getPesertaTanding ()
                 setShowModalPesertaTanding (false)
@@ -119,10 +127,10 @@ const modalPesertaTanding = () => {
                                         <div className="w-4/6">
                                             <div className="relative w-full">
                                                 <div className='border-2 bg-[#212437] border-slate-200 rounded-lg px-2'>
-                                                    <select className='w-full bg-[#212437] focus:outline-none' name={jk} onChange = {(e) => setJk (e.target.value)} required>
+                                                    <select className='w-full bg-[#212437] focus:outline-none' value={jk} onChange = {(e) => setJk (e.target.value)} required>
                                                         <option></option>
-                                                        <option value="putra">Putra</option>
-                                                        <option value="putri">Putri</option>
+                                                        <option value="PUTRA">Putra</option>
+                                                        <option value="PUTRI">Putri</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -166,7 +174,7 @@ const modalPesertaTanding = () => {
                                         <div className="w-4/6">
                                             <div className="relative w-full">
                                                 <div className='border-2 bg-[#212437] border-slate-200 rounded-lg px-2'>
-                                                    <select className='w-full bg-[#212437] focus:outline-none' name={golongan} onChange = {(e) => setGolongan (e.target.value)} required>
+                                                    <select className='w-full bg-[#212437] focus:outline-none' value={golongan} onChange = {(e) => setGolongan (e.target.value)} required>
                                                         <option></option>
                                                         <option value="SINGA">Singa</option>
                                                         <option value="MACAN">Macan</option>

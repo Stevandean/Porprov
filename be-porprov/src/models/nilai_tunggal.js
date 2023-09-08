@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.jadwal_tgr,{
+      this.belongsTo(models.jadwal_seni,{
         foreignKey: "id_jadwal",
         as: "jadwal"
       })
@@ -29,7 +29,8 @@ module.exports = (sequelize, DataTypes) => {
     id: {
       allowNull: false,
       primaryKey: true,
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
     },
     id_jadwal: {
       allowNull: false,
@@ -45,71 +46,71 @@ module.exports = (sequelize, DataTypes) => {
     },
     nama_juri: DataTypes.STRING,
     jurus1: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.FLOAT,
       defaultValue: 0
     },
     jurus2: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.FLOAT,
       defaultValue: 0
     },
     jurus3: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.FLOAT,
       defaultValue: 0
     },
     jurus4: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.FLOAT,
       defaultValue: 0
     },
     jurus5: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.FLOAT,
       defaultValue: 0
     },
     jurus6: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.FLOAT,
       defaultValue: 0
     },
     jurus7: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.FLOAT,
       defaultValue: 0
     },
     jurus8: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.FLOAT,
       defaultValue: 0
     },
     jurus9: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.FLOAT,
       defaultValue: 0
     },
     jurus10: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.FLOAT,
       defaultValue: 0
     },
     jurus11: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.FLOAT,
       defaultValue: 0
     },
     jurus12: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.FLOAT,
       defaultValue: 0
     },
     jurus13: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.FLOAT,
       defaultValue: 0
     },
     jurus14: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.FLOAT,
       defaultValue: 0
     },
     skor_a: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.FLOAT,
       defaultValue: 9.90
     },
     skor_b: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.FLOAT,
       defaultValue: 0
     },
     total_skor: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.FLOAT,
       defaultValue: 9.90
     },
     dis: {

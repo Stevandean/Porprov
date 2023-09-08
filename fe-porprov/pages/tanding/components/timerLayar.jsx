@@ -11,9 +11,18 @@ const timerLayar = (props) => {
         socketInitializer()
     }, [])
 
+    
     const socketInitializer = async () => {
-      socket = socketIo(BASE_URL)
+        socket = socketIo.connect(BASE_URL)
     }
+
+    useEffect(() =>{
+        socket.emit('join', id_jadwal)
+        return(() =>{
+            socket.close()
+        })
+    },[])
+
     const [running, setRunning] = useState(false)
     const [pause, setPause] = useState(false)
     const [waktuPause, setWaktuPause] = useState(0)
@@ -30,11 +39,12 @@ const timerLayar = (props) => {
         getData()
     },[round])
 
+    const ubah_data = () => socket.emit ('init_time_tanding', id_jadwal)
+
     useEffect(() => {
-          socket.emit('init_time_tanding')
+          socket.emit('init_time_tanding', id_jadwal)
           socket.on ('get_time_tanding', getData)
           socket.on ('change_time_tanding', ubah_data)
-        
       },[])
 
     const getData = async () => {
@@ -42,7 +52,7 @@ const timerLayar = (props) => {
         //get waktu peserta
         // let babak = localStorage.getItem('babak')
         // console.log(golongan);
-        await axios.get(BASE_URL + `/api/tanding/get/timer/${id_jadwal}/${babak}`)
+        await axios.get(BASE_URL + `/api/tanding/jadwal/get/timer/${id_jadwal}/${babak}`)
         .then(res => {
             setData(res.data.data)
             waktu = res.data.data
@@ -77,7 +87,7 @@ const timerLayar = (props) => {
                 //jika pertandingan belum selesai tampilkan waktu berjalan  
                 } else if (waktu.selesai === false){
                     if(waktu.running === true){
-                        setWaktuStart (new Date(waktu.start).getTime() + waktu.total_pause + 1000)
+                        setWaktuStart (new Date(waktu.start).getTime() + waktu.total_pause)
                         setRunning(true)
                         setPause(false)
                     } else if (waktu.running === false) {
@@ -90,23 +100,6 @@ const timerLayar = (props) => {
                 }
             }
         }).catch(err =>{
-            console.log(err.response.data.message);
-        })
-    }
-
-    const pauseButton = async () => {
-        let data = {
-            time: timer,
-            id_jadwal: id_jadwal,
-            babak: round
-        }
-        await axios.put(BASE_URL + "/api/tanding/timer/pause", data)
-        .then(res =>{
-            console.log(res.data.message);
-            setRunning (false)
-            setPause(true) 
-        })
-        .catch(err => {
             console.log(err.response.data.message);
         })
     }
@@ -124,7 +117,7 @@ const timerLayar = (props) => {
         waktu: time 
       }
   
-      axios.put (BASE_URL + `/api/tanding/timer/stop`, form)
+      axios.put (BASE_URL + `/api/tanding/jadwal/timer/stop`, form)
       .then (res => {
         console.log(res.data.message);
         setRunning (false)
@@ -136,7 +129,6 @@ const timerLayar = (props) => {
     }
   
     // untuk merefresh saat data berubah
-    const ubah_data = () => socket.emit ('init_time_tanding')
 
     useEffect(() => {
         let interval;

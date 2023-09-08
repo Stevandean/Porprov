@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import Navbar from '../components/navbar'
+import Navbar from '../../component/navbar/navbar'
 import Footer from '../components/footer'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -16,8 +16,18 @@ const detail = () => {
     const [data, setData] = useState ([])
     const [active] = useState ('proses')
 
+    const headerConfig = () => {
+        let token = localStorage.getItem("token")
+        let header = {
+          headers : { Authorization : `Bearer ${token}` }
+        }
+        return header
+    }
+
     const getData = () => {
-        axios.get (BASE_URL + `/api/tanding/gel/` + gelanggang)
+        let event = JSON.parse(localStorage.getItem('event'))
+        let event_id = event.id
+        axios.get (BASE_URL + `/api/tanding/jadwal/gel/` + gelanggang, headerConfig())
         .then (res => {
             setData (res.data.data)
         })
@@ -56,9 +66,9 @@ const detail = () => {
                         {/* text daftar gelanggang and back button */}
                         <div className="grid grid-cols-12 gap-x-5">
                             {/* button back */}
-                            <Link href={'/tanding/layar'} className='bg-red-500 rounded-xl col-span-1 flex justify-center'>
+                            <button onClick={() => router.back ()} className='bg-red-500 rounded-xl col-span-1 flex items-center justify-center'>
                                 <img className='w-10' src="/svg/back.svg" alt="" />
-                            </Link>
+                            </button>
                             <h1 className='col-span-11 text-3xl bg-[#222954] py-3 rounded-xl font-semibold text-center'>Daftar Gelanggang</h1>
                         </div>
 

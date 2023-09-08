@@ -18,15 +18,23 @@ const modalPeserta = () => {
     const {dataGanda, setDataPesertaGanda} = useContext (globalState)
     const {dataRegu, setDataPesertaRegu} = useContext (globalState)
     const {dataSoloKreatif, setDataPesertaSoloKreatif} = useContext (globalState)
-    const {kelas, setKelas} = useContext (globalState)
+    const {golongan, setGolongan} = useContext (globalState)
     const {jenisKelamin, setJenisKelamin} = useContext (globalState)
     const {nama1, setNama1} = useContext (globalState)
     const {nama2, setNama2} = useContext (globalState)
     const {nama3, setNama3} = useContext (globalState)
     const {kontingen, setKontingen} = useContext (globalState)
 
+    const headerConfig = () => {
+        let token = localStorage.getItem("token")
+        let header = {
+          headers : { Authorization : `Bearer ${token}` }
+        }
+        return header
+    }
+
     const getPesertaTunggal = () => {
-        axios.get (BASE_URL + `/api/peserta/seni/tunggal`)
+        axios.get (BASE_URL + `/api/seni/peserta/tunggal`, headerConfig())
         .then (res => {
             setDataPesertaTunggal (res.data.data)
         })
@@ -36,7 +44,7 @@ const modalPeserta = () => {
     }
 
     const getPesertaGanda = () => {
-        axios.get (BASE_URL + `/api/peserta/seni/ganda`)
+        axios.get (BASE_URL + `/api/seni/peserta/ganda`, headerConfig())
         .then (res => {
             setDataPesertaGanda (res.data.data)
         })
@@ -46,7 +54,7 @@ const modalPeserta = () => {
     }
 
     const getPesertaSoloKreatif = () => {
-        axios.get (BASE_URL + `/api/peserta/seni/solo_kreatif`)
+        axios.get (BASE_URL + `/api/seni/peserta/solo_kreatif`, headerConfig())
         .then (res => {
             setDataPesertaSoloKreatif (res.data.data)
         })
@@ -56,7 +64,7 @@ const modalPeserta = () => {
     }
 
     const getPesertaRegu = () => {
-        axios.get (BASE_URL + `/api/peserta/seni/regu`)
+        axios.get (BASE_URL + `/api/seni/peserta/regu`, headerConfig())
         .then (res => {
             setDataPesertaRegu (res.data.data)
         })
@@ -68,7 +76,7 @@ const modalPeserta = () => {
     const handleSave = (e) => {
         e.preventDefault()
         let form = {
-            kelas : kelas,
+            golongan : golongan,
             jk : jenisKelamin,
             nama1 : nama1,
             nama2 : nama2,
@@ -77,16 +85,17 @@ const modalPeserta = () => {
         }
         if (action === 'insert') {
             if (splitLoc.toString() === ',Tunggal') {
-                axios.post (BASE_URL + `/api/peserta/seni/tunggal`, form)
+                axios.post (BASE_URL + `/api/seni/peserta/tunggal`, form, headerConfig())
                 .then (res => {
                     getPesertaTunggal ()
                     setShowModalPeserta (false)
                 })
                 .catch (err => {
                     console.log(err.message);
+                    console.log(err.response.data.message);
                 })
             } else if (splitLoc.toString() === ',Ganda') {
-                axios.post (BASE_URL + `/api/peserta/seni/ganda`, form)
+                axios.post (BASE_URL + `/api/seni/peserta/ganda`, form, headerConfig())
                 .then(res => {
                     getPesertaGanda ()
                     setShowModalPeserta (false)
@@ -95,13 +104,13 @@ const modalPeserta = () => {
                     console.log(err.message);
                 })
             } else if (splitLoc.toString() === ',SoloKreatif') {
-                axios.post (BASE_URL + `/api/peserta/seni/solo_kreatif`, form)
+                axios.post (BASE_URL + `/api/seni/peserta/solo_kreatif`, form, headerConfig())
                 .then (res => {
                     getPesertaSoloKreatif ()
                     setShowModalPeserta (false)
                 })
             } else if (splitLoc.toString() === ',Regu') {
-                axios.post (BASE_URL + `/api/peserta/seni/regu`, form)
+                axios.post (BASE_URL + `/api/seni/peserta/regu`, form, headerConfig())
                 .then (res => {
                     getPesertaRegu ()
                     setShowModalPeserta (false)
@@ -111,7 +120,7 @@ const modalPeserta = () => {
             }
         } else if (action === 'update') {
             if (splitLoc.toString() === ',Tunggal') {
-                axios.put (BASE_URL + `/api/peserta/seni/${id}`, form)
+                axios.put (BASE_URL + `/api/seni/peserta/${id}`, form, headerConfig())
                 .then (res => {
                     getPesertaTunggal ()
                     setShowModalPeserta (false)
@@ -120,7 +129,7 @@ const modalPeserta = () => {
                     console.log(err.message);
                 })
             } else if (splitLoc.toString() === ',Ganda') {
-                axios.put (BASE_URL + `/api/peserta/seni/${id}`, form)
+                axios.put (BASE_URL + `/api/seni/peserta/${id}`, form, headerConfig())
                 .then (res => {
                     getPesertaGanda ()
                     setShowModalPeserta (false)
@@ -129,7 +138,7 @@ const modalPeserta = () => {
                     console.log(err.message);
                 })
             } else if (splitLoc.toString() === ',SoloKreatif') {
-                axios.put (BASE_URL + `/api/peserta/seni/${id}`, form)
+                axios.put (BASE_URL + `/api/seni/peserta/${id}`, form, headerConfig())
                 .then (res => {
                     getPesertaSoloKreatif ()
                     setShowModalPeserta (false)
@@ -138,7 +147,7 @@ const modalPeserta = () => {
                     console.log(err.message);
                 })
             } else if (splitLoc.toString() === ',Regu') {
-                axios.put (BASE_URL + `/api/peserta/seni/${id}`, form)
+                axios.put (BASE_URL + `/api/seni/peserta/${id}`, form, headerConfig())
                 .then (res => {
                     getPesertaRegu ()
                     setShowModalPeserta (false)
@@ -195,7 +204,7 @@ const modalPeserta = () => {
                                     <div className="w-4/6">
                                         <div className="relative w-full">
                                             <div className='border-2 bg-[#212437] border-slate-200 rounded-lg px-2'>
-                                                <select className='w-full bg-[#212437] focus:outline-none' name={jenisKelamin} onChange = {(e) => setKelas (e.target.value)} required>
+                                                <select className='w-full bg-[#212437] focus:outline-none' value={golongan.toUpperCase()} onChange = {(e) => setGolongan (e.target.value)} required>
                                                     <option></option>
                                                     <option value="SINGA">Singa</option>
                                                     <option value="MACAN">Macan</option>
@@ -218,10 +227,10 @@ const modalPeserta = () => {
                                     <div className="w-4/6">
                                         <div className="relative w-full">
                                             <div className='border-2 bg-[#212437] border-slate-200 rounded-lg px-2'>
-                                                <select className='w-full bg-[#212437] focus:outline-none' name={jenisKelamin} onChange = {(e) => setJenisKelamin (e.target.value)} required>
+                                                <select className='w-full bg-[#212437] focus:outline-none' value={jenisKelamin} onChange = {(e) => setJenisKelamin (e.target.value)} required>
                                                     <option></option>
-                                                    <option value="putra">Putra</option>
-                                                    <option value="putri">Putri</option>
+                                                    <option value="PUTRA">Putra</option>
+                                                    <option value="PUTRI">Putri</option>
                                                 </select>
                                             </div>
                                         </div>

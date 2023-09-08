@@ -11,17 +11,38 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.jadwal_tanding,{
-        foreignKey:"id_jadwal",
-        as:"jadwal"
+      this.hasMany(models.log_poin_masuk,{
+        foreignKey: "id_nilai_tanding",
+        as: "log_poin_masuk"
       })
-      this.belongsTo(models.poin,{
-        foreignKey:"id_poin_merah",
-        as:"poin_merah"
+      this.hasMany(models.log_jatuhan,{
+        foreignKey: "id_nilai_tanding",
+        as: "log_jatuhan"
       })
-      this.belongsTo(models.poin,{
-        foreignKey:"id_poin_biru",
-        as:"poin_biru"
+      this.hasMany(models.log_binaan,{
+        foreignKey: "id_nilai_tanding",
+        as: "log_binaan"
+      })
+      this.hasMany(models.log_teguran,{
+        foreignKey: "id_nilai_tanding",
+        as: "log_teguran"
+      })
+      this.hasMany(models.log_poin_juri,{
+        foreignKey: "id_nilai_tanding",
+        as: "log_juri"
+      })
+
+      this.hasMany(models.log_poin_juri,{
+        foreignKey: "id_nilai_tanding",
+        as: "log_juri1"
+      })
+      this.hasMany(models.log_poin_juri,{
+        foreignKey: "id_nilai_tanding",
+        as: "log_juri2"
+      })
+      this.hasMany(models.log_poin_juri,{
+        foreignKey: "id_nilai_tanding",
+        as: "log_juri3"
       })
     }
   }
@@ -29,24 +50,29 @@ module.exports = (sequelize, DataTypes) => {
     id: {
       allowNull: false,
       primaryKey: true,
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
     },
-    id_jadwal: {
-      allowNull: false,
-      type: DataTypes.UUID
+    poin_masuk: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
     },
-    babak: {
-      type: DataTypes.STRING,
-      allowNull: false
+    jatuhan: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
     },
-    id_poin_merah: {
-      allowNull: false,
-      type: DataTypes.UUID
+    total_hukum: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
     },
-    id_poin_biru: {
-      allowNull: false,
-      type: DataTypes.UUID
+    total_poin: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
     },
+    // dis: {
+    //   type: DataTypes.BOOLEAN,
+    //   defaultValue: 0
+    // }
   }, {
     sequelize,
     modelName: 'nilai_tanding',

@@ -23,17 +23,25 @@ const pesertaSoloKreatif = () => {
     const [dataPesertaSoloKreatif, setDataPesertaSoloKreatif] = useState ([])
     const [action, setAction] = useState ('')
     const [id, setId] = useState ('')
-    const [kelas, setKelas] = useState ('')
+    const [golongan, setGolongan] = useState ('')
     const [jenisKelamin, setJenisKelamin] = useState ('')
     const [nama1, setNama1] = useState ('')
     const [kontingen, setKontingen] = useState ('')
     const [aktif, setAktif] = useState ('')
 
+    const headerConfig = () => {
+        let token = localStorage.getItem("token")
+        let header = {
+          headers : { Authorization : `Bearer ${token}` }
+        }
+        return header
+    }
+
     const addModal = () => {
         setShowModalPeserta (true)
         setAction ('insert')
         setId ('')
-        setKelas ('')
+        setGolongan ('')
         setJenisKelamin ('')
         setNama1 ('')
         setKontingen ('')
@@ -43,7 +51,7 @@ const pesertaSoloKreatif = () => {
         setShowModalPeserta (true)
         setAction ('update')
         setId (selectedItem.id)
-        setKelas (selectedItem.kelas)
+        setGolongan (selectedItem.golongan)
         setJenisKelamin (selectedItem.jk)
         setNama1 (selectedItem.nama1)
         setKontingen (selectedItem.kontingen)
@@ -55,7 +63,7 @@ const pesertaSoloKreatif = () => {
     }
 
     const getPesertaSoloKreatif = () => {
-        axios.get (BASE_URL + `/api/peserta/seni/solo_kreatif`)
+        axios.get (BASE_URL + `/api/seni/peserta/solo_kreatif`, headerConfig())
         .then (res => {
             setDataPesertaSoloKreatif (res.data.data)
         })
@@ -124,7 +132,7 @@ const pesertaSoloKreatif = () => {
                                     {dataPesertaSoloKreatif.map((item, index) => (
                                         <tr className='even:bg-[#4C4F6D] odd:bg-[#2c2f48]'>
                                         <td className='py-5'>{index + 1}</td>
-                                        <td>{item.kelas}</td>
+                                        <td>{item.golongan}</td>
                                         <td>{item.jk}</td>
                                         <td>{item.nama1}</td>
                                         <td>{item.kontingen}</td>
@@ -150,7 +158,7 @@ const pesertaSoloKreatif = () => {
                 {/* akhir konten utama */}
             </div>
 
-            <globalState.Provider value={{ showModalPeserta, setShowModalPeserta, action, setAction, id, setId, dataPesertaSoloKreatif, setDataPesertaSoloKreatif, kelas, setKelas, jenisKelamin, setJenisKelamin, nama1, setNama1, kontingen, setKontingen, aktif, setAktif }}>
+            <globalState.Provider value={{ showModalPeserta, setShowModalPeserta, action, setAction, id, setId, dataPesertaSoloKreatif, setDataPesertaSoloKreatif, golongan, setGolongan, jenisKelamin, setJenisKelamin, nama1, setNama1, kontingen, setKontingen, aktif, setAktif }}>
                 <ModalPeserta />
             </globalState.Provider>
 

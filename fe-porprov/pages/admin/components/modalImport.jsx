@@ -1,9 +1,49 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { globalState } from '../../../context/context'
+import axios from 'axios'
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const modalImport = () => {
 
     const {showModalImport, setShowModalImport} = useContext(globalState)
+    const [file, setFile] = useState(null)
+    const {dataPesertaTanding, setDataPesertaTanding} = useContext (globalState)
+
+    const headerConfig = () => {
+        let token = localStorage.getItem("token")
+        let header = {
+          headers : { Authorization : `Bearer ${token}` }
+        }
+        return header
+    }
+
+    const getPesertaTanding = () => {
+        axios.get (BASE_URL + `/api/tanding/peserta`, headerConfig())
+        .then (res => {
+            setDataPesertaTanding (res.data.data)
+        })
+        .catch (err => {
+            console.log(err.message);
+        })
+    }
+
+    const handleFile = (e) =>{
+        setFile (e.target.files[0])
+    }
+    const handleSave = (e) => {
+        e.preventDefault ()
+        let form = new FormData() 
+        form.append("file",file)
+
+        axios.post (BASE_URL + `/api/tanding/peserta/import`, form, headerConfig())
+        .then (res => {
+            setShowModalImport(false)
+            getPesertaTanding()
+        })
+        .catch (err => {
+            console.log(err.message);
+        })
+    }
 
     return (
         <>
@@ -18,56 +58,56 @@ const modalImport = () => {
                         {/*header Modal*/}
                         <div className="flex justify-center p-5 border-b border-solid border-slate-500 rounded-t">
                         <h3 className="text-3xl font-semibold text-white">
-                            Import Jadwal Tanding
+                            Import Peserta Tanding
                         </h3>
                         </div>
         
                         {/*Wrapper Input Field*/}
-                        <div className="relative p-6 flex flex-col space-y-5 text-white text-lg">
-        
-                        {/* Input Field */}
-                        <div className="flex space-x-3 w-full">
-                            <div className="w-2/6 flex justify-between">
-                            <span>File</span>
-                            <span>:</span>
-                            </div>
-                            <div className="w-4/6">
-                            <input className='block w-full border-2 border-white rounded-lg cursor-pointer text-gray-400 bg-[#2E335A] focus:outline-none' aria-describedby='file_input_help' id='file_input' type="file" />
-                            <p className='mt-2 text-sm text-gray-400' id='file_input_help'>*CSV File Only</p>
-                            </div>
-                        </div>
-                        <div className="flex space-x-3 w-full">
-                            <div className="w-2/6 flex justify-between">
-                                <span>Jadwal</span>
+                        <form action='POST' onSubmit={(e) => handleSave(e)}>
+                            <div className="relative p-6 flex flex-col space-y-5 text-white text-lg">
+                            {/* Input Field */}
+                            <div className="flex space-x-3 w-full">
+                                <div className="w-2/6 flex justify-between">
+                                <span>File</span>
                                 <span>:</span>
+                                </div>
+                                <div className="w-4/6">
+                                <input className='block w-full border-2 border-white rounded-lg cursor-pointer text-gray-400 bg-[#2E335A] focus:outline-none' aria-describedby='file_input_help' id='file_input' type="file" onChange={(e) => handleFile(e)} />
+                                <p className='mt-2 text-sm text-gray-400' id='file_input_help'>*CSV File Only</p>
+                                </div>
                             </div>
-                            <div className="w-4/6">
-                                <form className='border-2 bg-[#2E335A] border-white rounded-lg px-2' action="">
-                                    <select className='w-full bg-[#2E335A] focus:outline-none' name="" id="">
-                                        <option value="">test</option>
-                                        <option value="">test</option>
-                                        <option value="">test</option>
-                                    </select>
-                                </form>
+                            {/* <div className="flex space-x-3 w-full">
+                                <div className="w-2/6 flex justify-between">
+                                    <span>Jadwal</span>
+                                    <span>:</span>
+                                </div>
+                                <div className="w-4/6">
+                                    <form className='border-2 bg-[#2E335A] border-white rounded-lg px-2' action="">
+                                        <select className='w-full bg-[#2E335A] focus:outline-none' name="" id="">
+                                            <option value="">test</option>
+                                            <option value="">test</option>
+                                            <option value="">test</option>
+                                        </select>
+                                    </form>
+                                </div>
+                            </div> */}
                             </div>
-                        </div>
-                        </div>
-        
-                        {/*footer*/}
-                        <div className="flex items-center justify-end p-6 border-t border-solid border-slate-500 rounded-b">
-                        <button
-                            className="text-white bg-red-500 font-bold uppercase px-6 py-3 rounded text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                            type="button"
-                            onClick={() => setShowModalImport(false)}>
-                            Close
-                        </button>
-                        <button
-                            className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                            type="button"
-                            onClick={() => setShowModalImport(false)}>
-                            Tambah Jadwal Tanding
-                        </button>
-                        </div>
+            
+                            {/*footer*/}
+                            <div className="flex items-center justify-end p-6 border-t border-solid border-slate-500 rounded-b">
+                            <button
+                                className="text-white bg-red-500 font-bold uppercase px-6 py-3 rounded text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                type="button"
+                                onClick={() => setShowModalImport(false)}>
+                                Close
+                            </button>
+                            <button
+                                className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                type="submit">
+                                Tambah Jadwal Tanding
+                            </button>
+                            </div>
+                        </form>
                     </div>
                     </div>
                 </div>

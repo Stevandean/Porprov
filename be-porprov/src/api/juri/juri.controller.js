@@ -57,11 +57,11 @@ module.exports = {
                     username: req.body.username,
                     password : md5(req.body.password)
                 },
-                attributes: ['id', 'username', 'no']
+                attributes: ['id', 'username', 'no', "role_id"]
             })
             if(juri){
                 // generate token
-                let token = jwt.sign( {sub: juri.id, nama: juri.username}, process.env.REFRESH_TOKEN_SECRET, {
+                let token = jwt.sign( {id: juri.id, nama: juri.username, event_id: req.body.event_id}, process.env.REFRESH_TOKEN_SECRET, {
                     expiresIn: '1d'
                 });
                 

@@ -8,10 +8,11 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.UUID
       },
-      id_poin: {
+      id_nilai_tanding: {
+        allowNull: false,
         type: Sequelize.UUID,
         references: {
-          model: "poin",
+          model: "nilai_tanding",
           key:"id"
         }
       },
@@ -19,13 +20,17 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        type: 'TIMESTAMP',
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        allowNull: false
       },
       updatedAt: {
+        type: "TIMESTAMP",
+        defaultValue: Sequelize.literal(
+          "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+        ),
         allowNull: false,
-        type: Sequelize.DATE
-      }
+      },
     });
   },
   async down(queryInterface, Sequelize) {

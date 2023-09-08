@@ -14,6 +14,21 @@ const timer = props => {
       socketInitializer()
   }, [])
 
+  useEffect(() => {
+    const jadwal = JSON.parse(localStorage.getItem ('jadwalSeni'))
+    const user = JSON.parse(localStorage.getItem('user'))
+    let data ={
+        user: user.username,
+        id_jadwal: jadwal.id
+    }
+    socket.emit('joinSeni', data)
+
+    return () => {
+        socket.off('joinSeni', data)
+        socket.close()
+    }
+}, [])
+
   const [running, setRunning] = useState(false)
   const [data, setData] = useState([])  
   const [waktuStart, setWaktuStart] = useState()
@@ -25,7 +40,7 @@ const timer = props => {
   const getData = async () => {
     let waktu = []
     //get waktu peserta
-    await axios.get(BASE_URL + `/api/tgr/get/timer/${id_jadwal}/${id_peserta}`)
+    await axios.get(BASE_URL + `/api/seni/jadwal/get/timer/${id_jadwal}/${id_peserta}`)
     .then(res => {
       setData(res.data.data)
       waktu = res.data.data
@@ -55,11 +70,11 @@ const timer = props => {
       id_jadwal: id_jadwal,
       id_peserta: id_peserta
     }
-    await axios.post(BASE_URL + "/api/tgr/timer/start", data)
+    await axios.post(BASE_URL + "/api/seni/jadwal/timer/start", data)
     .then(res => {
       console.log(res.data.message);
       getData()
-      socket.emit ("update_time_seni")
+      socket.emit ("update_time_seni", id_jadwal)
     }).catch(err =>{
       console.log(err.response.data.message);
     })
@@ -67,33 +82,38 @@ const timer = props => {
 
   const selesai = () => {    
     // set waktu
-    let minute = `${("0" + Math.floor((timer / 1000 / 60) % 60)).slice(-2)}`
-    let second = `${("0" + Math.floor((timer / 1000) % 60)) .slice(-2)}`
-    let time = `${minute}:${second}`
+    socket.emit('stop_timer_seni', id_jadwal)
+    setRunning (false)
+    
+    // let minute = `${("0" + Math.floor((timer / 1000 / 60) % 60)).slice(-2)}`
+    // let second = `${("0" + Math.floor((timer / 1000) % 60)) .slice(-2)}`
+    // let time = `${minute}:${second}`
 
-    let form = {
-      id_jadwal: id_jadwal,
-      id_peserta: id_peserta,
-      waktu: time
-    }
+    // let form = {
+    //   id_jadwal: id_jadwal,
+    //   id_peserta: id_peserta,
+    //   waktu: time
+    // }
 
-    axios.put (BASE_URL + `/api/tgr/timer/selesai`, form)
-    .then (res => {
-      console.log(res.data.message);
-      socket.emit ("update_time_seni")
-      setRunning (false)
-    })
-    .catch (err => {
-      console.log(err.message);
-      console.log('gagal');
-    })
+    // axios.put (BASE_URL + `/api/seni/jadwal/timer/selesai`, form)
+    // .then (res => {
+    //   console.log(res.data.message);
+    //   socket.emit ("update_time_seni", id_jadwal)
+    //   socket.emit('stop_timer_seni', id_jadwal)
+    //   setRunning (false)
+    // })
+    // .catch (err => {
+    //   console.log(err.message);
+    //   console.log(err.response.data.message);
+    //   console.log('gagal');
+    // })
   }
 
   // untuk merefresh saat data berubah
-  const ubah_data = () => socket.emit ('init_time_seni')
+  const ubah_data = () => socket.emit ('init_time_seni', id_jadwal)
 
   useEffect(() => {
-      socket.emit('init_time_seni')
+      socket.emit('init_time_seni', id_jadwal)
       socket.on ('get_time_seni', getData)
       socket.on ('change_time_seni', ubah_data)
   },[])
@@ -111,9 +131,9 @@ const timer = props => {
   }, [running]);
 
   return (
-    <div className="grid grid-cols-12">
-      <button onClick={() => selesai()} className="col-span-2 bg-green-500 hover:bg-green-600 rounded-l-lg flex justify-center items-center">
-        <svg className='w-32' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <div className="grid grid-cols-2">
+      <button onClick={() => selesai()} className="bg-red-500 hover:bg-red-600 rounded-l-lg text-[85px] font-bold">
+        {/* <svg className='w-32' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g clipPath="url(#clip0_429_11249)">
             <path d="M20 7.00018L10 17.0002L5 12.0002" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
           </g>
@@ -122,15 +142,16 @@ const timer = props => {
               <rect width="24" height="24" fill="white"/>
             </clipPath>
           </defs>
-        </svg>
+        </svg> */}
+        X
       </button>
-      <div className="col-span-8 flex justify-center items-center border-y-2 text-black border-black lg:text-7xl text-5xl">
+      {/* <div className="col-span-8 flex justify-center items-center border-y-2 text-black border-black lg:text-7xl text-5xl">
         <div className="font-sans font-bold">
           <span>{("0" + Math.floor((timer / 1000 / 60) % 60)).slice(-2)}:</span>
           <span>{("0" + Math.floor((timer / 1000) % 60)).slice(-2)}</span>
         </div>
-      </div>
-      <button onClick={() => start()} className="col-span-2 bg-green-500 hover:bg-green-600 rounded-r-lg flex justify-center items-center">
+      </div> */}
+      <button onClick={() => start()} className="bg-green-500 hover:bg-green-600 rounded-r-lg flex justify-center items-center">
         <svg className='lg:w-16 w-10 py-3' viewBox="0 0 21 28" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M2 2.08008L19 13.9013L2 25.7225V2.08008Z" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>

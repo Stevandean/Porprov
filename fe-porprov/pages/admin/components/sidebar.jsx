@@ -82,7 +82,7 @@ const sidebar = () => {
                     {/* tgr */}
                     <div className="text-lg mb-4">
                         <div className="mb-2">
-                            <span className='px-2 italic text-[#51607A]'>Jadwal TGR</span>
+                            <span className='px-2 italic text-[#51607A]'>Seni</span>
                         </div>
                         {/* Dropdown tunggal*/}
                         <div className="mb-2">
@@ -291,7 +291,7 @@ const sidebar = () => {
                                 if (dropdownNilaitgr === true) {
                                     return (
                                         <div className={splitLoc[1] === 'nilaiTunggal' || splitLoc[1] === 'nilaiGanda' || splitLoc[1] === 'nilaiRegu' || splitLoc[1] === 'nilaiSoloKreatif' ? 'flex justify-between bg-[#11121C] items-center py-2 px-4 rounded-xl' : 'flex justify-between bg-[#11121C] bg-opacity-40 items-center py-2 px-4 mb-2 rounded-xl'}>
-                                            <button onClick={() => setDropdownNilaitgr (false)} className="text-white text-center inline-flex items-center w-full" type="button">Nilai Tgr
+                                            <button onClick={() => setDropdownNilaitgr (false)} className="text-white text-center inline-flex items-center w-full" type="button">Seni
                                             </button>
                                             <svg className ="w-4 h-4 transition-all" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7">
@@ -302,7 +302,7 @@ const sidebar = () => {
                                 } else if (dropdownNilaitgr === false) {
                                     return (
                                         <div className={splitLoc[1] === 'nilaiTunggal' || splitLoc[1] === 'nilaiGanda' || splitLoc[1] === 'nilaiRegu' || splitLoc[1] === 'nilaiSoloKreatif' ? 'flex justify-between bg-[#11121C] items-center py-2 px-4 rounded-xl' : 'flex justify-between bg-[#11121C] bg-opacity-40 items-center py-2 px-4 mb-2 rounded-xl'}>
-                                            <button onClick={() => setDropdownNilaitgr (true)} className="text-white text-center inline-flex items-center w-full" type="button">Nilai Tgr
+                                            <button onClick={() => setDropdownNilaitgr (true)} className="text-white text-center inline-flex items-center w-full" type="button">Seni
                                             </button>
                                             <svg className ="w-4 h-4 -rotate-90 transition-all" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7">
@@ -349,11 +349,18 @@ const sidebar = () => {
                     {/* web setting */}
                     <div className="text-lg mb-4">
                         <div className="mb-2">
-                            <span className={splitLoc[1] === "webSetting" ? 'px-2 italic text-white' : 'px-2 italic text-[#51607A]'}>Web Setting</span>
+                            <span className={splitLoc[1] === "pengaturan" ? 'px-2 italic text-white' : 'px-2 italic text-[#51607A]'}>Pengaturan Umum</span>
                         </div>
-                        <Link href="/admin/webSetting" className={splitLoc[1] === "webSetting" ? "bg-[#11121C] rounded-xl py-2 flex" : "bg-[#11121C] rounded-xl py-2 flex bg-opacity-40"}>
-                            <span className='px-4 text-lg'>Setting</span>
-                        </Link>
+                        <div className='mb-2'>
+                            <Link href="/admin/event" className={splitLoc[1] === "event" ? "bg-[#11121C] rounded-xl py-2 flex" : "bg-[#11121C] rounded-xl py-2 flex bg-opacity-40"}>
+                                <span className='px-4 text-lg'>Event</span>
+                            </Link>
+                        </div>
+                        <div className='mb-2'>
+                            <Link href="/admin/gelanggang" className={splitLoc[1] === "gelanggang" ? "bg-[#11121C] rounded-xl py-2 flex" : "bg-[#11121C] rounded-xl py-2 flex bg-opacity-40"}>
+                                <span className='px-4 text-lg'>Gelanggang</span>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </aside>

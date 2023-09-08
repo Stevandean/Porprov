@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import Link from 'next/link'
-import Navbar from '../components/navbar'
+import Navbar from '../../component/navbar/navbar'
 import Footer from '../components/footer'
 import { useRouter } from 'next/router'
 import axios from 'axios'
@@ -50,6 +50,14 @@ const dewan = () => {
     const [peringatan2biru, setPeringatan2biru] = useState([])
     const [peringatan3biru, setPeringatan3biru] = useState([])
 
+    const headerConfig = () => {
+        let token = localStorage.getItem("token")
+        let header = {
+          headers : { Authorization : `Bearer ${token}` }
+        }
+        return header
+    }
+
     const getNilai = async () => {
         const jadwal = localStorage.getItem ('jadwal')
         let id_jadwal = jadwal
@@ -60,8 +68,8 @@ const dewan = () => {
         })
         .catch (err => {
             console.log(err.message);
+            console.log(err.response.data.message);
         })
-        console.log(BASE_URL +`/api/nilai/tanding/jadwal/${id_jadwal}`)
     }
 
     const getPeringatan  = async () =>{
@@ -79,7 +87,7 @@ const dewan = () => {
 
         if (babak.length === 1) {
             //get juri 1 merah
-            await axios.get (BASE_URL +`/api/peringatan/merah/${id_jadwal}/i`)
+            await axios.get (BASE_URL +`/api/tanding/peringatan/merah/${id_jadwal}/i`)
             .then (res => {
                 setPeringatan1merah (res.data.data)
             })
@@ -88,7 +96,7 @@ const dewan = () => {
             })
 
             //get juri 1 merah
-            await axios.get (BASE_URL +`/api/peringatan/biru/${id_jadwal}/i`)
+            await axios.get (BASE_URL +`/api/tanding/peringatan/biru/${id_jadwal}/i`)
             .then (res => {
                 setPeringatan1biru (res.data.data)
             })
@@ -97,7 +105,7 @@ const dewan = () => {
             })
         } else if(babak.length === 2){
             //get juri 1 merah
-            await axios.get (BASE_URL +`/api/peringatan/merah/${id_jadwal}/i`)
+            await axios.get (BASE_URL +`/api/tanding/peringatan/merah/${id_jadwal}/i`)
             .then (res => {
                 setPeringatan1merah (res.data.data)
             })
@@ -105,7 +113,7 @@ const dewan = () => {
                 console.log(err.message);
             })
             //get juri 2 merah
-            await axios.get (BASE_URL +`/api/peringatan/merah/${id_jadwal}/ii`)
+            await axios.get (BASE_URL +`/api/tanding/peringatan/merah/${id_jadwal}/ii`)
             .then (res => {
                 setPeringatan2merah (res.data.data)
             })
@@ -114,7 +122,7 @@ const dewan = () => {
             })
 
             //get juri 1 biru
-            await axios.get (BASE_URL +`/api/peringatan/biru/${id_jadwal}/i`)
+            await axios.get (BASE_URL +`/api/tanding/peringatan/biru/${id_jadwal}/i`)
             .then (res => {
                 setPeringatan1biru (res.data.data)
             })
@@ -122,7 +130,7 @@ const dewan = () => {
                 console.log(err.message);
             })
             //get juri 2 biru
-            await axios.get (BASE_URL +`/api/peringatan/biru/${id_jadwal}/ii`)
+            await axios.get (BASE_URL +`/api/tanding/peringatan/biru/${id_jadwal}/ii`)
             .then (res => {
                 setPeringatan2biru (res.data.data)
             })
@@ -131,7 +139,7 @@ const dewan = () => {
             })
         } else if (babak.length === 3){
             //get juri 1 merah
-            await axios.get (BASE_URL +`/api/peringatan/merah/${id_jadwal}/i`)
+            await axios.get (BASE_URL +`/api/tanding/peringatan/merah/${id_jadwal}/i`)
             .then (res => {
                 setPeringatan1merah (res.data.data)
             })
@@ -139,14 +147,14 @@ const dewan = () => {
                 console.log(err.message);
             })
             //get juri 1 merah
-            await axios.get (BASE_URL +`/api/peringatan/merah/${id_jadwal}/ii`)
+            await axios.get (BASE_URL +`/api/tanding/peringatan/merah/${id_jadwal}/ii`)
             .then (res => {
                 setPeringatan2merah (res.data.data)
             })
             .catch (err => {
                 console.log(err.message);
             })
-            await axios.get (BASE_URL +`/api/peringatan/merah/${id_jadwal}/iii`)
+            await axios.get (BASE_URL +`/api/tanding/peringatan/merah/${id_jadwal}/iii`)
             .then (res => {
                 setPeringatan3merah (res.data.data)
             })
@@ -155,7 +163,7 @@ const dewan = () => {
             })
 
             //get juri 1 biry
-            await axios.get (BASE_URL +`/api/peringatan/biru/${id_jadwal}/i`)
+            await axios.get (BASE_URL +`/api/tanding/peringatan/biru/${id_jadwal}/i`)
             .then (res => {
                 setPeringatan1biru (res.data.data)
             })
@@ -163,7 +171,7 @@ const dewan = () => {
                 console.log(err.message);
             })
             //get juri 2 biru
-            await axios.get (BASE_URL +`/api/peringatan/biru/${id_jadwal}/ii`)
+            await axios.get (BASE_URL +`/api/tanding/peringatan/biru/${id_jadwal}/ii`)
             .then (res => {
                 setPeringatan2biru (res.data.data)
             })
@@ -171,7 +179,7 @@ const dewan = () => {
                 console.log(err.message);
             })
             //get juri 3 biru
-            await axios.get (BASE_URL +`/api/peringatan/biru/${id_jadwal}/iii`)
+            await axios.get (BASE_URL +`/api/tanding/peringatan/biru/${id_jadwal}/iii`)
             .then (res => {
                 setPeringatan3biru (res.data.data)
                 console.log(res.data.data);
@@ -187,7 +195,7 @@ const dewan = () => {
         let id_jadwal = jadwal
 
         //get juri 1 biru
-        axios.get (BASE_URL +`/api/nilai/tanding/log1/biru/${id_jadwal}/i`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/1/biru/${id_jadwal}/i`)
         .then (res => {
             setJuri1Biru1 (res.data.data)
         })
@@ -196,7 +204,7 @@ const dewan = () => {
         })
 
         //get juri 2 biru
-        axios.get (BASE_URL +`/api/nilai/tanding/log2/biru/${id_jadwal}/i`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/2/biru/${id_jadwal}/i`)
         .then (res => {
             setJuri2Biru1 (res.data.data)
         })
@@ -205,7 +213,7 @@ const dewan = () => {
         })
 
         //get juri 3 biru
-        axios.get (BASE_URL +`/api/nilai/tanding/log3/biru/${id_jadwal}/i`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/3/biru/${id_jadwal}/i`)
         .then (res => {
             setJuri3Biru1 (res.data.data)
         })
@@ -215,12 +223,11 @@ const dewan = () => {
     }
 
     const getJuriMerah1 = () =>{
-        "tiga kali"
         const jadwal = localStorage.getItem ('jadwal')
         let id_jadwal = jadwal
 
         //get juri 1 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log1/merah/${id_jadwal}/i`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/1/merah/${id_jadwal}/i`)
         .then (res => {
             setJuri1Merah1 (res.data.data)
         })
@@ -229,7 +236,7 @@ const dewan = () => {
         })
 
         //get juri 2 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log2/merah/${id_jadwal}/i`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/2/merah/${id_jadwal}/i`)
         .then (res => {
             setJuri2Merah1 (res.data.data)
         })
@@ -238,7 +245,7 @@ const dewan = () => {
         })
 
         //get juri 3 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log3/merah/${id_jadwal}/i`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/3/merah/${id_jadwal}/i`)
         .then (res => {
             setJuri3Merah1 (res.data.data)
         })
@@ -252,7 +259,7 @@ const dewan = () => {
         let id_jadwal = jadwal
 
         //get juri 1 biru
-        axios.get (BASE_URL +`/api/nilai/tanding/log1/biru/${id_jadwal}/ii`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/1/biru/${id_jadwal}/ii`)
         .then (res => {
             setJuri1Biru2 (res.data.data)
         })
@@ -261,7 +268,7 @@ const dewan = () => {
         })
 
         //get juri 2 biru
-        axios.get (BASE_URL +`/api/nilai/tanding/log2/biru/${id_jadwal}/ii`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/2/biru/${id_jadwal}/ii`)
         .then (res => {
             setJuri2Biru2 (res.data.data)
         })
@@ -270,7 +277,7 @@ const dewan = () => {
         })
 
         //get juri 3 biru
-        axios.get (BASE_URL +`/api/nilai/tanding/log3/biru/${id_jadwal}/ii`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log//3/biru/${id_jadwal}/ii`)
         .then (res => {
             setJuri3Biru2 (res.data.data)
         })
@@ -284,7 +291,7 @@ const dewan = () => {
         let id_jadwal = jadwal
 
         //get juri 1 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log1/merah/${id_jadwal}/ii`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/1/merah/${id_jadwal}/ii`)
         .then (res => {
             setJuri1Merah2 (res.data.data)
         })
@@ -293,7 +300,7 @@ const dewan = () => {
         })
 
         //get juri 2 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log2/merah/${id_jadwal}/ii`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/2/merah/${id_jadwal}/ii`)
         .then (res => {
             setJuri2Merah2 (res.data.data)
         })
@@ -302,7 +309,7 @@ const dewan = () => {
         })
 
         //get juri 3 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log3/merah/${id_jadwal}/ii`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/3/merah/${id_jadwal}/ii`)
         .then (res => {
             setJuri3Merah2 (res.data.data)
         })
@@ -316,7 +323,7 @@ const dewan = () => {
         let id_jadwal = jadwal
 
         //get juri 1 biru
-        axios.get (BASE_URL +`/api/nilai/tanding/log1/biru/${id_jadwal}/iii`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/1/biru/${id_jadwal}/iii`)
         .then (res => {
             setJuri1Biru3 (res.data.data)
         })
@@ -325,7 +332,7 @@ const dewan = () => {
         })
 
         //get juri 2 biru
-        axios.get (BASE_URL +`/api/nilai/tanding/log2/biru/${id_jadwal}/iii`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/2/biru/${id_jadwal}/iii`)
         .then (res => {
             setJuri2Biru3 (res.data.data)
         })
@@ -334,7 +341,7 @@ const dewan = () => {
         })
 
         //get juri 3 biru
-        axios.get (BASE_URL +`/api/nilai/tanding/log3/biru/${id_jadwal}/iii`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/3/biru/${id_jadwal}/iii`)
         .then (res => {
             setJuri3Biru3 (res.data.data)
         })
@@ -348,7 +355,7 @@ const dewan = () => {
         let id_jadwal = jadwal
 
         //get juri 1 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log1/merah/${id_jadwal}/iii`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/1/merah/${id_jadwal}/iii`)
         .then (res => {
             setJuri1Merah3 (res.data.data)
         })
@@ -357,7 +364,7 @@ const dewan = () => {
         })
 
         //get juri 2 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log2/merah/${id_jadwal}/iii`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/2/merah/${id_jadwal}/iii`)
         .then (res => {
             setJuri2Merah3 (res.data.data)
         })
@@ -366,7 +373,7 @@ const dewan = () => {
         })
 
         //get juri 3 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log3/merah/${id_jadwal}/iii`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/3/merah/${id_jadwal}/iii`)
         .then (res => {
             setJuri3Merah3 (res.data.data)
         })
@@ -380,9 +387,9 @@ const dewan = () => {
         const jadwal = localStorage.getItem ('jadwal')
         let id_jadwal = jadwal
 
-        await axios.get (BASE_URL + `/api/tanding/${id_jadwal}`)
+        await axios.get (BASE_URL + `/api/tanding/jadwal/${id_jadwal}`)
         .then (res => {
-            setJadwal (res.data.data)
+            setJadwal (res.data.data);
             setJadwalBiru (res.data.data.biru)
             setJadwalMerah (res.data.data.merah)
         })
@@ -403,7 +410,7 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/biru/jatuhan`, form)
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -417,7 +424,7 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/merah/jatuhan`, form)
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -435,7 +442,7 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/biru/jatuhan`, form)
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -449,7 +456,7 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/merah/jatuhan`, form)
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -466,7 +473,7 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/biru/jatuhan`, form)
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -480,7 +487,7 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/merah/jatuhan`, form)
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -502,7 +509,7 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/biru/binaan`, form)
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -516,7 +523,7 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/merah/binaan`, form)
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -533,7 +540,7 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/biru/binaan`, form)
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -547,7 +554,7 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/merah/binaan`, form)
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -564,7 +571,7 @@ const dewan = () => {
             }
             axios.post  (BASE_URL + `/api/nilai/tanding/biru/binaan`, form)
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -578,7 +585,7 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/merah/binaan`, form)
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -600,7 +607,7 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/biru/teguran`, form)
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -614,7 +621,7 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/merah/teguran`, form)
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -631,7 +638,7 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/biru/teguran`, form)
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -645,7 +652,7 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/merah/teguran`, form)
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -662,7 +669,7 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/biru/teguran`, form)
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -676,7 +683,7 @@ const dewan = () => {
             }
             axios.post (BASE_URL + `/api/nilai/tanding/merah/teguran`, form)
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -696,9 +703,9 @@ const dewan = () => {
                 babak : 'I',
                 id_jadwal : jadwal
             }
-            axios.post (BASE_URL + `/api/peringatan/biru`, form)
+            axios.post (BASE_URL + `/api/tanding/peringatan/biru`, form)
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getPeringatan()
                 getJadwal()
@@ -711,9 +718,9 @@ const dewan = () => {
                 babak : 'I',
                 id_jadwal : jadwal
             }
-            axios.post (BASE_URL + `/api/peringatan/merah/`, form)
+            axios.post (BASE_URL + `/api/tanding/peringatan/merah/`, form)
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getPeringatan()
                 getJadwal()
@@ -729,9 +736,9 @@ const dewan = () => {
                 babak : 'II',
                 id_jadwal : jadwal
             }
-            axios.post (BASE_URL + `/api/peringatan/biru`, form)
+            axios.post (BASE_URL + `/api/tanding/peringatan/biru`, form)
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getPeringatan()
                 getJadwal()
@@ -744,9 +751,9 @@ const dewan = () => {
                 babak : 'II',
                 id_jadwal : jadwal
             }
-            axios.post (BASE_URL + `/api/peringatan/merah/`, form)
+            axios.post (BASE_URL + `/api/tanding/peringatan/merah/`, form)
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar',jadwal)
                 getNilai ()
                 getPeringatan()
                 getJadwal()
@@ -762,9 +769,9 @@ const dewan = () => {
                 babak : 'III',
                 id_jadwal : jadwal
             }
-            axios.post (BASE_URL + `/api/peringatan/biru`, form)
+            axios.post (BASE_URL + `/api/tanding/peringatan/biru`, form)
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getPeringatan()
                 getJadwal()
@@ -777,9 +784,9 @@ const dewan = () => {
                 babak : 'III',
                 id_jadwal : jadwal
             }
-            axios.post (BASE_URL + `/api/peringatan/merah/`, form)
+            axios.post (BASE_URL + `/api/tanding/peringatan/merah/`, form)
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getPeringatan()
                 getJadwal()
@@ -802,7 +809,7 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/biru/jatuhan`, {data : form})
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -816,7 +823,7 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/merah/jatuhan`, {data : form})
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -833,7 +840,7 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/biru/jatuhan`, {data : form})
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -847,7 +854,7 @@ const dewan = () => {
             }
             axios.delete (BASE_URL +`/api/nilai/tanding/merah/jatuhan`, {data : form})
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -864,7 +871,7 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/biru/jatuhan`, {data : form})
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -878,7 +885,7 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/merah/jatuhan`, {data : form})
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -900,7 +907,7 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/biru/binaan`, {data : form})
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -914,7 +921,7 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/merah/binaan`, {data : form})
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -931,7 +938,7 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/biru/binaan`, {data : form})
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -945,7 +952,7 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/merah/binaan`, {data : form})
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -962,7 +969,7 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/binaan`, {data : form})
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -976,7 +983,7 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/binaan`, {data : form})
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -998,7 +1005,7 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/biru/teguran`, {data : form})
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -1012,7 +1019,7 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/merah/teguran`, {data : form})
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -1029,7 +1036,7 @@ const dewan = () => {
             }
             axios.delete (BASE_URL +`/api/nilai/tanding/biru/teguran`, {data : form})
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -1043,7 +1050,7 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/merah/teguran`, {data : form})
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -1060,7 +1067,7 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/biru/teguran`, {data : form})
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -1074,7 +1081,7 @@ const dewan = () => {
             }
             axios.delete (BASE_URL + `/api/nilai/tanding/merah/teguran`, {data : form})
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getJadwal()
             })
@@ -1094,9 +1101,9 @@ const dewan = () => {
                 babak : 'I',
                 id_jadwal : jadwal
             }
-            axios.delete (BASE_URL + `/api/peringatan/biru/`, {data : form})
+            axios.delete (BASE_URL + `/api/tanding/peringatan/biru/`, {data : form})
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getPeringatan()
                 getJadwal()
@@ -1109,9 +1116,9 @@ const dewan = () => {
                 babak : 'I',
                 id_jadwal : jadwal
             }
-            axios.delete (BASE_URL + `/api/peringatan/merah/`, {data : form})
+            axios.delete (BASE_URL + `/api/tanding/peringatan/merah/`, {data : form})
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getPeringatan()
                 getJadwal()
@@ -1127,9 +1134,9 @@ const dewan = () => {
                 babak : 'II',
                 id_jadwal : jadwal
             }
-            axios.delete (BASE_URL + `/api/peringatan/biru/`, {data : form})
+            axios.delete (BASE_URL + `/api/tanding/peringatan/biru/`, {data : form})
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getPeringatan()
                 getJadwal()
@@ -1142,9 +1149,9 @@ const dewan = () => {
                 babak : 'II',
                 id_jadwal : jadwal
             }
-            axios.delete (BASE_URL +  `/api/peringatan/merah/`, {data : form})
+            axios.delete (BASE_URL +  `/api/tanding/peringatan/merah/`, {data : form})
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getPeringatan()
                 getJadwal()
@@ -1160,9 +1167,9 @@ const dewan = () => {
                 babak : 'III',
                 id_jadwal : jadwal
             }
-            axios.delete (BASE_URL + `/api/peringatan/biru/`, {data : form})
+            axios.delete (BASE_URL + `/api/tanding/peringatan/biru/`, {data : form})
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getPeringatan()
                 getJadwal()
@@ -1175,9 +1182,9 @@ const dewan = () => {
                 babak : 'III',
                 id_jadwal : jadwal
             }
-            axios.delete (BASE_URL + `/api/peringatan/merah/`, {data : form})
+            axios.delete (BASE_URL + `/api/tanding/peringatan/merah/`, {data : form})
             .then (res => {
-                socket.emit('dewanToLayar')
+                socket.emit('dewanToLayar', jadwal)
                 getNilai ()
                 getPeringatan()
                 getJadwal()
@@ -1186,6 +1193,34 @@ const dewan = () => {
                 console.log(err.response.data.message);
             })
         }
+    }
+
+    //tambah kartu kuning
+    const tambahKartuKuning = async (e) =>{
+        const jadwal = localStorage.getItem ('jadwal')
+        await axios.post(BASE_URL + `/api/nilai/tanding/kartu_kuning/${e}/${jadwal}`)
+        .then (res => {
+            socket.emit('dewanToLayar', jadwal)
+            getNilai ()
+            getJadwal()
+        })
+        .catch (err => {
+            console.log(err.response.data.message);
+        })
+    }
+
+    //hapus kartu kuning
+    const deleteKartuKuning = async (e) =>{
+        const jadwal = localStorage.getItem ('jadwal')
+        await axios.post(BASE_URL + `/api/nilai/tanding/kartu_kuning/hapus/${e}/${jadwal}`)
+        .then (res => {
+            socket.emit('dewanToLayar', jadwal)
+            getNilai ()
+            getJadwal()
+        })
+        .catch (err => {
+            console.log(err.response.data.message);
+        })
     }
 
     const winner = (e) => {
@@ -1203,7 +1238,7 @@ const dewan = () => {
                 form.id_pemenang = jadwalMerah.id
             }
 
-            axios.put (BASE_URL + `/api/tanding/keterangan/${id_jadwal}`, form)
+            axios.put (BASE_URL + `/api/tanding/jadwal/keterangan/${id_jadwal}`, form)
             .then (res => {
                 console.log(res.data.message);
             })
@@ -1219,7 +1254,7 @@ const dewan = () => {
             }else if (e == 'udMerah'){
                 form.id_pemenang = jadwalMerah.id
             }
-            axios.put (BASE_URL + `/api/tanding/keterangan/${id_jadwal}`, form)
+            axios.put (BASE_URL + `/api/tanding/jadwal/keterangan/${id_jadwal}`, form)
             .then (res => {
                 console.log(res.data.message);
             })
@@ -1235,7 +1270,7 @@ const dewan = () => {
             }else if (e == 'disMerah'){
                 form.id_pemenang = jadwalMerah.id
             }
-            axios.put (BASE_URL + `/api/tanding/keterangan/${id_jadwal}`, form)
+            axios.put (BASE_URL + `/api/tanding/jadwal/keterangan/${id_jadwal}`, form)
             .then (res => {
                 console.log(res.data.message);
             })
@@ -1251,7 +1286,7 @@ const dewan = () => {
             }else if (e == 'teknikMerah'){
                 form.id_pemenang = jadwalMerah.id
             }
-            axios.put (BASE_URL + `/api/tanding/keterangan/${id_jadwal}`, form)
+            axios.put (BASE_URL + `/api/tanding/jadwal/keterangan/${id_jadwal}`, form)
             .then (res => {
                 console.log(res.data.message);
             })
@@ -1267,7 +1302,7 @@ const dewan = () => {
             }else if (e == 'wmpMerah'){
                 form.id_pemenang = jadwalMerah.id
             }
-            axios.put (BASE_URL + `/api/tanding/keterangan/${id_jadwal}`, form)
+            axios.put (BASE_URL + `/api/tanding/jadwal/keterangan/${id_jadwal}`, form)
             .then (res => {
                 console.log(res.data.message);
             })
@@ -1283,7 +1318,7 @@ const dewan = () => {
             }else if (e == 'mutlakMerah'){
                 form.id_pemenang = jadwalMerah.id
             }
-            axios.put (BASE_URL + `/api/tanding/keterangan/${id_jadwal}`, form)
+            axios.put (BASE_URL + `/api/tanding/jadwal/keterangan/${id_jadwal}`, form)
             .then (res => {
                 console.log(res.data.message);
             })
@@ -1312,20 +1347,6 @@ const dewan = () => {
         }
     }
 
-    const disWinner = () => {
-        if (data.poin_biru?.dis == true) {
-            setKeterangan ('disMerah')
-        } else if (data.poin_merah?.dis == true) {
-            setKeterangan ('disBiru')
-        } else console.log('gagal');
-    }
-
-    const isLogged = () => {
-        if (localStorage.getItem ('token') === null || localStorage.getItem ('dewanTanding') === null) {
-         router.push ('/tanding/dewan/login') 
-        }
-    }
-
     // verif jatuhan
     const addVerifJatuhan = async () => {
         // setInfoVerif('Jatuhan')
@@ -1336,12 +1357,12 @@ const dewan = () => {
             let form = {
                 id_jadwal : jadwal
             }
-            await axios.post(BASE_URL + `/api/verif/tanding/jatuhan`, form)
+            await axios.post(BASE_URL + `/api/tanding/verif/jatuhan`, form)
             .then(res =>{
                 if(res.data.status === true){
                     setInfoVerif('Jatuhan')
                     setShowModalDewan(true)
-                    socket.emit('openVerif')
+                    socket.emit('openVerif', jadwal)
                 }
             }).catch (err => {
                 console.log(err.response.data.message);
@@ -1357,25 +1378,34 @@ const dewan = () => {
         let form = {
             id_jadwal : jadwal
         }
-        await axios.post(BASE_URL + `/api/verif/tanding/hukuman`, form)
+        await axios.post(BASE_URL + `/api/tanding/verif/hukuman`, form)
         .then(res =>{
             if(res.data.status === true){
                 setInfoVerif('Hukuman')
                 setShowModalDewan(true)
-                socket.emit('openVerif')
+                socket.emit('openVerif', jadwal)
             }
         }).catch (err => {
             console.log(err.response.data.message);
         })
     }
 
-    const ubah_data = () => socket.emit ('init_juri_tanding')
+    const ubah_data = () => socket.emit ('init_juri_tanding', localStorage.getItem('jadwal'))
 
+    useEffect(() => {
+        const jadwal = localStorage.getItem ('jadwal')
+        socket.emit('join', jadwal)
+    
+        return () => {
+            socket.close()
+        }
+    }, [])
+    
     useEffect (() => {
-
         (async () => {
             const jadwal = localStorage.getItem ('jadwal')
             let id_jadwal = jadwal
+
 
             let babak = []
             await axios.get (BASE_URL + `/api/nilai/tanding/babakbyjadwal/${id_jadwal}`)
@@ -1386,18 +1416,20 @@ const dewan = () => {
                 console.log(err.message);
             })
 
-            socket.emit('init_juri_tanding')
-            if (babak.length === 1) {
-                socket.on("getJuri", getJuriBiru1)
-                socket.on("getJuri", getJuriMerah1)
+            socket.emit('init_juri_tanding', jadwal)
+            if (babak.length >= 1) {
+                getJuriBiru1()
+                getJuriMerah1()
+            } 
 
-            } else if (babak.length === 2){
-                socket.on("getJuri", getJuriBiru2)
-                socket.on("getJuri", getJuriMerah2)
+            if (babak.length >= 2){
+                getJuriBiru2()
+                getJuriMerah2()
+            }
 
-            } else if (babak.length === 3){
-                socket.on("getJuri", getJuriBiru3)
-                socket.on("getJuri", getJuriMerah3)
+            if (babak.length >= 3){
+                getJuriBiru3()
+                getJuriMerah3()
 
             }
 
@@ -1406,14 +1438,14 @@ const dewan = () => {
             socket.on("naikBabak", getNilai)
             socket.on('change_nilai_juri', ubah_data)
             getPeringatan()
-            isLogged ()
+            // isLogged ()
         })();
 
 
         // socket.on ('getNilaiTanding', disWinner)
         return () => {
-            socket.off('getNilaiTanding')
-            socket.off('change_nilai_tanding')
+            socket.close()
+            console.log('closed');
         }
     }, [])
 
@@ -1492,7 +1524,7 @@ const dewan = () => {
                                     {/* wrapper nilai juri 1 */}
                                     <tr>
                                         {/* total */}
-                                        <td className='border-2 border-[#222954] rounded-lg justify-center items-center text-3xl font-bold text-center' rowSpan={8}>{item.poin_biru.total_poin}</td>
+                                        <td className='border-2 border-[#222954] rounded-lg justify-center items-center text-3xl font-bold text-center' rowSpan={8}>{item.nilai_biru.total_poin}</td>
 
                                         {/* wrapper detail poin biru */}
                                         <td className='text-lg font-semibold' colSpan={4}>
@@ -1564,7 +1596,7 @@ const dewan = () => {
                                         </td>
 
                                         {/* total */}
-                                        <td className='border-2 border-[#222954] rounded-lg justify-center items-center text-3xl font-bold text-center' rowSpan={8}>{item.poin_merah.total_poin}</td>
+                                        <td className='border-2 border-[#222954] rounded-lg justify-center items-center text-3xl font-bold text-center' rowSpan={8}>{item.nilai_merah.total_poin}</td>
                                     </tr>
 
                                     {/* wrapper nilai juri 2 */}
@@ -1711,11 +1743,11 @@ const dewan = () => {
                                             <div className="grid grid-cols-6 gap-x-2">
                                                 {/* total nilai */}
                                                 <div className="border-2 border-[#222954] rounded-lg text-center py-1 col-span-1 bg-[#FDFFA0]">
-                                                    <span>{item.poin_biru.poin_masuk}</span>
+                                                    <span>{item.nilai_biru.poin_masuk}</span>
                                                 </div>
                                                 {/* nilai */}
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-3 bg-[#FDFFA0] break-words">
-                                                    {item.poin_biru.log_poin_masuk.map ((item, index) => (
+                                                    {item.nilai_biru.log_poin_masuk.map ((item, index) => (
                                                         <span key={index + 1}>{item.poin},</span>
                                                     ))}
                                                 </div>
@@ -1731,13 +1763,13 @@ const dewan = () => {
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-2 text-center bg-[#FDFFA0]">Poin Masuk</div>
                                                 {/* nilai */}
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-3 bg-[#FDFFA0] break-words">
-                                                    {item.poin_merah.log_poin_masuk.map ((item, index) => (
+                                                    {item.nilai_merah.log_poin_masuk.map ((item, index) => (
                                                         <span key={index + 1}>{item.poin},</span>
                                                     ))}
                                                 </div>
                                                 {/* total nilai */}
                                                 <div className="border-2 border-[#222954] rounded-lg text-center py-1 col-span-1 bg-[#FDFFA0]">
-                                                    <span>{item.poin_merah.poin_masuk}</span>
+                                                    <span>{item.nilai_merah.poin_masuk}</span>
                                                 </div>
                                             </div>
                                         </td>
@@ -1752,12 +1784,12 @@ const dewan = () => {
                                                 {/* total jatuhan */}
                                                 <div className="border-2 border-[#222954] rounded-lg text-center py-1 col-span-1 bg-[#BDEBFF] break-words">
                                                     <span>
-                                                        {item.poin_biru.jatuhan}
+                                                        {item.nilai_biru.jatuhan}
                                                     </span>
                                                 </div>
                                                 {/* nilai */}
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-3 bg-[#BDEBFF]">
-                                                    {item.poin_biru.log_jatuhan.map((item, index) => (
+                                                    {item.nilai_biru.log_jatuhan.map((item, index) => (
                                                         <span key={index + 1}>{item.poin},</span>
                                                     ))}
                                                 </div>
@@ -1773,13 +1805,13 @@ const dewan = () => {
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-2 text-center bg-[#BDEBFF]">Jatuhan</div>
                                                 {/* nilai */}
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-3 bg-[#BDEBFF] break-words">
-                                                    {item.poin_merah.log_jatuhan.map((item, index) => (
+                                                    {item.nilai_merah.log_jatuhan.map((item, index) => (
                                                         <span key={index + 1}>{item.poin},</span>
                                                     ))}
                                                 </div>
                                                 {/* total nilai */}
                                                 <div className="border-2 border-[#222954] rounded-lg text-center py-1 col-span-1 bg-[#BDEBFF]">
-                                                    <span>{item.poin_merah.jatuhan}</span>
+                                                    <span>{item.nilai_merah.jatuhan}</span>
                                                 </div>
                                             </div>
                                         </td>
@@ -1793,17 +1825,17 @@ const dewan = () => {
                                             <div className="grid grid-cols-6 gap-x-2">
                                                 {/* total hukuman */}
                                                 <div className="border-2 border-[#222954] rounded-lg text-center py-1 col-span-1 bg-[#FFBBBB] flex justify-center items-center">
-                                                    <span>{item.poin_biru?.total_hukum}</span>
+                                                    <span>{item.nilai_biru?.total_hukum}</span>
                                                 </div>
                                                 {/* nilai hukuman */}
                                                 <div className="py-1 col-span-3 grid grid-rows-3 gap-y-1">
                                                     <div className="border-2 border-[#222954] rounded-lg px-4 bg-[#FFBBBB]">
-                                                        {item.poin_biru?.log_binaan.map((item, index) => (
+                                                        {item.nilai_biru?.log_binaan.map((item, index) => (
                                                         <span key={index + 1}>{item.poin},</span>
                                                         ))}
                                                     </div>
                                                     <div className="border-2 border-[#222954] rounded-lg px-4 bg-[#FFBBBB]">
-                                                        {item.poin_biru?.log_teguran.map((item, index) => (
+                                                        {item.nilai_biru?.log_teguran.map((item, index) => (
                                                             <span key={index + 1}>{item.poin},</span>
                                                         ))}
                                                     </div>
@@ -1852,12 +1884,12 @@ const dewan = () => {
                                                 {/* nilai hukuman */}
                                                 <div className="py-1 col-span-3 grid grid-rows-3 gap-y-1">
                                                     <div className="border-2 border-[#222954] rounded-lg px-4 bg-[#FFBBBB]">
-                                                        {item.poin_merah.log_binaan.map((item, index) => (
+                                                        {item.nilai_merah.log_binaan.map((item, index) => (
                                                             <span key={index + 1}>{item.poin},</span>
                                                         ))}
                                                     </div>
                                                     <div className="border-2 border-[#222954] rounded-lg px-4 bg-[#FFBBBB]">
-                                                        {item.poin_merah.log_teguran.map((item, index) => (
+                                                        {item.nilai_merah.log_teguran.map((item, index) => (
                                                             <span key={index + 1}>{item.poin},</span>
                                                         ))}
                                                     </div>
@@ -1886,7 +1918,7 @@ const dewan = () => {
                                                     </div>
                                                 </div>
                                                 {/* total hukuman */}
-                                                <div className="border-2 border-[#222954] rounded-lg text-center py-1 col-span-1 bg-[#FFBBBB] flex justify-center items-center">{item.poin_merah.total_hukum}</div>
+                                                <div className="border-2 border-[#222954] rounded-lg text-center py-1 col-span-1 bg-[#FFBBBB] flex justify-center items-center">{item.nilai_merah.total_hukum}</div>
                                             </div>
                                         </td>
                                     </tr>
@@ -1947,23 +1979,25 @@ const dewan = () => {
                                         </div>
                                         
                                         {/* wrapper button kartu kuning */}
+                                        
                                         <div className="grid grid-cols-7">
                                             {/* wrapper button delete nilai biru */}
                                             <div className="col-span-3">
                                                 <div className="grid grid-cols-2 gap-x-3">
-                                                    <button onClick={() => deleteTeguran ('hapusTeguranBiru1')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold text-[#222954] py-2.5 rounded-lg'>Hapus Kartu Kuning</button>
-                                                    <button onClick={() => deletePeringatan ('hapusPeringatanBiru1')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Kartu Kuning</button>
+                                                    <button onClick={() => deleteKartuKuning ('biru')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold text-[#222954] py-2.5 rounded-lg'>Hapus Kartu Kuning</button>
+                                                    <button onClick={() => tambahKartuKuning ('biru')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Kartu Kuning</button>
                                                 </div>
                                             </div>
                                             <div></div>
                                             {/* wrapper button delete nilai merah */}
                                             <div className="col-span-3">
                                                 <div className="grid grid-cols-2 gap-x-3">
-                                                    <button onClick={() => deleteJatuhan ('hapusJatuhanMerah1')} className='bg-red-600 hover:bg-red-700 text-lg font-semibold py-2.5 rounded-lg'>Kartu Kuning</button>
-                                                    <button onClick={() => deleteBinaan ('hapusBinaanMerah1')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold text-[#222954] py-2.5 rounded-lg'>Hapus Kartu Kuning</button>
+                                                    <button onClick={() => tambahKartuKuning ('merah')} className='bg-red-600 hover:bg-red-700 text-lg font-semibold py-2.5 rounded-lg'>Kartu Kuning</button>
+                                                    <button onClick={() => deleteKartuKuning ('merah')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold text-[#222954] py-2.5 rounded-lg'>Hapus Kartu Kuning</button>
                                                 </div>
                                             </div>
                                         </div>
+                                        
                                     </div>
                                 )        
                             } else if (data.length == 2) {
@@ -2016,23 +2050,25 @@ const dewan = () => {
                                         </div>
 
                                         {/* wrapper button kartu kuning */}
+                                        
                                         <div className="grid grid-cols-7">
                                             {/* wrapper button delete nilai biru */}
                                             <div className="col-span-3">
                                                 <div className="grid grid-cols-2 gap-x-3">
-                                                    <button onClick={() => deleteTeguran ('hapusTeguranBiru1')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold text-[#222954] py-2.5 rounded-lg'>Hapus Kartu Kuning</button>
-                                                    <button onClick={() => deletePeringatan ('hapusPeringatanBiru1')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Kartu Kuning</button>
+                                                    <button onClick={() => deleteKartuKuning ('biru')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold text-[#222954] py-2.5 rounded-lg'>Hapus Kartu Kuning</button>
+                                                    <button onClick={() => tambahKartuKuning ('biru')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Kartu Kuning</button>
                                                 </div>
                                             </div>
                                             <div></div>
                                             {/* wrapper button delete nilai merah */}
                                             <div className="col-span-3">
                                                 <div className="grid grid-cols-2 gap-x-3">
-                                                    <button onClick={() => deleteJatuhan ('hapusJatuhanMerah1')} className='bg-red-600 hover:bg-red-700 text-lg font-semibold py-2.5 rounded-lg'>Kartu Kuning</button>
-                                                    <button onClick={() => deleteBinaan ('hapusBinaanMerah1')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold text-[#222954] py-2.5 rounded-lg'>Hapus Kartu Kuning</button>
+                                                    <button onClick={() => tambahKartuKuning ('merah')} className='bg-red-600 hover:bg-red-700 text-lg font-semibold py-2.5 rounded-lg'>Kartu Kuning</button>
+                                                    <button onClick={() => deleteKartuKuning ('merah')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold text-[#222954] py-2.5 rounded-lg'>Hapus Kartu Kuning</button>
                                                 </div>
                                             </div>
                                         </div>
+                                        
                                     </div>
                                 )
                             } else if (data.length == 3) {
@@ -2084,23 +2120,25 @@ const dewan = () => {
                                             </div>
 
                                             {/* wrapper button kartu kuning */}
-                                            <div className="grid grid-cols-7">
+                                            
+?                                           <div className="grid grid-cols-7">
                                                 {/* wrapper button delete nilai biru */}
                                                 <div className="col-span-3">
                                                     <div className="grid grid-cols-2 gap-x-3">
-                                                        <button onClick={() => deleteTeguran ('hapusTeguranBiru1')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold text-[#222954] py-2.5 rounded-lg'>Hapus Kartu Kuning</button>
-                                                        <button onClick={() => deletePeringatan ('hapusPeringatanBiru1')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Kartu Kuning</button>
+                                                        <button onClick={() => deleteKartuKuning ('biru')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold text-[#222954] py-2.5 rounded-lg'>Hapus Kartu Kuning</button>
+                                                        <button onClick={() => tambahKartuKuning ('biru')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Kartu Kuning</button>
                                                     </div>
                                                 </div>
                                                 <div></div>
                                                 {/* wrapper button delete nilai merah */}
                                                 <div className="col-span-3">
                                                     <div className="grid grid-cols-2 gap-x-3">
-                                                        <button onClick={() => deleteJatuhan ('hapusJatuhanMerah1')} className='bg-red-600 hover:bg-red-700 text-lg font-semibold py-2.5 rounded-lg'>Kartu Kuning</button>
-                                                        <button onClick={() => deleteBinaan ('hapusBinaanMerah1')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold text-[#222954] py-2.5 rounded-lg'>Hapus Kartu Kuning</button>
+                                                        <button onClick={() => tambahKartuKuning ('merah')} className='bg-red-600 hover:bg-red-700 text-lg font-semibold py-2.5 rounded-lg'>Kartu Kuning</button>
+                                                        <button onClick={() => deleteKartuKuning ('merah')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold text-[#222954] py-2.5 rounded-lg'>Hapus Kartu Kuning</button>
                                                     </div>
                                                 </div>
-                                            </div>
+</div>
+                                            
                                         </div>
                                     </div>
                                 )
@@ -2167,7 +2205,7 @@ const dewan = () => {
             </div>
             {/* akhir konten utama */}
 
-            <ModalDewan verif={infoVerif}/>
+            <ModalDewan verif={infoVerif} socket={socket}/>
         </div>
         </>
     )

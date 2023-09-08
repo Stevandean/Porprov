@@ -15,11 +15,13 @@ module.exports = (sequelize, DataTypes) => {
   }
   event.init({
     id: {
-      allowNull: false,
       primaryKey: true,
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
     },
     nama: DataTypes.STRING,
+    password: DataTypes.STRING,
+    aktif: DataTypes.BOOLEAN,
     logo: DataTypes.STRING,
     icon1: DataTypes.STRING,
     icon2: DataTypes.STRING

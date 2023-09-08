@@ -1,16 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import axios from 'axios'
-import Navbar from '../components/navbar'
+import Navbar from '../../component/navbar/navbar'
 import Footer from '../components/footer'
 import ModalJuri from '../components/modalJuri'
 import { globalState } from '../../../context/context';
 import socketIo from 'socket.io-client'
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-const socket = socketIo (BASE_URL)
+const socket = socketIo(BASE_URL)
 
 const nilai = () => {
+    //websocket
+    // const socket = useRef(null)
 
     const router = useRouter ()
     const [event, setEvent] = useState ([])
@@ -37,12 +39,23 @@ const nilai = () => {
     const [merah2, setMerah2] = useState ([])
     const [merah3, setMerah3] = useState ([])
 
+    const headerConfig = () => {
+        let token = localStorage.getItem("token")
+        let header = {
+          headers : { Authorization : `Bearer ${token}` }
+        }
+        return header
+    }
+
     const getBiru1 = () => {
         const jadwal = localStorage.getItem ('jadwal')
-        const juri = JSON.parse (localStorage.getItem ('juriTanding'))
-        let id_jadwal = jadwal
+        const juri = JSON.parse (localStorage.getItem ('user'))
 
-        axios.get (BASE_URL + `/api/nilai/tanding/juri/biru/${id_jadwal}/I/${juri.no}`)
+        let data = {
+            id_jadwal: jadwal,
+            babak: "I"
+        }
+        axios.post (BASE_URL + `/api/nilai/tanding/juri/biru/${juri.no}`, data, headerConfig())
         .then (res => {
             setBiru1 (res.data.data)
         })
@@ -53,10 +66,14 @@ const nilai = () => {
 
     const getBiru2 = () => {
         const jadwal = localStorage.getItem ('jadwal')
-        const juri = JSON.parse (localStorage.getItem ('juriTanding'))
-        let id_jadwal = jadwal
+        const juri = JSON.parse (localStorage.getItem ('user'))
+        
+        let data = {
+            id_jadwal: jadwal,
+            babak: "ii"
+        }
 
-        axios.get (BASE_URL + `/api/nilai/tanding/juri/biru/${id_jadwal}/II/${juri.no}`)
+        axios.post (BASE_URL + `/api/nilai/tanding/juri/biru/${juri.no}`, data, headerConfig())
         .then (res => {
             setBiru2 (res.data.data)
         })
@@ -67,10 +84,13 @@ const nilai = () => {
 
     const getBiru3 = () => {
         const jadwal = localStorage.getItem ('jadwal')
-        const juri = JSON.parse (localStorage.getItem ('juriTanding'))
-        let id_jadwal = jadwal
+        const juri = JSON.parse (localStorage.getItem ('user'))
+        let data = {
+            id_jadwal: jadwal,
+            babak: "iii"
+        }
 
-        axios.get (BASE_URL + `/api/nilai/tanding/juri/biru/${id_jadwal}/III/${juri.no}`)
+        axios.post (BASE_URL + `/api/nilai/tanding/juri/biru/${juri.no}`, data, headerConfig())
         .then (res => {
             setBiru3 (res.data.data)
         })
@@ -81,10 +101,14 @@ const nilai = () => {
 
     const getMerah1 = () => {
         const jadwal = localStorage.getItem ('jadwal')
-        const juri = JSON.parse (localStorage.getItem ('juriTanding'))
-        let id_jadwal = jadwal
+        const juri = JSON.parse (localStorage.getItem ('user'))
+        
+        let data = {
+            id_jadwal: jadwal,
+            babak: "i"
+        }
 
-        axios.get (BASE_URL + `/api/nilai/tanding/juri/merah/${id_jadwal}/I/${juri.no}`)
+        axios.post (BASE_URL + `/api/nilai/tanding/juri/merah/${juri.no}`, data, headerConfig())
         .then (res => {
             setMerah1 (res.data.data)
         })
@@ -95,10 +119,14 @@ const nilai = () => {
 
     const getMerah2 = () => {
         const jadwal = localStorage.getItem ('jadwal')
-        const juri = JSON.parse (localStorage.getItem ('juriTanding'))
-        let id_jadwal = jadwal
+        const juri = JSON.parse (localStorage.getItem ('user'))
+        
+        let data = {
+            id_jadwal: jadwal,
+            babak: "ii"
+        }
 
-        axios.get (BASE_URL + `/api/nilai/tanding/juri/merah/${id_jadwal}/II/${juri.no}`)
+        axios.post (BASE_URL + `/api/nilai/tanding/juri/merah/${juri.no}`, data, headerConfig())
         .then (res => {
             setMerah2 (res.data.data)
         })
@@ -109,10 +137,14 @@ const nilai = () => {
 
     const getMerah3 = () => {
         const jadwal = localStorage.getItem ('jadwal')
-        const juri = JSON.parse (localStorage.getItem ('juriTanding'))
-        let id_jadwal = jadwal
+        const juri = JSON.parse (localStorage.getItem ('user'))
+        
+        let data = {
+            id_jadwal: jadwal,
+            babak: "iii"
+        }
 
-        axios.get (BASE_URL + `/api/nilai/tanding/juri/merah/${id_jadwal}/III/${juri.no}`)
+        axios.post (BASE_URL + `/api/nilai/tanding/juri/merah/${juri.no}`, data, headerConfig())
         .then (res => {
             setMerah3 (res.data.data)
         })
@@ -124,7 +156,6 @@ const nilai = () => {
     const getNilai = async () => {
         const jadwal = localStorage.getItem ('jadwal')
         let id_jadwal = jadwal
-        const juri = JSON.parse (localStorage.getItem ('juriTanding'))
 
         await axios.get (BASE_URL + `/api/nilai/tanding/babakbyjadwal/${id_jadwal}`)
         .then (res => {
@@ -133,14 +164,14 @@ const nilai = () => {
         .catch (err => {
             console.log(err.message);
         })
-        console.log(BASE_URL + `/api/nilai/tanding/babakbyjadwal/${id_jadwal}`);
+        // console.log(BASE_URL + `/api/nilai/tanding/babakbyjadwal/${id_jadwal}`);
     }
 
     const getJadwal = () => {
         const jadwal = localStorage.getItem ('jadwal')
         let id_jadwal = jadwal
 
-        axios.get (BASE_URL + `/api/tanding/${id_jadwal}`)
+        axios.get (BASE_URL + `/api/tanding/jadwal/${id_jadwal}`)
         .then (res => {
             setJadwal (res.data.data)
             setJadwalBiru (res.data.data.biru)
@@ -149,24 +180,24 @@ const nilai = () => {
     }
 
     const getJuri = () => {
-        const juri = JSON.parse (localStorage.getItem ('juriTanding'))
+        const juri = JSON.parse (localStorage.getItem ('user'))
         setDataJuri (juri)
     }
 
     const tambahPukulan = (e) => {
         const jadwal = localStorage.getItem ('jadwal')
-        const juri = JSON.parse (localStorage.getItem ('juriTanding'))
+        const juri = JSON.parse (localStorage.getItem ('user'))
 
         // babak 1
         if (e == 'tambahPukulanBiru1') {
             if (juri.no === 1) {
-                socket.emit ('pbj1')
+                socket.emit ('pbj1', jadwal)
             } 
             if(juri.no === 2){
-                socket.emit ('pbj2')
+                socket.emit ('pbj2', jadwal)
             }
             if(juri.no === 3){
-                socket.emit ('pbj3')
+                socket.emit ('pbj3', jadwal)
             }
             let form = {
                 id_jadwal : jadwal,
@@ -174,12 +205,12 @@ const nilai = () => {
                 babak : 'I',
                 poin : 1
             }
-            axios.post (BASE_URL + `/api/nilai/tanding/biru/juri/pukulan`, form)
+            axios.post (BASE_URL + `/api/nilai/tanding/juri/pukulan/biru/${juri.no}`, form)
             .then (res => {
                 getBiru1()
                 console.log(res.data.message);
                 setTimeout(()=>{
-                    socket.emit('edit_juri_tanding')
+                    socket.emit('edit_juri_tanding', jadwal)
                 },3000)
             })
             .catch (err => {
@@ -187,11 +218,11 @@ const nilai = () => {
             })
         } else if (e == 'tambahPukulanMerah1') {
             if (juri.no === 1) {
-                socket.emit ('pmj1')
+                socket.emit ('pmj1', jadwal)
             } else if(juri.no === 2){
-                socket.emit ('pmj2')
+                socket.emit ('pmj2', jadwal)
             } else if(juri.no === 3){
-                socket.emit ('pmj3')
+                socket.emit ('pmj3', jadwal)
             }
             let form = {
                 id_jadwal : jadwal,
@@ -199,11 +230,11 @@ const nilai = () => {
                 babak : 'I',
                 poin : 1
             }
-            axios.post (BASE_URL + `/api/nilai/tanding/merah/juri/pukulan`, form)
+            axios.post (BASE_URL + `/api/nilai/tanding/juri/pukulan/merah/${juri.no}`, form)
             .then (res => {
                 getMerah1()
                 setTimeout(()=>{
-                    socket.emit('edit_juri_tanding')
+                    socket.emit('edit_juri_tanding', jadwal)
                 },3000)
             })
             .catch (err => {
@@ -214,13 +245,13 @@ const nilai = () => {
         // babak 2
         else if (e == 'tambahPukulanBiru2') {
             if (juri.no === 1) {
-                socket.emit ('pbj1')
+                socket.emit ('pbj1', jadwal)
             } 
             if(juri.no === 2){
-                socket.emit ('pbj2')
+                socket.emit ('pbj2', jadwal)
             }
             if(juri.no === 3){
-                socket.emit ('pbj3')
+                socket.emit ('pbj3', jadwal)
             }
             let form = {
                 id_jadwal : jadwal,
@@ -228,11 +259,11 @@ const nilai = () => {
                 babak : 'II',
                 poin : 1
             }
-            axios.post (BASE_URL + `/api/nilai/tanding/biru/juri/pukulan`, form)
+            axios.post (BASE_URL + `/api/nilai/tanding/juri/pukulan/biru/${juri.no}`, form)
             .then (res => {
                 getBiru2()
                 setTimeout(()=>{
-                    socket.emit('edit_juri_tanding')
+                    socket.emit('edit_juri_tanding', jadwal)
                 },3000)
             })
             .catch (err => {
@@ -240,11 +271,11 @@ const nilai = () => {
             })
         } else if (e == 'tambahPukulanMerah2') {
             if (juri.no === 1) {
-                socket.emit ('pmj1')
+                socket.emit ('pmj1', jadwal)
             } else if(juri.no === 2){
-                socket.emit ('pmj2')
+                socket.emit ('pmj2', jadwal)
             } else if(juri.no === 3){
-                socket.emit ('pmj3')
+                socket.emit ('pmj3', jadwal)
             }
             let form = {
                 id_jadwal : jadwal,
@@ -252,11 +283,11 @@ const nilai = () => {
                 babak : 'II',
                 poin : 1
             }
-            axios.post (BASE_URL + `/api/nilai/tanding/merah/juri/pukulan`, form)
+            axios.post (BASE_URL + `/api/nilai/tanding/juri/pukulan/merah/${juri.no}`, form)
             .then (res => {
                 getMerah2()
                 setTimeout(()=>{
-                    socket.emit('edit_juri_tanding')
+                    socket.emit('edit_juri_tanding', jadwal)
                 },3000)
             })
             .catch (err => {
@@ -267,11 +298,11 @@ const nilai = () => {
         //babak 3
         else if (e == 'tambahPukulanBiru3') {
             if (juri.no === 1) {
-                socket.emit ('pbj1')
+                socket.emit ('pbj1', jadwal)
             } else if(juri.no === 2){
-                socket.emit ('pbj2')
+                socket.emit ('pbj2', jadwal)
             } else if(juri.no === 3){
-                socket.emit ('pbj3')
+                socket.emit ('pbj3', jadwal)
             }
 
             let form = {
@@ -280,12 +311,12 @@ const nilai = () => {
                 babak : 'III',
                 poin : 1
             }
-            axios.post (BASE_URL + `/api/nilai/tanding/biru/juri/pukulan`, form)
+            axios.post (BASE_URL + `/api/nilai/tanding/juri/pukulan/biru/${juri.no}`, form)
             .then (res => {
                 getBiru3()
                 console.log(res.data.message);
                 setTimeout(()=>{
-                    socket.emit('edit_juri_tanding')
+                    socket.emit('edit_juri_tanding', jadwal)
                     getBiru3()
                 },3000)
             })
@@ -294,11 +325,11 @@ const nilai = () => {
             })
         } else if (e == 'tambahPukulanMerah3') {
             if (juri.no === 1) {
-                socket.emit ('pmj1')
+                socket.emit ('pmj1', jadwal)
             } else if(juri.no === 2){
-                socket.emit ('pmj2')
+                socket.emit ('pmj2', jadwal)
             } else if(juri.no === 3){
-                socket.emit ('pmj3')
+                socket.emit ('pmj3', jadwal)
             }
             let form = {
                 id_jadwal : jadwal,
@@ -306,11 +337,11 @@ const nilai = () => {
                 babak : 'III',
                 poin : 1
             }
-            axios.post (BASE_URL + `/api/nilai/tanding/merah/juri/pukulan`, form)
+            axios.post (BASE_URL + `/api/nilai/tanding/juri/pukulan/merah/${juri.no}`, form)
             .then (res => {
                 getMerah3()
                 setTimeout(()=>{
-                    socket.emit('edit_juri_tanding')
+                    socket.emit('edit_juri_tanding', jadwal)
                 },3000)
             })
             .catch (err => {
@@ -321,18 +352,18 @@ const nilai = () => {
 
     const tambahTendangan = (e) => {
         const jadwal = localStorage.getItem ('jadwal')
-        const juri = JSON.parse (localStorage.getItem ('juriTanding'))
+        const juri = JSON.parse (localStorage.getItem ('user'))
 
         // babak 1
         if (e == 'tambahTendanganBiru1') {
             if (juri.no === 1) {
-                socket.emit ('tbj1')
+                socket.emit ('tbj1', jadwal)
             } 
             if(juri.no === 2){
-                socket.emit ('tbj2')
+                socket.emit ('tbj2', jadwal)
             }
             if(juri.no === 3){
-                socket.emit ('tbj3')
+                socket.emit ('tbj3', jadwal)
             }
             let form = {
                 id_jadwal : jadwal,
@@ -340,11 +371,12 @@ const nilai = () => {
                 babak : 'I',
                 poin : 2
             }
-            axios.post (BASE_URL + `/api/nilai/tanding/biru/juri/tendangan`, form)
+            axios.post (BASE_URL + `/api/nilai/tanding/juri/tendangan/biru/${juri.no}`, form)
             .then (res => {
                 getBiru1()
                 setTimeout(()=>{
-                    socket.emit('edit_juri_tanding')
+                    getBiru1()
+                    socket.emit('edit_juri_tanding', jadwal)
                 },3000)
             })
             .catch (err => {
@@ -352,13 +384,13 @@ const nilai = () => {
             })
         } else if (e == 'tambahTendanganMerah1') {
             if (juri.no === 1) {
-                socket.emit ('tmj1')
+                socket.emit ('tmj1', jadwal)
             } 
             if(juri.no === 2){
-                socket.emit ('tmj2')
+                socket.emit ('tmj2', jadwal)
             }
             if(juri.no === 3){
-                socket.emit ('tmj3')
+                socket.emit ('tmj3', jadwal)
             }
             let form = {
                 id_jadwal : jadwal,
@@ -366,11 +398,11 @@ const nilai = () => {
                 babak : 'I',
                 poin : 2
             }
-            axios.post (BASE_URL + `/api/nilai/tanding/merah/juri/tendangan`, form)
+            axios.post (BASE_URL + `/api/nilai/tanding/juri/tendangan/merah/${juri.no}`, form)
             .then (res => {
                 getMerah1()
                 setTimeout(()=>{
-                    socket.emit('edit_juri_tanding')
+                    socket.emit('edit_juri_tanding', jadwal)
                 },3000)
             })
             .catch (err => {
@@ -381,13 +413,13 @@ const nilai = () => {
         // babak 2
         else if (e == 'tambahTendanganBiru2') {
             if (juri.no === 1) {
-                socket.emit ('tbj1')
+                socket.emit ('tbj1', jadwal)
             } 
             if(juri.no === 2){
-                socket.emit ('tbj2')
+                socket.emit ('tbj2', jadwal)
             }
             if(juri.no === 3){
-                socket.emit ('tbj3')
+                socket.emit ('tbj3', jadwal)
             }
             let form = {
                 id_jadwal : jadwal,
@@ -395,11 +427,11 @@ const nilai = () => {
                 babak : 'II',
                 poin : 2
             }
-            axios.post (BASE_URL + `/api/nilai/tanding/biru/juri/tendangan`, form)
+            axios.post (BASE_URL + `/api/nilai/tanding/juri/tendangan/biru/${juri.no}`, form)
             .then (res => {
                 getBiru2()
                 setTimeout(()=>{
-                    socket.emit('edit_juri_tanding')
+                    socket.emit('edit_juri_tanding', jadwal)
                 },3000)
             })
             .catch (err => {
@@ -407,13 +439,13 @@ const nilai = () => {
             })
         } else if (e == 'tambahTendanganMerah2') {
             if (juri.no === 1) {
-                socket.emit ('tmj1')
+                socket.emit ('tmj1', jadwal)
             } 
             if(juri.no === 2){
-                socket.emit ('tmj2')
+                socket.emit ('tmj2', jadwal)
             }
             if(juri.no === 3){
-                socket.emit ('tmj3')
+                socket.emit ('tmj3', jadwal)
             }
             let form = {
                 id_jadwal : jadwal,
@@ -421,11 +453,11 @@ const nilai = () => {
                 babak : 'II',
                 poin : 2
             }
-            axios.post (BASE_URL + `/api/nilai/tanding/merah/juri/tendangan`, form)
+            axios.post (BASE_URL + `/api/nilai/tanding/juri/tendangan/merah/${juri.no}`, form)
             .then (res => {
                 getMerah2()
                 setTimeout(()=>{
-                    socket.emit('edit_juri_tanding')
+                    socket.emit('edit_juri_tanding', jadwal)
                 },3000)
             })
             .catch (err => {
@@ -436,13 +468,13 @@ const nilai = () => {
         // babak 3
         else if (e == 'tambahTendanganBiru3') {
             if (juri.no === 1) {
-                socket.emit ('tbj1')
+                socket.emit ('tbj1', jadwal)
             } 
             if(juri.no === 2){
-                socket.emit ('tbj2')
+                socket.emit ('tbj2', jadwal)
             }
             if(juri.no === 3){
-                socket.emit ('tbj3')
+                socket.emit ('tbj3', jadwal)
             }
             let form = {
                 id_jadwal : jadwal,
@@ -450,25 +482,25 @@ const nilai = () => {
                 babak : 'III',
                 poin : 2
             }
-            axios.post (BASE_URL + `/api/nilai/tanding/biru/juri/tendangan`, form)
+            axios.post (BASE_URL + `/api/nilai/tanding/juri/tendangan/biru/${juri.no}`, form)
             .then (res => {
                 getBiru3()
                 setTimeout(()=>{
-                    socket.emit('edit_juri_tanding')
+                    socket.emit('edit_juri_tanding', jadwal)
                 },3000)
             })
             .catch (err => {
                 console.log(err.response.data.message);
             })
-        } else if (e == 'tambahTendanganMerah3') {
+        } else if (e == 'tambahTendanganMerah3', jadwal) {
             if (juri.no === 1) {
-                socket.emit ('tmj1')
+                socket.emit ('tmj1', jadwal)
             } 
             if(juri.no === 2){
-                socket.emit ('tmj2')
+                socket.emit ('tmj2', jadwal)
             }
             if(juri.no === 3){
-                socket.emit ('tmj3')
+                socket.emit ('tmj3', jadwal)
             }
             let form = {
                 id_jadwal : jadwal,
@@ -476,11 +508,11 @@ const nilai = () => {
                 babak : 'III',
                 poin : 2
             }
-            axios.post (BASE_URL + `/api/nilai/tanding/merah/juri/tendangan`, form)
+            axios.post (BASE_URL + `/api/nilai/tanding/juri/tendangan/merah/${juri.no}`, form)
             .then (res => {
                 getMerah3()
                 setTimeout(()=>{
-                    socket.emit('edit_juri_tanding')
+                    socket.emit('edit_juri_tanding', jadwal)
                 },3000)
             })
             .catch (err => {
@@ -490,14 +522,25 @@ const nilai = () => {
     }
 
     const deleteNilai = (e) => {
-        const jadwal = localStorage.getItem('jadwal')
-        const juri = JSON.parse (localStorage.getItem ('juriTanding'))
+        const jadwal = localStorage.getItem ('jadwal')
+        const juri = JSON.parse (localStorage.getItem ('user'))
 
-        let id_jadwal = jadwal
-        let id_juri = juri.id
+        let form = {
+            id_jadwal : jadwal,
+            id_juri : juri.id,
+            poin : 1
+        }
+
+        if (data.length === 1) {
+            form.babak = 'i'
+        } else if (data.length === 2){
+            form.babak = 'ii'
+        } else if (data.length === 3){
+            form.babak = 'iii'
+        }
 
         if (e == 'hapusNilaiBiru') {
-            axios.delete (BASE_URL + `/api/nilai/tanding/biru/juri/${id_juri}`)
+            axios.delete (BASE_URL + `/api/nilai/tanding/juri/biru/${juri.no}`, {data:form})
             .then (res => {
                 getBiru1()
                 getBiru2()
@@ -507,7 +550,7 @@ const nilai = () => {
                 console.log(err.response.data.message);
             })
         } else if (e == 'hapusNilaiMerah') {
-            axios.delete (BASE_URL + `/api/nilai/tanding/merah/juri/${id_juri}`)
+            axios.delete (BASE_URL + `/api/nilai/tanding/juri/merah/${juri.no}`, {data:form})
             .then (res => {
                 getMerah1()
                 getMerah2()
@@ -528,12 +571,14 @@ const nilai = () => {
     }
 
     const getEvent = () => {
-        axios.get (BASE_URL + `/api/event`)
+        let event = JSON.parse(localStorage.getItem('event'))
+        let event_id = event.id
+        axios.get (BASE_URL + `/api/event/${event_id}`)
         .then (res => {
-        setEvent (res.data.data)
+            setEvent (res.data.data)
         })
         .catch (err => {
-        console.log(err.response.data.message);
+            console.log(err.response.data.message);
         })
     }
     
@@ -561,7 +606,7 @@ const nilai = () => {
         let info = []
         const jadwal = localStorage.getItem ('jadwal')
         let id_jadwal = jadwal
-        await axios.get(BASE_URL + `/api/verif/tanding/${id_jadwal}`)
+        await axios.get(BASE_URL + `/api/tanding/verif/${id_jadwal}`)
         .then (res => {
             setDataVerif(res.data.data)
             info = res.data.data
@@ -590,8 +635,7 @@ const nilai = () => {
         let id_jadwal = jadwal    
         let waktu = []
         //get waktu peserta
-        console.log(data);
-        await axios.get(BASE_URL + `/api/tanding/get/timer/${id_jadwal}/${data.babak}`)
+        await axios.get(BASE_URL + `/api/tanding/jadwal/get/timer/${id_jadwal}/${data.babak}`)
         .then(res => {
             waktu = res.data.data
             //jika waktu null set time ke 0
@@ -614,18 +658,29 @@ const nilai = () => {
     }
 
     useEffect (() => {
+        const jadwal = localStorage.getItem ('jadwal')
+        if (socket.connected == false) {
+            socket.connect(BASE_URL)
+            console.log("reconenct");
+        }
+        console.log(socket.connected);
+
+
+        socket.emit('join', jadwal)
+        console.log("joinned");
         //socket modal
         socket.on('open_verif', cekVerif)
         socket.on('close_verif', closeModal)
 
         getNilai ()
-        socket.emit('init_time_tanding')
+        socket.emit('init_time_tanding', jadwal)
         socket.on ('get_time_tanding', cekTimer)
         socket.on ('change_time_tanding', ubah_data)
-        //get data awal
+
+        socket.on('naikBabak', getNilai)
+        // get data awal
         getJadwal ()
         getJuri ()
-        isLogged ()
         getEvent ()
 
         //get juri
@@ -636,11 +691,11 @@ const nilai = () => {
         getMerah2 ()
         getMerah3 ()
 
+
         return () => {
-            // socket.off('getNilaiTanding')
-            // socket.off('change_nilai_tanding')
-            // socket.off('open_verif')
-            // socket.off('close_verif')
+            socket.emit('leave', jadwal)
+            console.log('closed');
+
         }
     }, [])
 
@@ -653,23 +708,21 @@ const nilai = () => {
                 {/* header */}
                 <div className="hidden lg:block">
                     <div className="bg-[#2C2F48] sticky top-0 h-20 z-40 flex">
-                        {event.map((item, index) => (
-                            <div key={index + 1} className="flex justify-between w-full text-white px-10">
-                                <div className="flex space-x-3">
-                                    <button onClick={handle.enter} className="flex justify-center items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-maximize">
-                                        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
-                                        </svg>
-                                    </button> 
-                                    <img className='py-3'src={BASE_URL + "/api/event/image/" + item.logo} alt="Kabupaten Trenggalek" />
-                                </div>
-                                <span className='text-xl font-semibold my-auto uppercase text-center'>{item.nama}</span>
-                                <div className="flex space-x-3">
-                                    <img className='py-3' src={BASE_URL + "/api/event/image/" + item.icon1} alt="IPSI" />
-                                    <img className='py-3' src={BASE_URL + "/api/event/image/" + item.icon2} alt="IPSI2" />
-                                </div>
-                            </div>          
-                        ))}
+                        <div className="flex justify-between w-full text-white px-10">
+                            <div className="flex space-x-3">
+                                <button onClick={handle.enter} className="flex justify-center items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-maximize">
+                                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                                    </svg>
+                                </button> 
+                                <img className='py-3'src={BASE_URL + "/api/event/image/" + event.logo} alt="Kabupaten Trenggalek" />
+                            </div>
+                            <span className='text-xl font-semibold my-auto uppercase text-center'>{event.nama}</span>
+                            <div className="flex space-x-3">
+                                <img className='py-3' src={BASE_URL + "/api/event/image/" + event.icon1} alt="IPSI" />
+                                <img className='py-3' src={BASE_URL + "/api/event/image/" + event.icon2} alt="IPSI2" />
+                            </div>
+                        </div>          
                     </div>
                 </div>
                 {/* akhir header */}
@@ -735,72 +788,20 @@ const nilai = () => {
                                 <tr>
                                     {/* nilai sudut biru */}
                                         <td className='border-2 border-[#222954] py-1.5 break-words' colSpan={3}>
-                                            {(() => {
-                                                if (dataJuri.username == 'juri1') {
-                                                    return (
-                                                        <div className="px-4 gap-x-1">
-                                                            {biru1?.poin_biru?.log_juri1.map ((item, index) => (
-                                                                <>
-                                                                    {(() => {
-                                                                        if (item.masuk == false) {
-                                                                            return (
-                                                                                <s key={index + 1} className='text-lg font-bold text-blue-600 tracking-widest'>{item.poin}, 
-                                                                                </s>
-                                                                            )
-                                                                        } else if (item.masuk == true) {
-                                                                            return (
-                                                                                <span key={index + 1} className='bg-blue-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
-                                                                            )
-                                                                        }
-                                                                    })()}
-                                                                </>
-                                                            ))}
-                                                        </div>
-                                                    )
-                                                } else if (dataJuri.username == 'juri2') {
-                                                    return (
-                                                        <div className="px-4 gap-x-1">
-                                                            {biru1?.poin_biru?.log_juri2.map ((item, index) => (
-                                                                <>
-                                                                    {(() => {
-                                                                        if (item.masuk == false) {
-                                                                            return (
-                                                                                <s key={index + 1} className='text-lg font-bold text-blue-600 tracking-widest'>{item.poin}, 
-                                                                                </s>
-                                                                            )
-                                                                        } else if (item.masuk == true) {
-                                                                            return (
-                                                                                <span key={index + 1} className='bg-blue-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
-                                                                            )
-                                                                        }
-                                                                    })()}
-                                                                </>
-                                                            ))}
-                                                        </div>
-                                                    )
-                                                } else if (dataJuri.username == 'juri3') {
-                                                    return (
-                                                        <div className="px-4 gap-x-1">
-                                                            {biru1?.poin_biru?.log_juri3.map ((item, index) => (
-                                                                <>
-                                                                    {(() => {
-                                                                        if (item.masuk == false) {
-                                                                            return (
-                                                                                <s key={index + 1} className='text-lg font-bold text-blue-600 tracking-widest'>{item.poin}, 
-                                                                                </s>
-                                                                            )
-                                                                        } else if (item.masuk == true) {
-                                                                            return (
-                                                                                <span key={index + 1} className='bg-blue-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
-                                                                            )
-                                                                        }
-                                                                    })()}
-                                                                </>
-                                                            ))}
-                                                        </div>
-                                                    )
-                                                }
-                                            })()}
+                                            <div className="px-4 gap-x-1">
+                                                {biru1?.nilai_biru?.log_juri.map ((item, index) => {
+                                                    if (item.masuk == false) {
+                                                        return (
+                                                            <s key={index + 1} className='text-lg font-bold text-blue-600 tracking-widest'>{item.poin}, 
+                                                            </s>
+                                                        )
+                                                    } else if (item.masuk == true) {
+                                                        return (
+                                                            <span key={index + 1} className='bg-blue-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
+                                                        )
+                                                    }
+                                                })}
+                                            </div>
                                         </td>
                                     {/* babak */}
                                     <td className='border-2 border-[#222954]'>
@@ -808,72 +809,20 @@ const nilai = () => {
                                     </td>
                                     {/* nilai sudut merah */}
                                     <td className='border-2 border-[#222954] py-1.5 break-words' colSpan={3}>
-                                        {(() => {
-                                            if (dataJuri.username == 'juri1') {
-                                                return (
-                                                    <div className="px-4 gap-x-1">
-                                                        {merah1?.poin_merah?.log_juri1.map ((item, index) => (
-                                                            <>
-                                                            {(() => {
-                                                                if (item.masuk == false) {
-                                                                    return (
-                                                                        <s key={index + 1} className='text-lg font-bold text-red-600 tracking-widest justify-start items-center'>{item.poin}, 
-                                                                        </s>
-                                                                    )
-                                                                } else if (item.masuk == true) {
-                                                                    return (
-                                                                        <span key={index + 1} className='bg-red-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
-                                                                    )
-                                                                }
-                                                            })()}
-                                                            </>
-                                                        ))}
-                                                    </div>
-                                                )
-                                            } else if (dataJuri?.username == 'juri2') {
-                                                return (
-                                                    <div className="px-4 gap-x-1">
-                                                        {merah1?.poin_merah?.log_juri2.map ((item, index) => (
-                                                            <>
-                                                            {(() => {
-                                                                if (item.masuk == false) {
-                                                                    return (
-                                                                        <s key={index + 1} className='text-lg font-bold text-red-600 tracking-widest justify-start items-center'>{item.poin}, 
-                                                                        </s>
-                                                                    )
-                                                                } else if (item.masuk == true) {
-                                                                    return (
-                                                                        <span key={index + 1} className='bg-red-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
-                                                                    )
-                                                                }
-                                                            })()}
-                                                            </>
-                                                        ))}
-                                                    </div>
-                                                )
-                                            } else if (dataJuri.username == 'juri3') {
-                                                return (
-                                                    <div className="px-4 gap-x-1">
-                                                        {merah1?.poin_merah?.log_juri3.map ((item, index) => (
-                                                            <>
-                                                            {(() => {
-                                                                if (item.masuk == false) {
-                                                                    return (
-                                                                        <s key={index + 1} className='text-lg font-bold text-red-600 tracking-widest justify-start items-center'>{item.poin}, 
-                                                                        </s>
-                                                                    )
-                                                                } else if (item.masuk == true) {
-                                                                    return (
-                                                                        <span key={index + 1} className='bg-red-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
-                                                                    )
-                                                                }
-                                                            })()}
-                                                            </>
-                                                        ))}
-                                                    </div>
-                                                )
-                                            }
-                                        })()}
+                                        <div className="px-4 gap-x-1">
+                                            {merah1?.nilai_merah?.log_juri.map ((item, index) => {
+                                                if (item.masuk == false) {
+                                                    return (
+                                                        <s key={index + 1} className='text-lg font-bold text-red-600 tracking-widest justify-start items-center'>{item.poin}, 
+                                                        </s>
+                                                    )
+                                                } else if (item.masuk == true) {
+                                                    return (
+                                                        <span key={index + 1} className='bg-red-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
+                                                    )
+                                                }
+                                            })}
+                                        </div>
                                     </td>
                                 </tr>
 
@@ -881,72 +830,20 @@ const nilai = () => {
                                 <tr>
                                     {/* nilai sudut biru */}
                                         <td className='border-2 border-[#222954] py-1.5 break-words' colSpan={3}>
-                                            {(() => {
-                                                if (dataJuri.username == 'juri1') {
-                                                    return (
-                                                        <div className="px-4 gap-x-1">
-                                                            {biru2?.poin_biru?.log_juri1.map ((item, index) => (
-                                                                <>
-                                                                    {(() => {
-                                                                        if (item.masuk == false) {
-                                                                            return (
-                                                                                <s key={index + 1} className='text-lg font-bold text-blue-600 tracking-widest'>{item.poin}, 
-                                                                                </s>
-                                                                            )
-                                                                        } else if (item.masuk == true) {
-                                                                            return (
-                                                                                <span key={index + 1} className='bg-blue-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
-                                                                            )
-                                                                        }
-                                                                    })()}
-                                                                </>
-                                                            ))}
-                                                        </div>
-                                                    )
-                                                } else if (dataJuri.username == 'juri2') {
-                                                    return (
-                                                        <div className="px-4 gap-x-1">
-                                                            {biru2?.poin_biru?.log_juri2.map ((item, index) => (
-                                                                <>
-                                                                    {(() => {
-                                                                        if (item.masuk == false) {
-                                                                            return (
-                                                                                <s key={index + 1} className='text-lg font-bold text-blue-600 tracking-widest'>{item.poin}, 
-                                                                                </s>
-                                                                            )
-                                                                        } else if (item.masuk == true) {
-                                                                            return (
-                                                                                <span key={index + 1} className='bg-blue-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
-                                                                            )
-                                                                        }
-                                                                    })()}
-                                                                </>
-                                                            ))}
-                                                        </div>
-                                                    )
-                                                } else if (dataJuri.username == 'juri3') {
-                                                    return (
-                                                        <div className="px-4 gap-x-1">
-                                                            {biru2?.poin_biru?.log_juri3.map ((item, index) => (
-                                                                <>
-                                                                    {(() => {
-                                                                        if (item.masuk == false) {
-                                                                            return (
-                                                                                <s key={index + 1} className='text-lg font-bold text-blue-600 tracking-widest'>{item.poin}, 
-                                                                                </s>
-                                                                            )
-                                                                        } else if (item.masuk == true) {
-                                                                            return (
-                                                                                <span key={index + 1} className='bg-blue-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
-                                                                            )
-                                                                        }
-                                                                    })()}
-                                                                </>
-                                                            ))}
-                                                        </div>
-                                                    )
-                                                }
-                                            })()}
+                                            <div className="px-4 gap-x-1">
+                                                {biru2?.nilai_biru?.log_juri.map ((item, index) => {
+                                                    if (item.masuk == false) {
+                                                        return (
+                                                            <s key={index + 1} className='text-lg font-bold text-blue-600 tracking-widest'>{item.poin}, 
+                                                            </s>
+                                                        )
+                                                    } else if (item.masuk == true) {
+                                                        return (
+                                                            <span key={index + 1} className='bg-blue-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
+                                                        )
+                                                    }
+                                                })}
+                                            </div>
                                         </td>
                                     {/* babak */}
                                     <td className='border-2 border-[#222954]'>
@@ -954,72 +851,20 @@ const nilai = () => {
                                     </td>
                                     {/* nilai sudut merah */}
                                     <td className='border-2 border-[#222954] py-1.5 break-words' colSpan={3}>
-                                        {(() => {
-                                            if (dataJuri.username == 'juri1') {
-                                                return (
-                                                    <div className="px-4 gap-x-1">
-                                                        {merah2?.poin_merah?.log_juri1.map ((item, index) => (
-                                                            <>
-                                                            {(() => {
-                                                                if (item.masuk == false) {
-                                                                    return (
-                                                                        <s key={index + 1} className='text-lg font-bold text-red-600 tracking-widest justify-start items-center'>{item.poin}, 
-                                                                        </s>
-                                                                    )
-                                                                } else if (item.masuk == true) {
-                                                                    return (
-                                                                        <span key={index + 1} className='bg-red-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
-                                                                    )
-                                                                }
-                                                            })()}
-                                                            </>
-                                                        ))}
-                                                    </div>
-                                                )
-                                            } else if (dataJuri.username == 'juri2') {
-                                                return (
-                                                    <div className="px-4 gap-x-1">
-                                                        {merah2?.poin_merah?.log_juri2.map ((item, index) => (
-                                                            <>
-                                                            {(() => {
-                                                                if (item.masuk == false) {
-                                                                    return (
-                                                                        <s key={index + 1} className='text-lg font-bold text-red-600 tracking-widest justify-start items-center'>{item.poin}, 
-                                                                        </s>
-                                                                    )
-                                                                } else if (item.masuk == true) {
-                                                                    return (
-                                                                        <span key={index + 1} className='bg-red-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
-                                                                    )
-                                                                }
-                                                            })()}
-                                                            </>
-                                                        ))}
-                                                    </div>
-                                                )
-                                            } else if (dataJuri.username == 'juri3') {
-                                                return (
-                                                    <div className="px-4 gap-x-1">
-                                                        {merah2?.poin_merah?.log_juri3.map ((item, index) => (
-                                                            <>
-                                                            {(() => {
-                                                                if (item.masuk == false) {
-                                                                    return (
-                                                                        <s key={index + 1} className='text-lg font-bold text-red-600 tracking-widest justify-start items-center'>{item.poin}, 
-                                                                        </s>
-                                                                    )
-                                                                } else if (item.masuk == true) {
-                                                                    return (
-                                                                        <span key={index + 1} className='bg-red-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
-                                                                    )
-                                                                }
-                                                            })()}
-                                                            </>
-                                                        ))}
-                                                    </div>
-                                                )
-                                            }
-                                        })()}
+                                        <div className="px-4 gap-x-1">
+                                            {merah2?.nilai_merah?.log_juri.map ((item, index) => {
+                                                if (item.masuk == false) {
+                                                    return (
+                                                        <s key={index + 1} className='text-lg font-bold text-red-600 tracking-widest justify-start items-center'>{item.poin}, 
+                                                        </s>
+                                                    )
+                                                } else if (item.masuk == true) {
+                                                    return (
+                                                        <span key={index + 1} className='bg-red-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
+                                                    )
+                                                }
+                                            })}
+                                        </div>
                                     </td>
                                 </tr>
 
@@ -1027,72 +872,20 @@ const nilai = () => {
                                 <tr>
                                     {/* nilai sudut biru */}
                                         <td className='border-2 border-[#222954] py-1.5 break-words' colSpan={3}>
-                                            {(() => {
-                                                if (dataJuri.username == 'juri1') {
-                                                    return (
-                                                        <div className="px-4 gap-x-1">
-                                                            {biru3?.poin_biru?.log_juri1.map ((item, index) => (
-                                                                <>
-                                                                    {(() => {
-                                                                        if (item.masuk == false) {
-                                                                            return (
-                                                                                <s key={index + 1} className='text-lg font-bold text-blue-600 tracking-widest'>{item.poin}, 
-                                                                                </s>
-                                                                            )
-                                                                        } else if (item.masuk == true) {
-                                                                            return (
-                                                                                <span key={index + 1} className='bg-blue-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
-                                                                            )
-                                                                        }
-                                                                    })()}
-                                                                </>
-                                                            ))}
-                                                        </div>
-                                                    )
-                                                } else if (dataJuri.username == 'juri2') {
-                                                    return (
-                                                        <div className="px-4 gap-x-1">
-                                                            {biru3?.poin_biru?.log_juri2.map ((item, index) => (
-                                                                <>
-                                                                    {(() => {
-                                                                        if (item.masuk == false) {
-                                                                            return (
-                                                                                <s key={index + 1} className='text-lg font-bold text-blue-600 tracking-widest'>{item.poin}, 
-                                                                                </s>
-                                                                            )
-                                                                        } else if (item.masuk == true) {
-                                                                            return (
-                                                                                <span key={index + 1} className='bg-blue-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
-                                                                            )
-                                                                        }
-                                                                    })()}
-                                                                </>
-                                                            ))}
-                                                        </div>
-                                                    )
-                                                } else if (dataJuri.username == 'juri3') {
-                                                    return (
-                                                        <div className="px-4 gap-x-1">
-                                                            {biru3?.poin_biru?.log_juri3.map ((item, index) => (
-                                                                <>
-                                                                    {(() => {
-                                                                        if (item.masuk == false) {
-                                                                            return (
-                                                                                <s key={index + 1} className='text-lg font-bold text-blue-600 tracking-widest'>{item.poin}, 
-                                                                                </s>
-                                                                            )
-                                                                        } else if (item.masuk == true) {
-                                                                            return (
-                                                                                <span key={index + 1} className='bg-blue-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
-                                                                            )
-                                                                        }
-                                                                    })()}
-                                                                </>
-                                                            ))}
-                                                        </div>
-                                                    )
-                                                }
-                                            })()}
+                                            <div className="px-4 gap-x-1">
+                                                {biru3?.nilai_biru?.log_juri.map ((item, index) => {
+                                                    if (item.masuk == false) {
+                                                        return (
+                                                            <s key={index + 1} className='text-lg font-bold text-blue-600 tracking-widest'>{item.poin}, 
+                                                            </s>
+                                                        )
+                                                    } else if (item.masuk == true) {
+                                                        return (
+                                                            <span key={index + 1} className='bg-blue-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
+                                                        )
+                                                    }
+                                                })}
+                                            </div>
                                         </td>
                                     {/* babak */}
                                     <td className='border-2 border-[#222954]'>
@@ -1100,72 +893,20 @@ const nilai = () => {
                                     </td>
                                     {/* nilai sudut merah */}
                                     <td className='border-2 border-[#222954] py-1.5 break-words' colSpan={3}>
-                                        {(() => {
-                                            if (dataJuri.username == 'juri1') {
-                                                return (
-                                                    <div className="px-4 gap-x-1">
-                                                        {merah3?.poin_merah?.log_juri1.map ((item, index) => (
-                                                            <>
-                                                            {(() => {
-                                                                if (item.masuk == false) {
-                                                                    return (
-                                                                        <s key={index + 1} className='text-lg font-bold text-red-600 tracking-widest justify-start items-center'>{item.poin}, 
-                                                                        </s>
-                                                                    )
-                                                                } else if (item.masuk == true) {
-                                                                    return (
-                                                                        <span key={index + 1} className='bg-red-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
-                                                                    )
-                                                                }
-                                                            })()}
-                                                            </>
-                                                        ))}
-                                                    </div>
-                                                )
-                                            } else if (dataJuri.username == 'juri2') {
-                                                return (
-                                                    <div className="px-4 gap-x-1">
-                                                        {merah3?.poin_merah?.log_juri2.map ((item, index) => (
-                                                            <>
-                                                            {(() => {
-                                                                if (item.masuk == false) {
-                                                                    return (
-                                                                        <s key={index + 1} className='text-lg font-bold text-red-600 tracking-widest justify-start items-center'>{item.poin}, 
-                                                                        </s>
-                                                                    )
-                                                                } else if (item.masuk == true) {
-                                                                    return (
-                                                                        <span key={index + 1} className='bg-red-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
-                                                                    )
-                                                                }
-                                                            })()}
-                                                            </>
-                                                        ))}
-                                                    </div>
-                                                )
-                                            } else if (dataJuri.username == 'juri3') {
-                                                return (
-                                                    <div className="px-4 gap-x-1">
-                                                        {merah3?.poin_merah?.log_juri3.map ((item, index) => (
-                                                            <>
-                                                            {(() => {
-                                                                if (item.masuk == false) {
-                                                                    return (
-                                                                        <s key={index + 1} className='text-lg font-bold text-red-600 tracking-widest justify-start items-center'>{item.poin}, 
-                                                                        </s>
-                                                                    )
-                                                                } else if (item.masuk == true) {
-                                                                    return (
-                                                                        <span key={index + 1} className='bg-red-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
-                                                                    )
-                                                                }
-                                                            })()}
-                                                            </>
-                                                        ))}
-                                                    </div>
-                                                )
-                                            }
-                                        })()}
+                                        <div className="px-4 gap-x-1">
+                                            {merah3?.nilai_merah?.log_juri.map ((item, index) => {
+                                                if (item.masuk == false) {
+                                                    return (
+                                                        <s key={index + 1} className='text-lg font-bold text-red-600 tracking-widest justify-start items-center'>{item.poin}, 
+                                                        </s>
+                                                    )
+                                                } else if (item.masuk == true) {
+                                                    return (
+                                                        <span key={index + 1} className='bg-red-600 text-white py-1 px-2 rounded-lg'>{item.poin}</span>
+                                                    )
+                                                }
+                                            })}
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -1308,7 +1049,7 @@ const nilai = () => {
             {/* akhir konten utama */}
 
             {jadwal.id ?
-                <ModalJuri verif={infoVerif} id_jadwal={jadwal.id}/>
+                <ModalJuri verif={infoVerif} id_jadwal={jadwal.id} socket={socket}/>
             : null}
         </FullScreen>
     </>

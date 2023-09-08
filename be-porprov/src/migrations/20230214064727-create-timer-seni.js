@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.UUID,
         allowNull: false,
         references:{
-          model:"jadwal_tgr",
+          model:"jadwal_seni",
           key:"id"
         }
       },
@@ -51,6 +51,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('timer_senis');
+    await queryInterface.dropTable('timer_seni');
   }
 };

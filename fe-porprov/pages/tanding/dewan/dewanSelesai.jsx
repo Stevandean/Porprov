@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import axios from 'axios'
-import Navbar from '../components/navbar'
+import Navbar from '../../component/navbar/navbar'
 import Footer from '../components/footer'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -9,6 +9,7 @@ const dewanSelesai = () => {
 
     // ini state
     const router = useRouter ()
+    const [isLoading, setIsLoading] = useState(true)
     const [jadwalTanding, setJadwalTanding] = useState ([])
     const [nilaiTanding, setNilaiTanding] = useState ([])
     const [juri1Biru1, setJuri1Biru1] = useState([])
@@ -43,7 +44,7 @@ const dewanSelesai = () => {
         let id_jadwal = jadwal
 
         //get juri 1 biru
-        axios.get (BASE_URL +`/api/nilai/tanding/log1/biru/${id_jadwal}/i`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/1/biru/${id_jadwal}/i`)
         .then (res => {
             setJuri1Biru1 (res.data.data)
         })
@@ -52,7 +53,7 @@ const dewanSelesai = () => {
         })
 
         //get juri 2 biru
-        axios.get (BASE_URL +`/api/nilai/tanding/log2/biru/${id_jadwal}/i`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/2/biru/${id_jadwal}/i`)
         .then (res => {
             setJuri2Biru1 (res.data.data)
         })
@@ -61,7 +62,7 @@ const dewanSelesai = () => {
         })
 
         //get juri 3 biru
-        axios.get (BASE_URL +`/api/nilai/tanding/log3/biru/${id_jadwal}/i`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/3/biru/${id_jadwal}/i`)
         .then (res => {
             setJuri3Biru1 (res.data.data)
         })
@@ -76,7 +77,7 @@ const dewanSelesai = () => {
         let id_jadwal = jadwal
 
         //get juri 1 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log1/merah/${id_jadwal}/i`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/1/merah/${id_jadwal}/i`)
         .then (res => {
             setJuri1Merah1 (res.data.data)
         })
@@ -85,7 +86,7 @@ const dewanSelesai = () => {
         })
 
         //get juri 2 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log2/merah/${id_jadwal}/i`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/2/merah/${id_jadwal}/i`)
         .then (res => {
             setJuri2Merah1 (res.data.data)
         })
@@ -94,7 +95,7 @@ const dewanSelesai = () => {
         })
 
         //get juri 3 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log3/merah/${id_jadwal}/i`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/3/merah/${id_jadwal}/i`)
         .then (res => {
             setJuri3Merah1 (res.data.data)
         })
@@ -108,7 +109,7 @@ const dewanSelesai = () => {
         let id_jadwal = jadwal
 
         //get juri 1 biru
-        axios.get (BASE_URL +`/api/nilai/tanding/log1/biru/${id_jadwal}/ii`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/1/biru/${id_jadwal}/ii`)
         .then (res => {
             setJuri1Biru2 (res.data.data)
         })
@@ -117,7 +118,7 @@ const dewanSelesai = () => {
         })
 
         //get juri 2 biru
-        axios.get (BASE_URL +`/api/nilai/tanding/log2/biru/${id_jadwal}/ii`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/2/biru/${id_jadwal}/ii`)
         .then (res => {
             setJuri2Biru2 (res.data.data)
         })
@@ -126,7 +127,7 @@ const dewanSelesai = () => {
         })
 
         //get juri 3 biru
-        axios.get (BASE_URL +`/api/nilai/tanding/log3/biru/${id_jadwal}/ii`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/3/biru/${id_jadwal}/ii`)
         .then (res => {
             setJuri3Biru2 (res.data.data)
         })
@@ -140,7 +141,7 @@ const dewanSelesai = () => {
         let id_jadwal = jadwal
 
         //get juri 1 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log1/merah/${id_jadwal}/ii`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/1/merah/${id_jadwal}/ii`)
         .then (res => {
             setJuri1Merah2 (res.data.data)
         })
@@ -149,7 +150,7 @@ const dewanSelesai = () => {
         })
 
         //get juri 2 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log2/merah/${id_jadwal}/ii`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/2/merah/${id_jadwal}/ii`)
         .then (res => {
             setJuri2Merah2 (res.data.data)
         })
@@ -158,7 +159,7 @@ const dewanSelesai = () => {
         })
 
         //get juri 3 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log3/merah/${id_jadwal}/ii`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/3/merah/${id_jadwal}/ii`)
         .then (res => {
             setJuri3Merah2 (res.data.data)
         })
@@ -172,7 +173,7 @@ const dewanSelesai = () => {
         let id_jadwal = jadwal
 
         //get juri 1 biru
-        axios.get (BASE_URL +`/api/nilai/tanding/log1/biru/${id_jadwal}/iii`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/1/biru/${id_jadwal}/iii`)
         .then (res => {
             setJuri1Biru3 (res.data.data)
         })
@@ -181,7 +182,7 @@ const dewanSelesai = () => {
         })
 
         //get juri 2 biru
-        axios.get (BASE_URL +`/api/nilai/tanding/log2/biru/${id_jadwal}/iii`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/2/biru/${id_jadwal}/iii`)
         .then (res => {
             setJuri2Biru3 (res.data.data)
         })
@@ -190,7 +191,7 @@ const dewanSelesai = () => {
         })
 
         //get juri 3 biru
-        axios.get (BASE_URL +`/api/nilai/tanding/log3/biru/${id_jadwal}/iii`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/3/biru/${id_jadwal}/iii`)
         .then (res => {
             setJuri3Biru3 (res.data.data)
         })
@@ -204,7 +205,7 @@ const dewanSelesai = () => {
         let id_jadwal = jadwal
 
         //get juri 1 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log1/merah/${id_jadwal}/iii`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/1/merah/${id_jadwal}/iii`)
         .then (res => {
             setJuri1Merah3 (res.data.data)
         })
@@ -213,7 +214,7 @@ const dewanSelesai = () => {
         })
 
         //get juri 2 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log2/merah/${id_jadwal}/iii`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/2/merah/${id_jadwal}/iii`)
         .then (res => {
             setJuri2Merah3 (res.data.data)
         })
@@ -222,7 +223,7 @@ const dewanSelesai = () => {
         })
 
         //get juri 3 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log3/merah/${id_jadwal}/iii`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/3/merah/${id_jadwal}/iii`)
         .then (res => {
             setJuri3Merah3 (res.data.data)
         })
@@ -241,6 +242,8 @@ const dewanSelesai = () => {
         axios.get (BASE_URL + `/api/nilai/tanding/jadwal/` + jadwal.id)
         .then (res => {
             setNilaiTanding (res.data.data)
+            setIsLoading(false)
+            console.log(res.data.data);
         })
         .catch (err => {
             console.log(err.response.data.message);
@@ -263,7 +266,7 @@ const dewanSelesai = () => {
 
         if (babak.length === 1) {
             //get juri 1 merah
-            await axios.get (BASE_URL +`/api/peringatan/merah/${id_jadwal}/i`)
+            await axios.get (BASE_URL +`/api/tanding/peringatan/merah/${id_jadwal}/i`)
             .then (res => {
                 setPeringatan1merah (res.data.data)
             })
@@ -272,7 +275,7 @@ const dewanSelesai = () => {
             })
 
             //get juri 1 merah
-            await axios.get (BASE_URL +`/api/peringatan/biru/${id_jadwal}/i`)
+            await axios.get (BASE_URL +`/api/tanding/peringatan/biru/${id_jadwal}/i`)
             .then (res => {
                 setPeringatan1biru (res.data.data)
             })
@@ -281,7 +284,7 @@ const dewanSelesai = () => {
             })
         } else if(babak.length === 2){
             //get juri 1 merah
-            await axios.get (BASE_URL +`/api/peringatan/merah/${id_jadwal}/i`)
+            await axios.get (BASE_URL +`/api/tanding/peringatan/merah/${id_jadwal}/i`)
             .then (res => {
                 setPeringatan1merah (res.data.data)
             })
@@ -289,7 +292,7 @@ const dewanSelesai = () => {
                 console.log(err.message);
             })
             //get juri 2 merah
-            await axios.get (BASE_URL +`/api/peringatan/merah/${id_jadwal}/ii`)
+            await axios.get (BASE_URL +`/api/tanding/peringatan/merah/${id_jadwal}/ii`)
             .then (res => {
                 setPeringatan2merah (res.data.data)
             })
@@ -298,7 +301,7 @@ const dewanSelesai = () => {
             })
 
             //get juri 1 biru
-            await axios.get (BASE_URL +`/api/peringatan/biru/${id_jadwal}/i`)
+            await axios.get (BASE_URL +`/api/tanding/peringatan/biru/${id_jadwal}/i`)
             .then (res => {
                 setPeringatan1biru (res.data.data)
             })
@@ -306,7 +309,7 @@ const dewanSelesai = () => {
                 console.log(err.message);
             })
             //get juri 2 biru
-            await axios.get (BASE_URL +`/api/peringatan/biru/${id_jadwal}/ii`)
+            await axios.get (BASE_URL +`/api/tanding/peringatan/biru/${id_jadwal}/ii`)
             .then (res => {
                 setPeringatan2biru (res.data.data)
             })
@@ -315,7 +318,7 @@ const dewanSelesai = () => {
             })
         } else if (babak.length === 3){
             //get juri 1 merah
-            await axios.get (BASE_URL +`/api/peringatan/merah/${id_jadwal}/i`)
+            await axios.get (BASE_URL +`/api/tanding/peringatan/merah/${id_jadwal}/i`)
             .then (res => {
                 setPeringatan1merah (res.data.data)
             })
@@ -323,14 +326,14 @@ const dewanSelesai = () => {
                 console.log(err.message);
             })
             //get juri 1 merah
-            await axios.get (BASE_URL +`/api/peringatan/merah/${id_jadwal}/ii`)
+            await axios.get (BASE_URL +`/api/tanding/peringatan/merah/${id_jadwal}/ii`)
             .then (res => {
                 setPeringatan2merah (res.data.data)
             })
             .catch (err => {
                 console.log(err.message);
             })
-            await axios.get (BASE_URL +`/api/peringatan/merah/${id_jadwal}/iii`)
+            await axios.get (BASE_URL +`/api/tanding/peringatan/merah/${id_jadwal}/iii`)
             .then (res => {
                 setPeringatan3merah (res.data.data)
             })
@@ -339,7 +342,7 @@ const dewanSelesai = () => {
             })
 
             //get juri 1 biry
-            await axios.get (BASE_URL +`/api/peringatan/biru/${id_jadwal}/i`)
+            await axios.get (BASE_URL +`/api/tanding/peringatan/biru/${id_jadwal}/i`)
             .then (res => {
                 setPeringatan1biru (res.data.data)
             })
@@ -347,7 +350,7 @@ const dewanSelesai = () => {
                 console.log(err.message);
             })
             //get juri 2 biru
-            await axios.get (BASE_URL +`/api/peringatan/biru/${id_jadwal}/ii`)
+            await axios.get (BASE_URL +`/api/tanding/peringatan/biru/${id_jadwal}/ii`)
             .then (res => {
                 setPeringatan2biru (res.data.data)
             })
@@ -355,7 +358,7 @@ const dewanSelesai = () => {
                 console.log(err.message);
             })
             //get juri 3 biru
-            await axios.get (BASE_URL +`/api/peringatan/biru/${id_jadwal}/iii`)
+            await axios.get (BASE_URL +`/api/tanding/peringatan/biru/${id_jadwal}/iii`)
             .then (res => {
                 setPeringatan3biru (res.data.data)
                 console.log(res.data.data);
@@ -373,16 +376,38 @@ const dewanSelesai = () => {
     }
 
     useEffect (() => {
-        getJadwal ()
-        getJuriBiru1()
-        getJuriMerah1()
-        getJuriBiru2()
-        getJuriMerah2()
-        getJuriBiru3()
-        getJuriMerah3()
-        getNilaiTanding ()
-        getPeringatan()
-        isLogged ()
+        (async () => {
+            const jadwal = localStorage.getItem ('jadwal')
+            let id_jadwal = jadwal
+
+            let babak = []
+            await axios.get (BASE_URL + `/api/nilai/tanding/babakbyjadwal/${id_jadwal}`)
+            .then (res => {
+                babak = res.data.data
+            })
+            .catch (err => {
+                console.log(err.message);
+            })
+
+            if (babak.length >= 1) {
+                getJuriBiru1()
+                getJuriMerah1()
+
+            } 
+            if (babak.length >= 2){
+                getJuriBiru2()
+                getJuriMerah2()
+            } 
+            if (babak.length >= 3){
+                getJuriBiru3()
+                getJuriMerah3()
+
+            }
+            getJadwal ()
+            getNilaiTanding ()
+            getPeringatan()
+            // isLogged ()
+        })();
     }, [])
 
     return (
@@ -444,6 +469,17 @@ const dewanSelesai = () => {
                             </div>
                         </div>
 
+                        {isLoading ? 
+                            <div role="status" className='flex justify-center mb-7'>
+                                <svg aria-hidden="true" className="w-24 h-24 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                                    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+                                </svg>
+                                <span className="sr-only">Loading...</span>
+                            </div>
+                            :
+                            null
+                        }
                         {/* table nilai */}
                         {nilaiTanding.map ((item, index) => (
                             <table key={index + 1} className='w-full table-fixed border-separate border-spacing-1 mb-4'>
@@ -460,7 +496,7 @@ const dewanSelesai = () => {
                                     {/* wrapper nilai juri 1 */}
                                     <tr>
                                         {/* total */}
-                                        <td className='border-2 border-[#222954] rounded-lg justify-center items-center text-3xl font-bold text-center' rowSpan={8}>{item.poin_biru?.total_poin}</td>
+                                        <td className='border-2 border-[#222954] rounded-lg justify-center items-center text-3xl font-bold text-center' rowSpan={8}>{item.nilai_biru?.total_poin}</td>
 
                                         {/* wrapper detail poin biru */}
                                         <td className='text-lg font-semibold' colSpan={4}>
@@ -532,7 +568,7 @@ const dewanSelesai = () => {
                                         </td>
 
                                         {/* total */}
-                                        <td className='border-2 border-[#222954] rounded-lg justify-center items-center text-3xl font-bold text-center' rowSpan={8}>{item.poin_merah?.total_poin}</td>
+                                        <td className='border-2 border-[#222954] rounded-lg justify-center items-center text-3xl font-bold text-center' rowSpan={8}>{item.nilai_merah?.total_poin}</td>
                                     </tr>
 
                                     {/* wrapper nilai juri 2 */}
@@ -678,10 +714,10 @@ const dewanSelesai = () => {
                                             {/* detail nilai */}
                                             <div className="grid grid-cols-6 gap-x-2">
                                                 {/* total nilai */}
-                                                <div className="border-2 border-[#222954] rounded-lg text-center py-1 col-span-1 bg-[#FDFFA0]">{item.poin_biru?.poin_masuk}</div>
+                                                <div className="border-2 border-[#222954] rounded-lg text-center py-1 col-span-1 bg-[#FDFFA0]">{item.nilai_biru?.poin_masuk}</div>
                                                 {/* nilai */}
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-3 bg-[#FDFFA0] break-words">
-                                                    {item.poin_biru?.log_poin_masuk.map ((item, index) => (
+                                                    {item.nilai_biru?.log_poin_masuk.map ((item, index) => (
                                                         <span key={index + 1}>{item.poin},</span>
                                                     ))}
                                                 </div>
@@ -697,12 +733,12 @@ const dewanSelesai = () => {
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-2 text-center bg-[#FDFFA0]">Poin Masuk</div>
                                                 {/* nilai */}
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-3 bg-[#FDFFA0] break-words">
-                                                    {item.poin_merah?.log_poin_masuk.map ((item, index) => (
+                                                    {item.nilai_merah?.log_poin_masuk.map ((item, index) => (
                                                         <span key={index + 1}>{item.poin},</span>
                                                     ))}
                                                 </div>
                                                 {/* total nilai */}
-                                                <div className="border-2 border-[#222954] rounded-lg text-center py-1 col-span-1 bg-[#FDFFA0]">{item.poin_merah?.poin_masuk}</div>
+                                                <div className="border-2 border-[#222954] rounded-lg text-center py-1 col-span-1 bg-[#FDFFA0]">{item.nilai_merah?.poin_masuk}</div>
                                             </div>
                                         </td>
                                     </tr>
@@ -714,10 +750,10 @@ const dewanSelesai = () => {
                                             {/* detail nilai */}
                                             <div className="grid grid-cols-6 gap-x-2">
                                                 {/* total nilai */}
-                                                <div className="border-2 border-[#222954] rounded-lg text-center py-1 col-span-1 bg-[#BDEBFF]">{item.poin_biru?.jatuhan}</div>
+                                                <div className="border-2 border-[#222954] rounded-lg text-center py-1 col-span-1 bg-[#BDEBFF]">{item.nilai_biru?.jatuhan}</div>
                                                 {/* nilai */}
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-3 bg-[#BDEBFF] ">
-                                                    {item.poin_biru?.log_jatuhan.map ((item, index) => (
+                                                    {item.nilai_biru?.log_jatuhan.map ((item, index) => (
                                                         <span key={index + 1}>{item.poin},</span>
                                                     ))}
                                                 </div>
@@ -733,13 +769,13 @@ const dewanSelesai = () => {
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-2 text-center bg-[#BDEBFF]">Jatuhan</div>
                                                 {/* nilai */}
                                                 <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-3 bg-[#BDEBFF]">
-                                                    {item.poin_merah?.log_jatuhan.map ((item, index) => (
+                                                    {item.nilai_merah?.log_jatuhan.map ((item, index) => (
                                                         <span key={index + 1}>{item.poin},</span>
                                                     ))}
                                                 </div>
                                                 {/* total nilai */}
                                                 <div className="border-2 border-[#222954] rounded-lg text-center py-1 col-span-1 bg-[#BDEBFF]">
-                                                    {item.poin_merah?.jatuhan}
+                                                    {item.nilai_merah?.jatuhan}
                                                 </div>
                                             </div>
                                         </td>
@@ -752,15 +788,15 @@ const dewanSelesai = () => {
                                             {/* detail nilai */}
                                             <div className="grid grid-cols-6 gap-x-2">
                                                 {/* total hukuman */}
-                                                <div className="border-2 border-[#222954] rounded-lg text-center py-1 col-span-1 bg-[#FFBBBB] flex justify-center items-center">{item.poin_biru?.total_hukum}</div>
+                                                <div className="border-2 border-[#222954] rounded-lg text-center py-1 col-span-1 bg-[#FFBBBB] flex justify-center items-center">{item.nilai_biru?.total_hukum}</div>
                                                 {/* nilai hukuman */}
                                                 <div className="py-1 col-span-3 grid grid-rows-3 gap-y-1 ">
                                                     <div className="border-2 border-[#222954] rounded-lg px-4 bg-[#FFBBBB]">
-                                                        {item.poin_biru?.log_binaan.map ((item, index) => (
+                                                        {item.nilai_biru?.log_binaan.map ((item, index) => (
                                                             <span key={index + 1}>{item.poin},</span>
                                                         ))}
                                                     </div>
-                                                    <div className="border-2 border-[#222954] rounded-lg px-4 bg-[#FFBBBB]">{item.poin_biru?.log_teguran.map ((item, index) => (
+                                                    <div className="border-2 border-[#222954] rounded-lg px-4 bg-[#FFBBBB]">{item.nilai_biru?.log_teguran.map ((item, index) => (
                                                         <span key={index + 1}>{item.poin},</span>
                                                     ))}
                                                     </div>
@@ -809,11 +845,11 @@ const dewanSelesai = () => {
                                                 {/* nama hukuman */}
                                                 <div className="py-1 col-span-3 grid grid-rows-3 gap-y-1">
                                                     <div className="border-2 border-[#222954] rounded-lg px-4 bg-[#FFBBBB]">
-                                                        {item.poin_merah?.log_binaan.map ((item, index) => (
+                                                        {item.nilai_merah?.log_binaan.map ((item, index) => (
                                                             <span key={index + 1}>{item.poin},</span>
                                                         ))}</div>
                                                     <div className="border-2 border-[#222954] rounded-lg px-4 bg-[#FFBBBB]">
-                                                        {item.poin_merah.log_teguran.map ((item, index) => (
+                                                        {item.nilai_merah.log_teguran.map ((item, index) => (
                                                             <span key={index + 1}>{item.poin},</span>
                                                         ))}
                                                     </div>
@@ -842,7 +878,7 @@ const dewanSelesai = () => {
                                                     </div>
                                                 </div>
                                                 {/* total hukuman */}
-                                                <div className="border-2 border-[#222954] rounded-lg text-center py-1 col-span-1 bg-[#FFBBBB] flex justify-center items-center">{item.poin_merah?.total_hukum}</div>
+                                                <div className="border-2 border-[#222954] rounded-lg text-center py-1 col-span-1 bg-[#FFBBBB] flex justify-center items-center">{item.nilai_merah?.total_hukum}</div>
                                             </div>
                                         </td>
                                     </tr>
@@ -857,7 +893,7 @@ const dewanSelesai = () => {
                         </div>
                         
                         {/* wrapper keputusan pemenang */}
-                        <div className={jadwalTanding.id_pemenang == jadwalTanding.id_biru ?  "bg-blue-600 text-2xl font-bold py-2 rounded-b-lg text-center mb-3" : "bg-red-600 text-2xl font-bold py-2 rounded-b-lg text-center mb-3"}>{jadwalTanding.keterangan}</div>
+                        <div className={jadwalTanding.id_pemenang == jadwalTanding.id_peserta_biru ?  "bg-blue-600 text-2xl font-bold py-2 rounded-b-lg text-center mb-3" : "bg-red-600 text-2xl font-bold py-2 rounded-b-lg text-center mb-3"}>{jadwalTanding.keterangan}</div>
 
                         {/* wrapper back*/}
                         <button onClick={() => router.back ()} className="bg-green-600 hover:bg-green-700 col-span-2 py-3 text-center rounded-lg text-xl font-bold w-full">Kembali</button>

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import axios from 'axios'
-import Navbar from '../../../../components/navbar';
-import Footer from '../../../../components/footer';
+import Navbar from '../../../../../components/navbar';
+import Footer from '../../../../../components/footer';
 import socketIo from 'socket.io-client'
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;

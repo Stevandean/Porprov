@@ -9,13 +9,15 @@ module.exports = {
         type: Sequelize.UUID
       },
       id_jadwal: {
+        allowNull: false,
         type: Sequelize.UUID,
         references:{
-          model:"jadwal_tgr",
+          model:"jadwal_seni",
           key:"id"
         }
       },
       id_peserta: {
+        allowNull: false,
         type: Sequelize.UUID,
         references:{
           model:"peserta_seni",
@@ -23,6 +25,7 @@ module.exports = {
         }
       },
       id_juri: {
+        allowNull: false,
         type: Sequelize.UUID,
         references:{
           model:"juri",
@@ -30,34 +33,39 @@ module.exports = {
         }
       },
       nama_juri: {
+        allowNull: true,
         type: Sequelize.STRING
       },
       technique: {
-        type: Sequelize.DOUBLE
+        type: Sequelize.FLOAT
       },
       firmness: {
-        type: Sequelize.DOUBLE
+        type: Sequelize.FLOAT
       },
       soulfulness: {
-        type: Sequelize.DOUBLE
+        type: Sequelize.FLOAT
       },
       total: {
-        type: Sequelize.DOUBLE
+        type: Sequelize.FLOAT
       },
       total_skor: {
-        type: Sequelize.DOUBLE
+        type: Sequelize.FLOAT
       },
       dis: {
         type: Sequelize.BOOLEAN
       },
       createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        type: 'TIMESTAMP',
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        allowNull: false
       },
       updatedAt: {
+        type: "TIMESTAMP",
+        defaultValue: Sequelize.literal(
+          "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+        ),
         allowNull: false,
-        type: Sequelize.DATE
-      }
+      },
     });
   },
   async down(queryInterface, Sequelize) {

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import Link from 'next/link'
-import Navbar from '../components/navbar'
+import Navbar from '../../component/navbar/navbar'
 import Footer from '../components/footer'
 import Timer from '../components/timer'
 import { globalState } from '../../../context/context'
@@ -10,7 +10,7 @@ import { useRouter } from 'next/router'
 import TimerLayar from '../components/timerLayar'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-const socket = socketIo (BASE_URL)
+const socket = socketIo.connect(BASE_URL)
 
 const dewanSeni = () => {
     
@@ -44,7 +44,7 @@ const dewanSeni = () => {
 
         //nilai berdasarkan besar nilai
         if (peserta.kategori.toLowerCase() == 'tunggal') {
-            await axios.get (BASE_URL + `/api/tunggal/jadwal/${id_jadwal}/${id_peserta}`)
+            await axios.get (BASE_URL + `/api/nilai/tunggal/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilaiSort (res.data.data)
                 nilai = (res.data.data)
@@ -53,7 +53,7 @@ const dewanSeni = () => {
                 console.log(err.message);
             })
         } else if (peserta.kategori.toLowerCase() == 'ganda') {
-            await axios.get (BASE_URL + `/api/ganda/jadwal/${id_jadwal}/${id_peserta}`)
+            await axios.get (BASE_URL + `/api/nilai/ganda/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilaiSort (res.data.data)
                 nilai = res.data.data
@@ -62,7 +62,7 @@ const dewanSeni = () => {
                 console.log(err.response.data.message);
             })
         } else if (peserta.kategori.toLowerCase() == 'regu') {
-            await axios.get (BASE_URL + `/api/regu/jadwal/${id_jadwal}/${id_peserta}`)
+            await axios.get (BASE_URL + `/api/nilai/regu/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilaiSort (res.data.data)
                 nilai = (res.data.data)
@@ -72,7 +72,7 @@ const dewanSeni = () => {
                 console.log(err.response.data.message);
             })
         } else if (peserta.kategori.toLowerCase() == 'solo_kreatif') {
-            await axios.get (BASE_URL + `/api/solo_kreatif/jadwal/${id_jadwal}/${id_peserta}`)
+            await axios.get (BASE_URL + `/api/nilai/solo_kreatif/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilaiSort (res.data.data)
                 nilai = res.data.data
@@ -86,7 +86,7 @@ const dewanSeni = () => {
 
         //nilai berdasarkan juri
         if (peserta.kategori.toLowerCase() == 'tunggal') {
-            await axios.get (BASE_URL + `/api/tunggal/jadwal/${id_jadwal}/${id_peserta}`)
+            await axios.get (BASE_URL + `/api/nilai/tunggal/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilai (res.data.data)
             })
@@ -94,7 +94,7 @@ const dewanSeni = () => {
                 console.log(err.message);
             })
         } else if (peserta.kategori.toLowerCase() == 'ganda') {
-            await axios.get (BASE_URL + `/api/ganda/jadwal/${id_jadwal}/${id_peserta}`)
+            await axios.get (BASE_URL + `/api/nilai/ganda/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilai (res.data.data)
             })
@@ -102,7 +102,7 @@ const dewanSeni = () => {
                 console.log(err.response.data.message);
             })
         } else if (peserta.kategori.toLowerCase() == 'regu') {
-            await axios.get (BASE_URL + `/api/regu/jadwal/${id_jadwal}/${id_peserta}`)
+            await axios.get (BASE_URL + `/api/nilai/regu/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilai (res.data.data)
             })
@@ -110,7 +110,7 @@ const dewanSeni = () => {
                 console.log(err.response.data.message);
             })
         } else if (peserta.kategori.toLowerCase() == 'solo_kreatif') {
-            await axios.get (BASE_URL + `/api/solo_kreatif/jadwal/${id_jadwal}/${id_peserta}`)
+            await axios.get (BASE_URL + `/api/nilai/solo_kreatif/jadwal/${id_jadwal}/${id_peserta}`)
             .then (res => {
                 setNilai (res.data.data)
             })
@@ -121,12 +121,12 @@ const dewanSeni = () => {
             console.log('gagal');
         }
 
-        await axios.get (BASE_URL + `/api/hukum/tgr/jadwal/${id_jadwal}/${id_peserta}`)
+        await axios.get (BASE_URL + `/api/seni/hukum/jadwal/${id_jadwal}/${id_peserta}`)
         .then ((res) => {
             setHukum (res.data.data)
             hukum = (res.data.data)
             // console.log(res.data.data)
-            setAktif (hukum.jadwal.aktif)
+            // setAktif (hukum.jadwal.aktif)
         })
         .catch ((err) => {
             console.log(err.message);
@@ -169,14 +169,14 @@ const dewanSeni = () => {
 
         let form = {
             selesai : true,
-            total_hukum: hukum.total,
+            hukuman: hukum.total,
             median: median,
             skor_akhir: total,
             deviasi: deviasi
         }
 
         if (confirm('Anda yakin untuk mengakhiri pertandingan?') == 1) {
-            axios.put (BASE_URL + `/api/tgr/selesai/${id_jadwal}/${id_peserta}`, form)
+            axios.put (BASE_URL + `/api/seni/jadwal/selesai/${id_jadwal}/${id_peserta}`, form)
             .then (res => {
                 router.back ()
             })
@@ -203,7 +203,7 @@ const dewanSeni = () => {
             if (confirm ('Anda yakin untuk memulai pertandingan?') == 1) {
                 axios.put (BASE_URL + `/api/tgr/${id_jadwal}`, form)
                 .then (res => {
-                    socket.emit ('editData')
+                    getNilai()
                     console.log(res.data.message);
                 })
                 .catch (err => {
@@ -216,9 +216,9 @@ const dewanSeni = () => {
             }
     
             if (confirm ('Anda yakin untuk mengakhiri pertandingan?') == 1) {
-                axios.put (BASE_URL + `/api/tgr/${id_jadwal}`, form)
+                axios.put (BASE_URL + `/api/seni/jadwal/${id_jadwal}`, form)
                 .then (res => {
-                    socket.emit ('editData')
+                    getNilai()
                     console.log(res.data.message);
                 })
                 .catch (err => {
@@ -242,9 +242,9 @@ const dewanSeni = () => {
                 hukum1 : 0
             }
 
-            axios.put (BASE_URL + `/api/hukum/tgr/${id_jadwal}/${id_peserta}`, form1) 
+            axios.put (BASE_URL + `/api/seni/hukum/${id_jadwal}/${id_peserta}`, form1) 
             .then (res => {
-                socket.emit ('editData')
+                getNilai()
                 console.log(res.data.message);
             })
             .catch ((err) => {
@@ -255,9 +255,9 @@ const dewanSeni = () => {
                 hukum2 : 0
             }
 
-            axios.put (BASE_URL + `/api/hukum/tgr/${id_jadwal}/${id_peserta}`, form2)
+            axios.put (BASE_URL + `/api/seni/hukum/${id_jadwal}/${id_peserta}`, form2)
             .then (res => {
-                socket.emit ('editData')
+                getNilai()
                 console.log(res.data.message);
             })
             .catch ((err) => {
@@ -268,9 +268,9 @@ const dewanSeni = () => {
                 hukum3 : 0
             }
 
-            axios.put (BASE_URL + `/api/hukum/tgr/${id_jadwal}/${id_peserta}`, form3)
+            axios.put (BASE_URL + `/api/seni/hukum/${id_jadwal}/${id_peserta}`, form3)
             .then (res => {
-                socket.emit ('editData')
+                getNilai()
                 console.log(res.data.message);
             })
             .catch ((err) => {
@@ -281,9 +281,9 @@ const dewanSeni = () => {
                 hukum4 : 0
             }
 
-            axios.put (BASE_URL + `/api/hukum/tgr/${id_jadwal}/${id_peserta}`, form4)
+            axios.put (BASE_URL + `/api/seni/hukum/${id_jadwal}/${id_peserta}`, form4)
             .then (res => {
-                socket.emit ('editData')
+                getNilai()
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -294,9 +294,9 @@ const dewanSeni = () => {
                 hukum5 : 0
             }
 
-            axios.put (BASE_URL + `/api/hukum/tgr/${id_jadwal}/${id_peserta}`, form5)
+            axios.put (BASE_URL + `/api/seni/hukum/${id_jadwal}/${id_peserta}`, form5)
             .then (res => {
-                socket.emit ('editData')
+                getNilai()
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -307,9 +307,9 @@ const dewanSeni = () => {
                 hukum6 : 0
             }
 
-            axios.put (BASE_URL + `/api/hukum/tgr/${id_jadwal}/${id_peserta}`, form6)
+            axios.put (BASE_URL + `/api/seni/hukum/${id_jadwal}/${id_peserta}`, form6)
             .then (res => {
-                socket.emit ('editData')
+                getNilai()
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -335,11 +335,10 @@ const dewanSeni = () => {
                 hukum1 : nilai1 + (-0.5)
             }
 
-            axios.put (BASE_URL + `/api/hukum/tgr/${id_jadwal}/${id_peserta}`, formNilai1) 
+            axios.put (BASE_URL + `/api/seni/hukum/${id_jadwal}/${id_peserta}`, formNilai1) 
             .then (res => {
                 console.log(res.data.message);
-                socket.emit ('editData')
-
+                getNilai()
             })
             .catch ((err) => {
                 console.log(err.message);
@@ -351,9 +350,9 @@ const dewanSeni = () => {
             let formNilai2 = {
                 hukum2 : nilai2 + (-0.5)
             }
-            axios.put (BASE_URL + `/api/hukum/tgr/${id_jadwal}/${id_peserta}`, formNilai2)
+            axios.put (BASE_URL + `/api/seni/hukum/${id_jadwal}/${id_peserta}`, formNilai2)
             .then (res => {
-                socket.emit ('editData')
+                getNilai()
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -367,9 +366,9 @@ const dewanSeni = () => {
                 hukum3 : nilai3 + (-0.5)
             }
 
-            axios.put (BASE_URL + `/api/hukum/tgr/${id_jadwal}/${id_peserta}`, formNilai3)
+            axios.put (BASE_URL + `/api/seni/hukum/${id_jadwal}/${id_peserta}`, formNilai3)
             .then (res => {
-                socket.emit ('editData')
+                getNilai()
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -383,9 +382,9 @@ const dewanSeni = () => {
                 hukum4 : nilai4 + (-0.5)
             }
 
-            axios.put (BASE_URL + `/api/hukum/tgr/${id_jadwal}/${id_peserta}`, formNilai4)
+            axios.put (BASE_URL + `/api/seni/hukum/${id_jadwal}/${id_peserta}`, formNilai4)
             .then (res => {
-                socket.emit ('editData')
+                getNilai()
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -398,9 +397,9 @@ const dewanSeni = () => {
             let formNilai5 = {
                 hukum5 : nilai5 + (-0.5)
             }
-            axios.put (BASE_URL+ `/api/hukum/tgr/${id_jadwal}/${id_peserta}`, formNilai5)
+            axios.put (BASE_URL+ `/api/seni/hukum/${id_jadwal}/${id_peserta}`, formNilai5)
             .then (res => {
-                socket.emit('editData')
+                getNilai()
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -413,9 +412,9 @@ const dewanSeni = () => {
                 hukum6 : nilai6 + (-0.5)
             }
 
-            axios.put (BASE_URL + `/api/hukum/tgr/${id_jadwal}/${id_peserta}`, formNilai6)
+            axios.put (BASE_URL + `/api/seni/hukum/${id_jadwal}/${id_peserta}`, formNilai6)
             .then (res => {
-                socket.emit ('editData')
+                getNilai()
                 console.log(res.data.message);
             })
             .catch (err => {
@@ -424,28 +423,39 @@ const dewanSeni = () => {
         }
     }
 
+    useEffect(() => {
+        const jadwal = JSON.parse(localStorage.getItem ('jadwalSeni'))
+        const user = JSON.parse(localStorage.getItem('user'))
+        let data ={
+            user: user.username,
+            id_jadwal: jadwal.id
+        }
+        socket.emit('joinSeni', data)
+    
+        return () => {
+            socket.off('joinSeni', data)
+            socket.close()
+        }
+    }, [])
+
     const isLogged = () => {
         if (localStorage.getItem ('token') === null || localStorage.getItem ('dewan') === null) {
          router.push ('/seni/dewan/login') 
         }
     }
 
-    const ubah_data = () => socket.emit ('init_data')
-
     
     useEffect (() => {
         setPeserta (JSON.parse (localStorage.getItem ('pesertaSeni')))   
-        socket.emit ('init_data')
-        socket.on('getData', getNilai)
-        socket.on ('change_data', ubah_data)
-        isLogged ()
+        socket.on('getDewanLayar', getNilai)
+        // isLogged ()
         getNilai()
         // sortNilai()
     }, [])
 
     return (
         <>
-            <div className="flex ">
+            <div className="flex">
 
                 {/* awal konten utama */}
                 <div className="w-full overflow-y-auto h-screen"> 
@@ -476,7 +486,7 @@ const dewanSeni = () => {
                                     </button>
                                     {/* info pesilat */}
                                     <div className="flex flex-row items-center space-x-7 p-2 w-full text-white text-start">
-                                        <div className={peserta.id == jadwal?.id_biru ? "flex flex-col bg-blue-600 rounded-lg px-3 w-full py-2" : "flex flex-col bg-red-600 rounded-lg px-3 w-full py-2"}>
+                                        <div className={peserta.id == jadwal?.id_peserta_biru ? "flex flex-col bg-blue-600 rounded-lg px-3 w-full py-2" : "flex flex-col bg-red-600 rounded-lg px-3 w-full py-2"}>
                                             {(() => {
                                                 if (peserta.kategori == 'tunggal') {
                                                     return(
@@ -683,7 +693,7 @@ const dewanSeni = () => {
                                 <table className='w-full table-fixed border-separate border-spacing-x-2 font-medium'>
                                     <tbody className='text-center'>
                                             <tr className='bg-[#2C2F48]'>
-                                                <th colSpan={2} rowSpan={2} className="text-lg border-2 border-[#2C2F48] ">urutan juri</th>
+                                                <th colSpan={2} rowSpan={2} className="text-lg border-2 border-[#2C2F48] ">Urutan Nilai</th>
                                                 {nilaiSort.sort ((a,b) => a.total - b.total).map ((item, index)=> (
                                                     <th key={index + 1}>
                                                         {item.juri.no}

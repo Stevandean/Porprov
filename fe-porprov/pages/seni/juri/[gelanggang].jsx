@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import socketIo from 'socket.io-client'
-import Navbar from '../components/navbar'
+import Navbar from '../../component/navbar/navbar'
 import Footer from '../components/footer'
 import ModalJuri from '../components/modalJuri'
 import { globalState } from '../../../context/context'
@@ -35,7 +35,7 @@ const detail = () => {
         }
   
         if (item.kategori.toLowerCase() == 'tunggal') {   
-            axios.post (BASE_URL + "/api/tunggal/dewan", form)
+            axios.post (BASE_URL + "/api/nilai/tunggal/dewan", form)
             .then ((res) => {
                 setShowModalJuri (true)
                 setNama ('')
@@ -45,7 +45,7 @@ const detail = () => {
                 console.log(err.response.data.message);
             })
         } else if (item.kategori.toLowerCase() === 'ganda') {
-            axios.post (BASE_URL + `/api/ganda/dewan`, form)
+            axios.post (BASE_URL + `/api/nilai/ganda/dewan`, form)
             .then (res => {
                 setShowModalJuri (true)
                 setNama ('')
@@ -55,7 +55,7 @@ const detail = () => {
                 console.log(err.response.data.message);
             })
         } else if (item.kategori.toLowerCase() === 'regu') {
-            axios.post (BASE_URL + `/api/regu/dewan`, form)
+            axios.post (BASE_URL + `/api/nilai/regu/dewan`, form)
             .then (res => {
                 setShowModalJuri (true)
                 setNama ('')
@@ -65,7 +65,7 @@ const detail = () => {
                 console.log(err.response.data.message);
             })
         } else if (item.kategori.toLowerCase() === 'solo_kreatif') {
-            axios.post (BASE_URL + `/api/solo_kreatif/dewan`, form)
+            axios.post (BASE_URL + `/api/nilai/solo_kreatif/dewan`, form)
             .then (res => {
                 setShowModalJuri (true)
                 setNama ('')
@@ -88,7 +88,7 @@ const detail = () => {
             id_peserta : item.merah.id
         }
         if (item.kategori.toLowerCase() == 'tunggal') {   
-            axios.post (BASE_URL + "/api/tunggal/dewan", form)
+            axios.post (BASE_URL + "/api/nilai/tunggal/dewan", form)
             .then ((res) => {
                 setShowModalJuri (true)
                 setNama ('')
@@ -98,7 +98,7 @@ const detail = () => {
                 console.log(err.response.data.message);
             })
         } else if (item.kategori.toLowerCase() === 'ganda') {
-            axios.post (BASE_URL + `/api/ganda/dewan`, form)
+            axios.post (BASE_URL + `/api/nilai/ganda/dewan`, form)
             .then (res => {
                 setShowModalJuri (true)
                 setNama ('')
@@ -108,7 +108,7 @@ const detail = () => {
                 console.log(err.response.data.message);
             })
         } else if (item.kategori.toLowerCase() === 'regu') {
-            axios.post (BASE_URL + `/api/regu/dewan`, form)
+            axios.post (BASE_URL + `/api/nilai/regu/dewan`, form)
             .then (res => {
                 setShowModalJuri (true)
                 setNama ('')
@@ -118,7 +118,7 @@ const detail = () => {
                 console.log(err.response.data.message);
             })
         } else if (item.kategori.toLowerCase() === 'solo_kreatif') {
-            axios.post (BASE_URL + `/api/solo_kreatif/dewan`, form)
+            axios.post (BASE_URL + `/api/nilai/solo_kreatif/dewan`, form)
             .then (res => {
                 setShowModalJuri (true)
                 setNama ('')
@@ -132,7 +132,7 @@ const detail = () => {
     }
 
     const getData = () => {
-        axios.get (BASE_URL + "/api/tgr/gel/" + gelanggang)
+        axios.get (BASE_URL + "/api/seni/jadwal/gel/" + gelanggang, headerConfig())
         .then (res => {
             setData (res.data.data)
         }) 
@@ -142,18 +142,17 @@ const detail = () => {
         console.log (BASE_URL + "/api/tgr/");
     }
 
-    // const getGelanggang = () => {
-    //     axios.get (BASE_URL + `/api/tgr`)
-    //     .then (res => {
-    //         setGelanggang (res.data.data)
-    //     })
-    //     .catch (err => {
-    //         console.log(err.response.data.message);
-    //     })
-    // }
+    //config header
+    const headerConfig = () => {
+        let token = localStorage.getItem("token")
+        let header = {
+        headers : { Authorization : `Bearer ${token}` }
+        }
+        return header
+    }
 
     const getJuri = () => {
-        const juri = JSON.parse(localStorage.getItem ('juriSeni'))
+        const juri = JSON.parse(localStorage.getItem ('user'))
         setDataJuri (juri)
 
         axios.get (BASE_URL + `/api/nama`)
@@ -178,7 +177,7 @@ const detail = () => {
         socket.emit ('init_data')
         socket.on ('getData', getData)
         socket.on ('change_data', ubah_data)
-        isLogged ()
+        // isLogged ()
         getData()
         // getGelanggang ()
         getJuri ()

@@ -1,24 +1,25 @@
 import axios from 'axios'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import socketIo from 'socket.io-client'
 import { globalState } from '../../../context/context'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const socket = socketIo (BASE_URL)
 
-const timerLayar = props => {
+const timerLayar = (props) => {
   
   const [running, setRunning] = useState(false)
   const [data, setData] = useState([])  
   const [waktuStart, setWaktuStart] = useState()
   const [timer, setTimer] = useState(0) 
+  const timerRef = useRef()
   const id_jadwal = props.id_jadwal
   const id_peserta = props.id_peserta
 
-  
+  timerRef.current = timer
   const getData = async () => {
     let waktu = []
     //get waktu peserta
-    await axios.get (BASE_URL + `/api/tgr/get/timer/${id_jadwal}/${id_peserta}`)
+    await axios.get (BASE_URL + `/api/seni/jadwal/get/timer/${id_jadwal}/${id_peserta}`)
     .then(res => {
       setData(res.data.data)
       waktu = res.data.data
@@ -47,7 +48,7 @@ const timerLayar = props => {
       id_jadwal: id_jadwal,
       id_peserta: id_peserta
     }
-    await axios.post(BASE_URL + "/api/tgr/timer/start", data)
+    await axios.post(BASE_URL + "/api/seni/jadwal/timer/start", data)
     .then(res => {
       console.log(res.data.message);
       getData()
@@ -56,10 +57,14 @@ const timerLayar = props => {
     })
   }
 
-  const selesai = () => {    
+  const selesai = async () => {    
     // set waktu
-    let minute = `${("0" + Math.floor((timer / 1000 / 60) % 60)).slice(-2)}`
-    let second = `${("0" + Math.floor((timer / 1000) % 60)) .slice(-2)}`
+    let waktu
+    
+    console.log(timerRef.current);
+
+    let minute = `${("0" + Math.floor((timerRef.current / 1000 / 60) % 60)).slice(-2)}`
+    let second = `${("0" + Math.floor((timerRef.current / 1000) % 60)) .slice(-2)}`
     let time = `${minute}:${second}`
 
     let form = {
@@ -68,7 +73,9 @@ const timerLayar = props => {
       waktu: time
     }
 
-    axios.put (BASE_URL + `/api/tgr/timer/selesai`, form)
+    console.log(time);
+
+    axios.put (BASE_URL + `/api/seni/jadwal/timer/selesai`, form)
     .then (res => {
       console.log(res.data.message);
       setRunning (false)
@@ -78,14 +85,31 @@ const timerLayar = props => {
       console.log('gagal');
     })
   }
+  useEffect(() => {
+    const jadwal = JSON.parse(localStorage.getItem ('jadwalSeni'))
+    const user = JSON.parse(localStorage.getItem('user'))
+    let data ={
+        user: user.username,
+        id_jadwal: jadwal.id
+    }
+    socket.emit('joinSeni', data)
+
+    return () => {
+        socket.off('joinSeni', data)
+        socket.close()
+    }
+}, [])
 
   // untuk merefresh saat data berubah
-  const ubah_data = () => socket.emit ('init_time_seni')
+  const ubah_data = () => socket.emit ('init_time_seni', (localStorage.getItem ('jadwalSeni')).id)
 
   useEffect(() => {
-      socket.emit('init_time_seni')
+      const jadwal = JSON.parse(localStorage.getItem ('jadwalSeni'))
+
+      socket.emit('init_time_seni', jadwal.id)
       socket.on ('get_time_seni', getData)
       socket.on ('change_time_seni', ubah_data)
+      socket.on( 'save_timer_seni', selesai)
   },[])
 
   useEffect(() => {

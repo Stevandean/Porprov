@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.jadwal_tgr,{
+      this.belongsTo(models.jadwal_seni,{
         foreignKey: "id_jadwal",
         as: "jadwal"
       })
@@ -29,7 +29,8 @@ module.exports = (sequelize, DataTypes) => {
     id: {
       allowNull: false,
       primaryKey: true,
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
     },
     id_jadwal: {
       allowNull: false,
@@ -45,23 +46,23 @@ module.exports = (sequelize, DataTypes) => {
     },
     nama_juri: DataTypes.STRING,
     technique: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.FLOAT,
       defaultValue: 0
     },
     firmness: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.FLOAT,
       defaultValue: 0
     },
     soulfulness: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.FLOAT,
       defaultValue: 0
     },
     total: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.FLOAT,
       defaultValue: 0
     },
     total_skor: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.FLOAT,
       defaultValue: 9.10
     },
     dis: {

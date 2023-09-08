@@ -17,8 +17,18 @@ const detail = () => {
   const [data, setData] = useState ([])
   const [jadwal, setJadwal] = useState ([])
 
+  
+  //config header
+  const headerConfig = () => {
+    let token = localStorage.getItem("token")
+    let header = {
+    headers : { Authorization : `Bearer ${token}` }
+    }
+    return header
+  }
+
   const getData = () => {
-    axios.get (BASE_URL+ "/api/tgr/gel/" + gelanggang)
+    axios.get (BASE_URL+ "/api/seni/jadwal/gel/" + gelanggang, headerConfig())
     .then ((res) => {
       setData (res.data.data)
     })

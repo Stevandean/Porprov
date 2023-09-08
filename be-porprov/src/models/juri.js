@@ -17,7 +17,16 @@ module.exports = (sequelize, DataTypes) => {
     id: {
       allowNull: false,
       primaryKey: true,
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+    },
+    role_id: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
+    event_id: {
+      allowNull: false,
+      type: DataTypes.UUID,
     },
     no: {
       allowNull: false,

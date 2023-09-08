@@ -6,9 +6,11 @@ const {
     editNama,
     deleteNama
 } = require("./nama_controller")
+const Auth = require('../../middleware/Auth')
+
 
 router.get("/", getAll)
-router.post("/", addNama)
+router.post("/", Auth, addNama)
 router.put("/:id", editNama)
 router.delete("/:id", deleteNama)
 

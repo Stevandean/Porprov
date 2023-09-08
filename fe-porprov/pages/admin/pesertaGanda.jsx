@@ -23,17 +23,25 @@ const pesertaGanda = () => {
   const [dataPesertaGanda, setDataPesertaGanda] = useState ([])
   const [action, setAction] = useState ('')
   const [id, setId] = useState ('')
-  const [kelas, setKelas] = useState ('')
+  const [golongan, setGolongan] = useState ('')
   const [jenisKelamin, setJenisKelamin] = useState ('')
   const [nama1, setNama1] = useState ('')
   const [nama2, setNama2] = useState ('')
   const [kontingen, setKontingen] = useState ('')
   const [aktif, setAktif] = useState ('')
 
+  const headerConfig = () => {
+    let token = localStorage.getItem("token")
+    let header = {
+      headers : { Authorization : `Bearer ${token}` }
+    }
+    return header
+  }
+
   const addModal = () => {
       setShowModalPeserta (true)
       setAction ('insert')
-      setKelas ('')
+      setGolongan ('')
       setJenisKelamin ('')
       setNama1 ('')
       setNama2 ('')
@@ -44,7 +52,7 @@ const pesertaGanda = () => {
       setShowModalPeserta (true)
       setAction ('update')
       setId (selectedItem.id)
-      setKelas (selectedItem.kelas)
+      setGolongan (selectedItem.golongan)
       setJenisKelamin (selectedItem.jk)
       setNama1 (selectedItem.nama1)
       setNama2 (selectedItem.nama2)
@@ -57,7 +65,7 @@ const pesertaGanda = () => {
   }
 
   const getPesertaGanda = () => {
-    axios.get (BASE_URL + `/api/peserta/seni/ganda`)
+    axios.get (BASE_URL + `/api/seni/peserta/ganda`, headerConfig())
     .then (res => {
         setDataPesertaGanda (res.data.data)
     })
@@ -126,7 +134,7 @@ const pesertaGanda = () => {
                   {dataPesertaGanda.map((item, index) => (
                     <tr className='even:bg-[#4C4F6D] odd:bg-[#2c2f48]'>
                       <td className='py-5'>{index + 1}</td>
-                      <td>{item.kelas}</td>
+                      <td>{item.golongan}</td>
                       <td>{item.jk}</td>
                       <td>{item.nama1} <br></br> {item.nama2} </td>
                       <td>{item.kontingen}</td>
@@ -152,7 +160,7 @@ const pesertaGanda = () => {
       {/* akhir konten utama */}
     </div>
 
-    <globalState.Provider value={{ showModalPeserta, setShowModalPeserta, action, setAction, id, setId, dataPesertaGanda, setDataPesertaGanda, kelas, setKelas, jenisKelamin, setJenisKelamin, nama1, setNama1, nama2, setNama2, kontingen, setKontingen, aktif, setAktif }}>
+    <globalState.Provider value={{ showModalPeserta, setShowModalPeserta, action, setAction, id, setId, dataPesertaGanda, setDataPesertaGanda, golongan, setGolongan, jenisKelamin, setJenisKelamin, nama1, setNama1, nama2, setNama2, kontingen, setKontingen, aktif, setAktif }}>
       <ModalPeserta />
     </globalState.Provider>
 

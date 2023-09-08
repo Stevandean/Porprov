@@ -11,29 +11,32 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.hasMany(models.jadwal_tgr,{
+      this.hasMany(models.jadwal_seni,{
         foreignKey: "id",
         as: "jadwal"
       })
+
     }
   }
   peserta_seni.init({
     id: {
       allowNull: false,
       primaryKey: true,
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+    },
+    event_id:{
+      type: DataTypes.UUID,
     },
     kategori: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    gelanggang: DataTypes.STRING,
-    pool: DataTypes.STRING,
     jk: {
       type: DataTypes.ENUM('PUTRA','PUTRI'),
       allowNull: false
     },
-    kelas: {
+    golongan: {
       type: DataTypes.STRING,
       allowNull: false
     },

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import Navbar from '../components/navbar'
+import Navbar from '../../component/navbar/navbar'
 import Footer from '../components/footer'
 import { useRouter } from 'next/router'
 import axios from 'axios'
@@ -15,8 +15,16 @@ const detail = () => {
     // ini state
     const [data, setData] = useState ([])
 
+    const headerConfig = () => {
+        let token = localStorage.getItem("token")
+        let header = {
+          headers : { Authorization : `Bearer ${token}` }
+        }
+        return header
+    }
+
     const getData = () => {
-        axios.get (BASE_URL + `/api/tanding/gel/` + gelanggang)
+        axios.get (BASE_URL + `/api/tanding/jadwal/gel/` + gelanggang, headerConfig())
         .then (res => {
             setData (res.data.data)
         })
@@ -32,7 +40,7 @@ const detail = () => {
     }
 
     const isLogged = () => {
-        if (localStorage.getItem ('token') === null || localStorage.getItem ('timerTanding') === null) {
+        if (localStorage.getItem ('token') === null || localStorage.getItem ('user') === null) {
             router.push ('/tanding/timer/login')
         }
     }
@@ -81,8 +89,8 @@ const detail = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {data.filter (a => a.selesai == false).map (item => (
-                                    <tr className='text-center text-[#222954]'>
+                                {data.filter (a => a.selesai == false).map ((item, index) => (
+                                    <tr key={index+1} className='text-center text-[#222954]'>
                                         <td className='border-2 border-[#222954] py-3'>{item.partai}</td>
                                         <td className='border-2 border-[#222954]'>{item.kelas} {item.jk}</td>
                                         <td className='border-2 border-[#222954]'>{item.golongan}</td>
