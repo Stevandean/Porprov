@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
 import swal from 'sweetalert';
-import ModalUser from '../component/modal/ModalUser';
 import { useRouter } from 'next/router'
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -23,8 +22,6 @@ const index = () => {
 
 
     const [event, setEvent] = useState([])
-    const [showModalUser, setShowModalUser] = useState(false)
-    const [namaEvent, setNamaEvent] = useState('')
 
     const getEvent = () => {
         axios.get(BASE_URL+'/api/event/active')
@@ -46,20 +43,18 @@ const index = () => {
             await axios.post(BASE_URL + "/api/event/login", form)
             .then(res => {
                 if (res.data.logged) {
-                    // swal({
-                    //     title: "Success!",
-                    //     text: "Login Success!",
-                    //     icon: "success",
-                    //     timer: '1000',
-                    //     buttons: false
-                    // }).then(() =>{
-                    //     let data = res.data.data
-                    //     localStorage.setItem("event", JSON.stringify(data))
+                    swal({
+                        title: "Success!",
+                        text: "Login Success!",
+                        icon: "success",
+                        timer: '1000',
+                        buttons: false
+                    }).then(() =>{
+                        let data = res.data.data
+                        localStorage.setItem("event", JSON.stringify(data))
         
-                    //     router.push('./event/user')//init router
-                    // })
-                    setShowModalUser(true)
-                    setNamaEvent(res.data.data.nama)
+                        router.push('./event/user')//init router
+                    })
                 } else {
                     swal({
                         title: "Failed!",
@@ -157,12 +152,6 @@ const index = () => {
                 </div>
 
             </div>
-
-            <ModalUser 
-                event={namaEvent}
-                showModal={showModalUser}
-                handleClose={() => setShowModalUser(false)}
-            />
 
         </div>
   )

@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
     },
+    id_peserta: DataTypes.UUID,
     hukuman: {
       type: DataTypes.FLOAT,
       defaultValue: 0

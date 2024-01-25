@@ -39,7 +39,7 @@ const navbar = () => {
           <div className="flex space-x-3">
             <img className='py-3'src={BASE_URL + "/api/event/image/" + event?.logo} alt="Logo" />
           </div>
-          <span className='text-xl font-semibold my-auto uppercase text-center'>{event?.nama}</span>
+          <span className='text-2xl font-semibold my-auto uppercase text-center'>{event?.nama}</span>
           <div className="flex space-x-3">
             <img className='py-3' src={BASE_URL + "/api/event/image/" + event?.icon1} alt="IPSI" />
             <img className='py-3' src={BASE_URL + "/api/event/image/" + event?.icon2} alt="IPSI2" />

@@ -8,7 +8,7 @@ import { FullScreen, useFullScreenHandle } from "react-full-screen";
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 // socket io
-const socket = socketIo (BASE_URL)   
+const socket = socketIo.connect(BASE_URL)   
 
 const nilaiSeniSoloKreatif = () => {
     
@@ -173,8 +173,8 @@ const nilaiSeniSoloKreatif = () => {
 
     useEffect (() => {
         setPeserta (JSON.parse (localStorage.getItem ('pesertaSeni')))   
-        // const socket = socketIo (BASE_URL)
-        // socket.connect();
+        const socket = socketIo (BASE_URL)
+        socket.connect();
         // socket.emit ('init_data')
         // socket.on ('getData', getNilai)
         // socket.on ('change_data', ubah_data)

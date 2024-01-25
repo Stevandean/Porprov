@@ -41,13 +41,13 @@ const detail = () => {
     }
 
     if (item.kategori.toLowerCase() == 'tunggal') {
-      router.push ('/seni/layar/timer')
+      router.push ('/seni/layar/detailSelesai')
     } else if (item.kategori.toLowerCase() == 'ganda') {
-      router.push ('/seni/layar/timer')
+      router.push ('/seni/layar/detailSelesai')
     } else if (item.kategori.toLowerCase() == 'regu') {
-        router.push ('/seni/layar/timer')
+        router.push ('/seni/layar/detailSelesai')
     } else if (item.kategori.toLowerCase() == 'solo_kreatif') {
-      router.push ('/seni/layar/timer')
+      router.push ('/seni/layar/detailSelesai')
     } else {
       console.log('gagal');
     }
@@ -64,13 +64,13 @@ const detail = () => {
     }
 
     if (item.kategori.toLowerCase() == 'tunggal') {
-      router.push ('/seni/layar/timer')
+      router.push ('/seni/layar/detailSelesai')
     } else if (item.kategori.toLowerCase() == 'ganda') {
-      router.push ('/seni/layar/timer')
+      router.push ('/seni/layar/detailSelesai')
     } else if (item.kategori.toLowerCase() == 'regu') {
-        router.push ('/seni/layar/timer')
+        router.push ('/seni/layar/detailSelesai')
     } else if (item.kategori.toLowerCase() == 'solo_kreatif') {
-      router.push ('/seni/layar/timer')
+      router.push ('/seni/layar/detailSelesai')
     } else {
       console.log('gagal');
     }

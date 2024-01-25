@@ -46,7 +46,7 @@ const layar = () => {
 
         setTimeout (() => {
             setVisiblePmj1 (false)
-        }, 3000)
+        }, 2000)
     }
     const onLightPmj2 = () => {
 
@@ -54,7 +54,7 @@ const layar = () => {
 
         setTimeout (() => {
             setVisiblePmj2 (false)
-        }, 3000)
+        }, 2000)
     }
     const onLightPmj3 = () => {
 
@@ -62,7 +62,7 @@ const layar = () => {
 
         setTimeout (() => {
             setVisiblePmj3 (false)
-        }, 3000)
+        }, 2000)
     }
 
     // pukulan biru
@@ -72,7 +72,7 @@ const layar = () => {
 
         setTimeout (() => {
             setVisiblePbj1 (false)
-        }, 3000)
+        }, 2000)
     }
     const onLightPbj2 = () => {
 
@@ -80,7 +80,7 @@ const layar = () => {
 
         setTimeout (() => {
             setVisiblePbj2 (false)
-        }, 3000)
+        }, 2000)
     }
     const onLightPbj3 = () => {
 
@@ -88,7 +88,7 @@ const layar = () => {
 
         setTimeout (() => {
             setVisiblePbj3 (false)
-        }, 3000)
+        }, 2000)
     }
 
     // pukulan merah
@@ -98,7 +98,7 @@ const layar = () => {
 
         setTimeout (() => {
             setVisibleTmj1 (false)
-        }, 3000)
+        }, 2000)
     }
     const onLightTmj2 = () => {
 
@@ -106,7 +106,7 @@ const layar = () => {
 
         setTimeout (() => {
             setVisibleTmj2 (false)
-        }, 3000)
+        }, 2000)
     }
     const onLightTmj3 = () => {
 
@@ -114,7 +114,7 @@ const layar = () => {
 
         setTimeout (() => {
             setVisibleTmj3 (false)
-        }, 3000)
+        }, 2000)
     }
 
     // pukulan biru
@@ -124,7 +124,7 @@ const layar = () => {
 
         setTimeout (() => {
             setVisibleTbj1 (false)
-        }, 3000)
+        }, 2000)
     }
     const onLightTbj2 = () => {
 
@@ -132,7 +132,7 @@ const layar = () => {
 
         setTimeout (() => {
             setVisibleTbj2 (false)
-        }, 3000)
+        }, 2000)
     }
     const onLightTbj3 = () => {
 
@@ -140,7 +140,7 @@ const layar = () => {
 
         setTimeout (() => {
             setVisibleTbj3 (false)
-        }, 3000)
+        }, 2000)
     }
 
     const getJadwalTanding = () => {
@@ -301,7 +301,7 @@ const layar = () => {
                                     <img className='w-10' src="/svg/back.svg" alt="" />
                                 </button>
                                 {/* pertandingan information */}
-                                <div className="col-span-11 flex flex-row justify-center items-center space-x-5 bg-[#222954] py-4 rounded-lg text-2xl font-bold">
+                                <div className="col-span-11 flex flex-row justify-center items-center space-x-5 bg-[#222954] py-4 rounded-lg text-4xl font-bold">
                                     <h1>PARTAI {jadwalTanding.partai}</h1>
                                     <h1>-</h1>
                                     <h1>{jadwalTanding.kelas} {jadwalTanding.jk} {jadwalTanding.golongan}</h1>
@@ -314,7 +314,7 @@ const layar = () => {
                             <div className="grid grid-cols-3 gap-x-3 mb-8">
                                 {/* pesilat biru information */}
                                 <div className="flex justify-start items-center bg-blue-600 rounded-lg py-2 px-5">
-                                    <h1 className='text-lg font-bold'>{jadwalTanding.biru?.nama}<br></br>{jadwalTanding.biru?.kontingen}</h1>
+                                    <h1 className='text-2xl font-bold'>{jadwalTanding.biru?.nama}<br></br>{jadwalTanding.biru?.kontingen}</h1>
                                 </div>
                                 {/* timer */}
                                 <div className="text-[#222954] border-4 border-[#222954] rounded-lg flex justify-center items-center py-3">
@@ -344,7 +344,7 @@ const layar = () => {
                                 </div>
                                 {/* pesilat merah information */}
                                 <div className="flex justify-end items-center bg-red-600 rounded-lg py-2 px-5 text-end">
-                                    <h1 className='text-lg font-bold'>{jadwalTanding.merah?.nama}<br></br>{jadwalTanding.merah?.kontingen}</h1>
+                                    <h1 className='text-2xl font-bold'>{jadwalTanding.merah?.nama}<br></br>{jadwalTanding.merah?.kontingen}</h1>
                                 </div>
                             </div>
 

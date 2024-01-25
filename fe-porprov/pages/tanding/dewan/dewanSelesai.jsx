@@ -893,7 +893,7 @@ const dewanSelesai = () => {
                         </div>
                         
                         {/* wrapper keputusan pemenang */}
-                        <div className={jadwalTanding.id_pemenang == jadwalTanding.id_peserta_biru ?  "bg-blue-600 text-2xl font-bold py-2 rounded-b-lg text-center mb-3" : "bg-red-600 text-2xl font-bold py-2 rounded-b-lg text-center mb-3"}>{jadwalTanding.keterangan}</div>
+                        <div className={jadwalTanding.id_pemenang == jadwalTanding.id_biru ?  "bg-blue-600 text-2xl font-bold py-2 rounded-b-lg text-center mb-3" : "bg-red-600 text-2xl font-bold py-2 rounded-b-lg text-center mb-3"}>{jadwalTanding.keterangan}</div>
 
                         {/* wrapper back*/}
                         <button onClick={() => router.back ()} className="bg-green-600 hover:bg-green-700 col-span-2 py-3 text-center rounded-lg text-xl font-bold w-full">Kembali</button>

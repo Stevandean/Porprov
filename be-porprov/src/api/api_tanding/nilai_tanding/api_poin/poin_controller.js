@@ -259,7 +259,7 @@ module.exports = {
                     } else {
                         console.log("poin tidak sah");
                     }
-                },3300)
+                },2300)
             }
             return addResponse( req, res, Input )
         } catch (error) {

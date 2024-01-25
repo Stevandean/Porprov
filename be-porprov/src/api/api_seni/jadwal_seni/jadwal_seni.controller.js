@@ -538,34 +538,34 @@ module.exports = {
                 console.log("merah " + devMerah);
 
                 if(skorMerah > skorBiru){
-                    console.log("menang merah");
+                    console.log("menang merah skor");
                     let selesai = {
-                        id_pemenang: merah.id_peserta,
+                        id_pemenang: peserta.id_peserta_merah,
                         selesai: 1,
                         aktif: 0
                     }
                     result = await Seni.update(selesai, {where: {id: req.params.id_jadwal}})
                 }else if(skorBiru > skorMerah){
-                    console.log("menang biru");
+                    console.log("menang biru skor");
                     let selesai = {
-                        id_pemenang: biru.id_peserta,
+                        id_pemenang: peserta.id_peserta_biru,
                         selesai: 1,
                         aktif: 0
                     }
                     result = await Seni.update(selesai, {where: {id: req.params.id_jadwal}})
                 }else if (skorBiru = skorMerah) {
                     if(devMerah < devBiru){
-                        console.log("menang merah");
+                        console.log("menang merah deviasi");
                         let selesai = {
-                            id_pemenang: merah.id_peserta,
+                            id_pemenang: peserta.id_peserta_merah,
                             selesai: 1,
                             aktif: 0
                         }
                         result = await Seni.update(selesai, {where: {id: req.params.id_jadwal}})
                     } else if (devBiru < devMerah){
-                        console.log("menang biru");
+                        console.log("menang biru deviasi");
                         let selesai = {
-                            id_pemenang: biru.id_peserta,
+                            id_pemenang: peserta.id_peserta_biru,
                             selesai: 1,
                             aktif: 0
                         }

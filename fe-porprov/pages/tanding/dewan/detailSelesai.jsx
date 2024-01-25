@@ -104,7 +104,7 @@ const detailSelesai = () => {
                                         <span className='text-blue-600 text-lg font-medium'>{item.biru?.kontingen}</span>
                                     </div>
                                     {/* skor and winner */}
-                                    <div className={item.id_pemenang == item.id_biru ?  "bg-blue-600 flex flex-col justify-center items-center rounded-xl py-2" : "bg-red-600 flex flex-col justify-center items-center rounded-xl py-2"}>
+                                    <div className={item.id_pemenang == item.id_peserta_biru ?  "bg-blue-600 flex flex-col justify-center items-center rounded-xl py-2" : "bg-red-600 flex flex-col justify-center items-center rounded-xl py-2"}>
                                         <span className='text-4xl font-bold'>({item.total_biru}) - ({item.total_merah})</span>
                                         <span className='text-xl font-medium tracking-wide'>Dengan Kemenangan {item.keterangan}</span>
                                     </div>

@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react'
 import axios from 'axios'
 import { globalState } from '../../../context/context';
-import swal from 'sweetalert';
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const ModalGelanggang = () => {
@@ -28,35 +27,16 @@ const ModalGelanggang = () => {
             status: status
         }
 
-        if (action == 'insert') {
-            axios.post(BASE_URL + '/api/gelanggang', form, headerConfig())
-            .then (res => {
-                setShowModalGelanggang (false)
-                getGelanggang ()
-            })
-            .catch (err => {
-                console.log(err.message);
-                console.log(err.response.data.message);
-                swal({
-                    title: "Failed!",
-                    text: "Invalid Token!",
-                    icon: "error",
-                    timer: '1300',
-                    buttons: false
-                })
-            })
-        } else if (action == 'update') {
-            axios.put (BASE_URL + `/api/gelanggang/${id}`, form, headerConfig())
-            .then (res => {
-                setShowModalGelanggang (false)
-                getGelanggang ()
-            })
-            .catch (err => {
-                console.log(err.message);
-                console.log(err.response.data.message);
-            })
-            
-        }
+
+        axios.put (BASE_URL + `/api/gelanggang/${id}`, form, headerConfig())
+        .then (res => {
+            setShowModalGelanggang (false)
+            getGelanggang ()
+        })
+        .catch (err => {
+            console.log(err.message);
+            console.log(err);
+        })
     }
 
     const getGelanggang = () => {
@@ -106,22 +86,6 @@ const ModalGelanggang = () => {
                             <div className="relative p-6 flex flex-col space-y-5 text-white text-lg">
 
                                 {/* Input */}
-                                <div className="flex flex-row space-x-3 w-full">
-                                    <div className="w-2/6 flex justify-between">
-                                        <span>Nama</span>
-                                        <span>:</span>
-                                    </div>
-                                    <div className="w-4/6">
-                                        <input className='w-full bg-[#212437] rounded-md focus:outline-none border-2 border-slate-200'
-                                        type="text"
-                                        value={nomor}
-                                        onChange={(e) => setNomor(e.target.value)}
-                                        required
-                                        >        
-                                        </input>
-                                    </div>
-                                </div>
-
                                 <div className="flex flex-row space-x-3 w-full">
                                     <div className="w-2/6 flex justify-between">
                                         <span>Status</span>
