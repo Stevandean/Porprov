@@ -1,12 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import axios from 'axios'
-import Navbar from '../component/navbar/navbar'
+import Navbar from '../seni/components/navbar'
 import Footer from './components/footer'
 import {useReactToPrint} from 'react-to-print'
-import ResultTanding from './components/ResultTanding'
-import ReactPDF, { PDFDownloadLink } from '@react-pdf/renderer';
-
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const detailNilaiTanding = () => {
@@ -27,25 +24,6 @@ const detailNilaiTanding = () => {
     const [jadwalBiru, setJadwalBiru] = useState ([])
     const [jadwalMerah, setJadwalMerah] = useState ([])
 
-    const [juri1Biru1, setJuri1Biru1] = useState([])
-    const [juri2Biru1, setJuri2Biru1] = useState([])
-    const [juri3Biru1, setJuri3Biru1] = useState([])
-    const [juri1Merah1, setJuri1Merah1] = useState([])
-    const [juri2Merah1, setJuri2Merah1] = useState([])
-    const [juri3Merah1, setJuri3Merah1] = useState([])
-    const [juri1Biru2, setJuri1Biru2] = useState([])
-    const [juri2Biru2, setJuri2Biru2] = useState([])
-    const [juri3Biru2, setJuri3Biru2] = useState([])
-    const [juri1Merah2, setJuri1Merah2] = useState([])
-    const [juri2Merah2, setJuri2Merah2] = useState([])
-    const [juri3Merah2, setJuri3Merah2] = useState([])
-    const [juri1Biru3, setJuri1Biru3] = useState([])
-    const [juri2Biru3, setJuri2Biru3] = useState([])
-    const [juri3Biru3, setJuri3Biru3] = useState([])
-    const [juri1Merah3, setJuri1Merah3] = useState([])
-    const [juri2Merah3, setJuri2Merah3] = useState([])
-    const [juri3Merah3, setJuri3Merah3] = useState([])
-
     const [peringatan1merah, setPeringatan1merah] = useState([])
     const [peringatan2merah, setPeringatan2merah] = useState([])
     const [peringatan3merah, setPeringatan3merah] = useState([])
@@ -53,149 +31,6 @@ const detailNilaiTanding = () => {
     const [peringatan1biru, setPeringatan1biru] = useState([])
     const [peringatan2biru, setPeringatan2biru] = useState([])
     const [peringatan3biru, setPeringatan3biru] = useState([])
-
-    // const getPeringatan  = async () =>{
-    //     const jadwal = localStorage.getItem ('jadwal')
-    //     let id_jadwal = jadwal
-        
-    //     let babak = []
-    //     await axios.get(BASE_URL + `/api/nilai/tanding/babakbyjadwal/${id_jadwal}`)
-    //     .then (res => {
-    //         babak = res.data.data
-    //     })
-    //     .catch (err => {
-    //         console.log(err.message);
-    //     })
-
-    //     if (babak.length === 1) {
-    //         //get juri 1 merah
-    //         await axios.get (BASE_URL +`/api/tanding/peringatan/merah/${id_jadwal}/i`)
-    //         .then (res => {
-    //             setPeringatan1merah (res.data.data)
-    //         })
-    //         .catch (err => {
-    //             console.log(err.message);
-    //         })
-
-    //         //get juri 1 merah
-    //         await axios.get (BASE_URL +`/api/tanding/peringatan/biru/${id_jadwal}/i`)
-    //         .then (res => {
-    //             setPeringatan1biru (res.data.data)
-    //         })
-    //         .catch (err => {
-    //             console.log(err.message);
-    //         })
-    //     } else if(babak.length === 2){
-    //         //get juri 1 merah
-    //         await axios.get (BASE_URL +`/api/tanding/peringatan/merah/${id_jadwal}/i`)
-    //         .then (res => {
-    //             setPeringatan1merah (res.data.data)
-    //         })
-    //         .catch (err => {
-    //             console.log(err.message);
-    //         })
-    //         //get juri 2 merah
-    //         await axios.get (BASE_URL +`/api/tanding/peringatan/merah/${id_jadwal}/ii`)
-    //         .then (res => {
-    //             setPeringatan2merah (res.data.data)
-    //         })
-    //         .catch (err => {
-    //             console.log(err.message);
-    //         })
-
-    //         //get juri 1 biru
-    //         await axios.get (BASE_URL +`/api/tanding/peringatan/biru/${id_jadwal}/i`)
-    //         .then (res => {
-    //             setPeringatan1biru (res.data.data)
-    //         })
-    //         .catch (err => {
-    //             console.log(err.message);
-    //         })
-    //         //get juri 2 biru
-    //         await axios.get (BASE_URL +`/api/tanding/peringatan/biru/${id_jadwal}/ii`)
-    //         .then (res => {
-    //             setPeringatan2biru (res.data.data)
-    //         })
-    //         .catch (err => {
-    //             console.log(err.message);
-    //         })
-    //     } else if (babak.length === 3){
-    //         //get juri 1 merah
-    //         await axios.get (BASE_URL +`/api/tanding/peringatan/merah/${id_jadwal}/i`)
-    //         .then (res => {
-    //             setPeringatan1merah (res.data.data)
-    //         })
-    //         .catch (err => {
-    //             console.log(err.message);
-    //         })
-    //         //get juri 1 merah
-    //         await axios.get (BASE_URL +`/api/tanding/peringatan/merah/${id_jadwal}/ii`)
-    //         .then (res => {
-    //             setPeringatan2merah (res.data.data)
-    //         })
-    //         .catch (err => {
-    //             console.log(err.message);
-    //         })
-    //         await axios.get (BASE_URL +`/api/tanding/peringatan/merah/${id_jadwal}/iii`)
-    //         .then (res => {
-    //             setPeringatan3merah (res.data.data)
-    //         })
-    //         .catch (err => {
-    //             console.log(err.message);
-    //         })
-
-    //         //get juri 1 biry
-    //         await axios.get (BASE_URL +`/api/tanding/peringatan/biru/${id_jadwal}/i`)
-    //         .then (res => {
-    //             setPeringatan1biru (res.data.data)
-    //         })
-    //         .catch (err => {
-    //             console.log(err.message);
-    //         })
-    //         //get juri 2 biru
-    //         await axios.get (BASE_URL +`/api/tanding/peringatan/biru/${id_jadwal}/ii`)
-    //         .then (res => {
-    //             setPeringatan2biru (res.data.data)
-    //         })
-    //         .catch (err => {
-    //             console.log(err.message);
-    //         })
-    //         //get juri 3 biru
-    //         await axios.get (BASE_URL +`/api/tanding/peringatan/biru/${id_jadwal}/iii`)
-    //         .then (res => {
-    //             setPeringatan3biru (res.data.data)
-    //             console.log(res.data.data);
-    //         })
-    //         .catch (err => {
-    //             console.log(err.message);
-    //         })
-    //     }
-    // }
-
-    const getNilai = () => {
-        axios.get (BASE_URL + `/api/nilai/tanding/jadwal/` + id)
-        .then (res => {
-            setData (res.data.data)
-            console.log(res.data.data);
-        })
-        .catch (err => {
-            console.log(err.response.data.message);
-        })
-    }
-    
-    const getJadwal = () => {
-        axios.get (BASE_URL + `/api/tanding/jadwal/` + id)
-        .then (res => {
-            console.log(res.data.data);
-
-            setJadwal (res.data.data)
-            setJadwalBiru (res.data.data.biru)
-            setJadwalMerah (res.data.data.merah)
-        })
-        .catch (err => {
-            console.log(err.response.data.message);
-        })
-    }
 
     const getPeringatan  = async () =>{
         const jadwal = localStorage.getItem ('jadwal')
@@ -315,195 +150,28 @@ const detailNilaiTanding = () => {
         }
     }
 
-    const getJuriBiru1 = () =>{
-        const jadwal = localStorage.getItem ('jadwal')
-        let id_jadwal = jadwal
-
-        //get juri 1 biru
-        axios.get (BASE_URL +`/api/nilai/tanding/log/1/biru/${id_jadwal}/i`)
+    const getNilai = () => {
+        axios.get (BASE_URL + `/api/nilai/tanding/jadwal/` + id)
         .then (res => {
-            setJuri1Biru1 (res.data.data)
-        })
-        .catch (err => {
-            console.log(err.message);
-        })
-
-        //get juri 2 biru
-        axios.get (BASE_URL +`/api/nilai/tanding/log/2/biru/${id_jadwal}/i`)
-        .then (res => {
-            setJuri2Biru1 (res.data.data)
+            setData (res.data.data)
+            console.log(res.data.data);
         })
         .catch (err => {
             console.log(err.response.data.message);
-        })
-
-        //get juri 3 biru
-        axios.get (BASE_URL +`/api/nilai/tanding/log/3/biru/${id_jadwal}/i`)
-        .then (res => {
-            setJuri3Biru1 (res.data.data)
-        })
-        .catch (err => {
-            console.log(err.message);
         })
     }
-
-    const getJuriMerah1 = () =>{
-        const jadwal = localStorage.getItem ('jadwal')
-        let id_jadwal = jadwal
-
-        //get juri 1 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log/1/merah/${id_jadwal}/i`)
+    
+    const getJadwal = () => {
+        axios.get (BASE_URL + `/api/tanding/jadwal/` + id)
         .then (res => {
-            setJuri1Merah1 (res.data.data)
-        })
-        .catch (err => {
-            console.log(err.message);
-        })
+            console.log(res.data.data);
 
-        //get juri 2 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log/2/merah/${id_jadwal}/i`)
-        .then (res => {
-            setJuri2Merah1 (res.data.data)
+            setJadwal (res.data.data)
+            setJadwalBiru (res.data.data.biru)
+            setJadwalMerah (res.data.data.merah)
         })
         .catch (err => {
             console.log(err.response.data.message);
-        })
-
-        //get juri 3 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log/3/merah/${id_jadwal}/i`)
-        .then (res => {
-            setJuri3Merah1 (res.data.data)
-        })
-        .catch (err => {
-            console.log(err.message);
-        })
-    }
-
-    const getJuriBiru2 = () =>{
-        const jadwal = localStorage.getItem ('jadwal')
-        let id_jadwal = jadwal
-
-        //get juri 1 biru
-        axios.get (BASE_URL +`/api/nilai/tanding/log/1/biru/${id_jadwal}/ii`)
-        .then (res => {
-            setJuri1Biru2 (res.data.data)
-        })
-        .catch (err => {
-            console.log(err.message);
-        })
-
-        //get juri 2 biru
-        axios.get (BASE_URL +`/api/nilai/tanding/log/2/biru/${id_jadwal}/ii`)
-        .then (res => {
-            setJuri2Biru2 (res.data.data)
-        })
-        .catch (err => {
-            console.log(err.response.data.message);
-        })
-
-        //get juri 3 biru
-        axios.get (BASE_URL +`/api/nilai/tanding/log//3/biru/${id_jadwal}/ii`)
-        .then (res => {
-            setJuri3Biru2 (res.data.data)
-        })
-        .catch (err => {
-            console.log(err.message);
-        })
-    }
-
-    const getJuriMerah2 = () =>{
-        const jadwal = localStorage.getItem ('jadwal')
-        let id_jadwal = jadwal
-
-        //get juri 1 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log/1/merah/${id_jadwal}/ii`)
-        .then (res => {
-            setJuri1Merah2 (res.data.data)
-        })
-        .catch (err => {
-            console.log(err.message);
-        })
-
-        //get juri 2 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log/2/merah/${id_jadwal}/ii`)
-        .then (res => {
-            setJuri2Merah2 (res.data.data)
-        })
-        .catch (err => {
-            console.log(err.response.data.message);
-        })
-
-        //get juri 3 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log/3/merah/${id_jadwal}/ii`)
-        .then (res => {
-            setJuri3Merah2 (res.data.data)
-        })
-        .catch (err => {
-            console.log(err.message);
-        })
-    }
-
-    const getJuriBiru3 = () =>{
-        const jadwal = localStorage.getItem ('jadwal')
-        let id_jadwal = jadwal
-
-        //get juri 1 biru
-        axios.get (BASE_URL +`/api/nilai/tanding/log/1/biru/${id_jadwal}/iii`)
-        .then (res => {
-            setJuri1Biru3 (res.data.data)
-        })
-        .catch (err => {
-            console.log(err.message);
-        })
-
-        //get juri 2 biru
-        axios.get (BASE_URL +`/api/nilai/tanding/log/2/biru/${id_jadwal}/iii`)
-        .then (res => {
-            setJuri2Biru3 (res.data.data)
-        })
-        .catch (err => {
-            console.log(err.response.data.message);
-        })
-
-        //get juri 3 biru
-        axios.get (BASE_URL +`/api/nilai/tanding/log/3/biru/${id_jadwal}/iii`)
-        .then (res => {
-            setJuri3Biru3 (res.data.data)
-        })
-        .catch (err => {
-            console.log(err.message);
-        })
-    }
-
-    const getJuriMerah3 = () =>{
-        const jadwal = localStorage.getItem ('jadwal')
-        let id_jadwal = jadwal
-
-        //get juri 1 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log/1/merah/${id_jadwal}/iii`)
-        .then (res => {
-            setJuri1Merah3 (res.data.data)
-        })
-        .catch (err => {
-            console.log(err.message);
-        })
-
-        //get juri 2 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log/2/merah/${id_jadwal}/iii`)
-        .then (res => {
-            setJuri2Merah3 (res.data.data)
-        })
-        .catch (err => {
-            console.log(err.response.data.message);
-        })
-
-        //get juri 3 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log/3/merah/${id_jadwal}/iii`)
-        .then (res => {
-            setJuri3Merah3 (res.data.data)
-        })
-        .catch (err => {
-            console.log(err.message);
         })
     }
 
@@ -606,27 +274,9 @@ const detailNilaiTanding = () => {
                                                 <div className="grid grid-cols-6 gap-x-2">
                                                     {/* nilai */}
                                                     <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-4 text-blue-600 text-end">
-                                                    {(() =>{
-                                                        if(item.babak === 'I'){
-                                                            return(
-                                                                juri1Biru1.map ((item, index) => (
-                                                                    <span key={index + 1}>{item.poin}, </span>
-                                                                ))
-                                                            )
-                                                        }else if(item.babak === 'II'){
-                                                            return(
-                                                                juri1Biru2.map ((item, index) => (
-                                                                    <span key={index + 1}>{item.poin}, </span>
-                                                                ))
-                                                            )
-                                                        }else if(item.babak === 'III'){
-                                                            return(
-                                                                juri1Biru3.map ((item, index) => (
-                                                                    <span key={index + 1}>{item.poin}, </span>
-                                                                ))
-                                                            )
-                                                        }
-                                                    })()}
+                                                        {item.nilai_biru.log_juri1.map ((item, index) => (
+                                                            <span key={index + 1}>{item.poin},</span>
+                                                        ))}
                                                     
                                                     </div>
                                                     {/* urutan juri */}
@@ -647,27 +297,9 @@ const detailNilaiTanding = () => {
                                                     <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-2 text-center">Juri 1</div>
                                                     {/* nilai */}
                                                     <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-4 text-red-600">
-                                                    {(()=>{
-                                                        if(item.babak === "I"){
-                                                            return(
-                                                                juri1Merah1.map ((item, index) => (
-                                                                    <span key={index + 1}>{item.poin}, </span>
-                                                                ))
-                                                            )
-                                                        }else if(item.babak === 'II'){
-                                                            return(
-                                                                juri1Merah2.map ((item, index) => (
-                                                                    <span key={index + 1}>{item.poin}, </span>
-                                                                ))
-                                                            )
-                                                        }else if(item.babak === 'III'){
-                                                            return(
-                                                                juri1Merah3.map ((item, index) => (
-                                                                    <span key={index + 1}>{item.poin}, </span>
-                                                                ))
-                                                            )
-                                                        }
-                                                    })()}
+                                                        {item.nilai_merah.log_juri1.map ((item, index) => (
+                                                            <span key={index + 1}>{item.poin},</span>
+                                                        ))}
                                                     </div>
                                                 </div>
                                             </td>
@@ -684,27 +316,9 @@ const detailNilaiTanding = () => {
                                                 <div className="grid grid-cols-6 gap-x-2">
                                                     {/* nilai */}
                                                     <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-4 text-blue-600 text-end">
-                                                    {(() =>{
-                                                        if(item.babak === 'I'){
-                                                            return(
-                                                                juri2Biru1.map ((item, index) => (
-                                                                    <span key={index + 1}>{item.poin}, </span>
-                                                                ))
-                                                            )
-                                                        }else if(item.babak === 'II'){
-                                                            return(
-                                                                juri2Biru2.map ((item, index) => (
-                                                                    <span key={index + 1}>{item.poin}, </span>
-                                                                ))
-                                                            )
-                                                        }else if(item.babak === 'III'){
-                                                            return(
-                                                                juri2Biru3.map ((item, index) => (
-                                                                    <span key={index + 1}>{item.poin}, </span>
-                                                                ))
-                                                            )
-                                                        }
-                                                    })()}
+                                                        {item.nilai_biru.log_juri2.map ((item, index) => (
+                                                            <span key={index + 1}>{item.poin},</span>
+                                                        ))}
                                                     </div>
                                                     {/* urutan juri */}
                                                     <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-2 text-center">Juri 2</div>
@@ -718,27 +332,9 @@ const detailNilaiTanding = () => {
                                                     <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-2 text-center">Juri 2</div>
                                                     {/* nilai */}
                                                     <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-4 text-red-600">
-                                                    {(()=>{
-                                                        if(item.babak === "I"){
-                                                            return(
-                                                                juri2Merah1.map ((item, index) => (
-                                                                    <span key={index + 1}>{item.poin}, </span>
-                                                                ))
-                                                            )
-                                                        }else if(item.babak === 'II'){
-                                                            return(
-                                                                juri2Merah2.map ((item, index) => (
-                                                                    <span key={index + 1}>{item.poin}, </span>
-                                                                ))
-                                                            )
-                                                        }else if(item.babak === 'III'){
-                                                            return(
-                                                                juri2Merah3.map ((item, index) => (
-                                                                    <span key={index + 1}>{item.poin}, </span>
-                                                                ))
-                                                            )
-                                                        }
-                                                    })()}
+                                                        {item.nilai_merah.log_juri2.map ((item, index) => (
+                                                            <span key={index + 1}>{item.poin}, </span>
+                                                        ))}
                                                     </div>
                                                 </div>
                                             </td>
@@ -751,28 +347,10 @@ const detailNilaiTanding = () => {
                                                 {/* detail nilai */}
                                                 <div className="grid grid-cols-6 gap-x-2">
                                                     {/* nilai */}
-                                                    <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-4 text-blue-600">
-                                                        {(() =>{
-                                                        if(item.babak === 'I'){
-                                                            return(
-                                                                juri3Biru1.map ((item, index) => (
-                                                                    <span key={index + 1}>{item.poin}, </span>
-                                                                ))
-                                                            )
-                                                        }else if(item.babak === 'II'){
-                                                            return(
-                                                                juri3Biru2.map ((item, index) => (
-                                                                    <span key={index + 1}>{item.poin}, </span>
-                                                                ))
-                                                            )
-                                                        }else if(item.babak === 'III'){
-                                                            return(
-                                                                juri3Biru3.map ((item, index) => (
-                                                                    <span key={index + 1}>{item.poin}, </span>
-                                                                ))
-                                                            )
-                                                        }
-                                                    })()}
+                                                    <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-4 text-blue-600 text-end">
+                                                        {item.nilai_biru.log_juri3.map((item, index) => (
+                                                            <span key={index + 1}>{item.poin},</span>
+                                                        ))}
                                                     </div>
                                                     {/* urutan juri */}
                                                     <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-2 text-center">Juri 3</div>
@@ -786,27 +364,9 @@ const detailNilaiTanding = () => {
                                                     <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-2 text-center">Juri 3</div>
                                                     {/* nilai */}
                                                     <div className="border-2 border-[#222954] rounded-lg px-4 py-1 col-span-4 text-red-600">
-                                                    {(()=>{
-                                                        if(item.babak === "I"){
-                                                            return(
-                                                                juri3Merah1.map ((item, index) => (
-                                                                    <span key={index + 1}>{item.poin}, </span>
-                                                                ))
-                                                            )
-                                                        }else if(item.babak === 'II'){
-                                                            return(
-                                                                juri3Merah2.map ((item, index) => (
-                                                                    <span key={index + 1}>{item.poin}, </span>
-                                                                ))
-                                                            )
-                                                        }else if(item.babak === 'III'){
-                                                            return(
-                                                                juri3Merah3.map ((item, index) => (
-                                                                    <span key={index + 1}>{item.poin}, </span>
-                                                                ))
-                                                            )
-                                                        }
-                                                    })()}
+                                                        {item.nilai_merah.log_juri3.map ((item, index) => (
+                                                            <span key={index + 1}>{item.poin},</span>
+                                                        ))}
                                                     </div>
                                                 </div>
                                             </td>

@@ -1,6 +1,5 @@
 const models = require("../../../models/index.js")
 const Tanding = models.jadwal_tanding
-const Detail = models.detail_jadwal_tanding
 const Timer = models.timer_tanding
 const logPause = models.log_pause_tanding
 const fs = require("fs");
@@ -171,13 +170,6 @@ module.exports = {
     deleteTandingbyId: async (req,res)=>{
         try{
             let param = {id: req.params.id}
-            await Detail.destroy({where: {id_jadwal: req.params.id}})
-            const id_timer_tanding = await Timer.findAll({where: {id_jadwal: req.params.id}})
-            
-            for (let i = 0; i < id_timer_tanding.length ; i++) {
-                await logPause.destroy({where: {id_timer_tanding: id_timer_tanding[i].id}})
-            }
-            await Timer.destroy({where: {id_jadwal: req.params.id}})                
             const result = await Tanding.destroy({where: param})
             return deleteResponse( req,res, result)
         } catch (error){

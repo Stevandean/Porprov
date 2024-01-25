@@ -9,8 +9,9 @@ import socketIo from 'socket.io-client'
 import { useRouter } from 'next/router'
 import TimerLayar from '../components/timerLayar'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+import { socket } from '../../../utils/socket'
 
-const socket = socketIo.connect(BASE_URL)
+// const socket = socketIo.connect(BASE_URL)
 
 const dewanSeni = () => {
     
@@ -316,6 +317,7 @@ const dewanSeni = () => {
                 console.log(err.message);
             })
         }
+        socket.emit ('juriToDewanLayar', id_jadwal)
     }
 
     // kurang nilai hukum
@@ -421,7 +423,34 @@ const dewanSeni = () => {
                 console.log(err.message);
             })
         }
+        socket.emit ('juriToDewanLayar', id_jadwal)
     }
+
+    //socket    
+    const [isConnected, setIsConnected] = useState(socket.connected);
+    useEffect(() => {
+        function onConnect() {
+            setIsConnected(true);
+            // console.log("connected");
+            // console.log(isConnected);   
+        }
+        // if (socket.connected === false) {
+        //     socket.connect({'forceNew': true});
+        //     console.log(isConnected);   
+        // }
+    
+        function onDisconnect() {
+            setIsConnected(false);
+        }
+
+        socket.on('connect', onConnect);
+        socket.on('disconnect', onDisconnect);
+        
+        return () => {
+            socket.off('connect', onConnect);
+            socket.off('disconnect', onDisconnect);
+        };
+    }, []);
 
     useEffect(() => {
         const jadwal = JSON.parse(localStorage.getItem ('jadwalSeni'))
@@ -434,7 +463,7 @@ const dewanSeni = () => {
     
         return () => {
             socket.off('joinSeni', data)
-            socket.close()
+            // socket.close()
         }
     }, [])
 
@@ -451,7 +480,7 @@ const dewanSeni = () => {
         // isLogged ()
         getNilai()
         // sortNilai()
-    }, [])
+    }, [isConnected === true])
 
     return (
         <>

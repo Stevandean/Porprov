@@ -6,9 +6,11 @@ import { useRouter } from 'next/router'
 import axios from 'axios'
 import { globalState } from '../../../context/context';
 import ModalDewan from '../components/modalDewan'
-import socketIo from 'socket.io-client'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-const socket = socketIo (BASE_URL)
+import { socket } from '../../../utils/socket'
+
+import socketIo from 'socket.io-client'
+// const socket = socketIo (BASE_URL)
 
 const dewan = () => {
 
@@ -57,6 +59,32 @@ const dewan = () => {
         }
         return header
     }
+
+    //socket    
+    const [isConnected, setIsConnected] = useState(socket.connected);
+    useEffect(() => {
+        function onConnect() {
+            setIsConnected(true);
+            // console.log("connected");
+            // console.log(isConnected);   
+        }
+        // if (socket.connected === false) {
+        //     socket.connect({'forceNew': true});
+        //     console.log(isConnected);   
+        // }
+  
+        function onDisconnect() {
+            setIsConnected(false);
+        }
+
+        socket.on('connect', onConnect);
+        socket.on('disconnect', onDisconnect);
+        
+        return () => {
+            socket.off('connect', onConnect);
+            socket.off('disconnect', onDisconnect);
+        };
+    }, []);
 
     const getNilai = async () => {
         const jadwal = localStorage.getItem ('jadwal')
@@ -277,7 +305,7 @@ const dewan = () => {
         })
 
         //get juri 3 biru
-        axios.get (BASE_URL +`/api/nilai/tanding/log//3/biru/${id_jadwal}/ii`)
+        axios.get (BASE_URL +`/api/nilai/tanding/log/3/biru/${id_jadwal}/ii`)
         .then (res => {
             setJuri3Biru2 (res.data.data)
         })
@@ -286,12 +314,12 @@ const dewan = () => {
         })
     }
 
-    const getJuriMerah2 = () =>{
+    const getJuriMerah2 = async () =>{
         const jadwal = localStorage.getItem ('jadwal')
         let id_jadwal = jadwal
 
         //get juri 1 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log/1/merah/${id_jadwal}/ii`)
+        await axios.get (BASE_URL +`/api/nilai/tanding/log/1/merah/${id_jadwal}/ii`)
         .then (res => {
             setJuri1Merah2 (res.data.data)
         })
@@ -300,7 +328,7 @@ const dewan = () => {
         })
 
         //get juri 2 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log/2/merah/${id_jadwal}/ii`)
+        await axios.get (BASE_URL +`/api/nilai/tanding/log/2/merah/${id_jadwal}/ii`)
         .then (res => {
             setJuri2Merah2 (res.data.data)
         })
@@ -309,7 +337,7 @@ const dewan = () => {
         })
 
         //get juri 3 merah
-        axios.get (BASE_URL +`/api/nilai/tanding/log/3/merah/${id_jadwal}/ii`)
+        await axios.get (BASE_URL +`/api/nilai/tanding/log/3/merah/${id_jadwal}/ii`)
         .then (res => {
             setJuri3Merah2 (res.data.data)
         })
@@ -967,7 +995,7 @@ const dewan = () => {
                 babak : 'III',
                 id_jadwal : jadwal
             }
-            axios.delete (BASE_URL + `/api/nilai/tanding/binaan`, {data : form})
+            axios.delete (BASE_URL + `/api/nilai/tanding/biru/binaan`, {data : form})
             .then (res => {
                 socket.emit('dewanToLayar', jadwal)
                 getNilai ()
@@ -981,7 +1009,7 @@ const dewan = () => {
                 babak : 'III',
                 id_jadwal : jadwal
             }
-            axios.delete (BASE_URL + `/api/nilai/tanding/binaan`, {data : form})
+            axios.delete (BASE_URL + `/api/nilai/tanding/merah/binaan`, {data : form})
             .then (res => {
                 socket.emit('dewanToLayar', jadwal)
                 getNilai ()
@@ -1397,7 +1425,7 @@ const dewan = () => {
         socket.emit('join', jadwal)
     
         return () => {
-            socket.close()
+            socket.off('join')
         }
     }, [])
     
@@ -1417,10 +1445,11 @@ const dewan = () => {
             })
 
             socket.emit('init_juri_tanding', jadwal)
+            console.log(babak.length);
             if (babak.length >= 1) {
-                if (babak.length = 1) {
-                    socket.on("getJuri", getJuriBiru1)
-                    socket.on("getJuri", getJuriMerah1)
+                if (babak.length == 1) {
+                    socket.on("refreshDewan", getJuriBiru1)
+                    socket.on("refreshDewan", getJuriMerah1)
                 }
 
                 getJuriBiru1()
@@ -1428,24 +1457,25 @@ const dewan = () => {
             } 
 
             if (babak.length >= 2){
-                if (babak.length = 2) {
-                    socket.on("getJuri", getJuriBiru2)
-                    socket.on("getJuri", getJuriMerah2)
+                if (babak.length == 2) {
+                    socket.on("refreshDewan", getJuriBiru2)
+                    socket.on("refreshDewan", getJuriMerah2)
                 }
                 getJuriBiru2()
                 getJuriMerah2()
             }
 
             if (babak.length >= 3){
-                if (babak.length = 3) {
-                    socket.on("getJuri", getJuriBiru3)
-                    socket.on("getJuri", getJuriMerah3)
+                if (babak.length == 3) {
+                    socket.on("refreshDewan", getJuriBiru3)
+                    socket.on("refreshDewan", getJuriMerah3)
                 }
                 getJuriBiru3()
                 getJuriMerah3()
 
             }
 
+            socket.emit('init_juri_tanding', localStorage.getItem('jadwal'))
             socket.on("getJuri", getNilai)
             socket.on("getJuri", getJadwal)
             socket.on("naikBabak", getNilai)
@@ -1454,13 +1484,14 @@ const dewan = () => {
             // isLogged ()
         })();
 
-
-        // socket.on ('getNilaiTanding', disWinner)
         return () => {
-            socket.close()
-            console.log('closed');
+            socket.off("getJuri", getNilai)
+            socket.off("getJuri", getJadwal)
+            socket.off("naikBabak", getNilai)
+            socket.off('change_nilai_juri', ubah_data)
+            // console.log('closed');
         }
-    }, [])
+    }, [isConnected === true])
 
     return (
         <>
@@ -1992,7 +2023,6 @@ const dewan = () => {
                                         </div>
                                         
                                         {/* wrapper button kartu kuning */}
-                                        
                                         <div className="grid grid-cols-7">
                                             {/* wrapper button delete nilai biru */}
                                             <div className="col-span-3">
@@ -2040,7 +2070,7 @@ const dewan = () => {
                                         </div>
                                         
                                         {/* wrapper button hapus nilai */}
-                                        <div className="grid grid-cols-7">
+                                        <div className="grid grid-cols-7 mb-3">
                                             {/* wrapper button hapus nilai biru */}
                                             <div className="col-span-3 text-[#222954]">
                                                 <div className="grid grid-cols-4 gap-x-3">
@@ -2063,7 +2093,6 @@ const dewan = () => {
                                         </div>
 
                                         {/* wrapper button kartu kuning */}
-                                        
                                         <div className="grid grid-cols-7">
                                             {/* wrapper button delete nilai biru */}
                                             <div className="col-span-3">
@@ -2111,7 +2140,7 @@ const dewan = () => {
                                         </div>
                                         
                                         {/* wrapper button hapus nilai */}
-                                        <div className="grid grid-cols-7">
+                                        <div className="grid grid-cols-7 mb-3">
                                             {/* wrapper button hapus nilai biru */}
                                             <div className="col-span-3 text-[#222954]">
                                                 <div className="grid grid-cols-4 gap-x-3">
@@ -2130,28 +2159,26 @@ const dewan = () => {
                                                     <button onClick={() => deleteTeguran ('hapusTeguranMerah3')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold py-2.5 rounded-lg'>Hapus Teguran</button>
                                                     <button onClick={() => deletePeringatan ('hapusPeringatanMerah3')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold py-2.5 rounded-lg'>Hapus Peringatan</button>
                                                 </div>
-                                            </div>
+                                            </div>                        
+                                        </div>
 
-                                            {/* wrapper button kartu kuning */}
-                                            
-?                                           <div className="grid grid-cols-7">
-                                                {/* wrapper button delete nilai biru */}
-                                                <div className="col-span-3">
-                                                    <div className="grid grid-cols-2 gap-x-3">
-                                                        <button onClick={() => deleteKartuKuning ('biru')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold text-[#222954] py-2.5 rounded-lg'>Hapus Kartu Kuning</button>
-                                                        <button onClick={() => tambahKartuKuning ('biru')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Kartu Kuning</button>
-                                                    </div>
+                                        {/* wrapper button kartu kuning */}
+                                        <div className="grid grid-cols-7">
+                                            {/* wrapper button delete nilai biru */}
+                                            <div className="col-span-3">
+                                                <div className="grid grid-cols-2 gap-x-3">
+                                                    <button onClick={() => deleteKartuKuning ('biru')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold text-[#222954] py-2.5 rounded-lg'>Hapus Kartu Kuning</button>
+                                                    <button onClick={() => tambahKartuKuning ('biru')} className='bg-blue-600 hover:bg-blue-700 text-lg font-semibold py-2.5 rounded-lg'>Kartu Kuning</button>
                                                 </div>
-                                                <div></div>
-                                                {/* wrapper button delete nilai merah */}
-                                                <div className="col-span-3">
-                                                    <div className="grid grid-cols-2 gap-x-3">
-                                                        <button onClick={() => tambahKartuKuning ('merah')} className='bg-red-600 hover:bg-red-700 text-lg font-semibold py-2.5 rounded-lg'>Kartu Kuning</button>
-                                                        <button onClick={() => deleteKartuKuning ('merah')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold text-[#222954] py-2.5 rounded-lg'>Hapus Kartu Kuning</button>
-                                                    </div>
+                                            </div>
+                                            <div></div>
+                                            {/* wrapper button delete nilai merah */}
+                                            <div className="col-span-3">
+                                                <div className="grid grid-cols-2 gap-x-3">
+                                                    <button onClick={() => tambahKartuKuning ('merah')} className='bg-red-600 hover:bg-red-700 text-lg font-semibold py-2.5 rounded-lg'>Kartu Kuning</button>
+                                                    <button onClick={() => deleteKartuKuning ('merah')} className='bg-yellow-300 hover:bg-yellow-400 text-lg font-semibold text-[#222954] py-2.5 rounded-lg'>Hapus Kartu Kuning</button>
                                                 </div>
-</div>
-                                            
+                                            </div>
                                         </div>
                                     </div>
                                 )

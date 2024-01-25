@@ -1521,21 +1521,21 @@ module.exports = {
                         juri: req.params.juri
                     },
                     attributes: ['poin', 'createdAt'],
-                    order:[[
-                        'createdAt', 'ASC'
-                    ]]
+                    order:[
+                        ['createdAt', 'ASC']
+                    ]
                 })
                 return getResponse( req, res, result )
             }else if (req.params.sudut == 'merah'){
-                let result = await LogJuri  .findAll({
+                let result = await LogJuri.findAll({
                     where: {
                         id_nilai_tanding: getDetail.id_nilai_merah,
                         juri: req.params.juri
                     },
                     attributes: ['poin', 'createdAt'],
-                    order:[[
-                        'createdAt', 'ASC'
-                    ]]
+                    order:[
+                        ['createdAt', 'ASC']
+                    ]
                 })
                 return getResponse( req, res, result )
             }

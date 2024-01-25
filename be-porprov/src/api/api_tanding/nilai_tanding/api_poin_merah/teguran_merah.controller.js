@@ -215,84 +215,84 @@ module.exports = {
                     result = await Teguran.destroy({where: {id: getTeguran.id}})
     
                     //cek peringatan
-                    const getPeringatan = await Peringatan.findOne({
-                        where: {id_nilai_tanding: getNilai.id_nilai_merah},
-                        order: [["createdAt","DESC"]]
-                    })
-                    if (getPeringatan) {
-                        if(getPeringatan.poin === -5){
-                            result = await Peringatan.destroy({
-                                where: {id: getPeringatan.id}
-                            })
+                    // const getPeringatan = await Peringatan.findOne({
+                    //     where: {id_nilai_tanding: getNilai.id_nilai_merah},
+                    //     order: [["createdAt","DESC"]]
+                    // })
+                    // if (getPeringatan) {
+                    //     if(getPeringatan.poin === -5){
+                    //         result = await Peringatan.destroy({
+                    //             where: {id: getPeringatan.id}
+                    //         })
     
-                            //update total hukum babak
-                            const getPoin = await Poin.findOne({
-                                where: {id: getNilai.id_nilai_merah}
-                            })
-                            let data_poin = {
-                                total_hukum: (getPoin.total_hukum) + 5,
-                                total_poin: (getPoin.total_poin) + 5
-                            }
-                            await Poin.update(data_poin,{where:{id: getNilai.id_nilai_merah}})
-                            .then(result => {
-                                console.log("total hukum updated");
-                            })
-                            .catch(error => {
-                                console.log(error.message);
-                            })
+                    //         //update total hukum babak
+                    //         const getPoin = await Poin.findOne({
+                    //             where: {id: getNilai.id_nilai_merah}
+                    //         })
+                    //         let data_poin = {
+                    //             total_hukum: (getPoin.total_hukum) + 5,
+                    //             total_poin: (getPoin.total_poin) + 5
+                    //         }
+                    //         await Poin.update(data_poin,{where:{id: getNilai.id_nilai_merah}})
+                    //         .then(result => {
+                    //             console.log("total hukum updated");
+                    //         })
+                    //         .catch(error => {
+                    //             console.log(error.message);
+                    //         })
     
-                            //update total poin pada tabel jadwal
-                            const getJadwal = await Tanding.findOne({
-                                where: {id: getNilai.id_jadwal}
-                            })
-                            let data_total = {
-                                total_merah: (getJadwal.total_merah) + 5
-                            }
-                            await Tanding.update(data_total, {where:{id: getNilai.id_jadwal}})
-                            .then(result => {
-                                console.log("total nilai updated");
-                            })
-                            .catch(error => {
-                                console.log(error.message);
-                            })
-                        }else if(getPeringatan === -10){
-                            let data = {
-                                poin: -5
-                            }
-                            result = await Peringatan.update(data,{where: {id_nilai_tanding: getNilai.id_nilai_merah}})
-                            //update total hukum babak
-                            const getPoin = await Poin.findOne({
-                                where: {id: getNilai.id_nilai_merah}
-                            })
-                            let data_poin = {
-                                total_hukum: (getPoin.total_hukum) + 5,
-                                total_poin: (getPoin.total_poin) + 5
-                            }
-                            await Poin.update(data_poin,{where:{id: getNilai.id_nilai_merah}})
-                            .then(result => {
-                                console.log("total hukum updated");
-                            })
-                            .catch(error => {
-                                console.log(error.message);
-                            })
+                    //         //update total poin pada tabel jadwal
+                    //         const getJadwal = await Tanding.findOne({
+                    //             where: {id: getNilai.id_jadwal}
+                    //         })
+                    //         let data_total = {
+                    //             total_merah: (getJadwal.total_merah) + 5
+                    //         }
+                    //         await Tanding.update(data_total, {where:{id: getNilai.id_jadwal}})
+                    //         .then(result => {
+                    //             console.log("total nilai updated");
+                    //         })
+                    //         .catch(error => {
+                    //             console.log(error.message);
+                    //         })
+                    //     }else if(getPeringatan === -10){
+                    //         let data = {
+                    //             poin: -5
+                    //         }
+                    //         result = await Peringatan.update(data,{where: {id_nilai_tanding: getNilai.id_nilai_merah}})
+                    //         //update total hukum babak
+                    //         const getPoin = await Poin.findOne({
+                    //             where: {id: getNilai.id_nilai_merah}
+                    //         })
+                    //         let data_poin = {
+                    //             total_hukum: (getPoin.total_hukum) + 5,
+                    //             total_poin: (getPoin.total_poin) + 5
+                    //         }
+                    //         await Poin.update(data_poin,{where:{id: getNilai.id_nilai_merah}})
+                    //         .then(result => {
+                    //             console.log("total hukum updated");
+                    //         })
+                    //         .catch(error => {
+                    //             console.log(error.message);
+                    //         })
     
-                            //update total poin pada tabel jadwal
-                            const getJadwal = await Tanding.findOne({
-                                where: {id: getNilai.id_jadwal}
-                            })
-                            let data_total = {
-                                total_merah: (getJadwal.total_merah) + 5
-                            }
-                            await Tanding.update(data_total, {where:{id: getNilai.id_jadwal}})
-                            .then(result => {
-                                console.log("total nilai updated");
-                            })
-                            .catch(error => {
-                                console.log(error.message);
+                    //         //update total poin pada tabel jadwal
+                    //         const getJadwal = await Tanding.findOne({
+                    //             where: {id: getNilai.id_jadwal}
+                    //         })
+                    //         let data_total = {
+                    //             total_merah: (getJadwal.total_merah) + 5
+                    //         }
+                    //         await Tanding.update(data_total, {where:{id: getNilai.id_jadwal}})
+                    //         .then(result => {
+                    //             console.log("total nilai updated");
+                    //         })
+                    //         .catch(error => {
+                    //             console.log(error.message);
     
-                            })
-                        }
-                    }
+                    //         })
+                    //     }
+                    // }
                 }
             } else if (!getTeguran) {
                 return res.json({

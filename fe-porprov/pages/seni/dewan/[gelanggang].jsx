@@ -294,10 +294,10 @@ const gelanggang = () => {
                     } else if (status === 'selesai'){
                         return(
                             <>
-                                {data.filter(a => a.selesai == true).map ((item, index) => (
+                                {data.filter(a => a.selesai == true).sort((a, b) => b.partai - a.partai).map ((item, index) => (
                                 <div key={index + 1} className="text-center rounded-lg shadow-lg pb-5">
                                     <div className="bg-[#2C2F48] py-2 rounded-t-lg">
-                                    <span className='text-xl font-semibold'>Partai {item.partai} - {item.kelas} - {item.babak}</span>
+                                    <span className='text-xl font-semibold'>Partai {item.partai} - {item.kategori} - {item.babak}</span>
                                     </div>
                                     {/* wrapper card */}
                                     <div className="grid grid-cols-2 gap-x-7 p-3">
@@ -442,6 +442,7 @@ const gelanggang = () => {
                                     <div className="flex flex-col px-3 space-y-1">
                                     <span className='text-[#2C2F48] text-3xl font-bold'>Pemenang :</span>
                                     {(() => {
+                                      console.log(data);
                                         if(item.id_pemenang == item.id_peserta_merah){
                                         return(
                                             <span className='bg-red-600 text-lg font-bold rounded-lg py-3'>SUDUT MERAH</span>

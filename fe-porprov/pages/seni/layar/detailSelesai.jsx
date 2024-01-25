@@ -10,7 +10,7 @@ import { useRouter } from 'next/router'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 // socket io
-const socket = socketIo (BASE_URL)
+const socket = socketIo.connect(BASE_URL)
 
 const detailSelesai = () => {
 
@@ -172,17 +172,59 @@ const detailSelesai = () => {
         setDeviasi (deviasi)
     }
 
+    //socket    
+    const [isConnected, setIsConnected] = useState(socket.connected);
+    useEffect(() => {
+        function onConnect() {
+            setIsConnected(true);
+            // console.log("connected");
+            // console.log(isConnected);   
+        }
+        // if (socket.connected === false) {
+        //     socket.connect({'forceNew': true});
+        //     console.log(isConnected);   
+        // }
+    
+        function onDisconnect() {
+            setIsConnected(false);
+        }
+
+        socket.on('connect', onConnect);
+        socket.on('disconnect', onDisconnect);
+        
+        return () => {
+            socket.off('connect', onConnect);
+            socket.off('disconnect', onDisconnect);
+        };
+    }, []);
+
+    useEffect(() => {
+        const jadwal = JSON.parse(localStorage.getItem ('jadwalSeni'))
+        const user = JSON.parse(localStorage.getItem('user'))
+        let data ={
+            user: user.username,
+            id_jadwal: jadwal.id
+        }
+        socket.emit('joinSeni', data)
+    
+        return () => {
+            socket.off('joinSeni', data)
+            socket.close()
+        }
+    }, [])
+
     const ubah_data = () => socket.emit ('init_data')
 
     useEffect (() => {
         setPeserta (JSON.parse (localStorage.getItem ('pesertaSeni')))
-        socket.emit ('init_data')
-        socket.on ('getData', getNilai)
-        socket.on ('change_data', ubah_data)
+        socket.on('getDewanLayar', getNilai)
+        // socket.emit ('init_data')
+        // socket.on ('getData', getNilai)
+        // socket.on ('change_data', ubah_data)
         socket.on('start_seni', start)
         socket.on('stop_seni', stop)
         getNilai()
-    }, [])
+    }, [isConnected === true])
 
     return (
     <>

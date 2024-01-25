@@ -49,6 +49,7 @@ const jadwalTanding = () => {
         .catch (err => {
             console.log(err.response.data.message);
         })
+        console.log((BASE_URL + `/api/tanding/jadwal`));
     }
 
     const addModalPutra = () => {

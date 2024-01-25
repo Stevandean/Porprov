@@ -19,6 +19,7 @@ const nilaiTanding = () => {
     axios.get (BASE_URL + `/api/tanding/jadwal`)
     .then (res => {
       setDataJadwalTanding (res.data.data)
+      console.log(res.data.data);
     })
     .catch (err => {
       console.log(err.response.data.message);

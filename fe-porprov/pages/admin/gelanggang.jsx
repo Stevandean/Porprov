@@ -5,7 +5,6 @@ import Navbar from './components/navbar'
 import Footer from './components/footer'
 import ModalGelanggang from './components/modalGelanggang'
 import ModalDelete from './components/modalDelete'
-import AlertHapus from './components/AlertHapus'
 import { globalState } from '../../context/context'
 import { useRouter } from 'next/router'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -32,13 +31,6 @@ const Gelanggang = () => {
         }
         return header
     }
-
-    const addModal = () => {
-        setShowModalGelanggang (true)
-        setAction ('insert')
-        setNomor ('')
-        setStatus ('')
-    }
     
     const editModal = (selectedItem) => {
         setShowModalGelanggang (true)
@@ -48,45 +40,15 @@ const Gelanggang = () => {
         setId (selectedItem.id)
     }
 
-    const handleDelete = () => {
-        axios.delete(BASE_URL + '/api/gelanggang/' + id, headerConfig())
-        .then(res => {
-            setShowAlertHapus(false)
-            swal({
-                title: "Success!",
-                text: "Invalid Token!",
-                icon: "success",
-                timer: '1300',
-                buttons: false
-            })
-            getGelanggang()
-        })
-        .catch(err =>{
-            console.log(err.message);
-            swal({
-                title: "Failed!",
-                text: "Invalid Token!",
-                icon: "error",
-                timer: '1300',
-                buttons: false
-            })
-        })
-    }
-
-    const showDelete = (id) =>{
-        setId(id)
-        setShowAlertHapus(true)
-    }
-
     
-    const getGelanggang = () => {
+      const getGelanggang = () => {
         let user = JSON.parse(localStorage.getItem('admin'))
         axios.get (BASE_URL + `/api/gelanggang/event`, headerConfig())
         .then (res => {
-            setGelanggang (res.data.data)
+          setGelanggang (res.data.data)
         })
         .catch (err => {
-            console.log(err.response.data.message);
+          console.log(err.response.data.message);
         })
     }
 
@@ -126,10 +88,7 @@ const Gelanggang = () => {
                 {/* Input Data */}
                 <div className="bg-[#2C2F48] rounded-lg flex justify-between p-3">
                     <div className="flex items-center px-2">
-                        <span className='text-lg uppercase font-semibold'>Gelanggang</span>
-                    </div>
-                    <div className='flex justify-between gap-x-3'>
-                        <button className='bg-blue-700 px-3 py-2 rounded-lg' onClick={() => addModal()}>Tambah</button>
+                    <span className='text-lg uppercase font-semibold'>Gelanggang</span>
                     </div>
                 </div>
 
@@ -156,7 +115,7 @@ const Gelanggang = () => {
                                         <button onClick={() => editModal(item)} className='w-10 h-10 p-2 bg-green-600 rounded-xl'>
                                         <img src='../svg/pencil.svg'></img>
                                         </button>
-                                        <button onClick={() => showDelete(item.id)} className='w-10 h-10 p-2 bg-red-600 rounded-xl'>
+                                        <button onClick={() => deleteModal(item.id)} className='w-10 h-10 p-2 bg-red-600 rounded-xl'>
                                         <img src='../svg/trash.svg'></img>
                                         </button>
                                     </div>
@@ -181,11 +140,9 @@ const Gelanggang = () => {
             <ModalGelanggang />
         </globalState.Provider>
         
-        <AlertHapus 
-            showAlertHapus={showAlertHapus}
-            handleDelete={() => handleDelete()}
-            handleClose={() => setShowAlertHapus(false)}
-        />
+        <globalState.Provider value={{ showAlertHapus, setShowAlertHapus, id }}>
+        <ModalDelete />
+        </globalState.Provider>
 
     </>
 

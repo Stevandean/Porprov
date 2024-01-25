@@ -14,30 +14,9 @@ const landingPage = () => {
   // ini state
   const [dataTanding, setDataTanding] = useState ([])
   const [dataTgr, setDataTgr] = useState ([])
-  const [event, setEvent] = useState([])
-
-  const headerConfig = () => {
-    let token = localStorage.getItem("token")
-    let header = {
-      headers : { Authorization : `Bearer ${token}` }
-    }
-    return header
-  }
-
-  const getEvent = () => {
-    let admin = JSON.parse(localStorage.getItem('admin'))
-    let event_id = admin.event_id
-    axios.get (BASE_URL + `/api/event/${event_id}`, headerConfig())
-    .then (res => {
-      setEvent (res.data.data)
-    })
-    .catch (err => {
-      console.log(err.response.data.message);
-    })
-  }
 
   const getJadwalTanding = () => {
-    axios.get (BASE_URL + `/api/tanding/jadwal`)
+    axios.get (BASE_URL + `/api/tanding`)
     .then (res => {
       setDataTanding (res.data.data)
     })
@@ -47,7 +26,7 @@ const landingPage = () => {
   }
 
   const getJadwalTgr = () => {
-    axios.get (BASE_URL + `/api/seni/jadwal`)
+    axios.get (BASE_URL + `/api/tgr`)
     .then (res => {
       setDataTgr (res.data.data)
     })
@@ -63,7 +42,6 @@ const landingPage = () => {
   }
 
   useEffect (() => {
-    getEvent()
     getJadwalTanding ()
     getJadwalTgr ()
     isLogged ()
@@ -90,22 +68,7 @@ const landingPage = () => {
           <div className="flex flex-col w-full p-14 space-y-7">
             
             {/* Banner */}
-            <div className="bg-gradient-to-r from-[#0906BE] to-[#8B55F4] h-44 rounded-lg flex justify-between">
-              <div className='flex items-center justify-center w-[15%]'>
-                <img className="w-[80%]" src="../images/logo_new.png" />
-              </div>
-              <div className='text-center py-5 grid grid-rows-2 gap-y-7 h-full'>
-                <div>
-                  <h1 className='font-montserrat text-6xl font-bold'>KAYPANG SILAT SPORT</h1>
-                </div>
-                <div>
-                  <h1 className='font-montserrat text-4xl font-bold'>{event?.nama}</h1>
-                </div>
-              </div>
-              <div className='flex items-center justify-center w-[15%]'>
-                <img className="w-[80%]" src="../images/logo_new.png" />
-              </div>
-            </div>
+            <div className="bg-gradient-to-r from-[#0906BE] to-[#8B55F4] h-44 rounded-lg"></div>
             
             {/* Progres */}
             <div className="grid grid-cols-2 gap-x-7">
@@ -116,11 +79,11 @@ const landingPage = () => {
                   <span className='text-2xl uppercase font-semibold'>total partai tanding</span>
                 </div>
                 <div className="grid grid-cols-2 gap-x-4">
-                  <div className="flex flex-col py-3 text-center bg-gradient-to-r from-[#1b1963] to-[#3b1b72] rounded-lg">
+                  <div className="flex flex-col py-3 text-center bg-gradient-to-r from-[#0906BE] to-[#8B55F4] rounded-lg">
                     <span className="text-2xl font-medium">Proses</span>
                     <span className="text-8xl">{dataTanding.filter (a => a.selesai == false).length}</span>
                   </div>
-                  <div className="flex flex-col py-3 text-center bg-gradient-to-r from-[#1b1963] to-[#3b1b72] rounded-lg">
+                  <div className="flex flex-col py-3 text-center bg-gradient-to-r from-[#0906BE] to-[#8B55F4] rounded-lg">
                     <span className="text-2xl font-medium">Selesai</span>
                     <span className="text-8xl">{dataTanding.filter (a => a.selesai == true).length}</span>
                   </div>
@@ -134,11 +97,11 @@ const landingPage = () => {
                   <span className='text-2xl uppercase font-semibold'>total partai tgr</span>
                 </div>
                 <div className="grid grid-cols-2 gap-x-4">
-                  <div className="flex flex-col py-3 text-center bg-gradient-to-r from-[#1b1963] to-[#3b1b72] rounded-lg">
+                  <div className="flex flex-col py-3 text-center bg-gradient-to-r from-[#0906BE] to-[#8B55F4] rounded-lg">
                     <span className="text-2xl font-medium">Proses</span>
                     <span className="text-8xl">{dataTgr.filter (a => a.selesai == false).length}</span>
                   </div>
-                  <div className="flex flex-col py-3 text-center bg-gradient-to-r from-[#1b1963] to-[#3b1b72] rounded-lg">
+                  <div className="flex flex-col py-3 text-center bg-gradient-to-r from-[#0906BE] to-[#8B55F4] rounded-lg">
                     <span className="text-2xl font-medium">Selesai</span>
                     <span className="text-8xl">{dataTgr.filter (a => a.selesai == true).length}</span>
                   </div>

@@ -28,7 +28,7 @@ io.on('connection', socket => {
     //--------------------------------
     socket.on('join', (id_jadwal) =>{
       socket.join(id_jadwal)
-      console.log("joiined "+ id_jadwal);
+      console.log("joined "+ id_jadwal);
     })
 
     socket.on('leave', (id_jadwal) =>{
@@ -164,7 +164,7 @@ io.on('connection', socket => {
 
     // socket.on("editData", () =>{
     //   io.emit("change_data")
-    // })\
+    // })
 
 
     //socket juri to dewan seni
@@ -184,7 +184,7 @@ io.on('connection', socket => {
     })
 
     socket.on('disconnect', () => {
-      // socket.disconnect() 
+      // socket.disconnected()
       console.log('🔥: A user disconnected');
       // console.log(`a user disconnected`);
     });
