@@ -30,7 +30,7 @@ const navbar = () => {
           <div className="flex space-x-3">     
             <img className='py-3'src={BASE_URL + "/api/event/image/" + item.logo} alt="Kabupaten Trenggalek" />
           </div>
-          <span className='text-2xl font-semibold my-auto uppercase text-center'>{item.nama}</span>
+          <span className='text-4xl font-semibold my-auto uppercase text-center'>{item.nama}</span>
           <div className="flex space-x-3">
             <img className='py-3' src={BASE_URL + "/api/event/image/" + item.icon1} alt="IPSI" />
             <img className='py-3' src={BASE_URL + "/api/event/image/" + item.icon2} alt="IPSI2" />

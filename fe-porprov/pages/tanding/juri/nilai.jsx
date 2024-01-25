@@ -545,6 +545,7 @@ const nilai = () => {
                 getBiru1()
                 getBiru2()
                 getBiru3()
+                socket.emit('edit_juri_tanding', jadwal)
             })
             .catch (err => {
                 console.log(err.response.data.message);
@@ -555,6 +556,7 @@ const nilai = () => {
                 getMerah1()
                 getMerah2()
                 getMerah3()
+                socket.emit('edit_juri_tanding', jadwal)
             })
             .catch (err => {
                 console.log(err.message);

@@ -1418,16 +1418,29 @@ const dewan = () => {
 
             socket.emit('init_juri_tanding', jadwal)
             if (babak.length >= 1) {
+                if (babak.length = 1) {
+                    socket.on("getJuri", getJuriBiru1)
+                    socket.on("getJuri", getJuriMerah1)
+                }
+
                 getJuriBiru1()
                 getJuriMerah1()
             } 
 
             if (babak.length >= 2){
+                if (babak.length = 2) {
+                    socket.on("getJuri", getJuriBiru2)
+                    socket.on("getJuri", getJuriMerah2)
+                }
                 getJuriBiru2()
                 getJuriMerah2()
             }
 
             if (babak.length >= 3){
+                if (babak.length = 3) {
+                    socket.on("getJuri", getJuriBiru3)
+                    socket.on("getJuri", getJuriMerah3)
+                }
                 getJuriBiru3()
                 getJuriMerah3()
 
